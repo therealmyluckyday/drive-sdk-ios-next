@@ -41,5 +41,11 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>AXADrive needs to know the location of your vehicle.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>AXADrive needs to know the location of your vehicle.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>AXADrive needs to know the location of your vehicle.</string>
 </dict>
 </plist>

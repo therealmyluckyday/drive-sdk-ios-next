@@ -1,0 +1,28 @@
+PODS:
+  - Alamofire (4.7.3)
+  - RxCocoa (4.3.1):
+    - RxSwift (~> 4.0)
+  - RxSwift (4.3.1)
+  - TexDriveSDK (1.0.0):
+    - RxCocoa
+    - RxSwift
+
+DEPENDENCIES:
+  - Alamofire (~> 4.7)
+  - RxCocoa
+  - RxSwift
+  - TexDriveSDK (from `./TexDriveSDK.podspec`)
+
+EXTERNAL SOURCES:
+  TexDriveSDK:
+    :path: ./TexDriveSDK.podspec
+
+SPEC CHECKSUMS:
+  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
+  RxCocoa: 78763c7b07d02455598d9fc3c1ad091a28b73635
+  RxSwift: fe0fd770a43acdb7d0a53da411c9b892e69bb6e4
+  TexDriveSDK: 4c19f68572c4fdbcff0b9f721dd730de74ea743c
+
+PODFILE CHECKSUM: d804e25c845bd6b819f9d9773c1784c9349557d9
+
+COCOAPODS: 1.3.1
