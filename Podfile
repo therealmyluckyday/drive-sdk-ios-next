@@ -1,6 +1,6 @@
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
-
+platform :ios, '11.0'
+workspace 'TexDrive'
 def shared_pods
     
     use_frameworks!
@@ -20,7 +20,21 @@ target 'TexDriveApp' do
 
   target 'TexDriveAppTests' do
     inherit! :search_paths
-    # Pods for testing
+    
   end
 
+end
+
+target 'TexDriveSDK' do
+    pod 'Alamofire', '~> 4.7'
+    pod 'RxSwift'
+    pod 'RxCocoa'
+    project 'TexDriveSDK/TexDriveSDK.xcodeproj'
+    
+    target 'TexDriveSDKTests' do
+        inherit! :search_paths
+        # RxTest and RxBlocking make the most sense in the context of unit/integration tests
+        pod 'RxBlocking', '~> 4.0'
+        pod 'RxTest',     '~> 4.0'
+    end
 end

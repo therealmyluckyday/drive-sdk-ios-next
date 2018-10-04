@@ -10,32 +10,56 @@ import RxSwift
 import RxCocoa
 
 class BatteryTracker: Tracker {
-    
-    var rx_batteryFix: Variable<BatteryFix> = Variable(BatteryFix(fixId: "0", timestamp: Date()))
-    
+    // MARK: Property
+    typealias T = BatteryFix
     private var deviceBatteryState: UIDeviceBatteryState {
-        return UIDevice.current.batteryState
+        return device.batteryState
     }
-    
     private var deviceBatteryLevel : Float {
-        return UIDevice.current.batteryLevel
+        return device.batteryLevel
     }
+    private var device : UIDevice
+    private var rx_batteryFix = PublishSubject<Result<BatteryFix>>()
+    private var rx_subscriptionBatteryState: Disposable?
+    private var rx_subscriptionBatteryLevel: Disposable?
     
+    // MARK: Tracker Protocol
     func enableTracking() {
-        UIDevice.current.isBatteryMonitoringEnabled = true
-        NotificationCenter.default.addObserver(self, selector: #selector(batteryStateDidChange), name: .UIDeviceBatteryStateDidChange, object: nil)
+        rx_subscriptionBatteryState = NotificationCenter.default.rx.notification(NSNotification.Name.UIDeviceBatteryStateDidChange).subscribe({ [weak self](event) in
+            if event.element != nil, let batteryFix = self?.generateBatteryFix() {
+                self?.rx_batteryFix.onNext(Result.Success(batteryFix))
+            }
+        })
+        rx_subscriptionBatteryLevel = NotificationCenter.default.rx.notification(NSNotification.Name.UIDeviceBatteryLevelDidChange).subscribe({ [weak self](event) in
+            if event.element != nil, let batteryFix = self?.generateBatteryFix()  {
+                self?.rx_batteryFix.onNext(Result.Success(batteryFix))
+            }
+        })
+        
+        device.isBatteryMonitoringEnabled = true
     }
     
     func disableTracking() {
-        UIDevice.current.isBatteryMonitoringEnabled = false
-        NotificationCenter.default.removeObserver(self)
+        device.isBatteryMonitoringEnabled = false
+        rx_subscriptionBatteryLevel?.dispose()
+        rx_subscriptionBatteryState?.dispose()
     }
     
-    func provideFix() {
-        
+    func provideFix() -> PublishSubject<Result<BatteryFix>> {
+        return rx_batteryFix
     }
     
-    @objc func batteryStateDidChange(notification: Notification) {
+    // MARK: Lifecycle method
+    init(currentDevice: UIDevice) {
+        device = currentDevice
+    }
+    
+    deinit {
+        disableTracking()
+    }
+    
+    // MARK: generate Baterry Fix
+    func generateBatteryFix() -> BatteryFix {
         var batteryState : BatteryState
         
         switch deviceBatteryState {
@@ -47,11 +71,6 @@ class BatteryTracker: Tracker {
             batteryState = .unknown
         }
         
-        let batteryFix = BatteryFix(fixId: "0", timestamp: Date(), level: deviceBatteryLevel, state: batteryState)
-        self.rx_batteryFix.value = batteryFix
-    }
-    
-    deinit {
-        disableTracking()
+        return BatteryFix(timestamp: Date(), level: deviceBatteryLevel, state: batteryState)
     }
 }

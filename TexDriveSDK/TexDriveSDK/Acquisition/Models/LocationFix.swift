@@ -7,7 +7,8 @@
 //
 
 class LocationFix : Fix {
-    
+    // MARK: Property
+    let timestamp: Date
     var latitude : Double
     var longitude : Double
     var precision : Double
@@ -15,13 +16,14 @@ class LocationFix : Fix {
     var bearing : Double
     var altitude : Double
     
-    init(fixId: String, timestamp: Date, latitude: Double = 0, longitude: Double = 0, precision: Double = 0, speed: Double = 0, bearing: Double = 0, altitude: Double = 0) {
+    // MARK: LifeCycle
+    init(timestamp: Date, latitude: Double, longitude: Double, precision: Double, speed: Double, bearing: Double, altitude: Double) {
         self.latitude = latitude
         self.longitude = longitude
         self.precision = precision
         self.speed = speed
         self.bearing = bearing
         self.altitude = altitude
-        super.init(fixId: fixId, timestamp: timestamp)
+        self.timestamp = timestamp
     }
 }

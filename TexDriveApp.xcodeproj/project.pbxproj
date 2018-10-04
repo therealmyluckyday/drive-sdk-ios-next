@@ -140,7 +140,6 @@
 				E2798E7A2147EE80006228A3 /* Frameworks */,
 				E2798E7B2147EE80006228A3 /* Resources */,
 				CB9D4ADD2F04DC7ACF596036 /* [CP] Embed Pods Frameworks */,
-				6CC9756FC02B5551661466B9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -159,8 +158,6 @@
 				E2798E8D2147EE81006228A3 /* Sources */,
 				E2798E8E2147EE81006228A3 /* Frameworks */,
 				E2798E8F2147EE81006228A3 /* Resources */,
-				6F1D0B3A742D5A1051C9D208 /* [CP] Embed Pods Frameworks */,
-				CD4444410C936A8A2796DB02 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -249,36 +246,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6CC9756FC02B5551661466B9 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TexDriveApp/Pods-TexDriveApp-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6F1D0B3A742D5A1051C9D208 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TexDriveAppTests/Pods-TexDriveAppTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		C651BA0B01565DF7FC9663AC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -304,9 +271,9 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-TexDriveApp/Pods-TexDriveApp-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
-				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/Alamofire-framework/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa-framework/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift-framework/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/TexDriveSDK/TexDriveSDK.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -319,21 +286,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TexDriveApp/Pods-TexDriveApp-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		CD4444410C936A8A2796DB02 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TexDriveAppTests/Pods-TexDriveAppTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
