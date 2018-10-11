@@ -11,12 +11,11 @@ import TexDriveSDK
 
 class ViewController: UIViewController {
 
-    let fixCollector = FixCollector()
+    let tripRecorder = TripRecorder()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        //let fixCollector = FixCollector()
+        tripRecorder.start()
     }
 
 }

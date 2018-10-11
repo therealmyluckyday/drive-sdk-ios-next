@@ -11,22 +11,38 @@ import RxSwift
 import RxCocoa
 
 class LocationTracker: NSObject, Tracker, CLLocationManagerDelegate {
+    // MARK: Property
+    typealias T = LocationFix
+    private let locationManager: CLLocationManager
+    private var rx_locationFix = PublishSubject<Result<LocationFix>>()
     
-    private let locationManager = CLLocationManager()
-    
-    var locationFix: Variable<LocationFix> = Variable(LocationFix(fixId: "0", timestamp: Date()))
-    
-    override init() {
-        super.init()
+    // MARK: Lifecycle method
+    init(locationSensor: CLLocationManager) {
+        locationManager = locationSensor
     }
     
+    deinit {
+        disableTracking()
+    }
+    
+    // MARK: Tracker Protocol
     func enableTracking() {
-        if CLLocationManager.authorizationStatus() == .notDetermined {
-            locationManager.requestAlwaysAuthorization()
+        guard CLLocationManager.authorizationStatus() != .notDetermined else {
+            let error = CLError(_nsError: NSError(domain: "CLLocationManagerNotDetermined", code: CLError.denied.rawValue, userInfo: nil))
+            rx_locationFix.onNext(Result.Failure(error))
+//            locationManager.requestAlwaysAuthorization() -> REsponsability to user
+            return
         }
+        
         locationManager.delegate = self
         locationManager.distanceFilter = kCLDistanceFilterNone
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        locationManager.pausesLocationUpdatesAutomatically = false
+        locationManager.activityType = .automotiveNavigation
+        if #available(iOS 9.0, *) {
+            locationManager.allowsBackgroundLocationUpdates = true
+        }
+
         locationManager.startUpdatingLocation()
     }
     
@@ -34,25 +50,21 @@ class LocationTracker: NSObject, Tracker, CLLocationManagerDelegate {
         locationManager.stopUpdatingLocation()
     }
     
-    func provideFix() {
-        
+    func provideFix() -> PublishSubject<Result<LocationFix>> {
+        return rx_locationFix
     }
     
+    // MARK: Tracker method for Location Fix
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else {
             return
         }
         
-        let locationFix = LocationFix(fixId: "0", timestamp: Date(), latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, precision: location.horizontalAccuracy, speed: location.speed, bearing: location.course, altitude: location.altitude)
-        self.locationFix.value = locationFix
+        let locationFix = LocationFix(timestamp: location.timestamp, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, precision: location.horizontalAccuracy, speed: location.speed, bearing: location.course, altitude: location.altitude)
+        rx_locationFix.onNext(Result.Success(locationFix))
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("error : \(error)")
-    }
-    
-    deinit {
-        print("location tracker disposed")
-        disableTracking()
+        rx_locationFix.onNext(Result.Failure(error))
     }
 }

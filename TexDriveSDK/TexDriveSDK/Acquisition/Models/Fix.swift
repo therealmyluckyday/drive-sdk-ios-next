@@ -6,13 +6,6 @@
 //  Copyright © 2018 Axa. All rights reserved.
 //
 
-class Fix {
-    
-    var fixId: String
-    var timestamp: Date
-    
-    init (fixId: String, timestamp: Date) {
-        self.fixId = fixId
-        self.timestamp = timestamp
-    }
+protocol Fix {
+    var timestamp: Date { get }
 }

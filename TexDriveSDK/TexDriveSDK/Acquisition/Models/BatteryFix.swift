@@ -6,14 +6,23 @@
 //  Copyright © 2018 Axa. All rights reserved.
 //
 
+enum BatteryState {
+    
+    case plugged
+    case unplugged
+    case unknown
+}
+
 class BatteryFix : Fix {
+    // MARK: Property
+    let level: Float
+    let state: BatteryState
+    let timestamp: Date
     
-    var level: Float
-    var state: BatteryState
-    
-    init (fixId: String, timestamp: Date, level: Float = 0, state: BatteryState = .unknown) {
+    // MARK: LifeCycle
+    init (timestamp: Date, level: Float, state: BatteryState) {
         self.level = level
         self.state = state
-        super.init(fixId: fixId, timestamp: timestamp)
+        self.timestamp = timestamp
     }
 }
