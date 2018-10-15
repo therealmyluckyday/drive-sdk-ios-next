@@ -9,20 +9,19 @@
 import RxSwift
 
 
+
 class FixCollector {
     // MARK: Property
     private let disposeBag = DisposeBag()
-
-    private let locationTracker: LocationTracker
-    private let batteryTracker: BatteryTracker
-    var rx_errorCollecting = PublishSubject<Error>()
+    private var locationTracker: LocationTracker?
+    private var batteryTracker: BatteryTracker?
+    private var rx_errorCollecting = PublishSubject<Error>()
     
     
     // MARK: LifeCycle
     init(newLocationTracker: LocationTracker, newBatteryTracker: BatteryTracker) {
         locationTracker = newLocationTracker
         batteryTracker = newBatteryTracker
-        
     }
     
     
@@ -33,49 +32,51 @@ class FixCollector {
     }
     
     func stopCollect() {
-        locationTracker.disableTracking()
-        batteryTracker.disableTracking()
+        locationTracker?.disableTracking()
+        batteryTracker?.disableTracking()
     }
     
     // MARK: private Method
     private func collectGPS() {
-        let provideFix = locationTracker.provideFix()
-        provideFix.asObservable().subscribe({ [weak self](event) in
-            switch (event.element) {
-            case .Success(let locationFix)?:
-                print("Fix LOCATION altitude : \(locationFix.altitude) timestamp : \(locationFix.timestamp)")
-                print("longitude : \(locationFix.longitude) latitude : \(locationFix.latitude)")
-                break
-            case .Failure(let Error)?:
-                self?.rx_errorCollecting.onNext(Error)
-                break
-            case .none:
-                break
-                
-            }
-        })
-        .disposed(by: disposeBag)
+        if let provideFix = locationTracker?.provideFix() {
+            provideFix.asObservable().subscribe({ [weak self](event) in
+                switch (event.element) {
+                case .Success(let locationFix)?:
+                    print("Fix LOCATION altitude : \(locationFix.altitude) timestamp : \(locationFix.timestamp)")
+                    print("longitude : \(locationFix.longitude) latitude : \(locationFix.latitude)")
+                    break
+                case .Failure(let Error)?:
+                    self?.rx_errorCollecting.onNext(Error)
+                    break
+                case .none:
+                    break
+                    
+                }
+            })
+                .disposed(by: disposeBag)
+        }
         
-        locationTracker.enableTracking()
+        locationTracker?.enableTracking()
     }
     
     private func collectBatteryState() {
-        let provideFix = batteryTracker.provideFix()
-        provideFix.asObservable().subscribe({ [weak self](event) in
-            switch (event.element) {
-            case .Success(let batteryFix)?:
-                print("Fix : BATTERY timestamp : \(batteryFix.timestamp)")
-                print("level : \(batteryFix.level) state : \(batteryFix.state)")
-                break
-            case .Failure(let Error)?:
-                self?.rx_errorCollecting.onNext(Error)
-                break
-            default:
-                break
-            }
-        })
-        .disposed(by: disposeBag)
+        if let provideFix = batteryTracker?.provideFix() {
+            provideFix.asObservable().subscribe({ [weak self](event) in
+                switch (event.element) {
+                case .Success(let batteryFix)?:
+                    print("Fix : BATTERY timestamp : \(batteryFix.timestamp)")
+                    print("level : \(batteryFix.level) state : \(batteryFix.state)")
+                    break
+                case .Failure(let Error)?:
+                    self?.rx_errorCollecting.onNext(Error)
+                    break
+                default:
+                    break
+                }
+            })
+                .disposed(by: disposeBag)
+        }
         
-        batteryTracker.enableTracking()
+        batteryTracker?.enableTracking()
     }
 }

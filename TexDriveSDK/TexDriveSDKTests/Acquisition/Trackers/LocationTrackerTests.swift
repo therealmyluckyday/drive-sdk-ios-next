@@ -12,10 +12,8 @@ import CoreLocation
 @testable import TexDriveSDK
 
 class MockLocationManager: CLLocationManager {
-    var mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
-    
-    func authorizationStatus() -> CLAuthorizationStatus {
-        return mockAuthorizationStatus
+    override class func authorizationStatus() -> CLAuthorizationStatus {
+        return CLAuthorizationStatus.authorizedAlways
     }
     
     var isStartUpdatingLocationCalled = false
@@ -47,6 +45,12 @@ class MockLocationManager: CLLocationManager {
         set {
             mockAllowsBackgroundLocationUpdates = newValue
         }
+    }
+}
+
+class MockLocationManagerNotDetermined: MockLocationManager {
+    override class func authorizationStatus() -> CLAuthorizationStatus {
+        return CLAuthorizationStatus.notDetermined
     }
 }
 
@@ -98,17 +102,14 @@ class LocationTrackerTests: XCTestCase {
     }
     
     func testEnableTracking_authorizationStatus_NotDetermined() {
-        mockLocationManager?.mockAuthorizationStatus = .notDetermined
+        let locationManagerNotDetermined = MockLocationManagerNotDetermined()
+        let tracker = LocationTracker(locationSensor: locationManagerNotDetermined)
         
-        let subscribe = locationTracker!.provideFix().asObservable().subscribe({ (event) in
+        let subscribe = tracker.provideFix().asObservable().subscribe({ (event) in
             switch event.element {
             case Result.Failure(let error)?:
-                if let clError = error as? CLError {
-                    XCTAssertEqual(clError.code, CLError.denied)
-                }
-                else {
-                    XCTAssertTrue(false)
-                }
+                let error = error as NSError
+                XCTAssertEqual(error.code, CLError.denied.rawValue)
                 break
             default:
                 XCTAssertTrue(false)
@@ -116,7 +117,7 @@ class LocationTrackerTests: XCTestCase {
             }
         })
         
-        locationTracker?.enableTracking()
+        tracker.enableTracking()
         
         subscribe.dispose()
     }

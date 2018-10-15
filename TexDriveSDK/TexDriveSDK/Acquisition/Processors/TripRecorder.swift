@@ -33,8 +33,22 @@ public class TripRecorder: TripRecorderProtocol {
     }
     
     // MARK: Lifecycle
-    public init() {
-        collector = FixCollector(newLocationTracker: LocationTracker(locationSensor: CLLocationManager()), newBatteryTracker: BatteryTracker(currentDevice: UIDevice.current))
+    public init(configuration: Config) {
+        var locationTracker: LocationTracker?
+        var batteryTracker: BatteryTracker?
+        
+        configuration.tripRecorderFeatures.forEach { (feature) in
+            switch feature {
+            case .Location(let locationManager):
+                locationTracker = LocationTracker(locationSensor: locationManager)
+                break
+            case .Battery:
+                batteryTracker = BatteryTracker(currentDevice: UIDevice.current)
+                break
+            }
+        }
+        
+        collector = FixCollector(newLocationTracker: locationTracker, newBatteryTracker: batteryTracker)
     }
     
 }

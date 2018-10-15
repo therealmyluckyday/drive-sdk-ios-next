@@ -7,15 +7,31 @@
 //
 
 import UIKit
+import CoreLocation
 import TexDriveSDK
+import CallKit
 
 class ViewController: UIViewController {
 
-    let tripRecorder = TripRecorder()
+    var tripRecorder : TripRecorder?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tripRecorder.start()
+        let user = User.Anonymous
+        let locationfeature : TripRecorderFeature = TripRecorderFeature.Location(CLLocationManager())
+        let batteryfeature : TripRecorderFeature = TripRecorderFeature.Battery(UIDevice.current)
+        let features = [locationfeature, batteryfeature, phoneCallFeature]
+        do {
+            if let configuration = try Config(applicationId: "appId", applicationLocale: Locale.current, currentUser: user, currentMode: Mode.manual, currentTripRecorderFeatures: features) {
+                tripRecorder = TripRecorder(configuration: configuration)
+                tripRecorder!.start()
+            }
+        } catch ConfigurationError.LocationNotDetermined(let description) {
+            print(description)
+        } catch {
+            print("\(error)")
+        }
+        
     }
 
 }

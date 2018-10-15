@@ -10,6 +10,11 @@
 		239A97B88AAAED6A41660992 /* libPods-TexDriveSDKTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FE513EF12F337E19975F6A5D /* libPods-TexDriveSDKTests.a */; };
 		6BAAD4D24025869A301144E9 /* libPods-TexDriveSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 10178534269D367C809B0197 /* libPods-TexDriveSDK.a */; };
 		C12373992166468100A95A2A /* TripRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12373982166468100A95A2A /* TripRecorder.swift */; };
+		C17E9A74216F828400FCF93E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A73216F828400FCF93E /* User.swift */; };
+		C17E9A76216F82F100FCF93E /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A75216F82F100FCF93E /* Config.swift */; };
+		C17E9A78216F85BD00FCF93E /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A77216F85BD00FCF93E /* Service.swift */; };
+		C17E9A7C216F944500FCF93E /* TripRecorderFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A7B216F944500FCF93E /* TripRecorderFeature.swift */; };
+		C17E9A7E216FA53900FCF93E /* ConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A7D216FA53900FCF93E /* ConfigTests.swift */; };
 		C18AE984216E21A00065F0BB /* BatteryFixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18AE983216E21A00065F0BB /* BatteryFixTests.swift */; };
 		C18AE986216E2E2A0065F0BB /* LocationFixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18AE985216E2E2A0065F0BB /* LocationFixTests.swift */; };
 		C18AE989216E31E30065F0BB /* BatteryTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18AE988216E31E30065F0BB /* BatteryTrackerTests.swift */; };
@@ -43,6 +48,11 @@
 		A225B2E66F16EA9C461C17A6 /* Pods-TexDriveSDKTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveSDKTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-TexDriveSDKTests/Pods-TexDriveSDKTests.release.xcconfig"; sourceTree = "<group>"; };
 		AF9E4DBBDCD5D4E15A273DDC /* Pods-TexDriveSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveSDK.release.xcconfig"; path = "../Pods/Target Support Files/Pods-TexDriveSDK/Pods-TexDriveSDK.release.xcconfig"; sourceTree = "<group>"; };
 		C12373982166468100A95A2A /* TripRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecorder.swift; sourceTree = "<group>"; };
+		C17E9A73216F828400FCF93E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		C17E9A75216F82F100FCF93E /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		C17E9A77216F85BD00FCF93E /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		C17E9A7B216F944500FCF93E /* TripRecorderFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecorderFeature.swift; sourceTree = "<group>"; };
+		C17E9A7D216FA53900FCF93E /* ConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigTests.swift; sourceTree = "<group>"; };
 		C18AE983216E21A00065F0BB /* BatteryFixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryFixTests.swift; sourceTree = "<group>"; };
 		C18AE985216E2E2A0065F0BB /* LocationFixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFixTests.swift; sourceTree = "<group>"; };
 		C18AE988216E31E30065F0BB /* BatteryTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryTrackerTests.swift; sourceTree = "<group>"; };
@@ -104,6 +114,41 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		C17E9A71216F824100FCF93E /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				C17E9A72216F826000FCF93E /* Public */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		C17E9A72216F826000FCF93E /* Public */ = {
+			isa = PBXGroup;
+			children = (
+				C17E9A73216F828400FCF93E /* User.swift */,
+				C17E9A75216F82F100FCF93E /* Config.swift */,
+				C17E9A77216F85BD00FCF93E /* Service.swift */,
+				C17E9A7B216F944500FCF93E /* TripRecorderFeature.swift */,
+			);
+			path = Public;
+			sourceTree = "<group>";
+		};
+		C17E9A79216F8F5400FCF93E /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				C17E9A7A216F8F5B00FCF93E /* Public */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		C17E9A7A216F8F5B00FCF93E /* Public */ = {
+			isa = PBXGroup;
+			children = (
+				C17E9A7D216FA53900FCF93E /* ConfigTests.swift */,
+			);
+			path = Public;
+			sourceTree = "<group>";
+		};
 		C18AE981216E21210065F0BB /* Acquisition */ = {
 			isa = PBXGroup;
 			children = (
@@ -154,6 +199,7 @@
 		E2798EAC2147F0DC006228A3 /* TexDriveSDK */ = {
 			isa = PBXGroup;
 			children = (
+				C17E9A71216F824100FCF93E /* Core */,
 				E2798EC421480792006228A3 /* Acquisition */,
 				E2798EAD2147F0DC006228A3 /* TexDriveSDK.h */,
 				E2798EAE2147F0DC006228A3 /* Info.plist */,
@@ -164,6 +210,7 @@
 		E2798EB72147F0DC006228A3 /* TexDriveSDKTests */ = {
 			isa = PBXGroup;
 			children = (
+				C17E9A79216F8F5400FCF93E /* Core */,
 				C18AE981216E21210065F0BB /* Acquisition */,
 				E2798EB82147F0DC006228A3 /* TexDriveSDKTests.swift */,
 				E2798EBA2147F0DC006228A3 /* Info.plist */,
@@ -365,7 +412,11 @@
 				E2798ECE214AB4BA006228A3 /* BatteryTracker.swift in Sources */,
 				C12373992166468100A95A2A /* TripRecorder.swift in Sources */,
 				C1FAAA3A2163C7B700FD3C1D /* Tracker.swift in Sources */,
+				C17E9A7C216F944500FCF93E /* TripRecorderFeature.swift in Sources */,
+				C17E9A74216F828400FCF93E /* User.swift in Sources */,
 				E2798EDD215A5D65006228A3 /* LocationFix.swift in Sources */,
+				C17E9A76216F82F100FCF93E /* Config.swift in Sources */,
+				C17E9A78216F85BD00FCF93E /* Service.swift in Sources */,
 				E2798EC921481570006228A3 /* BatteryFix.swift in Sources */,
 				E2798ED62158DFC4006228A3 /* LocationTracker.swift in Sources */,
 			);
@@ -376,6 +427,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C18AE98B216E44D60065F0BB /* LocationTrackerTests.swift in Sources */,
+				C17E9A7E216FA53900FCF93E /* ConfigTests.swift in Sources */,
 				E2798EB92147F0DC006228A3 /* TexDriveSDKTests.swift in Sources */,
 				C18AE984216E21A00065F0BB /* BatteryFixTests.swift in Sources */,
 				C18AE989216E31E30065F0BB /* BatteryTrackerTests.swift in Sources */,
@@ -580,6 +632,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
+					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = axa.tex.TexDriveSDKTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -594,14 +647,17 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = C8S682A487;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = TexDriveSDKTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
+					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = axa.tex.TexDriveSDKTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
