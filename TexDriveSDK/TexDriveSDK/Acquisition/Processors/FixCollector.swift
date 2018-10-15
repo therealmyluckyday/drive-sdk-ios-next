@@ -15,13 +15,15 @@ class FixCollector {
     private let disposeBag = DisposeBag()
     private var locationTracker: LocationTracker?
     private var batteryTracker: BatteryTracker?
+    private var callTracker : CallTracker?
     private var rx_errorCollecting = PublishSubject<Error>()
     
     
     // MARK: LifeCycle
-    init(newLocationTracker: LocationTracker, newBatteryTracker: BatteryTracker) {
+    init(newLocationTracker: LocationTracker?, newBatteryTracker: BatteryTracker?, newCallTracker: CallTracker?) {
         locationTracker = newLocationTracker
         batteryTracker = newBatteryTracker
+        callTracker = newCallTracker
     }
     
     

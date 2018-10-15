@@ -20,6 +20,7 @@ class ViewController: UIViewController {
         let user = User.Anonymous
         let locationfeature : TripRecorderFeature = TripRecorderFeature.Location(CLLocationManager())
         let batteryfeature : TripRecorderFeature = TripRecorderFeature.Battery(UIDevice.current)
+        let phoneCallFeature : TripRecorderFeature = TripRecorderFeature.PhoneCall(CXCallObserver())
         let features = [locationfeature, batteryfeature, phoneCallFeature]
         do {
             if let configuration = try Config(applicationId: "appId", applicationLocale: Locale.current, currentUser: user, currentMode: Mode.manual, currentTripRecorderFeatures: features) {
