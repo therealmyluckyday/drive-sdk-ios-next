@@ -1,12 +1,13 @@
 {
   "name": "TexDriveSDK",
   "platforms": {
-    "ios": null
+    "ios": "11.0"
   },
   "summary": "TexDriveSDK",
   "requires_arc": true,
   "version": "1.0.0",
   "homepage": "http://www.axa.com",
+  "swift_version": "4.0",
   "authors": {
     "vhiribarren": "vhiribarren@users.noreply.github.com"
   },
