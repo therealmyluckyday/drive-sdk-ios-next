@@ -31,43 +31,47 @@ class FixCollector {
     func collect() {
         collectGPS()
         collectBatteryState()
+        collectPhoneCall()
     }
     
     func stopCollect() {
         locationTracker?.disableTracking()
         batteryTracker?.disableTracking()
+        callTracker?.disableTracking()
     }
     
     // MARK: private Method
     private func collectGPS() {
-        if let provideFix = locationTracker?.provideFix() {
-            provideFix.asObservable().subscribe({ [weak self](event) in
-                switch (event.element) {
-                case .Success(let locationFix)?:
-                    print("Fix LOCATION altitude : \(locationFix.altitude) timestamp : \(locationFix.timestamp)")
-                    print("longitude : \(locationFix.longitude) latitude : \(locationFix.latitude)")
-                    break
-                case .Failure(let Error)?:
-                    self?.rx_errorCollecting.onNext(Error)
-                    break
-                case .none:
-                    break
-                    
-                }
-            })
-                .disposed(by: disposeBag)
+        self.subscribe(fromProviderFix: locationTracker?.provideFix()) { (locationFix) in
+            print("Fix LOCATION altitude : \(locationFix.altitude) timestamp : \(locationFix.timestamp)")
+            print("longitude : \(locationFix.longitude) latitude : \(locationFix.latitude)")
         }
-        
         locationTracker?.enableTracking()
     }
     
     private func collectBatteryState() {
-        if let provideFix = batteryTracker?.provideFix() {
-            provideFix.asObservable().subscribe({ [weak self](event) in
+        self.subscribe(fromProviderFix: batteryTracker?.provideFix()) { (batteryFix) in
+            print("Fix : BATTERY timestamp : \(batteryFix.timestamp)")
+            print("level : \(batteryFix.level) state : \(batteryFix.state)")
+        }
+        
+        batteryTracker?.enableTracking()
+    }
+    
+    private func collectPhoneCall() {
+        self.subscribe(fromProviderFix: callTracker?.provideFix()) { (callFix) in
+            print("Fix : Call timestamp : \(callFix.timestamp)")
+            print("state : \(callFix.state)")
+        }
+        callTracker?.enableTracking()
+    }
+    
+    private func subscribe<T> (fromProviderFix: PublishSubject<Result<T>>?, resultClosure: @escaping ((T)->())) {
+        if let proviveFix = fromProviderFix {
+            proviveFix.asObservable().subscribe({ [weak self](event) in
                 switch (event.element) {
-                case .Success(let batteryFix)?:
-                    print("Fix : BATTERY timestamp : \(batteryFix.timestamp)")
-                    print("level : \(batteryFix.level) state : \(batteryFix.state)")
+                case .Success(let fix)?:
+                    resultClosure(fix)
                     break
                 case .Failure(let Error)?:
                     self?.rx_errorCollecting.onNext(Error)
@@ -78,7 +82,5 @@ class FixCollector {
             })
                 .disposed(by: disposeBag)
         }
-        
-        batteryTracker?.enableTracking()
     }
 }
