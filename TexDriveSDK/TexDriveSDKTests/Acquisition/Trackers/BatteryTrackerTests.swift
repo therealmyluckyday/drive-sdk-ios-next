@@ -43,7 +43,7 @@ class BatteryTrackerTests: XCTestCase {
     override func setUp() {
         super.setUp()
         device = MockUIDevice()
-        tracker = BatteryTracker(currentDevice: device!)
+        tracker = BatteryTracker(sensor: device!)
     }
     
     override func tearDown() {
@@ -59,7 +59,7 @@ class BatteryTrackerTests: XCTestCase {
         let device = MockUIDevice()
         device.mockBatteryLevel = level
         device.mockBatteryState = state
-        let batteryTracker = BatteryTracker(currentDevice: device)
+        let batteryTracker = BatteryTracker(sensor: device)
         
         let batteryFix = batteryTracker.generateBatteryFix()
         
@@ -73,7 +73,7 @@ class BatteryTrackerTests: XCTestCase {
         let device = MockUIDevice()
         device.mockBatteryLevel = level
         device.mockBatteryState = state
-        let batteryTracker = BatteryTracker(currentDevice: device)
+        let batteryTracker = BatteryTracker(sensor: device)
         
         let batteryFix = batteryTracker.generateBatteryFix()
         
@@ -87,7 +87,7 @@ class BatteryTrackerTests: XCTestCase {
         let device = MockUIDevice()
         device.mockBatteryLevel = level
         device.mockBatteryState = state
-        let batteryTracker = BatteryTracker(currentDevice: device)
+        let batteryTracker = BatteryTracker(sensor: device)
         
         let batteryFix = batteryTracker.generateBatteryFix()
         
@@ -101,7 +101,7 @@ class BatteryTrackerTests: XCTestCase {
         let device = MockUIDevice()
         device.mockBatteryLevel = level
         device.mockBatteryState = state
-        let batteryTracker = BatteryTracker(currentDevice: device)
+        let batteryTracker = BatteryTracker(sensor: device)
         
         let batteryFix = batteryTracker.generateBatteryFix()
         
@@ -115,7 +115,7 @@ class BatteryTrackerTests: XCTestCase {
         let device = MockUIDevice()
         device.mockBatteryLevel = level
         device.mockBatteryState = state
-        let batteryTracker = BatteryTracker(currentDevice: device)
+        let batteryTracker = BatteryTracker(sensor: device)
         
         let batteryFix = batteryTracker.generateBatteryFix()
         
@@ -129,7 +129,7 @@ class BatteryTrackerTests: XCTestCase {
         let device = MockUIDevice()
         device.mockBatteryLevel = level
         device.mockBatteryState = state
-        let batteryTracker = BatteryTracker(currentDevice: device)
+        let batteryTracker = BatteryTracker(sensor: device)
         
         let batteryFix = batteryTracker.generateBatteryFix()
         
@@ -143,7 +143,7 @@ class BatteryTrackerTests: XCTestCase {
         let device = MockUIDevice()
         device.mockBatteryLevel = level
         device.mockBatteryState = state
-        let batteryTracker = BatteryTracker(currentDevice: device)
+        let batteryTracker = BatteryTracker(sensor: device)
         
         let batteryFix = batteryTracker.generateBatteryFix()
         

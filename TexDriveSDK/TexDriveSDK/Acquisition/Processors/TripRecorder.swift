@@ -41,13 +41,13 @@ public class TripRecorder: TripRecorderProtocol {
         configuration.tripRecorderFeatures.forEach { (feature) in
             switch feature {
             case .Location(let locationManager):
-                locationTracker = LocationTracker(locationSensor: locationManager)
+                locationTracker = LocationTracker(sensor: locationManager)
                 break
             case .Battery:
-                batteryTracker = BatteryTracker(currentDevice: UIDevice.current)
+                batteryTracker = BatteryTracker(sensor: UIDevice.current)
                 break
             case .PhoneCall(let callObserver):
-                callTracker = CallTracker(callSensor: callObserver)
+                callTracker = CallTracker(sensor: callObserver)
                 break
             }
         }

@@ -61,7 +61,7 @@ class LocationTrackerTests: XCTestCase {
     override func setUp() {
         super.setUp()
         mockLocationManager = MockLocationManager()
-        locationTracker = LocationTracker(locationSensor: mockLocationManager!)
+        locationTracker = LocationTracker(sensor: mockLocationManager!)
     }
     
     override func tearDown() {
@@ -103,7 +103,7 @@ class LocationTrackerTests: XCTestCase {
     
     func testEnableTracking_authorizationStatus_NotDetermined() {
         let locationManagerNotDetermined = MockLocationManagerNotDetermined()
-        let tracker = LocationTracker(locationSensor: locationManagerNotDetermined)
+        let tracker = LocationTracker(sensor: locationManagerNotDetermined)
         
         let subscribe = tracker.provideFix().asObservable().subscribe({ (event) in
             switch event.element {

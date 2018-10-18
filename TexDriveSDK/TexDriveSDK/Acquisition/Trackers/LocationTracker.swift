@@ -17,8 +17,8 @@ class LocationTracker: NSObject, Tracker, CLLocationManagerDelegate {
     private var rx_locationFix = PublishSubject<Result<LocationFix>>()
     
     // MARK: Lifecycle method
-    init(locationSensor: CLLocationManager) {
-        locationManager = locationSensor
+    init(sensor: CLLocationManager) {
+        locationManager = sensor
     }
     
     deinit {

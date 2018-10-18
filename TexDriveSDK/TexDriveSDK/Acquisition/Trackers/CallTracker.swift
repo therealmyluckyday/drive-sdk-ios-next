@@ -18,8 +18,8 @@ class CallTracker: NSObject, Tracker, CXCallObserverDelegate {
     private var lastState: CallFixState
     
     // MARK : Lifecycle Method
-    init(callSensor : CXCallObserver) {
-        callObserver = callSensor
+    init(sensor : CXCallObserver) {
+        callObserver = sensor
         lastState = CallFixState.idle
     }
     

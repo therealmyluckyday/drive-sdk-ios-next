@@ -30,7 +30,7 @@ class CallTrackerTests: XCTestCase {
     override func setUp() {
         super.setUp()
         mockCallObserver = MockCallObserver()
-        callTracker = CallTracker(callSensor: mockCallObserver!)
+        callTracker = CallTracker(sensor: mockCallObserver!)
     }
     
     override func tearDown() {

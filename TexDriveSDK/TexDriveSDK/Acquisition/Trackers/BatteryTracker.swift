@@ -50,8 +50,8 @@ class BatteryTracker: Tracker {
     }
     
     // MARK: Lifecycle method
-    init(currentDevice: UIDevice) {
-        device = currentDevice
+    init(sensor: UIDevice) {
+        device = sensor
     }
     
     deinit {
