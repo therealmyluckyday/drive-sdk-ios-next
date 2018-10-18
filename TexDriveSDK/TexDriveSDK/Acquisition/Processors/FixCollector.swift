@@ -16,14 +16,16 @@ class FixCollector {
     private var locationTracker: LocationTracker?
     private var batteryTracker: BatteryTracker?
     private var callTracker : CallTracker?
+    private var motionTracker : MotionTracker?
     private var rx_errorCollecting = PublishSubject<Error>()
     
     
     // MARK: LifeCycle
-    init(newLocationTracker: LocationTracker?, newBatteryTracker: BatteryTracker?, newCallTracker: CallTracker?) {
+    init(newLocationTracker: LocationTracker?, newBatteryTracker: BatteryTracker?, newCallTracker: CallTracker?, newMotionTracker: MotionTracker?) {
         locationTracker = newLocationTracker
         batteryTracker = newBatteryTracker
         callTracker = newCallTracker
+        motionTracker = newMotionTracker
     }
     
     
@@ -38,6 +40,7 @@ class FixCollector {
         locationTracker?.disableTracking()
         batteryTracker?.disableTracking()
         callTracker?.disableTracking()
+        motionTracker?.disableTracking()
     }
     
     // MARK: private Method
@@ -64,6 +67,14 @@ class FixCollector {
             print("state : \(callFix.state)")
         }
         callTracker?.enableTracking()
+    }
+    
+    private func collectMotion() {
+        self.subscribe(fromProviderFix: motionTracker?.provideFix()) { (motionFix) in
+            print("Fix : motionFix timestamp : \(motionFix.timestamp)")
+            print("isCrashed : \(motionFix.isCrashDetected)")
+            
+        }
     }
     
     private func subscribe<T> (fromProviderFix: PublishSubject<Result<T>>?, resultClosure: @escaping ((T)->())) {

@@ -10,6 +10,12 @@
 		239A97B88AAAED6A41660992 /* libPods-TexDriveSDKTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FE513EF12F337E19975F6A5D /* libPods-TexDriveSDKTests.a */; };
 		6BAAD4D24025869A301144E9 /* libPods-TexDriveSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 10178534269D367C809B0197 /* libPods-TexDriveSDK.a */; };
 		C12373992166468100A95A2A /* TripRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12373982166468100A95A2A /* TripRecorder.swift */; };
+		C1273E9F2175EE800006E6E0 /* MotionFix.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1273E9E2175EE800006E6E0 /* MotionFix.swift */; };
+		C1273EA12175F59C0006E6E0 /* MotionTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1273EA02175F59C0006E6E0 /* MotionTracker.swift */; };
+		C1273EA32176314F0006E6E0 /* MotionBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1273EA22176314F0006E6E0 /* MotionBuffer.swift */; };
+		C1273EA5217790C50006E6E0 /* MotionBufferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1273EA4217790C50006E6E0 /* MotionBufferTests.swift */; };
+		C1273EA72178B3640006E6E0 /* MotionFixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1273EA62178B3640006E6E0 /* MotionFixTests.swift */; };
+		C1273EA92178C1670006E6E0 /* MotionTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1273EA82178C1670006E6E0 /* MotionTrackerTests.swift */; };
 		C17E9A74216F828400FCF93E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A73216F828400FCF93E /* User.swift */; };
 		C17E9A76216F82F100FCF93E /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A75216F82F100FCF93E /* Config.swift */; };
 		C17E9A78216F85BD00FCF93E /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A77216F85BD00FCF93E /* Service.swift */; };
@@ -52,6 +58,12 @@
 		A225B2E66F16EA9C461C17A6 /* Pods-TexDriveSDKTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveSDKTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-TexDriveSDKTests/Pods-TexDriveSDKTests.release.xcconfig"; sourceTree = "<group>"; };
 		AF9E4DBBDCD5D4E15A273DDC /* Pods-TexDriveSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveSDK.release.xcconfig"; path = "../Pods/Target Support Files/Pods-TexDriveSDK/Pods-TexDriveSDK.release.xcconfig"; sourceTree = "<group>"; };
 		C12373982166468100A95A2A /* TripRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecorder.swift; sourceTree = "<group>"; };
+		C1273E9E2175EE800006E6E0 /* MotionFix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionFix.swift; sourceTree = "<group>"; };
+		C1273EA02175F59C0006E6E0 /* MotionTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionTracker.swift; sourceTree = "<group>"; };
+		C1273EA22176314F0006E6E0 /* MotionBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MotionBuffer.swift; path = TexDriveSDK/Acquisition/Processors/MotionBuffer.swift; sourceTree = SOURCE_ROOT; };
+		C1273EA4217790C50006E6E0 /* MotionBufferTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionBufferTests.swift; sourceTree = "<group>"; };
+		C1273EA62178B3640006E6E0 /* MotionFixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionFixTests.swift; sourceTree = "<group>"; };
+		C1273EA82178C1670006E6E0 /* MotionTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionTrackerTests.swift; sourceTree = "<group>"; };
 		C17E9A73216F828400FCF93E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C17E9A75216F82F100FCF93E /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		C17E9A77216F85BD00FCF93E /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
@@ -172,6 +184,8 @@
 				C18AE983216E21A00065F0BB /* BatteryFixTests.swift */,
 				C18AE985216E2E2A0065F0BB /* LocationFixTests.swift */,
 				C1E521B521748CE800B80C64 /* CallFixTests.swift */,
+				C1273EA4217790C50006E6E0 /* MotionBufferTests.swift */,
+				C1273EA62178B3640006E6E0 /* MotionFixTests.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -182,6 +196,7 @@
 				C18AE988216E31E30065F0BB /* BatteryTrackerTests.swift */,
 				C18AE98A216E44D60065F0BB /* LocationTrackerTests.swift */,
 				C1E521B721749A9400B80C64 /* CallTrackerTests.swift */,
+				C1273EA82178C1670006E6E0 /* MotionTrackerTests.swift */,
 			);
 			path = Trackers;
 			sourceTree = "<group>";
@@ -245,6 +260,8 @@
 				E2798EC821481570006228A3 /* BatteryFix.swift */,
 				E2798EDC215A5D65006228A3 /* LocationFix.swift */,
 				C1E521B32170ED5300B80C64 /* CallFix.swift */,
+				C1273E9E2175EE800006E6E0 /* MotionFix.swift */,
+				C1273EA22176314F0006E6E0 /* MotionBuffer.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -256,6 +273,7 @@
 				E2798ED52158DFC4006228A3 /* LocationTracker.swift */,
 				C1FAAA392163C7B700FD3C1D /* Tracker.swift */,
 				C1E521B12170ECBE00B80C64 /* CallTracker.swift */,
+				C1273EA02175F59C0006E6E0 /* MotionTracker.swift */,
 			);
 			path = Trackers;
 			sourceTree = "<group>";
@@ -419,6 +437,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C1273EA32176314F0006E6E0 /* MotionBuffer.swift in Sources */,
+				C1273EA12175F59C0006E6E0 /* MotionTracker.swift in Sources */,
 				E2798ED1214AB6F3006228A3 /* FixCollector.swift in Sources */,
 				E2798EC721480E3B006228A3 /* Fix.swift in Sources */,
 				E2798ECE214AB4BA006228A3 /* BatteryTracker.swift in Sources */,
@@ -428,6 +448,7 @@
 				C17E9A7C216F944500FCF93E /* TripRecorderFeature.swift in Sources */,
 				C17E9A74216F828400FCF93E /* User.swift in Sources */,
 				C1E521B22170ECBE00B80C64 /* CallTracker.swift in Sources */,
+				C1273E9F2175EE800006E6E0 /* MotionFix.swift in Sources */,
 				E2798EDD215A5D65006228A3 /* LocationFix.swift in Sources */,
 				C17E9A76216F82F100FCF93E /* Config.swift in Sources */,
 				C17E9A78216F85BD00FCF93E /* Service.swift in Sources */,
@@ -444,8 +465,11 @@
 				C17E9A7E216FA53900FCF93E /* ConfigTests.swift in Sources */,
 				C1E521B621748CE800B80C64 /* CallFixTests.swift in Sources */,
 				E2798EB92147F0DC006228A3 /* TexDriveSDKTests.swift in Sources */,
+				C1273EA92178C1670006E6E0 /* MotionTrackerTests.swift in Sources */,
+				C1273EA5217790C50006E6E0 /* MotionBufferTests.swift in Sources */,
 				C1E521B821749A9400B80C64 /* CallTrackerTests.swift in Sources */,
 				C18AE984216E21A00065F0BB /* BatteryFixTests.swift in Sources */,
+				C1273EA72178B3640006E6E0 /* MotionFixTests.swift in Sources */,
 				C18AE989216E31E30065F0BB /* BatteryTrackerTests.swift in Sources */,
 				C18AE986216E2E2A0065F0BB /* LocationFixTests.swift in Sources */,
 			);

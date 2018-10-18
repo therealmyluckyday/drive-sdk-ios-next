@@ -10,6 +10,7 @@ import UIKit
 import CoreLocation
 import TexDriveSDK
 import CallKit
+import CoreMotion
 
 class ViewController: UIViewController {
 
@@ -21,7 +22,8 @@ class ViewController: UIViewController {
         let locationfeature : TripRecorderFeature = TripRecorderFeature.Location(CLLocationManager())
         let batteryfeature : TripRecorderFeature = TripRecorderFeature.Battery(UIDevice.current)
         let phoneCallFeature : TripRecorderFeature = TripRecorderFeature.PhoneCall(CXCallObserver())
-        let features = [locationfeature, batteryfeature, phoneCallFeature]
+        let motionFeature : TripRecorderFeature = TripRecorderFeature.Motion(CMMotionManager())
+        let features = [locationfeature, batteryfeature, phoneCallFeature, motionFeature]
         do {
             if let configuration = try Config(applicationId: "appId", applicationLocale: Locale.current, currentUser: user, currentMode: Mode.manual, currentTripRecorderFeatures: features) {
                 tripRecorder = TripRecorder(configuration: configuration)

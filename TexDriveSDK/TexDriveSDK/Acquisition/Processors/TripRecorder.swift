@@ -37,6 +37,7 @@ public class TripRecorder: TripRecorderProtocol {
         var locationTracker: LocationTracker?
         var batteryTracker: BatteryTracker?
         var callTracker : CallTracker?
+        var motionTracker : MotionTracker?
         
         configuration.tripRecorderFeatures.forEach { (feature) in
             switch feature {
@@ -49,10 +50,12 @@ public class TripRecorder: TripRecorderProtocol {
             case .PhoneCall(let callObserver):
                 callTracker = CallTracker(sensor: callObserver)
                 break
+            case .Motion(let motionManager):
+                motionTracker = MotionTracker(sensor: motionManager)
             }
         }
         
-        collector = FixCollector(newLocationTracker: locationTracker, newBatteryTracker: batteryTracker, newCallTracker: callTracker)
+        collector = FixCollector(newLocationTracker: locationTracker, newBatteryTracker: batteryTracker, newCallTracker: callTracker, newMotionTracker: motionTracker)
     }
     
 }

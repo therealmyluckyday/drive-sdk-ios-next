@@ -11,6 +11,7 @@ import CoreLocation
 
 public enum ConfigurationError: Error {
     case LocationNotDetermined(String)
+    case MotionNotAvailable(String)
 }
 
 public enum Mode {
@@ -29,8 +30,10 @@ public class Config {
     public init?(applicationId: String, applicationLocale: Locale, currentUser: User, currentMode: Mode, currentTripRecorderFeatures: [TripRecorderFeature]) throws {
         try currentTripRecorderFeatures.forEach { (feature) in
             switch (feature, feature.canActivate()) {
-                case (TripRecorderFeature.Location, false):
-                    throw ConfigurationError.LocationNotDetermined("Need to ask user permission: requestAlwaysAuthorization() on a CLLocationManager")
+            case (TripRecorderFeature.Location, false):
+                throw ConfigurationError.LocationNotDetermined("Need to ask user permission: requestAlwaysAuthorization() on a CLLocationManager")
+            case (TripRecorderFeature.Motion, false):
+                throw ConfigurationError.MotionNotAvailable("Need to configure the UIRequiredDeviceCapabilities key of its Info.plist file with the accelerometer and gyroscope values")
                 case (_, false):
                     print("ERROR : \(feature) Can not activate")
             default:
