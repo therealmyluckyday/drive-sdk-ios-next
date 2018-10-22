@@ -23,13 +23,14 @@ class MotionTracker: Tracker {
     init(sensor: CMMotionManager, buffer: MotionBuffer = MotionBuffer()) {
         motionSensor = sensor
         motionBuffer = buffer
+        operationQueue.maxConcurrentOperationCount = 1
     }
     
     // MARK : Protocol Tracker
     typealias T = MotionFix
 
     func enableTracking() {
-        motionBuffer.rx_crashMotionFix.asObservable().subscribe { [weak self](event) in
+        motionBuffer.rx_crashMotionFix.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
             if let motions = event.element {
                 for motion in motions {
                     self?.rx_motionProviderFix.onNext(Result.Success(motion))

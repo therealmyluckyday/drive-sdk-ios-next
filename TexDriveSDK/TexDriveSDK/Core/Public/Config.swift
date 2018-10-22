@@ -9,6 +9,7 @@
 import Foundation
 import CoreLocation
 import CallKit
+import CoreMotion
 
 public enum ConfigurationError: Error {
     case LocationNotDetermined(String)
@@ -33,8 +34,10 @@ public class Config {
         let locationfeature : TripRecorderFeature = TripRecorderFeature.Location(CLLocationManager())
         let batteryfeature : TripRecorderFeature = TripRecorderFeature.Battery(UIDevice.current)
         let phoneCallFeature : TripRecorderFeature = TripRecorderFeature.PhoneCall(CXCallObserver())
+        let sensor = CMMotionManager()
+        let motionFeature = TripRecorderFeature.Motion(sensor)
         
-        let tripRecorderFeatures = [locationfeature, batteryfeature, phoneCallFeature]
+        let tripRecorderFeatures = [locationfeature, batteryfeature, phoneCallFeature, motionFeature]
         try self.init(applicationId: applicationId, applicationLocale: applicationLocale, currentUser: currentUser, currentMode: currentMode, currentTripRecorderFeatures: tripRecorderFeatures)
     }
     
