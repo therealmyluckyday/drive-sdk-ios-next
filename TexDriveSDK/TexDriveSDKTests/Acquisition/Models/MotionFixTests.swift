@@ -50,7 +50,7 @@ class MotionFixTests: XCTestCase {
         super.tearDown()
     }
     
-    // MARK : init()
+    // MARK: init()
     func testInit() {
         let timestamp = Date().timeIntervalSinceNow
         let accelerationMotion = XYZAxisValues(x: 0, y: 1, z: 2)
@@ -76,7 +76,7 @@ class MotionFixTests: XCTestCase {
         XCTAssertFalse(motionNotCrash.isCrashDetected)
     }
     
-    // MARK : class func normL2Acceleration(motion: CMDeviceMotion) -> Double
+    // MARK: class func normL2Acceleration(motion: CMDeviceMotion) -> Double
     func testNormL2AccelerationClassWithCMDeviceMotion_Zero() {
         let acceleration = CMAcceleration(x: 0, y: 0, z: 0)
         let gravity = CMAcceleration(x: 0, y: 0, z: 0)
@@ -97,7 +97,7 @@ class MotionFixTests: XCTestCase {
         XCTAssertEqual(String(result), String(12.4498995979887))
     }
     
-    // MARK : func normL2Acceleration() -> Float
+    // MARK: func normL2Acceleration() -> Float
     func testNormL2AccelerationWithMotion_Zero() {
         let acceleration = XYZAxisValues(x: 0, y: 0, z: 0)
         let gravity = XYZAxisValues(x: 0, y: 0, z: 0)
@@ -120,7 +120,7 @@ class MotionFixTests: XCTestCase {
         XCTAssertEqual(String(result), String(12.4499))
     }
     
-    // MARK : class func convert(acceleration: CMAcceleration) -> XYZAxisValues
+    // MARK: class func convert(acceleration: CMAcceleration) -> XYZAxisValues
     func testConvertAccelerationWithZeroValues() {
         let accelerationCM = CMAcceleration(x: 0, y: 0, z: 0)
         
@@ -141,7 +141,7 @@ class MotionFixTests: XCTestCase {
         XCTAssertEqual(accelerationXYZ.z, 3*9.81)
     }
     
-    // MARK : class func convert(field: CMMagneticField) -> XYZAxisValues
+    // MARK: class func convert(field: CMMagneticField) -> XYZAxisValues
     func testConvertMagneticFieldWithZeroValue() {
         let gravity = CMMagneticField(x: 0, y: 0, z: 0)
         

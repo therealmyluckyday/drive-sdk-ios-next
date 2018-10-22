@@ -12,18 +12,18 @@ import RxSwift
 
 @available(iOS 10.0, *)
 class CallTracker: NSObject, Tracker, CXCallObserverDelegate {
-    // MARK : Property
+    // MARK: Property
     private var rx_callProviderFix = PublishSubject<Result<CallFix>>()
     private let callObserver: CXCallObserver
     private var lastState: CallFixState
     
-    // MARK : Lifecycle Method
+    // MARK: Lifecycle Method
     init(sensor : CXCallObserver) {
         callObserver = sensor
         lastState = CallFixState.idle
     }
     
-    // MARK : Tracker Protocol
+    // MARK: Tracker Protocol
     typealias T = CallFix
     func enableTracking() {
         callObserver.setDelegate(self, queue: nil)
@@ -36,7 +36,7 @@ class CallTracker: NSObject, Tracker, CXCallObserverDelegate {
         return rx_callProviderFix
     }
     
-    // MARK : CXCallObserverDelegate
+    // MARK: CXCallObserverDelegate
     func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
         let callFix = self.generate(call: call)
         self.newCallfFix(callFix: callFix)

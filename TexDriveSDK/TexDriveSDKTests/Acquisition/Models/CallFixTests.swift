@@ -10,7 +10,7 @@ import XCTest
 @testable import TexDriveSDK
 
 class CallFixTests: XCTestCase {
-    // MARK : init(date: Date, callState: CallFixState)
+    // MARK: init(date: Date, callState: CallFixState)
     func testInit_date() {
         let date = Date(timeIntervalSinceNow: 9999)
         

@@ -38,7 +38,7 @@ class CallTrackerTests: XCTestCase {
         super.tearDown()
     }
     
-    // MARK : func enableTracking() {
+    // MARK: func enableTracking() {
     func testEnableTracking_setDelegate() {
         XCTAssertFalse(mockCallObserver!.isSetDelegateCalled)
         callTracker?.disableTracking()
@@ -53,7 +53,7 @@ class CallTrackerTests: XCTestCase {
     }
     
     
-    // MARK : func disableTracking() {
+    // MARK: func disableTracking() {
     func testDisableTracking_setDelegate() {
         XCTAssertFalse(mockCallObserver!.isSetDelegateCalled)
         callTracker?.enableTracking()
@@ -65,7 +65,7 @@ class CallTrackerTests: XCTestCase {
         XCTAssertTrue(mockCallObserver!.isSetDelegateCalled)
     }
     
-    // MARK : func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall)
+    // MARK: func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall)
     func testCallObserverCXall_firstCall_to_state_idle() {
         // TEST NOT BE CALLED
         var isNotCalled = true

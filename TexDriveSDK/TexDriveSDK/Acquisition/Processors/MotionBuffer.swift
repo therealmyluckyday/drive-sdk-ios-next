@@ -20,19 +20,19 @@ struct MotionBufferConstant {
 }
 
 class MotionBuffer {
-    // MARK : Property
+    // MARK: Property
     private var motions = [MotionFix]()
     private var crashMotions = [MotionFix]()
     private var crashMotionFix: MotionFix?
     private var futureBufferSizeInSec: Double
     var rx_crashMotionFix = PublishSubject<[MotionFix]>()
     
-    // MARK : Lifecycle
+    // MARK: Lifecycle
     init(futureBufferSizeInSecond: Int = MotionBufferConstant.defaultFutureBufferSizeInSec) {
         futureBufferSizeInSec = Double(futureBufferSizeInSecond)
     }
     
-    // MARK : Public Method
+    // MARK: Public Method
     func append(fix: MotionFix) {
         // Check if the 5 second after crash is passed
         print("fix.motionTimestamp: \(fix.timestamp)")

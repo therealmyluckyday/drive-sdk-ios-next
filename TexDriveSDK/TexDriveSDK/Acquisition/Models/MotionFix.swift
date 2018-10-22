@@ -19,7 +19,7 @@ struct XYZAxisValues  {
 }
 
 class MotionFix: Fix {
-    // MARK : Property
+    // MARK: Property
     let timestamp: TimeInterval
     let acceleration: XYZAxisValues
     let gravity: XYZAxisValues
@@ -27,7 +27,7 @@ class MotionFix: Fix {
     let isCrashDetected: Bool
     
     
-    // MARK : Lifecycle
+    // MARK: Lifecycle
     init(timestamp: TimeInterval, accelerationMotion: XYZAxisValues, gravityMotion: XYZAxisValues, magnetometerMotion: XYZAxisValues, crashDetected: Bool) {
         self.timestamp = timestamp
         acceleration = accelerationMotion
@@ -51,7 +51,7 @@ class MotionFix: Fix {
 // @(roundToDecimal(motion.userAcceleration.x * GravityConstant, AXAMaxDecimalPlaces));
 // Extension use to convert CMDeviceMotion to MotionFix
 extension MotionFix {
-    // MARK : Public Method
+    // MARK: Public Method
     /**
      Returns the L2 norm of the acceleration (including gravity) from a CMDeviceMotion.
      */

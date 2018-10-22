@@ -11,7 +11,7 @@ import RxSwift
 import CoreMotion
 
 class MotionTracker: Tracker {
-    // MARK : Property
+    // MARK: Property
     private var rx_motionProviderFix = PublishSubject<Result<MotionFix>>()
     private var motionSensor: CMMotionManager
     private var operationQueue = OperationQueue()
@@ -19,14 +19,14 @@ class MotionTracker: Tracker {
     private let motionBuffer: MotionBuffer
     private var disposeBag = DisposeBag()
     
-    // MARK : Lifecycle
+    // MARK: Lifecycle
     init(sensor: CMMotionManager, buffer: MotionBuffer = MotionBuffer()) {
         motionSensor = sensor
         motionBuffer = buffer
         operationQueue.maxConcurrentOperationCount = 1
     }
     
-    // MARK : Protocol Tracker
+    // MARK: Protocol Tracker
     typealias T = MotionFix
 
     func enableTracking() {

@@ -25,7 +25,7 @@ class MockMotionSensor: CMMotionManager {
 
 class MotionTrackerTests: XCTestCase {
     
-    // MARK : func disableTracking()
+    // MARK: func disableTracking()
     func testDisableTracking() {
         let mock = MockMotionSensor()
         let tracker = MotionTracker(sensor: mock)

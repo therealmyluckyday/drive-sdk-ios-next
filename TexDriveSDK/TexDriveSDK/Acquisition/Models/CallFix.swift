@@ -15,11 +15,11 @@ enum CallFixState {
 }
 
 class CallFix: Fix {
-    // MARK : Property
+    // MARK: Property
     let state: CallFixState
     let timestamp: TimeInterval
     
-    // MARK : Lifecycle
+    // MARK: Lifecycle
     init(timestamp: TimeInterval, state: CallFixState) {
         self.state = state
         self.timestamp = timestamp
