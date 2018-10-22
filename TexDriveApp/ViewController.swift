@@ -15,11 +15,13 @@ import CoreMotion
 class ViewController: UIViewController {
 
     var tripRecorder : TripRecorder?
+    var locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        locationManager.requestAlwaysAuthorization()
         let user = User.Anonymous
-        let locationfeature : TripRecorderFeature = TripRecorderFeature.Location(CLLocationManager())
+        let locationfeature : TripRecorderFeature = TripRecorderFeature.Location(locationManager)
         let batteryfeature : TripRecorderFeature = TripRecorderFeature.Battery(UIDevice.current)
         let phoneCallFeature : TripRecorderFeature = TripRecorderFeature.PhoneCall(CXCallObserver())
         let motionFeature : TripRecorderFeature = TripRecorderFeature.Motion(CMMotionManager())
