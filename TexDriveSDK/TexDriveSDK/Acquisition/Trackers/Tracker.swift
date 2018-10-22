@@ -21,39 +21,3 @@ protocol Tracker {
     func disableTracking()
     func provideFix() -> PublishSubject<Result<T>>
 }
-
-// MARK: Type Erasure
-// https://medium.com/swiftworld/swift-world-type-erasure-5b720bc0318a
-//class AnyTracker<T: Fix>: Tracker {
-//    private let _closure: ((T) -> ())?
-//    private let _enableTracking: () -> ()
-//    private let _disableTracking: () -> ()
-//    private let _provideFix: (_ fix: T) -> ()
-//    var closure: ((T) -> ())? {
-//        get {
-//            return _closure
-//        }
-//        set {
-//            
-//        }
-//    }
-//    
-//    func enableTracking() {
-//        _enableTracking()
-//    }
-//    
-//    func disableTracking() {
-//        _disableTracking()
-//    }
-//    
-//    func provideFix(fix: T) {
-//        return _provideFix(fix)
-//    }
-//    
-//    init<U: Tracker>(_ tracker: U) where U.T == T {
-//        _closure = tracker.closure
-//        _enableTracking = tracker.enableTracking
-//        _disableTracking = tracker.disableTracking
-//        _provideFix = tracker.provideFix
-//    }
-//}
