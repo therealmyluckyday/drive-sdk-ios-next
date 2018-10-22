@@ -8,7 +8,6 @@
 
 class LocationFix : Fix {
     // MARK: Property
-    let timestamp: Date
     var latitude : Double
     var longitude : Double
     var precision : Double
@@ -24,6 +23,19 @@ class LocationFix : Fix {
         self.speed = speed
         self.bearing = bearing
         self.altitude = altitude
-        self.timestamp = timestamp
+        super.init(date: timestamp)
+    }
+    
+    // MARK: Protocol CustomStringConvertible
+    override var description: String {
+        get {
+            var description = "----- LocationFix: date:\(self.timestamp) latitude: \(self.latitude), longitude: \(self.longitude)"
+            description += "LocationFix: precision:\(self.precision) speed: \(self.speed), bearing: \(self.bearing)"
+            description += "LocationFix: altitude:\(self.altitude) ------"
+            return description
+        }
+        set {
+            
+        }
     }
 }

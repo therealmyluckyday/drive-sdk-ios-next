@@ -15,9 +15,12 @@ enum Result<SpecificFix>{
 }
 
 
-protocol Tracker {
+protocol Tracker: GenericTracker {
     associatedtype T: Fix
+    func provideFix() -> (PublishSubject<Result<T>>)
+}
+
+protocol GenericTracker {
     func enableTracking()
     func disableTracking()
-    func provideFix() -> PublishSubject<Result<T>>
 }

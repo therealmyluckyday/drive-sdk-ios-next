@@ -25,7 +25,7 @@ public class TripRecorder: TripRecorderProtocol {
     public var currentTripId = NSUUID().uuidString
     
     public func start() {
-        collector.collect()
+        collector.startCollect()
     }
     
     public func stop() {
@@ -34,30 +34,29 @@ public class TripRecorder: TripRecorderProtocol {
     
     // MARK: Lifecycle
     public init(configuration: Config) {
-        var locationTracker: LocationTracker?
-        var batteryTracker: BatteryTracker?
-        var callTracker : CallTracker?
-        var motionTracker : MotionTracker?
+        collector = FixCollector()
         
         configuration.tripRecorderFeatures.forEach { (feature) in
             switch feature {
             case .Location(let locationManager):
-                locationTracker = LocationTracker(sensor: locationManager)
+                let locationTracker = LocationTracker(sensor: locationManager)
+                collector.collect(tracker: locationTracker)
                 break
             case .Battery:
-                batteryTracker = BatteryTracker(sensor: UIDevice.current)
+                let batteryTracker = BatteryTracker(sensor: UIDevice.current)
+                collector.collect(tracker: batteryTracker)
                 break
             case .PhoneCall(let callObserver):
-                callTracker = CallTracker(sensor: callObserver)
+                let callTracker = CallTracker(sensor: callObserver)
+                collector.collect(tracker: callTracker)
                 break
             case .Motion(let motionManager):
-                motionTracker = MotionTracker(sensor: motionManager)
+                let motionTracker = MotionTracker(sensor: motionManager)
+                collector.collect(tracker: motionTracker)
+                break
             }
         }
-        
-        collector = FixCollector(newLocationTracker: locationTracker, newBatteryTracker: batteryTracker, newCallTracker: callTracker, newMotionTracker: motionTracker)
     }
-    
 }
 
 //@protocol AXATripRecorder <NSObject>

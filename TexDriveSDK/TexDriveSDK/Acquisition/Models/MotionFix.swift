@@ -20,12 +20,6 @@ struct XYZAxisValues  {
 
 class MotionFix: Fix {
     // MARK : Property
-    var timestamp: Date {
-        get {
-            let startupDate = Date.init(timeIntervalSinceNow: -1 * ProcessInfo.processInfo.systemUptime)
-            return Date(timeInterval: motionTimestamp, since: startupDate)
-        }
-    }
     let motionTimestamp: TimeInterval
     let acceleration: XYZAxisValues
     let gravity: XYZAxisValues
@@ -40,6 +34,21 @@ class MotionFix: Fix {
         gravity = gravityMotion
         magnetometer = magnetometerMotion
         isCrashDetected = crashDetected
+        let startupDate = Date.init(timeIntervalSinceNow: -1 * ProcessInfo.processInfo.systemUptime)
+        let date = Date(timeInterval: motionTimestamp, since: startupDate)
+        super.init(date: date)
+    }
+    
+    // MARK: Protocol CustomStringConvertible
+    override var description: String {
+        get {
+            var description = "MotionFix: date:\(self.timestamp) motionTimestamp: \(self.motionTimestamp), acceleration: \(self.acceleration)"
+            description += "MotionFix: gravity:\(self.gravity) magnetometer: \(self.magnetometer), isCrashDetected: \(self.isCrashDetected)"
+            return description
+        }
+        set {
+            
+        }
     }
 }
 // @(roundToDecimal(motion.userAcceleration.x * GravityConstant, AXAMaxDecimalPlaces));
