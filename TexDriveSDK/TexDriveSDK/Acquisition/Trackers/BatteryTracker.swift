@@ -71,6 +71,6 @@ class BatteryTracker: Tracker {
             batteryState = .unknown
         }
         
-        return BatteryFix(timestamp: Date(), level: deviceBatteryLevel, state: batteryState)
+        return BatteryFix(timestamp: Date().timeIntervalSince1970, level: deviceBatteryLevel, state: batteryState)
     }
 }

@@ -17,17 +17,18 @@ enum CallFixState {
 class CallFix: Fix {
     // MARK : Property
     let state: CallFixState
+    let timestamp: TimeInterval
     
     // MARK : Lifecycle
-    init(date: Date, callState: CallFixState) {
-        state = callState
-        super.init(date: date)
+    init(timestamp: TimeInterval, state: CallFixState) {
+        self.state = state
+        self.timestamp = timestamp
     }
     
     // MARK: Protocol CustomStringConvertible
-    override var description: String {
+    var description: String {
         get {
-            return "CallFix: date:\(self.timestamp) state: \(self.state)"
+            return "CallFix: timestamp:\(self.timestamp) state: \(self.state)"
         }
         set {
             

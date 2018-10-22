@@ -59,7 +59,7 @@ class LocationTracker: NSObject, Tracker, CLLocationManagerDelegate {
             return
         }
         
-        let locationFix = LocationFix(timestamp: location.timestamp, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, precision: location.horizontalAccuracy, speed: location.speed, bearing: location.course, altitude: location.altitude)
+        let locationFix = LocationFix(timestamp: location.timestamp.timeIntervalSince1970, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, precision: location.horizontalAccuracy, speed: location.speed, bearing: location.course, altitude: location.altitude)
         rx_locationFix.onNext(Result.Success(locationFix))
     }
     

@@ -6,12 +6,6 @@
 //  Copyright © 2018 Axa. All rights reserved.
 //
 
-class Fix : CustomStringConvertible {
-    var description: String
-    
-    let timestamp: Date
-    init(date: Date) {
-        timestamp = date
-        description = "FIX \(timestamp)"
-    }
+protocol Fix: CustomStringConvertible {
+    var timestamp: TimeInterval { get } //location.timestamp.timeIntervalSince1970 * 1000
 }

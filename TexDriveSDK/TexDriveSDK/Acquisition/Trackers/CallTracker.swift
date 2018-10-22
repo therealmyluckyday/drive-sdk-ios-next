@@ -61,6 +61,6 @@ class CallTracker: NSObject, Tracker, CXCallObserverDelegate {
             state = CallFixState.busy
         }
         
-        return CallFix(date: Date(), callState: state)
+        return CallFix(timestamp: Date().timeIntervalSince1970, state: state)
     }
 }

@@ -20,9 +20,9 @@ class LocationFixTests: XCTestCase {
         let bearing = 1.3
         let altitude = 1.4
         
-        let locationFix = LocationFix(timestamp: date, latitude: latitude, longitude: longitude, precision: precision, speed: speed, bearing: bearing, altitude: altitude)
+        let locationFix = LocationFix(timestamp: date.timeIntervalSince1970, latitude: latitude, longitude: longitude, precision: precision, speed: speed, bearing: bearing, altitude: altitude)
         
-        XCTAssertEqual(locationFix.timestamp, date)
+        XCTAssertEqual(locationFix.timestamp, date.timeIntervalSince1970)
     }
     
     func testInit_general_check() {
@@ -34,7 +34,7 @@ class LocationFixTests: XCTestCase {
         let bearing = 1.3
         let altitude = 1.4
         
-        let locationFix = LocationFix(timestamp: date, latitude: latitude, longitude: longitude, precision: precision, speed: speed, bearing: bearing, altitude: altitude)
+        let locationFix = LocationFix(timestamp: date.timeIntervalSince1970, latitude: latitude, longitude: longitude, precision: precision, speed: speed, bearing: bearing, altitude: altitude)
         
         XCTAssertEqual(locationFix.latitude, latitude)
         XCTAssertEqual(locationFix.longitude, longitude)

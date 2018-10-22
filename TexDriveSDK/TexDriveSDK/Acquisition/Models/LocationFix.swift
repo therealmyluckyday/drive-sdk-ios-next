@@ -8,28 +8,29 @@
 
 class LocationFix : Fix {
     // MARK: Property
-    var latitude : Double
-    var longitude : Double
-    var precision : Double
-    var speed : Double
-    var bearing : Double
-    var altitude : Double
+    let latitude: Double
+    let longitude: Double
+    let precision: Double
+    let speed: Double
+    let bearing: Double
+    let altitude: Double
+    let timestamp: TimeInterval
     
     // MARK: LifeCycle
-    init(timestamp: Date, latitude: Double, longitude: Double, precision: Double, speed: Double, bearing: Double, altitude: Double) {
+    init(timestamp: TimeInterval, latitude: Double, longitude: Double, precision: Double, speed: Double, bearing: Double, altitude: Double) {
         self.latitude = latitude
         self.longitude = longitude
         self.precision = precision
         self.speed = speed
         self.bearing = bearing
         self.altitude = altitude
-        super.init(date: timestamp)
+        self.timestamp = timestamp
     }
     
     // MARK: Protocol CustomStringConvertible
-    override var description: String {
+    var description: String {
         get {
-            var description = "----- LocationFix: date:\(self.timestamp) latitude: \(self.latitude), longitude: \(self.longitude)"
+            var description = "----- LocationFix: timestamp:\(self.timestamp) latitude: \(self.latitude), longitude: \(self.longitude)"
             description += "LocationFix: precision:\(self.precision) speed: \(self.speed), bearing: \(self.bearing)"
             description += "LocationFix: altitude:\(self.altitude) ------"
             return description

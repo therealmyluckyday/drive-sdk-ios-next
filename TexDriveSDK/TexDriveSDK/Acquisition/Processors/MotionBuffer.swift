@@ -35,10 +35,10 @@ class MotionBuffer {
     // MARK : Public Method
     func append(fix: MotionFix) {
         // Check if the 5 second after crash is passed
-        print("fix.motionTimestamp: \(fix.motionTimestamp)")
-        print("crashMotionFix.motionTimestamp: \(crashMotionFix?.motionTimestamp)")
+        print("fix.motionTimestamp: \(fix.timestamp)")
+        print("crashMotionFix.motionTimestamp: \(String(describing: crashMotionFix?.timestamp))")
         print("futureBufferSizeInSec: \(futureBufferSizeInSec)")
-        if let crashMotionFix = self.crashMotionFix, fix.motionTimestamp >= crashMotionFix.motionTimestamp + futureBufferSizeInSec {
+        if let crashMotionFix = self.crashMotionFix, fix.timestamp >= crashMotionFix.timestamp + futureBufferSizeInSec {
             // Launch crash buffer
             print("DISSSSPATCH")
             print("[\(#file)] [\(#function)] [\(#line)] [\(#column)] ")
@@ -49,7 +49,7 @@ class MotionBuffer {
         if fix.isCrashDetected {
             print("[\(#file)] [\(#function)] [\(#line)] [\(#column)] ")
             // Only add Fix from different timestamp
-            if let lastFix = crashMotions.last, fix.motionTimestamp == lastFix.motionTimestamp {
+            if let lastFix = crashMotions.last, fix.timestamp == lastFix.timestamp {
                 return
             }
             print("fix.isCrashDetected")
@@ -65,7 +65,7 @@ class MotionBuffer {
                 let highestPeakAcceleration = findHighestPeakAcceleration(motions: crashMotions)
                 
                 // Compare with current Crash
-                if let fix = crashMotionFix, fix.normL2Acceleration() > highestPeakAcceleration.normL2Acceleration() || fix.motionTimestamp == highestPeakAcceleration.motionTimestamp {
+                if let fix = crashMotionFix, fix.normL2Acceleration() > highestPeakAcceleration.normL2Acceleration() || fix.timestamp == highestPeakAcceleration.timestamp {
                     // Do Nothing
                     print("Do Nothing")
                     print("[\(#file)] [\(#function)] [\(#line)] [\(#column)] ")
@@ -79,7 +79,7 @@ class MotionBuffer {
                     
                     // Clean Before
                     print("cleanBuffer")
-                    cleanBuffer(before: highestPeakAcceleration.motionTimestamp)
+                    cleanBuffer(before: highestPeakAcceleration.timestamp)
                 }
             }
             else {
@@ -133,7 +133,7 @@ class MotionBuffer {
         if let crashMotionFix = crashMotionFix {
             var i = 0
             while i < motions.count {
-                if motions[i].motionTimestamp < crashMotionFix.motionTimestamp - Double(MotionBufferConstant.defaultPastBufferSizeInSec) {
+                if motions[i].timestamp < crashMotionFix.timestamp - Double(MotionBufferConstant.defaultPastBufferSizeInSec) {
                     i += 1
                 }
                 else {

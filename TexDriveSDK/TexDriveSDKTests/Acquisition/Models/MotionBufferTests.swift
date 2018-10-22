@@ -32,9 +32,9 @@ class MotionBufferTests: XCTestCase {
             if let motionsFix = event.element {
                 print("\(motionsFix)")
                 XCTAssertEqual(motionsFix.count, 3)
-                XCTAssertEqual(motionsFix[0].motionTimestamp, timestamp)
-                XCTAssertEqual(motionsFix[1].motionTimestamp, timestamp)
-                XCTAssertEqual(motionsFix[2].motionTimestamp, timestamp)
+                XCTAssertEqual(motionsFix[0].timestamp, timestamp)
+                XCTAssertEqual(motionsFix[1].timestamp, timestamp)
+                XCTAssertEqual(motionsFix[2].timestamp, timestamp)
             }
         })
         print("---------------------------")

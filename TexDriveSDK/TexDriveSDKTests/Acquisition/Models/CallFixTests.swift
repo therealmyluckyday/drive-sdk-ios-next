@@ -14,15 +14,15 @@ class CallFixTests: XCTestCase {
     func testInit_date() {
         let date = Date(timeIntervalSinceNow: 9999)
         
-        let call = CallFix(date: date, callState: CallFixState.ringing)
+        let call = CallFix(timestamp: date.timeIntervalSince1970, state: CallFixState.ringing)
         
-        XCTAssertEqual(call.timestamp, date)
+        XCTAssertEqual(call.timestamp, date.timeIntervalSince1970)
     }
     
     func testInit_State_Ringing() {
         let date = Date(timeIntervalSinceNow: 9999)
         
-        let call = CallFix(date: date, callState: CallFixState.ringing)
+        let call = CallFix(timestamp: date.timeIntervalSince1970, state: CallFixState.ringing)
         
         XCTAssertEqual(call.state, CallFixState.ringing)
     }
@@ -30,7 +30,7 @@ class CallFixTests: XCTestCase {
     func testInit_State_Idle() {
         let date = Date(timeIntervalSinceNow: 9999)
         
-        let call = CallFix(date: date, callState: CallFixState.idle)
+        let call = CallFix(timestamp: date.timeIntervalSince1970, state: CallFixState.idle)
         
         XCTAssertEqual(call.state, CallFixState.idle)
     }
@@ -38,7 +38,7 @@ class CallFixTests: XCTestCase {
     func testInit_State_Busy() {
         let date = Date(timeIntervalSinceNow: 9999)
         
-        let call = CallFix(date: date, callState: CallFixState.busy)
+        let call = CallFix(timestamp: date.timeIntervalSince1970, state: CallFixState.busy)
         
         XCTAssertEqual(call.state, CallFixState.busy)
     }

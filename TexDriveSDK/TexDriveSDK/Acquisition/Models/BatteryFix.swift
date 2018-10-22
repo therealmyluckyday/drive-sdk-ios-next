@@ -17,18 +17,19 @@ class BatteryFix : Fix {
     // MARK: Property
     let level: Float
     let state: BatteryState
+    let timestamp: TimeInterval
     
     // MARK: LifeCycle
-    init (timestamp: Date, level: Float, state: BatteryState) {
+    init (timestamp: TimeInterval, level: Float, state: BatteryState) {
         self.level = level
         self.state = state
-        super.init(date: timestamp)
+        self.timestamp = timestamp
     }
     
     // MARK: Protocol CustomStringConvertible
-    override var description: String {
+    var description: String {
         get {
-            return "BATTERYFIX: date:\(self.timestamp) state: \(self.state), level: \(self.level)"
+            return "BATTERYFIX: timestamp:\(self.timestamp) state: \(self.state), level: \(self.level)"
         }
         set {
             

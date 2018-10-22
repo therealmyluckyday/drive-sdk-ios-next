@@ -59,7 +59,7 @@ class MotionFixTests: XCTestCase {
         
         let motion = MotionFix(timestamp: timestamp, accelerationMotion: accelerationMotion, gravityMotion: gavityMotion, magnetometerMotion: magnetometerMotion, crashDetected: true)
         
-        XCTAssertEqual(motion.motionTimestamp, timestamp)
+        XCTAssertEqual(motion.timestamp, timestamp)
         XCTAssertEqual(motion.acceleration.x, 0)
         XCTAssertEqual(motion.acceleration.y, 1)
         XCTAssertEqual(motion.acceleration.z, 2)

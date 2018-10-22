@@ -10,12 +10,12 @@ import XCTest
 @testable import TexDriveSDK
 
 class BatteryFixTests: XCTestCase {
-    // MARK: init (timestamp: Date, level: Float, state: BatteryState)
+    // MARK: init (timestamp: date.timeIntervalSince1970, level: Float, state: BatteryState)
     func testInit_state_unplugged() {
         let date = Date()
         let level = Float(1)
         let state = BatteryState.unplugged
-        let battery = BatteryFix(timestamp: date, level: level, state: state)
+        let battery = BatteryFix(timestamp: date.timeIntervalSince1970, level: level, state: state)
         
         XCTAssertEqual(battery.state, state)
     }
@@ -24,7 +24,7 @@ class BatteryFixTests: XCTestCase {
         let date = Date()
         let level = Float(1)
         let state = BatteryState.plugged
-        let battery = BatteryFix(timestamp: date, level: level, state: state)
+        let battery = BatteryFix(timestamp: date.timeIntervalSince1970, level: level, state: state)
         
         XCTAssertEqual(battery.state, state)
     }
@@ -33,7 +33,7 @@ class BatteryFixTests: XCTestCase {
         let date = Date()
         let level = Float(1)
         let state = BatteryState.unknown
-        let battery = BatteryFix(timestamp: date, level: level, state: state)
+        let battery = BatteryFix(timestamp: date.timeIntervalSince1970, level: level, state: state)
         
         XCTAssertEqual(battery.state, state)
     }
@@ -42,7 +42,7 @@ class BatteryFixTests: XCTestCase {
         let date = Date()
         let level = Float(1.0)
         let state = BatteryState.unplugged
-        let battery = BatteryFix(timestamp: date, level: level, state: state)
+        let battery = BatteryFix(timestamp: date.timeIntervalSince1970, level: level, state: state)
         
         XCTAssertEqual(battery.level, level)
     }
@@ -51,7 +51,7 @@ class BatteryFixTests: XCTestCase {
         let date = Date()
         let level = Float(-1.0)
         let state = BatteryState.unplugged
-        let battery = BatteryFix(timestamp: date, level: level, state: state)
+        let battery = BatteryFix(timestamp: date.timeIntervalSince1970, level: level, state: state)
         
         XCTAssertEqual(battery.level, level)
     }
@@ -60,7 +60,7 @@ class BatteryFixTests: XCTestCase {
         let date = Date()
         let level = Float(0.0)
         let state = BatteryState.unplugged
-        let battery = BatteryFix(timestamp: date, level: level, state: state)
+        let battery = BatteryFix(timestamp: date.timeIntervalSince1970, level: level, state: state)
         
         XCTAssertEqual(battery.level, level)
     }
@@ -69,8 +69,8 @@ class BatteryFixTests: XCTestCase {
         let date = Date(timeIntervalSinceNow: 9999)
         let level = Float(0.0)
         let state = BatteryState.unplugged
-        let battery = BatteryFix(timestamp: date, level: level, state: state)
+        let battery = BatteryFix(timestamp: date.timeIntervalSince1970, level: level, state: state)
         
-        XCTAssertEqual(battery.timestamp, date)
+        XCTAssertEqual(battery.timestamp, date.timeIntervalSince1970)
     }
 }

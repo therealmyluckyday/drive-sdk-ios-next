@@ -20,7 +20,7 @@ struct XYZAxisValues  {
 
 class MotionFix: Fix {
     // MARK : Property
-    let motionTimestamp: TimeInterval
+    let timestamp: TimeInterval
     let acceleration: XYZAxisValues
     let gravity: XYZAxisValues
     let magnetometer: XYZAxisValues
@@ -29,20 +29,17 @@ class MotionFix: Fix {
     
     // MARK : Lifecycle
     init(timestamp: TimeInterval, accelerationMotion: XYZAxisValues, gravityMotion: XYZAxisValues, magnetometerMotion: XYZAxisValues, crashDetected: Bool) {
-        motionTimestamp = timestamp
+        self.timestamp = timestamp
         acceleration = accelerationMotion
         gravity = gravityMotion
         magnetometer = magnetometerMotion
         isCrashDetected = crashDetected
-        let startupDate = Date.init(timeIntervalSinceNow: -1 * ProcessInfo.processInfo.systemUptime)
-        let date = Date(timeInterval: motionTimestamp, since: startupDate)
-        super.init(date: date)
     }
     
     // MARK: Protocol CustomStringConvertible
-    override var description: String {
+    var description: String {
         get {
-            var description = "MotionFix: date:\(self.timestamp) motionTimestamp: \(self.motionTimestamp), acceleration: \(self.acceleration)"
+            var description = "MotionFix: motionTimestamp: \(self.timestamp), acceleration: \(self.acceleration)"
             description += "MotionFix: gravity:\(self.gravity) magnetometer: \(self.magnetometer), isCrashDetected: \(self.isCrashDetected)"
             return description
         }

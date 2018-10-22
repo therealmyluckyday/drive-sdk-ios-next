@@ -21,13 +21,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         locationManager.requestAlwaysAuthorization()
         let user = User.Anonymous
-        let locationfeature : TripRecorderFeature = TripRecorderFeature.Location(locationManager)
-        let batteryfeature : TripRecorderFeature = TripRecorderFeature.Battery(UIDevice.current)
-        let phoneCallFeature : TripRecorderFeature = TripRecorderFeature.PhoneCall(CXCallObserver())
-        let motionFeature : TripRecorderFeature = TripRecorderFeature.Motion(CMMotionManager())
-        let features = [locationfeature, batteryfeature, phoneCallFeature, motionFeature]
         do {
-            if let configuration = try Config(applicationId: "appId", applicationLocale: Locale.current, currentUser: user, currentMode: Mode.manual, currentTripRecorderFeatures: features) {
+            if let configuration = try Config(applicationId: "appId", applicationLocale: Locale.current, currentUser: user, currentMode: Mode.manual) {
                 tripRecorder = TripRecorder(configuration: configuration)
                 tripRecorder!.start()
             }

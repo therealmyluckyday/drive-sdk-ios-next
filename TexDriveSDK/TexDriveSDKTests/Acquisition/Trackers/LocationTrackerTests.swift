@@ -159,7 +159,7 @@ class LocationTrackerTests: XCTestCase {
         let subscribe = locationTracker!.provideFix().asObservable().subscribe({ (event) in
             switch event.element {
             case Result.Success(let locationFix)?:
-                XCTAssertEqual(locationFix.timestamp, date)
+                XCTAssertEqual(locationFix.timestamp, date.timeIntervalSince1970)
                 XCTAssertEqual(locationFix.longitude, longitude)
                 XCTAssertEqual(locationFix.altitude, altitude)
                 XCTAssertEqual(locationFix.precision, precision)

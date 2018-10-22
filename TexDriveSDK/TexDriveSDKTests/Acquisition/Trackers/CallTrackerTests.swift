@@ -74,7 +74,7 @@ class CallTrackerTests: XCTestCase {
             XCTAssertTrue(false)
         })
         
-        callTracker!.newCallfFix(callFix: CallFix(date: Date(), callState: CallFixState.idle))
+        callTracker!.newCallfFix(callFix: CallFix(timestamp: Date().timeIntervalSince1970, state: CallFixState.idle))
         
         subscribe.dispose()
         XCTAssertTrue(isNotCalled)
@@ -82,7 +82,7 @@ class CallTrackerTests: XCTestCase {
     
     func testCallObserverCXall_idle_to_state_idle() {
         
-        callTracker!.newCallfFix(callFix: CallFix(date: Date(), callState: CallFixState.idle))
+        callTracker!.newCallfFix(callFix: CallFix(timestamp: Date().timeIntervalSince1970, state: CallFixState.idle))
         
         var isNotCalled = true
         // TEST NOT BE CALLED
@@ -91,14 +91,14 @@ class CallTrackerTests: XCTestCase {
             XCTAssertTrue(false)
         })
         
-        callTracker!.newCallfFix(callFix: CallFix(date: Date(), callState: CallFixState.idle))
+        callTracker!.newCallfFix(callFix: CallFix(timestamp: Date().timeIntervalSince1970, state: CallFixState.idle))
         
         subscribe.dispose()
         XCTAssertTrue(isNotCalled)
     }
     
     func testCallObserverCXall_idle_to_state_ringing() {
-        callTracker!.newCallfFix(callFix: CallFix(date: Date(), callState: CallFixState.idle))
+        callTracker!.newCallfFix(callFix: CallFix(timestamp: Date().timeIntervalSince1970, state: CallFixState.idle))
         
         var isCalled = false
         let subscribe = callTracker!.provideFix().asObservable().subscribe({ (event) in
@@ -114,7 +114,7 @@ class CallTrackerTests: XCTestCase {
             }
         })
         
-        callTracker!.newCallfFix(callFix: CallFix(date: Date(), callState: CallFixState.ringing))
+        callTracker!.newCallfFix(callFix: CallFix(timestamp: Date().timeIntervalSince1970, state: CallFixState.ringing))
 
         
         subscribe.dispose()
@@ -123,7 +123,7 @@ class CallTrackerTests: XCTestCase {
     
     func testCallObserverCXall_idle_to_state_busy() {
 
-        callTracker!.newCallfFix(callFix: CallFix(date: Date(), callState: CallFixState.idle))
+        callTracker!.newCallfFix(callFix: CallFix(timestamp: Date().timeIntervalSince1970, state: CallFixState.idle))
         
         var isCalled = false
         let subscribe = callTracker!.provideFix().asObservable().subscribe({ (event) in
@@ -139,7 +139,7 @@ class CallTrackerTests: XCTestCase {
             }
         })
 
-        callTracker!.newCallfFix(callFix: CallFix(date: Date(), callState: CallFixState.busy))
+        callTracker!.newCallfFix(callFix: CallFix(timestamp: Date().timeIntervalSince1970, state: CallFixState.busy))
         
         subscribe.dispose()
         XCTAssertTrue(isCalled)
@@ -149,7 +149,7 @@ class CallTrackerTests: XCTestCase {
     
     func testCallObserverCXall_busy_to_state_idle() {
 
-        callTracker!.newCallfFix(callFix: CallFix(date: Date(), callState: CallFixState.busy))
+        callTracker!.newCallfFix(callFix: CallFix(timestamp: Date().timeIntervalSince1970, state: CallFixState.busy))
         
         var isCalled = false
         let subscribe = callTracker!.provideFix().asObservable().subscribe({ (event) in
@@ -166,7 +166,7 @@ class CallTrackerTests: XCTestCase {
         })
         
 
-        callTracker!.newCallfFix(callFix: CallFix(date: Date(), callState: CallFixState.idle))
+        callTracker!.newCallfFix(callFix: CallFix(timestamp: Date().timeIntervalSince1970, state: CallFixState.idle))
         
         subscribe.dispose()
         XCTAssertTrue(isCalled)

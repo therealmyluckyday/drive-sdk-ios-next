@@ -26,9 +26,13 @@
 	<string>AXADrive needs to know the location of your vehicle.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>AXADrive needs to know the location of your vehicle.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>AXADrive needs to know the motion of your vehicle.</string>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>fetch</string>
 		<string>location</string>
+		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
@@ -37,6 +41,8 @@
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
+		<string>gyroscope</string>
+		<string>accelerometer</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
