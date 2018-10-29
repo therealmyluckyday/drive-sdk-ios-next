@@ -6,11 +6,10 @@
 //  Copyright © 2018 Axa. All rights reserved.
 //
 
-enum BatteryState {
-    
-    case plugged
-    case unplugged
-    case unknown
+enum BatteryState: String {
+    case plugged = "plugged"
+    case unplugged = "unplugged"
+    case unknown = "unknown"
 }
 
 class BatteryFix : Fix {
@@ -34,5 +33,16 @@ class BatteryFix : Fix {
         set {
             
         }
+    }
+    
+    // MARK: Serialize
+    func serialize() -> [String : Any] {
+        let (key, value) = self.serializeTimestamp()
+        let dictionary = ["battery": self.serializeBattery(), key: value] as [String : Any]
+        return dictionary
+    }
+    
+    private func serializeBattery() -> [String: Any] {
+        return ["level": Int(self.level > 0 ? self.level*100 : 0 ), "state": self.state.rawValue]
     }
 }

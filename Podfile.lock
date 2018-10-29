@@ -7,7 +7,7 @@ PODS:
   - RxSwift (4.3.1)
   - RxTest (4.3.1):
     - RxSwift (~> 4.0)
-  - TexDriveSDK (1.0.0):
+  - TexDriveSDK (3.0.0):
     - RxCocoa
     - RxSwift
 
@@ -37,7 +37,7 @@ SPEC CHECKSUMS:
   RxCocoa: 78763c7b07d02455598d9fc3c1ad091a28b73635
   RxSwift: fe0fd770a43acdb7d0a53da411c9b892e69bb6e4
   RxTest: ea97a208826906f3904c0debdd09575ebcbfe216
-  TexDriveSDK: ff05820824903988a893122cd694ce77ba460450
+  TexDriveSDK: 8bffd48fde0386a74f7510695f0a8450221d47f4
 
 PODFILE CHECKSUM: 36fae0ef1a053d1bc73d2b1fec12ca23f5bbb16c
 

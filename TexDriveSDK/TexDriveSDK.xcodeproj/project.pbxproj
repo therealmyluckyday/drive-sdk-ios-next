@@ -9,7 +9,11 @@
 /* Begin PBXBuildFile section */
 		239A97B88AAAED6A41660992 /* libPods-TexDriveSDKTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FE513EF12F337E19975F6A5D /* libPods-TexDriveSDKTests.a */; };
 		6BAAD4D24025869A301144E9 /* libPods-TexDriveSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 10178534269D367C809B0197 /* libPods-TexDriveSDK.a */; };
+		C107606F217E2C8000FB28AA /* PersistantQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C107606E217E2C8000FB28AA /* PersistantQueue.swift */; };
+		C1076071217E2E9400FB28AA /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1076070217E2E9400FB28AA /* Event.swift */; };
 		C12373992166468100A95A2A /* TripRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12373982166468100A95A2A /* TripRecorder.swift */; };
+		C124ABF7217F45D80038A0B1 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C124ABF6217F45D80038A0B1 /* Trip.swift */; };
+		C124ABFB217F4F070038A0B1 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C124ABFA217F4F070038A0B1 /* API.swift */; };
 		C1273E9F2175EE800006E6E0 /* MotionFix.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1273E9E2175EE800006E6E0 /* MotionFix.swift */; };
 		C1273EA12175F59C0006E6E0 /* MotionTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1273EA02175F59C0006E6E0 /* MotionTracker.swift */; };
 		C1273EA32176314F0006E6E0 /* MotionBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1273EA22176314F0006E6E0 /* MotionBuffer.swift */; };
@@ -25,10 +29,17 @@
 		C18AE986216E2E2A0065F0BB /* LocationFixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18AE985216E2E2A0065F0BB /* LocationFixTests.swift */; };
 		C18AE989216E31E30065F0BB /* BatteryTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18AE988216E31E30065F0BB /* BatteryTrackerTests.swift */; };
 		C18AE98B216E44D60065F0BB /* LocationTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18AE98A216E44D60065F0BB /* LocationTrackerTests.swift */; };
+		C1D13437218728600099B650 /* SecTrustExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D13436218728600099B650 /* SecTrustExtension.swift */; };
+		C1D13439218729900099B650 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D13438218729900099B650 /* UIDeviceExtension.swift */; };
+		C1D1343D21873FE50099B650 /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D1343C21873FE50099B650 /* DoubleExtension.swift */; };
+		C1D1343F218740290099B650 /* URLRequestExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D1343E218740290099B650 /* URLRequestExtension.swift */; };
+		C1D13441218742320099B650 /* DateFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D13440218742320099B650 /* DateFormatterExtension.swift */; };
 		C1E521B22170ECBE00B80C64 /* CallTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E521B12170ECBE00B80C64 /* CallTracker.swift */; };
 		C1E521B42170ED5300B80C64 /* CallFix.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E521B32170ED5300B80C64 /* CallFix.swift */; };
 		C1E521B621748CE800B80C64 /* CallFixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E521B521748CE800B80C64 /* CallFixTests.swift */; };
 		C1E521B821749A9400B80C64 /* CallTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E521B721749A9400B80C64 /* CallTrackerTests.swift */; };
+		C1F2A0D72183129900765D08 /* TEX-elb-ssl.der in Resources */ = {isa = PBXBuildFile; fileRef = C148D7152181F34C00F1088B /* TEX-elb-ssl.der */; };
+		C1F2A0DB2183179800765D08 /* TEX-elb-ssl.der in Sources */ = {isa = PBXBuildFile; fileRef = C148D7152181F34C00F1088B /* TEX-elb-ssl.der */; };
 		C1FAAA3A2163C7B700FD3C1D /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FAAA392163C7B700FD3C1D /* Tracker.swift */; };
 		E2798EB42147F0DC006228A3 /* TexDriveSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2798EAA2147F0DC006228A3 /* TexDriveSDK.framework */; };
 		E2798EB92147F0DC006228A3 /* TexDriveSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2798EB82147F0DC006228A3 /* TexDriveSDKTests.swift */; };
@@ -57,13 +68,18 @@
 		8C9C02028661D6DB90B8EF11 /* Pods-TexDriveSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveSDK.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-TexDriveSDK/Pods-TexDriveSDK.debug.xcconfig"; sourceTree = "<group>"; };
 		A225B2E66F16EA9C461C17A6 /* Pods-TexDriveSDKTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveSDKTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-TexDriveSDKTests/Pods-TexDriveSDKTests.release.xcconfig"; sourceTree = "<group>"; };
 		AF9E4DBBDCD5D4E15A273DDC /* Pods-TexDriveSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveSDK.release.xcconfig"; path = "../Pods/Target Support Files/Pods-TexDriveSDK/Pods-TexDriveSDK.release.xcconfig"; sourceTree = "<group>"; };
+		C107606E217E2C8000FB28AA /* PersistantQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistantQueue.swift; sourceTree = "<group>"; };
+		C1076070217E2E9400FB28AA /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		C12373982166468100A95A2A /* TripRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecorder.swift; sourceTree = "<group>"; };
+		C124ABF6217F45D80038A0B1 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
+		C124ABFA217F4F070038A0B1 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		C1273E9E2175EE800006E6E0 /* MotionFix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionFix.swift; sourceTree = "<group>"; };
 		C1273EA02175F59C0006E6E0 /* MotionTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionTracker.swift; sourceTree = "<group>"; };
 		C1273EA22176314F0006E6E0 /* MotionBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MotionBuffer.swift; path = TexDriveSDK/Acquisition/Processors/MotionBuffer.swift; sourceTree = SOURCE_ROOT; };
 		C1273EA4217790C50006E6E0 /* MotionBufferTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionBufferTests.swift; sourceTree = "<group>"; };
 		C1273EA62178B3640006E6E0 /* MotionFixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionFixTests.swift; sourceTree = "<group>"; };
 		C1273EA82178C1670006E6E0 /* MotionTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionTrackerTests.swift; sourceTree = "<group>"; };
+		C148D7152181F34C00F1088B /* TEX-elb-ssl.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TEX-elb-ssl.der"; sourceTree = "<group>"; };
 		C17E9A73216F828400FCF93E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C17E9A75216F82F100FCF93E /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		C17E9A77216F85BD00FCF93E /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
@@ -73,6 +89,11 @@
 		C18AE985216E2E2A0065F0BB /* LocationFixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFixTests.swift; sourceTree = "<group>"; };
 		C18AE988216E31E30065F0BB /* BatteryTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryTrackerTests.swift; sourceTree = "<group>"; };
 		C18AE98A216E44D60065F0BB /* LocationTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTrackerTests.swift; sourceTree = "<group>"; };
+		C1D13436218728600099B650 /* SecTrustExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecTrustExtension.swift; sourceTree = "<group>"; };
+		C1D13438218729900099B650 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
+		C1D1343C21873FE50099B650 /* DoubleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtension.swift; sourceTree = "<group>"; };
+		C1D1343E218740290099B650 /* URLRequestExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestExtension.swift; sourceTree = "<group>"; };
+		C1D13440218742320099B650 /* DateFormatterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtension.swift; sourceTree = "<group>"; };
 		C1E521B12170ECBE00B80C64 /* CallTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallTracker.swift; sourceTree = "<group>"; };
 		C1E521B32170ED5300B80C64 /* CallFix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallFix.swift; sourceTree = "<group>"; };
 		C1E521B521748CE800B80C64 /* CallFixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallFixTests.swift; sourceTree = "<group>"; };
@@ -132,6 +153,23 @@
 				A225B2E66F16EA9C461C17A6 /* Pods-TexDriveSDKTests.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		C107606D217E2C5D00FB28AA /* PersistantQueue */ = {
+			isa = PBXGroup;
+			children = (
+				C107606E217E2C8000FB28AA /* PersistantQueue.swift */,
+			);
+			path = PersistantQueue;
+			sourceTree = "<group>";
+		};
+		C124ABF8217F4EEB0038A0B1 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				C1D13434218728300099B650 /* Extension */,
+				C124ABFA217F4F070038A0B1 /* API.swift */,
+			);
+			path = API;
 			sourceTree = "<group>";
 		};
 		C17E9A71216F824100FCF93E /* Core */ = {
@@ -201,9 +239,30 @@
 			path = Trackers;
 			sourceTree = "<group>";
 		};
+		C1D13434218728300099B650 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				C1D13436218728600099B650 /* SecTrustExtension.swift */,
+				C1D13438218729900099B650 /* UIDeviceExtension.swift */,
+				C1D1343C21873FE50099B650 /* DoubleExtension.swift */,
+				C1D1343E218740290099B650 /* URLRequestExtension.swift */,
+				C1D13440218742320099B650 /* DateFormatterExtension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		C1F2A0DA2183174900765D08 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C148D7152181F34C00F1088B /* TEX-elb-ssl.der */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		E2798EA02147F0DB006228A3 = {
 			isa = PBXGroup;
 			children = (
+				C1F2A0DA2183174900765D08 /* Resources */,
 				E2798EAC2147F0DC006228A3 /* TexDriveSDK */,
 				E2798EB72147F0DC006228A3 /* TexDriveSDKTests */,
 				E2798EAB2147F0DC006228A3 /* Products */,
@@ -224,6 +283,8 @@
 		E2798EAC2147F0DC006228A3 /* TexDriveSDK */ = {
 			isa = PBXGroup;
 			children = (
+				C124ABF8217F4EEB0038A0B1 /* API */,
+				C107606D217E2C5D00FB28AA /* PersistantQueue */,
 				C17E9A71216F824100FCF93E /* Core */,
 				E2798EC421480792006228A3 /* Acquisition */,
 				E2798EAD2147F0DC006228A3 /* TexDriveSDK.h */,
@@ -262,6 +323,8 @@
 				C1E521B32170ED5300B80C64 /* CallFix.swift */,
 				C1273E9E2175EE800006E6E0 /* MotionFix.swift */,
 				C1273EA22176314F0006E6E0 /* MotionBuffer.swift */,
+				C1076070217E2E9400FB28AA /* Event.swift */,
+				C124ABF6217F45D80038A0B1 /* Trip.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -381,6 +444,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C1F2A0D72183129900765D08 /* TEX-elb-ssl.der in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -437,21 +501,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C1F2A0DB2183179800765D08 /* TEX-elb-ssl.der in Sources */,
+				C124ABF7217F45D80038A0B1 /* Trip.swift in Sources */,
+				C1D13441218742320099B650 /* DateFormatterExtension.swift in Sources */,
 				C1273EA32176314F0006E6E0 /* MotionBuffer.swift in Sources */,
 				C1273EA12175F59C0006E6E0 /* MotionTracker.swift in Sources */,
 				E2798ED1214AB6F3006228A3 /* FixCollector.swift in Sources */,
+				C1D1343D21873FE50099B650 /* DoubleExtension.swift in Sources */,
 				E2798EC721480E3B006228A3 /* Fix.swift in Sources */,
+				C1D1343F218740290099B650 /* URLRequestExtension.swift in Sources */,
 				E2798ECE214AB4BA006228A3 /* BatteryTracker.swift in Sources */,
 				C1E521B42170ED5300B80C64 /* CallFix.swift in Sources */,
 				C12373992166468100A95A2A /* TripRecorder.swift in Sources */,
 				C1FAAA3A2163C7B700FD3C1D /* Tracker.swift in Sources */,
 				C17E9A7C216F944500FCF93E /* TripRecorderFeature.swift in Sources */,
 				C17E9A74216F828400FCF93E /* User.swift in Sources */,
+				C107606F217E2C8000FB28AA /* PersistantQueue.swift in Sources */,
 				C1E521B22170ECBE00B80C64 /* CallTracker.swift in Sources */,
+				C124ABFB217F4F070038A0B1 /* API.swift in Sources */,
 				C1273E9F2175EE800006E6E0 /* MotionFix.swift in Sources */,
+				C1076071217E2E9400FB28AA /* Event.swift in Sources */,
 				E2798EDD215A5D65006228A3 /* LocationFix.swift in Sources */,
 				C17E9A76216F82F100FCF93E /* Config.swift in Sources */,
+				C1D13437218728600099B650 /* SecTrustExtension.swift in Sources */,
 				C17E9A78216F85BD00FCF93E /* Service.swift in Sources */,
+				C1D13439218729900099B650 /* UIDeviceExtension.swift in Sources */,
 				E2798EC921481570006228A3 /* BatteryFix.swift in Sources */,
 				E2798ED62158DFC4006228A3 /* LocationTracker.swift in Sources */,
 			);

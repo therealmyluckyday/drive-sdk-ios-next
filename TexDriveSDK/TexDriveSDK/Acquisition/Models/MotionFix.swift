@@ -9,8 +9,11 @@
 import Foundation
 import CoreMotion
 
-let GravityConstant = 9.81
 //let MaxDecimalPlacesSerialization = 6
+
+struct ConstantMotion {
+    static let gravity = 9.81
+}
 
 struct XYZAxisValues  {
     let x: Float
@@ -47,6 +50,21 @@ class MotionFix: Fix {
             
         }
     }
+    
+    // MARK: Serialize
+    func serialize() -> [String : Any] {
+        let (key, value) = self.serializeTimestamp()
+        let dictionary = ["motion": self.serializeMotion(), key: value] as [String : Any]
+        return dictionary
+    }
+    
+    private func serializeMotion() -> [String: Any] {
+        return ["magnetometer": self.serializeXYZAxisValues(value: magnetometer), "gravity": self.serializeXYZAxisValues(value: self.gravity), "acceleration": self.serializeXYZAxisValues(value: self.acceleration)]
+    }
+    
+    private func serializeXYZAxisValues(value: XYZAxisValues) -> [String: Double] {
+        return ["x": Double(value.x).rounded(toDecimalPlaces: 6), "y": Double(value.y).rounded(toDecimalPlaces: 6), "z": Double(value.z).rounded(toDecimalPlaces: 6)]
+    }
 }
 // @(roundToDecimal(motion.userAcceleration.x * GravityConstant, AXAMaxDecimalPlaces));
 // Extension use to convert CMDeviceMotion to MotionFix
@@ -70,9 +88,9 @@ extension MotionFix {
     }
     
     class func convert(acceleration: CMAcceleration) -> XYZAxisValues {
-        let x = Float(acceleration.x * GravityConstant)
-        let y = Float(acceleration.y * GravityConstant)
-        let z = Float(acceleration.z * GravityConstant)
+        let x = Float(acceleration.x * ConstantMotion.gravity)
+        let y = Float(acceleration.y * ConstantMotion.gravity)
+        let z = Float(acceleration.z * ConstantMotion.gravity)
         return XYZAxisValues(x: x, y: y, z: z)
     }
     

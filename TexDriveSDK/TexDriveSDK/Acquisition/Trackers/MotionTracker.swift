@@ -22,6 +22,8 @@ class MotionTracker: Tracker {
     // MARK: Lifecycle
     init(sensor: CMMotionManager, buffer: MotionBuffer = MotionBuffer()) {
         motionSensor = sensor
+        motionSensor.deviceMotionUpdateInterval = 1;
+        motionSensor.showsDeviceMovementDisplay = true
         motionBuffer = buffer
         operationQueue.maxConcurrentOperationCount = 1
     }

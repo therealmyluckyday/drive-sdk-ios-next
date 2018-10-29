@@ -11,6 +11,10 @@ import CoreLocation
 import CallKit
 import CoreMotion
 
+public protocol AppDelegateText: UIApplicationDelegate {
+    var backgroundCompletionHandler: (() -> ())? { get set }
+}
+
 public enum ConfigurationError: Error {
     case LocationNotDetermined(String)
     case MotionNotAvailable(String)
@@ -51,7 +55,7 @@ public class Config {
             case (_, false):
                 print("ERROR : \(feature) Can not activate")
             default:
-                print("\(feature) \(feature.canActivate())")
+                //print("\(feature) \(feature.canActivate())")
                 break
             }
         }

@@ -13,7 +13,7 @@ enum CallFixState {
     case busy
     case ringing
 }
-
+// To refactor
 class CallFix: Fix {
     // MARK: Property
     let state: CallFixState
@@ -33,5 +33,11 @@ class CallFix: Fix {
         set {
             
         }
+    }
+    // MARK: Serialize
+    func serialize() -> [String : Any] {
+        let (key, value) = self.serializeTimestamp()
+        let dictionary = ["zede": "", key: value] as [String : Any]
+        return dictionary
     }
 }

@@ -35,9 +35,9 @@ class MotionBuffer {
     // MARK: Public Method
     func append(fix: MotionFix) {
         // Check if the 5 second after crash is passed
-        print("fix.motionTimestamp: \(fix.timestamp)")
-        print("crashMotionFix.motionTimestamp: \(String(describing: crashMotionFix?.timestamp))")
-        print("futureBufferSizeInSec: \(futureBufferSizeInSec)")
+        //print("fix.motionTimestamp: \(fix.timestamp)")
+        //print("crashMotionFix.motionTimestamp: \(String(describing: crashMotionFix?.timestamp))")
+        //print("futureBufferSizeInSec: \(futureBufferSizeInSec)")
         if let crashMotionFix = self.crashMotionFix, fix.timestamp >= crashMotionFix.timestamp + futureBufferSizeInSec {
             // Launch crash buffer
             print("DISSSSPATCH")
@@ -56,7 +56,7 @@ class MotionBuffer {
             crashMotions.append(fix)
         }
         else {
-            print("[\(#file)] [\(#function)] [\(#line)] [\(#column)] ")
+            //print("[\(#file)] [\(#function)] [\(#line)] [\(#column)] ")
             // Crash timeline finished we need to find the highest crash point
             if crashMotions.count > 0 {
                 print("[\(#file)] [\(#function)] [\(#line)] [\(#column)] ")
@@ -89,8 +89,8 @@ class MotionBuffer {
                 cleanBuffer()
             }
         }
-        print("MOTIONS: \(motions)")
-        print("crashMotions: \(crashMotions)")
+        //print("MOTIONS: \(motions)")
+        //print("crashMotions: \(crashMotions)")
         if let fix = crashMotionFix {
             print("crashMotionFix: \(fix)")
         }

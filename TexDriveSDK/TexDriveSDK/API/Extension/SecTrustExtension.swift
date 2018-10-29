@@ -1,0 +1,75 @@
+//
+//  SecTrustExtension.swift
+//  TexDriveSDK
+//
+//  Created by Erwan Masson on 29/10/2018.
+//  Copyright © 2018 Axa. All rights reserved.
+//
+
+import Foundation
+
+protocol SecurityPolicy {
+    func isServerTrustValid() -> Bool
+    func certificateTrustChainData() -> [Data]
+    func isRemoteCertificateMatchingPinnedCertificate(domain: String) -> Bool
+}
+
+extension SecTrust: SecurityPolicy {
+    func isServerTrustValid() -> Bool {
+        var result = SecTrustResultType.invalid
+        return withUnsafeMutablePointer(to: &result) { (unsafeMutablePointer) -> Bool in
+            SecTrustEvaluate(self, unsafeMutablePointer)
+            return (result == SecTrustResultType.unspecified) || (SecTrustResultType.proceed == result)
+        }
+    }
+    
+    
+    func certificateTrustChainData() -> [Data] {
+        var trustChains = [Data]()
+        let count = SecTrustGetCertificateCount(self)
+        var i = 0
+        while i < count {
+            if let certificate = SecTrustGetCertificateAtIndex(self, i) {
+                trustChains.append(SecCertificateCopyData(certificate) as Data)
+            }
+            i += 1
+        }
+        return trustChains
+    }
+    
+    func isRemoteCertificateMatchingPinnedCertificate(domain: String) -> Bool {
+        let myCertName = "TEX-elb-ssl"
+        if let myCertPath = Bundle(for: API.self).path(forResource: myCertName, ofType: "der") {
+            if let pinnedCertData = NSData(contentsOfFile: myCertPath) {
+                let policy = SecPolicyCreateSSL(true, domain as CFString)
+                let policies = [policy]
+                SecTrustSetPolicies(self, policies as CFArray)
+                
+                let pinnedCertificates = [SecCertificateCreateWithData(nil, pinnedCertData)]
+                SecTrustSetAnchorCertificates(self, pinnedCertificates as CFArray)
+                if !self.isServerTrustValid() {
+                    return false
+                }
+                
+                // Compare certificate data
+//                print("*** CERTIFICATE count \(SecTrustGetCertificateCount(self))")
+                // obtain the chain after being validated, which *should* contain the pinned certificate in the last position (if it's the Root CA)
+                let serverCertificates = self.certificateTrustChainData()
+                for certificateData in serverCertificates.reversed() {
+                    if pinnedCertData.isEqual(to: certificateData) {
+//                        print("*** CERTIFICATE DATA MATCHES")
+                        return true
+                    }
+                    else {
+//                        print("*** MISMATCH IN CERT DATA.... :(")
+                    }
+                }
+            } else {
+                print("*** Couldn't read pinning certificate data")
+            }
+        } else {
+            print("*** Couldn't load pinning certificate!")
+        }
+        return false
+    }
+}
