@@ -13,7 +13,8 @@ import CallKit
 import CoreMotion
 
 class ViewController: UIViewController {
-
+    @IBOutlet weak var TripSegmentedControl: UISegmentedControl!
+    
     var tripRecorder : TripRecorder?
     var locationManager = CLLocationManager()
     
@@ -22,8 +23,8 @@ class ViewController: UIViewController {
         locationManager.requestAlwaysAuthorization()
         let user = User.Anonymous
         do {
-            if let configuration = try Config(applicationId: "appId", applicationLocale: Locale.current, currentUser: user, currentMode: Mode.manual) {
-                tripRecorder = TripRecorder(configuration: configuration)
+            if let configuration = try Config(applicationId: "APP-TEST", applicationLocale: Locale.current, currentUser: user, currentMode: Mode.manual) {
+                tripRecorder = TripRecorder(config: configuration)
                 tripRecorder!.start()
             }
         } catch ConfigurationError.LocationNotDetermined(let description) {
@@ -33,5 +34,14 @@ class ViewController: UIViewController {
         }
     }
 
+    @IBAction func tripSegmentedControlValueChanged(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            tripRecorder!.start()
+            break
+        default:
+            tripRecorder!.stop()
+        }
+    }
 }
 
