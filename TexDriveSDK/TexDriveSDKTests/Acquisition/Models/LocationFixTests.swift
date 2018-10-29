@@ -27,12 +27,12 @@ class LocationFixTests: XCTestCase {
     
     func testInit_general_check() {
         let date = Date(timeIntervalSinceNow: 9999)
-        let latitude = 48.81
-        let longitude = 2.3472
-        let precision = 5.1
-        let speed = 1.2
-        let bearing = 1.3
-        let altitude = 1.4
+        let latitude = 48.8118888188181
+        let longitude = 2.8118881188181
+        let precision = 5.18118888188181
+        let speed = 1.28118888188181
+        let bearing = 1.38118888188181
+        let altitude = 1.48118888188181
         
         let locationFix = LocationFix(timestamp: date.timeIntervalSince1970, latitude: latitude, longitude: longitude, precision: precision, speed: speed, bearing: bearing, altitude: altitude)
         
@@ -42,5 +42,30 @@ class LocationFixTests: XCTestCase {
         XCTAssertEqual(locationFix.speed, speed)
         XCTAssertEqual(locationFix.bearing, bearing)
         XCTAssertEqual(locationFix.altitude, altitude)
+    }
+    
+    // MARK: func serialize() -> [String : Any]
+    func testSerialize() {
+        let timestamp = Date().timeIntervalSince1970
+        let latitude = 48.8118888188181
+        let longitude = 2.34724562335
+        let precision = 5.1
+        let speed = 1.2
+        let bearing = 1.3
+        let altitude = 1.4567788865555
+        
+        let locationFix = LocationFix(timestamp: timestamp, latitude: latitude, longitude: longitude, precision: precision, speed: speed, bearing: bearing, altitude: altitude)
+        
+        let result = locationFix.serialize()
+        
+        let detailResult = result["location"] as! [String : Any]
+        XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
+        XCTAssertEqual(detailResult["latitude"] as! Double, 48.811889)
+        XCTAssertEqual(detailResult["longitude"] as! Double, 2.347246)
+        XCTAssertEqual(detailResult["precision"] as! Double, precision)
+        XCTAssertEqual(detailResult["speed"] as! Double, speed)
+        XCTAssertEqual(detailResult["bearing"] as! Double, bearing)
+        XCTAssertEqual(detailResult["altitude"] as! Double, 1.456779)
+        XCTAssertEqual(result["timestamp"] as! Int, Int(timestamp*1000))
     }
 }

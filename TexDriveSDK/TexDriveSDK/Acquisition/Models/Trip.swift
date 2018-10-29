@@ -15,7 +15,7 @@ struct TripConstant {
 class Trip: Collection {
     // MARK: Property
     let tripId: String //GUI generated. Format MUST be in capital
-    var fixes = [Fix]()
+    private var fixes = [Fix]()
     var event = Event()
     
     // MARK: Typealias & Property Collection Protocol
@@ -63,7 +63,6 @@ class Trip: Collection {
     
     // Private Method
     static func generateTripId() -> String {
-//        return "251020181259"
         return UIDevice.current.identifierForVendor!.uuidString
     }
     

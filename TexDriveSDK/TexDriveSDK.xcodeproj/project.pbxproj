@@ -38,6 +38,8 @@
 		C1E521B42170ED5300B80C64 /* CallFix.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E521B32170ED5300B80C64 /* CallFix.swift */; };
 		C1E521B621748CE800B80C64 /* CallFixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E521B521748CE800B80C64 /* CallFixTests.swift */; };
 		C1E521B821749A9400B80C64 /* CallTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E521B721749A9400B80C64 /* CallTrackerTests.swift */; };
+		C1E93DF821875F750082B2B3 /* DoubleExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E93DF721875F750082B2B3 /* DoubleExtensionTests.swift */; };
+		C1E93DFA2187635D0082B2B3 /* TripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E93DF92187635D0082B2B3 /* TripTests.swift */; };
 		C1F2A0D72183129900765D08 /* TEX-elb-ssl.der in Resources */ = {isa = PBXBuildFile; fileRef = C148D7152181F34C00F1088B /* TEX-elb-ssl.der */; };
 		C1F2A0DB2183179800765D08 /* TEX-elb-ssl.der in Sources */ = {isa = PBXBuildFile; fileRef = C148D7152181F34C00F1088B /* TEX-elb-ssl.der */; };
 		C1FAAA3A2163C7B700FD3C1D /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FAAA392163C7B700FD3C1D /* Tracker.swift */; };
@@ -98,6 +100,8 @@
 		C1E521B32170ED5300B80C64 /* CallFix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallFix.swift; sourceTree = "<group>"; };
 		C1E521B521748CE800B80C64 /* CallFixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallFixTests.swift; sourceTree = "<group>"; };
 		C1E521B721749A9400B80C64 /* CallTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallTrackerTests.swift; sourceTree = "<group>"; };
+		C1E93DF721875F750082B2B3 /* DoubleExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtensionTests.swift; sourceTree = "<group>"; };
+		C1E93DF92187635D0082B2B3 /* TripTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripTests.swift; sourceTree = "<group>"; };
 		C1FAAA392163C7B700FD3C1D /* Tracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
 		E2798EAA2147F0DC006228A3 /* TexDriveSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TexDriveSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2798EAD2147F0DC006228A3 /* TexDriveSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TexDriveSDK.h; sourceTree = "<group>"; };
@@ -224,6 +228,7 @@
 				C1E521B521748CE800B80C64 /* CallFixTests.swift */,
 				C1273EA4217790C50006E6E0 /* MotionBufferTests.swift */,
 				C1273EA62178B3640006E6E0 /* MotionFixTests.swift */,
+				C1E93DF92187635D0082B2B3 /* TripTests.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -247,6 +252,22 @@
 				C1D1343C21873FE50099B650 /* DoubleExtension.swift */,
 				C1D1343E218740290099B650 /* URLRequestExtension.swift */,
 				C1D13440218742320099B650 /* DateFormatterExtension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		C1E93DF521875F2D0082B2B3 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				C1E93DF621875F460082B2B3 /* Extension */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		C1E93DF621875F460082B2B3 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				C1E93DF721875F750082B2B3 /* DoubleExtensionTests.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -296,6 +317,7 @@
 		E2798EB72147F0DC006228A3 /* TexDriveSDKTests */ = {
 			isa = PBXGroup;
 			children = (
+				C1E93DF521875F2D0082B2B3 /* API */,
 				C17E9A79216F8F5400FCF93E /* Core */,
 				C18AE981216E21210065F0BB /* Acquisition */,
 				E2798EB82147F0DC006228A3 /* TexDriveSDKTests.swift */,
@@ -535,12 +557,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C1E93DF821875F750082B2B3 /* DoubleExtensionTests.swift in Sources */,
 				C18AE98B216E44D60065F0BB /* LocationTrackerTests.swift in Sources */,
 				C17E9A7E216FA53900FCF93E /* ConfigTests.swift in Sources */,
 				C1E521B621748CE800B80C64 /* CallFixTests.swift in Sources */,
 				E2798EB92147F0DC006228A3 /* TexDriveSDKTests.swift in Sources */,
 				C1273EA92178C1670006E6E0 /* MotionTrackerTests.swift in Sources */,
 				C1273EA5217790C50006E6E0 /* MotionBufferTests.swift in Sources */,
+				C1E93DFA2187635D0082B2B3 /* TripTests.swift in Sources */,
 				C1E521B821749A9400B80C64 /* CallTrackerTests.swift in Sources */,
 				C18AE984216E21A00065F0BB /* BatteryFixTests.swift in Sources */,
 				C1273EA72178B3640006E6E0 /* MotionFixTests.swift in Sources */,

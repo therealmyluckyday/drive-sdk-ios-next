@@ -163,4 +163,33 @@ class MotionFixTests: XCTestCase {
         XCTAssertEqual(gravityXYZ.y, 5)
         XCTAssertEqual(gravityXYZ.z, 6)
     }
+    
+    
+    // MARK: func serialize() -> [String : Any]
+    func testSerialize() {
+        let timestamp = Date().timeIntervalSinceNow
+        let accelerationMotion = XYZAxisValues(x: 0.8118888188181, y: 1.8118888188181, z: 2.8118881188181)
+        let gavityMotion = XYZAxisValues(x: 3.8118888188181, y: 4.8118888188181, z: 5.8118881188181)
+        let magnetometerMotion = XYZAxisValues(x: 6.8118888188181, y: 7.8118888188181, z: 8.8118881188181)
+        
+        let motionFix = MotionFix(timestamp: timestamp, accelerationMotion: accelerationMotion, gravityMotion: gavityMotion, magnetometerMotion: magnetometerMotion, crashDetected: true)
+        
+        let result = motionFix.serialize()
+        
+        XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
+        XCTAssertEqual(result["timestamp"] as! Int, Int(timestamp*1000))
+        let detailResult = result["motion"] as! [String : Any]
+        let magnetometerResult = detailResult["magnetometer"] as! [String : Any]
+        XCTAssertEqual(magnetometerResult["x"] as! Double, 6.811889)
+        XCTAssertEqual(magnetometerResult["y"] as! Double, 7.811889)
+        XCTAssertEqual(magnetometerResult["z"] as! Double, 8.811888)
+        let gravityResult = detailResult["gravity"] as! [String : Any]
+        XCTAssertEqual(gravityResult["x"] as! Double, 3.811889)
+        XCTAssertEqual(gravityResult["y"] as! Double, 4.811889)
+        XCTAssertEqual(gravityResult["z"] as! Double, 5.811888)
+        let accelerationResult = detailResult["acceleration"] as! [String : Any]
+        XCTAssertEqual(accelerationResult["x"] as! Double, 0.811889)
+        XCTAssertEqual(accelerationResult["y"] as! Double, 1.811889)
+        XCTAssertEqual(accelerationResult["z"] as! Double, 2.811888)
+    }
 }

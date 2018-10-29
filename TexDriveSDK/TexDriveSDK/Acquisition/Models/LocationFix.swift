@@ -18,12 +18,12 @@ class LocationFix : Fix {
     
     // MARK: LifeCycle
     init(timestamp: TimeInterval, latitude: Double, longitude: Double, precision: Double, speed: Double, bearing: Double, altitude: Double) {
-        self.latitude = latitude.rounded(toDecimalPlaces: 6)
-        self.longitude = longitude.rounded(toDecimalPlaces: 6)
-        self.precision = precision.rounded(toDecimalPlaces: 6)
-        self.speed = speed.rounded(toDecimalPlaces: 6)
-        self.bearing = bearing.rounded(toDecimalPlaces: 6)
-        self.altitude = altitude.rounded(toDecimalPlaces: 6)
+        self.latitude = latitude
+        self.longitude = longitude
+        self.precision = precision
+        self.speed = speed
+        self.bearing = bearing
+        self.altitude = altitude
         self.timestamp = timestamp
     }
     
@@ -50,12 +50,12 @@ class LocationFix : Fix {
     // @(roundToDecimal(location.coordinate.latitude, AXAMaxDecimalPlaces)) ?
     private func serializeLocation() -> [String: Any] {
         var dictionary = [String: Any]()
-        dictionary["latitude"] = latitude
-        dictionary["longitude"] = longitude
-        dictionary["precision"] = precision
-        dictionary["speed"] = speed
-        dictionary["bearing"] = bearing
-        dictionary["altitude"] = altitude
+        dictionary["latitude"] = latitude.rounded(toDecimalPlaces: 6)
+        dictionary["longitude"] = longitude.rounded(toDecimalPlaces: 6)
+        dictionary["precision"] = precision.rounded(toDecimalPlaces: 6)
+        dictionary["speed"] = speed.rounded(toDecimalPlaces: 6)
+        dictionary["bearing"] = bearing.rounded(toDecimalPlaces: 6)
+        dictionary["altitude"] = altitude.rounded(toDecimalPlaces: 6)
         return dictionary
     }
 }

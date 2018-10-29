@@ -14,7 +14,7 @@ protocol RoundedDouble {
 
 extension Double: RoundedDouble {
     func rounded(toDecimalPlaces n: Int) -> Double {
-        return Double(String(format: "%.\(0)f", self))!
+        return Double(String(format: "%.\(n)f", self))!
         //        let multiplier = pow(10, Double(n))
         //return (multiplier * self).rounded()/multiplier
         //        return Double(Int((multiplier * self)))/multiplier

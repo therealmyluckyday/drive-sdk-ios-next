@@ -73,4 +73,34 @@ class BatteryFixTests: XCTestCase {
         
         XCTAssertEqual(battery.timestamp, date.timeIntervalSince1970)
     }
+    // MARK: func serialize() -> [String : Any]
+    func testSerializeBatteryLevelMoreThan0() {
+        let timestamp = Date().timeIntervalSince1970
+        let level = Float(10.0)
+        let state = BatteryState.unplugged
+        let battery = BatteryFix(timestamp: timestamp, level: level, state: state)
+        
+        let result = battery.serialize()
+        
+        let batteryResult = result["battery"] as! [String : Any]
+        XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
+        XCTAssertEqual(batteryResult["level"] as! Int, Int(level*100))
+        XCTAssertEqual(batteryResult["state"] as! String, state.rawValue)
+        XCTAssertEqual(result["timestamp"] as! Int, Int(timestamp*1000))
+    }
+    
+    func testSerializeBatteryLevelLessThan0() {
+        let timestamp = Date().timeIntervalSince1970
+        let level = Float(-1.0)
+        let state = BatteryState.plugged
+        let battery = BatteryFix(timestamp: timestamp, level: level, state: state)
+        
+        let result = battery.serialize()
+        
+        let batteryResult = result["battery"] as! [String : Any]
+        XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
+        XCTAssertEqual(batteryResult["level"] as! Int, 0)
+        XCTAssertEqual(batteryResult["state"] as! String, state.rawValue)
+        XCTAssertEqual(result["timestamp"] as! Int, Int(timestamp*1000))
+    }
 }
