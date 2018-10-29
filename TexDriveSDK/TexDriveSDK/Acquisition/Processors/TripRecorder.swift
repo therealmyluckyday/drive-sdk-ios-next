@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreLocation
+import RxSwift
 
 public protocol TripRecorderProtocol {
     var currentTripId: String { get }
@@ -20,6 +21,10 @@ public protocol TripRecorderProtocol {
 public class TripRecorder: TripRecorderProtocol {
     // MARK: Property
     private let collector: FixCollector
+    private let persistantQueue: PersistantQueue
+    private let configuration: Config
+    private var rx_eventType = PublishSubject<EventType>()
+    private var rx_fix = PublishSubject<Fix>()
     
     // MARK: TripRecorder Protocol
     public var currentTripId = NSUUID().uuidString
@@ -33,10 +38,12 @@ public class TripRecorder: TripRecorderProtocol {
     }
     
     // MARK: Lifecycle
-    public init(configuration: Config) {
-        collector = FixCollector()
+    public init(config: Config) {
+        persistantQueue = PersistantQueue(eventType: rx_eventType, fixes: rx_fix)
+        collector = FixCollector(eventsType: rx_eventType, fixes: rx_fix)
+        configuration = config
         
-        configuration.tripRecorderFeatures.forEach { (feature) in
+        config.tripRecorderFeatures.forEach { (feature) in
             switch feature {
             case .Location(let locationManager):
                 let locationTracker = LocationTracker(sensor: locationManager)

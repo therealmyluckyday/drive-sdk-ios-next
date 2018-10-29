@@ -20,7 +20,7 @@ public class Service {
     
     init(configuration: Config) {
         _config = configuration
-        tripRecorder = TripRecorder(configuration: configuration)
+        tripRecorder = TripRecorder(config: configuration)
     }
     
     class func service(withConfiguration configuration: Config) -> Service{
