@@ -19,7 +19,7 @@ extension Dictionary where Key == String {
         let timeZone = DateFormatter.formattedTimeZone()
         let os = UIDevice.current.os()
         let model = UIDevice.current.hardwareString()
-        let sdkVersion = Bundle(for: API.self).infoDictionary!["CFBundleShortVersionString"] as! String
+        let sdkVersion = Bundle(for: APITrip.self).infoDictionary!["CFBundleShortVersionString"] as! String
         let firstVia = "TEX_iOS_SDK/\(os)/\(sdkVersion)"
         //        token _texConfig.texUser.authToken
         //        client_id _texConfig.texUser.userId

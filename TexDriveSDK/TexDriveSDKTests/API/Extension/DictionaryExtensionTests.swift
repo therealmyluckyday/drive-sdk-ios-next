@@ -19,7 +19,7 @@ class DictionaryExtensionTests: XCTestCase {
         let result = Dictionary<String, Any>.serializeWithGeneralInformation(dictionary: dictionary, appId: appId)
         
         let os = "\(UIDevice.current.systemName) \(UIDevice.current.systemVersion)"
-        let sdkVersion = Bundle(for: API.self).infoDictionary!["CFBundleShortVersionString"] as! String
+        let sdkVersion = Bundle(for: APITrip.self).infoDictionary!["CFBundleShortVersionString"] as! String
         let firstVia = "TEX_iOS_SDK/\(os)/\(sdkVersion)"
         XCTAssertEqual(result["uid"] as! String, UIDevice.current.identifierForVendor!.uuidString)
         XCTAssertEqual(result["timezone"] as! String, "+0100")

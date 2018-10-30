@@ -143,13 +143,11 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/Alamofire-framework/Alamofire.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/RxCocoa-framework/RxCocoa.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/RxSwift-framework/RxSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/TexDriveSDK/TexDriveSDK.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/Alamofire-framework/Alamofire.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/RxCocoa-framework/RxCocoa.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/RxSwift-framework/RxSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/TexDriveSDK/TexDriveSDK.framework"

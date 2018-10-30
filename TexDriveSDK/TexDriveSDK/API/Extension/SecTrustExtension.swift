@@ -37,7 +37,7 @@ extension SecTrust: SecurityPolicy {
     
     func isRemoteCertificateMatchingPinnedCertificate(domain: String) -> Bool {
         let myCertName = "TEX-elb-ssl"
-        if let myCertPath = Bundle(for: API.self).path(forResource: myCertName, ofType: "der") {
+        if let myCertPath = Bundle(for: APITrip.self).path(forResource: myCertName, ofType: "der") {
             if let pinnedCertData = NSData(contentsOfFile: myCertPath) {
                 let policy = SecPolicyCreateSSL(true, domain as CFString)
                 let policies = [policy]

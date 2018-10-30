@@ -13,7 +13,7 @@
 		C1076071217E2E9400FB28AA /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1076070217E2E9400FB28AA /* Event.swift */; };
 		C12373992166468100A95A2A /* TripRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12373982166468100A95A2A /* TripRecorder.swift */; };
 		C124ABF7217F45D80038A0B1 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C124ABF6217F45D80038A0B1 /* Trip.swift */; };
-		C124ABFB217F4F070038A0B1 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C124ABFA217F4F070038A0B1 /* API.swift */; };
+		C124ABFB217F4F070038A0B1 /* APITrip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C124ABFA217F4F070038A0B1 /* APITrip.swift */; };
 		C1273E9F2175EE800006E6E0 /* MotionFix.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1273E9E2175EE800006E6E0 /* MotionFix.swift */; };
 		C1273EA12175F59C0006E6E0 /* MotionTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1273EA02175F59C0006E6E0 /* MotionTracker.swift */; };
 		C1273EA32176314F0006E6E0 /* MotionBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1273EA22176314F0006E6E0 /* MotionBuffer.swift */; };
@@ -41,6 +41,7 @@
 		C1DD032B21886A01000BBBBF /* UIDeviceExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DD032A21886A01000BBBBF /* UIDeviceExtensionTests.swift */; };
 		C1DD032D21886B77000BBBBF /* APIConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DD032C21886B77000BBBBF /* APIConfiguration.swift */; };
 		C1DD032F21886BD5000BBBBF /* APIConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DD032E21886BD5000BBBBF /* APIConfigurationTests.swift */; };
+		C1DD033121887EE6000BBBBF /* APISessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DD033021887EE6000BBBBF /* APISessionManager.swift */; };
 		C1E521B22170ECBE00B80C64 /* CallTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E521B12170ECBE00B80C64 /* CallTracker.swift */; };
 		C1E521B42170ED5300B80C64 /* CallFix.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E521B32170ED5300B80C64 /* CallFix.swift */; };
 		C1E521B621748CE800B80C64 /* CallFixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E521B521748CE800B80C64 /* CallFixTests.swift */; };
@@ -81,7 +82,7 @@
 		C1076070217E2E9400FB28AA /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		C12373982166468100A95A2A /* TripRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecorder.swift; sourceTree = "<group>"; };
 		C124ABF6217F45D80038A0B1 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
-		C124ABFA217F4F070038A0B1 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		C124ABFA217F4F070038A0B1 /* APITrip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITrip.swift; sourceTree = "<group>"; };
 		C1273E9E2175EE800006E6E0 /* MotionFix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionFix.swift; sourceTree = "<group>"; };
 		C1273EA02175F59C0006E6E0 /* MotionTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionTracker.swift; sourceTree = "<group>"; };
 		C1273EA22176314F0006E6E0 /* MotionBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MotionBuffer.swift; path = TexDriveSDK/Acquisition/Processors/MotionBuffer.swift; sourceTree = SOURCE_ROOT; };
@@ -110,6 +111,7 @@
 		C1DD032A21886A01000BBBBF /* UIDeviceExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtensionTests.swift; sourceTree = "<group>"; };
 		C1DD032C21886B77000BBBBF /* APIConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConfiguration.swift; sourceTree = "<group>"; };
 		C1DD032E21886BD5000BBBBF /* APIConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConfigurationTests.swift; sourceTree = "<group>"; };
+		C1DD033021887EE6000BBBBF /* APISessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APISessionManager.swift; sourceTree = "<group>"; };
 		C1E521B12170ECBE00B80C64 /* CallTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallTracker.swift; sourceTree = "<group>"; };
 		C1E521B32170ED5300B80C64 /* CallFix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallFix.swift; sourceTree = "<group>"; };
 		C1E521B521748CE800B80C64 /* CallFixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallFixTests.swift; sourceTree = "<group>"; };
@@ -185,8 +187,9 @@
 			isa = PBXGroup;
 			children = (
 				C1D13434218728300099B650 /* Extension */,
-				C124ABFA217F4F070038A0B1 /* API.swift */,
+				C124ABFA217F4F070038A0B1 /* APITrip.swift */,
 				C1DD032C21886B77000BBBBF /* APIConfiguration.swift */,
+				C1DD033021887EE6000BBBBF /* APISessionManager.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -555,6 +558,7 @@
 				C1D1343F218740290099B650 /* URLRequestExtension.swift in Sources */,
 				E2798ECE214AB4BA006228A3 /* BatteryTracker.swift in Sources */,
 				C1E521B42170ED5300B80C64 /* CallFix.swift in Sources */,
+				C1DD033121887EE6000BBBBF /* APISessionManager.swift in Sources */,
 				C12373992166468100A95A2A /* TripRecorder.swift in Sources */,
 				C1FAAA3A2163C7B700FD3C1D /* Tracker.swift in Sources */,
 				C17E9A7C216F944500FCF93E /* TripRecorderFeature.swift in Sources */,
@@ -562,7 +566,7 @@
 				C1DD032D21886B77000BBBBF /* APIConfiguration.swift in Sources */,
 				C107606F217E2C8000FB28AA /* PersistantQueue.swift in Sources */,
 				C1E521B22170ECBE00B80C64 /* CallTracker.swift in Sources */,
-				C124ABFB217F4F070038A0B1 /* API.swift in Sources */,
+				C124ABFB217F4F070038A0B1 /* APITrip.swift in Sources */,
 				C1273E9F2175EE800006E6E0 /* MotionFix.swift in Sources */,
 				C1DD0327218863EE000BBBBF /* DictionaryExtension.swift in Sources */,
 				C1076071217E2E9400FB28AA /* Event.swift in Sources */,

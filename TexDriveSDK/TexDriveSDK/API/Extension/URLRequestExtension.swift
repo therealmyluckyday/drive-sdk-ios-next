@@ -9,14 +9,14 @@
 import Foundation
 import Compression
 
-protocol TexURLRequest {
-    static func createUrlRequest(url: URL, body: [String: Any]) -> URLRequest
+protocol APIURLRequest {
+    static func createUrlRequest(url: URL, body: [String: Any], httpMethod: HttpMethod) -> URLRequest?
 }
 
-extension URLRequest: TexURLRequest {
-    static func createUrlRequest(url: URL, body: [String: Any]) -> URLRequest {
+extension URLRequest: APIURLRequest {
+    static func createUrlRequest(url: URL, body: [String: Any], httpMethod: HttpMethod) -> URLRequest? {
         var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = HttpMethod.PUT.rawValue
+        urlRequest.httpMethod = httpMethod.rawValue
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: body, options:[])
             //            print("-------------JSON-----------------------")
@@ -31,9 +31,12 @@ extension URLRequest: TexURLRequest {
             }
             if compressedSize > 0 {
                 urlRequest.httpBody = jsonData
+            } else {
+                return nil
             }
         } catch {
             print("JSON ERROR")
+            return nil
         }
         
         return urlRequest

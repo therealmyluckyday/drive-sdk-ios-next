@@ -1,25 +1,16 @@
 //
-//  API.swift
+//  APISessionManager.swift
 //  TexDriveSDK
 //
-//  Created by Erwan Masson on 23/10/2018.
+//  Created by Erwan Masson on 30/10/2018.
 //  Copyright © 2018 Axa. All rights reserved.
 //
 
 import Foundation
-import RxSwift
 
-
-protocol APITEXTravel {
-    init(configuration: APIConfiguration)
-    func subscribe(providerTrip: PublishSubject<Trip>)
-    func sendTrip(trip: Trip)
-}
-
-class API: NSObject, APITEXTravel, URLSessionDelegate, URLSessionDownloadDelegate, URLSessionTaskDelegate {
+class APISessionManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegate, URLSessionTaskDelegate {
     // MARK: Property
     private let configuration : APIConfiguration
-    private let disposeBag = DisposeBag()
     private lazy var urlSession: URLSession = {
         let config = URLSessionConfiguration.background(withIdentifier: "TexSession")
         //config.isDiscretionary = true
@@ -28,33 +19,23 @@ class API: NSObject, APITEXTravel, URLSessionDelegate, URLSessionDownloadDelegat
         return URLSession(configuration: config, delegate: self, delegateQueue: nil)
     }()
     
-    
-    
     //Recreate the Session If the App Was Terminated
     /*
      If the system terminated the app while it was suspended, the system relaunches the app in the background. As part of your launch time setup, recreate the background session (see Listing 1), using the same session identifier as before, to allow the system to reassociate the background download task with your session. You do this so your background session is ready to go whether the app was launched by the user or by the system. Once the app relaunches, the series of events is the same as if the app had been suspended and resumed, as discussed earlier in
- */
+     */
     
     // MARK: APITEXTravel Protocol Method
     required init(configuration: APIConfiguration) {
         self.configuration = configuration
     }
     
-    func subscribe(providerTrip: PublishSubject<Trip>) {
-        providerTrip.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
-            if let trip = event.element {
-                self?.sendTrip(trip: trip)
-            }
-        }.disposed(by: disposeBag)
-    }
-    
-    func sendTrip(trip: Trip) {
-        print("@@@@@@URL \(self.configuration.baseUrl())/data")
+    func put(dictionaryBody: [String: Any]) {
         if let url = URL(string: "\(self.configuration.baseUrl())/data") {
-            let dictionaryBody = Dictionary<String, Any>.serializeWithGeneralInformation(dictionary: trip.serialize(), appId: self.configuration.appId)
-            let backgroundTask = self.urlSession.downloadTask(with: URLRequest.createUrlRequest(url: url, body: dictionaryBody))
-            print("backgroundTask \(backgroundTask)")
-            backgroundTask.resume()
+            let dictionaryBody = Dictionary<String, Any>.serializeWithGeneralInformation(dictionary: dictionaryBody, appId: self.configuration.appId)
+            if let request = URLRequest.createUrlRequest(url: url, body: dictionaryBody, httpMethod: HttpMethod.PUT) {
+                let backgroundTask = self.urlSession.downloadTask(with: request)
+                backgroundTask.resume()
+            }
         }
     }
     
@@ -81,7 +62,7 @@ class API: NSObject, APITEXTravel, URLSessionDelegate, URLSessionDownloadDelegat
         
         let remoteCertMatchesPinnedCert = trust.isRemoteCertificateMatchingPinnedCertificate(domain: self.configuration.domain.rawValue)
         if remoteCertMatchesPinnedCert {
-//            print("*** TRUSTING CERTIFICATE")
+            //            print("*** TRUSTING CERTIFICATE")
             completionHandler(.useCredential, credential)
         } else {
             print("NOT TRUSTING CERTIFICATE")
@@ -102,7 +83,7 @@ class API: NSObject, APITEXTravel, URLSessionDelegate, URLSessionDownloadDelegat
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask,
                     didFinishDownloadingTo location: URL) {
         guard let httpResponse = downloadTask.response as? HTTPURLResponse else {
-                return
+            return
         }
         do {
             let documentsURL = try
@@ -115,7 +96,7 @@ class API: NSObject, APITEXTravel, URLSessionDelegate, URLSessionDownloadDelegat
             try FileManager.default.moveItem(at: location, to: savedURL)
             print("\(httpResponse)")
             if (200...299).contains(httpResponse.statusCode) {
-//                print("success \(httpResponse.statusCode)")
+                //                print("success \(httpResponse.statusCode)")
             } else {
                 print("error \(httpResponse.statusCode)")
             }

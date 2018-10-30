@@ -25,7 +25,8 @@ public class TripRecorder: TripRecorderProtocol {
     private let configuration: Config
     private var rx_eventType = PublishSubject<EventType>()
     private var rx_fix = PublishSubject<Fix>()
-    private var api: API
+    private let apiTrip: APITrip
+    private let sessionManager: APISessionManager
     
     // MARK: TripRecorder Protocol
     public var currentTripId = NSUUID().uuidString
@@ -41,8 +42,9 @@ public class TripRecorder: TripRecorderProtocol {
     // MARK: Lifecycle
     public init(config: Config) {
         persistantQueue = PersistantQueue(eventType: rx_eventType, fixes: rx_fix)
-        api = API(configuration: APIConfiguration(appId: config.appId, domain: Domain.Preproduction))
-        api.subscribe(providerTrip: persistantQueue.providerTrip)
+        sessionManager = APISessionManager(configuration: APIConfiguration(appId: config.appId, domain: Domain.Preproduction))
+        apiTrip = APITrip(apiSessionManager: sessionManager)
+        apiTrip.subscribe(providerTrip: persistantQueue.providerTrip)
         collector = FixCollector(eventsType: rx_eventType, fixes: rx_fix)
         configuration = config
         

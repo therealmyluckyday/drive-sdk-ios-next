@@ -9,7 +9,7 @@
 import Foundation
 
 struct TripConstant {
-    static let MaxSizeFixes = 5
+    static let MaxSizeFixes = 100
 }
 
 class Trip: Collection {

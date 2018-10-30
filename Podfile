@@ -5,7 +5,6 @@ def shared_pods
     
     use_frameworks!
     
-    pod 'Alamofire', '~> 4.7'
     pod 'RxSwift'
     pod 'RxCocoa'
     
@@ -26,7 +25,6 @@ target 'TexDriveApp' do
 end
 
 target 'TexDriveSDK' do
-    pod 'Alamofire', '~> 4.7'
     pod 'RxSwift'
     pod 'RxCocoa'
     project 'TexDriveSDK/TexDriveSDK.xcodeproj'
