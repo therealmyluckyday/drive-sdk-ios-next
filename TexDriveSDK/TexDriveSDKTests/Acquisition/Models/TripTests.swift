@@ -174,7 +174,6 @@ class TripTests: XCTestCase {
         let detailResult = result["fixes"] as! [[String : Any]]
         XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
         XCTAssertEqual(result["trip_id"] as! String, tripId)
-        print(detailResult)
         XCTAssertEqual(detailResult.count, 1)
         let eventFix = detailResult[0]
         XCTAssertNotNil(eventFix["timestamp"])
@@ -204,7 +203,6 @@ class TripTests: XCTestCase {
         let detailResult = result["fixes"] as! [[String : Any]]
         XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
         XCTAssertEqual(result["trip_id"] as! String, tripId)
-        print(detailResult)
         XCTAssertEqual(detailResult.count, 2)
         let eventFix = detailResult[1]
         XCTAssertNotNil(eventFix["timestamp"])
@@ -271,7 +269,6 @@ class TripTests: XCTestCase {
         let detailResult = result["fixes"] as! [[String : Any]]
         XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
         XCTAssertEqual(result["trip_id"] as! String, tripId)
-        print(detailResult)
         XCTAssertEqual(detailResult.count, 2)
         let eventFix = detailResult[1]
         XCTAssertNotNil(eventFix["timestamp"])

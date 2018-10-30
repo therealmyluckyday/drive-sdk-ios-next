@@ -27,8 +27,6 @@ class MotionBufferTests: XCTestCase {
             isSend = true
             
             XCTAssertNotNil(event.element)
-            print("---------------------------")
-            print("DISPATCH")
             if let motionsFix = event.element {
                 print("\(motionsFix)")
                 XCTAssertEqual(motionsFix.count, 3)
@@ -37,29 +35,12 @@ class MotionBufferTests: XCTestCase {
                 XCTAssertEqual(motionsFix[2].timestamp, timestamp)
             }
         })
-        print("---------------------------")
-        print("-------MOTION 1--------------------")
-        print("---------------------------")
+
         motionBuffer.append(fix:motion1)
-        
-        print("---------------------------")
-        print("-------MOTION 2 CRASH--------------------")
-        print("---------------------------")
         motionBuffer.append(fix: motionCrash)
-        
-        print("---------------------------")
-        print("-------MOTION 3--------------------")
-        print("---------------------------")
+        motionBuffer.append(fix: motion1)
         motionBuffer.append(fix: motion1)
         
-        print("---------------------------")
-        print("-------MOTION 4--------------------")
-        print("---------------------------")
-        motionBuffer.append(fix: motion1)
-        
-        print("---------------------------")
-        print("-------END--------------------")
-        print("---------------------------")
         subscribe.dispose()
         XCTAssertTrue(isSend)
     }

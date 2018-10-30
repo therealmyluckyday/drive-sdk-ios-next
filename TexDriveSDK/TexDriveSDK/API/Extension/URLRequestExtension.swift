@@ -23,7 +23,6 @@ extension URLRequest: TexURLRequest {
             //            print("\(String(describing: String(bytes:jsonData, encoding: String.Encoding.utf8)))")
             var compressedJsonData = Data(capacity:jsonData.count)
             let algorithm = COMPRESSION_ZLIB
-            
             var compressedSize = 0
             jsonData.withUnsafeBytes { (sourceBufferUnsafeBytes: UnsafePointer<UInt8>) -> Void in
                 compressedJsonData.withUnsafeMutableBytes({ (compressedBufferMutableUnsafeBytes: UnsafeMutablePointer<UInt8>) -> Void in
