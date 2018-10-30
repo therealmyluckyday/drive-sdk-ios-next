@@ -32,7 +32,8 @@ class MotionFix: Fix {
     
     // MARK: Lifecycle
     init(timestamp: TimeInterval, accelerationMotion: XYZAxisValues, gravityMotion: XYZAxisValues, magnetometerMotion: XYZAxisValues, crashDetected: Bool) {
-        self.timestamp = timestamp
+        let startupDate = Date.init(timeIntervalSinceNow: -1 * ProcessInfo.processInfo.systemUptime)
+        self.timestamp = Date(timeInterval: timestamp, since: startupDate).timeIntervalSince1970
         acceleration = accelerationMotion
         gravity = gravityMotion
         magnetometer = magnetometerMotion
@@ -62,7 +63,7 @@ class MotionFix: Fix {
         return ["magnetometer": self.serializeXYZAxisValues(value: magnetometer), "gravity": self.serializeXYZAxisValues(value: self.gravity), "acceleration": self.serializeXYZAxisValues(value: self.acceleration)]
     }
     
-    private func serializeXYZAxisValues(value: XYZAxisValues) -> [String: Double] {
+    private func serializeXYZAxisValues(value: XYZAxisValues) -> [String: Decimal] {
         return ["x": Double(value.x).rounded(toDecimalPlaces: 6), "y": Double(value.y).rounded(toDecimalPlaces: 6), "z": Double(value.z).rounded(toDecimalPlaces: 6)]
     }
 }

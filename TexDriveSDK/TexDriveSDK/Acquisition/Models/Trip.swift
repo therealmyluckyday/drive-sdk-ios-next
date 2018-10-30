@@ -9,7 +9,7 @@
 import Foundation
 
 struct TripConstant {
-    static let MaxSizeFixes = 100
+    static let MaxSizeFixes = 10
 }
 
 class Trip: Collection {
@@ -63,7 +63,7 @@ class Trip: Collection {
     
     // Private Method
     static func generateTripId() -> String {
-        return UIDevice.current.identifierForVendor!.uuidString
+        return UIDevice.current.identifierForVendor!.uuidString + "\(Date().timeIntervalSince1970)"
     }
     
     // MARK: Serialize

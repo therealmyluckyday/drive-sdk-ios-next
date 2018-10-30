@@ -9,14 +9,25 @@
 import Foundation
 
 protocol RoundedDouble {
-    func rounded(toDecimalPlaces n: Int) -> Double
+    func rounded(toDecimalPlaces n: Int) -> Decimal
 }
 
 extension Double: RoundedDouble {
-    func rounded(toDecimalPlaces n: Int) -> Double {
-        return Double(String(format: "%.\(n)f", self))!
-        //        let multiplier = pow(10, Double(n))
-        //return (multiplier * self).rounded()/multiplier
-        //        return Double(Int((multiplier * self)))/multiplier
+    func rounded(toDecimalPlaces n: Int) -> Decimal {
+        let result = self.roundedDecimal(to: 6, mode: .plain)
+        return result
+    }
+    
+    /// Convert `Double` to `Decimal`, rounding it to `scale` decimal places.
+    ///
+    /// - Parameters:
+    ///   - scale: How many decimal places to round to. Defaults to `0`.
+    ///   - mode:  The preferred rounding mode. Defaults to `.plain`.
+    /// - Returns: The rounded `Decimal` value.
+    func roundedDecimal(to scale: Int = 0, mode: NSDecimalNumber.RoundingMode = .plain) -> Decimal {
+        var decimalValue = Decimal(self)
+        var result = Decimal()
+        NSDecimalRound(&result, &decimalValue, scale, mode)
+        return result
     }
 }
