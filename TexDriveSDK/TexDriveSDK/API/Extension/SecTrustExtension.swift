@@ -16,11 +16,9 @@ protocol SecurityPolicy {
 
 extension SecTrust: SecurityPolicy {
     func isServerTrustValid() -> Bool {
-        var result = SecTrustResultType.invalid
-        return withUnsafeMutablePointer(to: &result) { (unsafeMutablePointer) -> Bool in
-            SecTrustEvaluate(self, unsafeMutablePointer)
-            return (result == SecTrustResultType.unspecified) || (SecTrustResultType.proceed == result)
-        }
+        let result = UnsafeMutablePointer<SecTrustResultType>.allocate(capacity: 1)
+        SecTrustEvaluate(self, result)
+        return (result.pointee == SecTrustResultType.unspecified) || (SecTrustResultType.proceed == result.pointee)
     }
     
     

@@ -57,7 +57,9 @@ class Event: Fix, Collection {
     
     // MARK: Public function
     func append(eventType: EventType) {
-        self.eventsType.append(eventType)
+        if !eventsType.contains(eventType) {
+            self.eventsType.append(eventType)
+        }
     }
 
     // MARK: Serialize

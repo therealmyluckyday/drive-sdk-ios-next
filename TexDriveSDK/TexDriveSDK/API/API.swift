@@ -9,30 +9,14 @@
 import Foundation
 import RxSwift
 
-enum HttpMethod: String {
-    case PUT = "PUT"
+
+protocol APITEXTravel {
+    init(configuration: APIConfiguration)
+    func subscribe(providerTrip: PublishSubject<Trip>)
+    func sendTrip(trip: Trip)
 }
 
-enum Domain: String {
-    case Integration = "gw-int.tex.dil.services"
-    case Preproduction = "gw-preprod.tex.dil.services"
-    case Production = "gw.tex.dil.services"
-}
-
-struct APIConfiguration {
-    let appId: String
-    let domain: Domain
-    
-    func baseUrl() -> String {
-        return "https://"+domain.rawValue+"/v2.0"
-    }
-    
-    func httpHeaders() -> [String: Any] {
-        return ["gzip": "Content-Encoding", "X-AppKey": appId]
-    }
-}
-
-class API: NSObject, URLSessionDelegate, URLSessionDownloadDelegate, URLSessionTaskDelegate {
+class API: NSObject, APITEXTravel, URLSessionDelegate, URLSessionDownloadDelegate, URLSessionTaskDelegate {
     // MARK: Property
     private let configuration : APIConfiguration
     private let disposeBag = DisposeBag()
@@ -44,16 +28,18 @@ class API: NSObject, URLSessionDelegate, URLSessionDownloadDelegate, URLSessionT
         return URLSession(configuration: config, delegate: self, delegateQueue: nil)
     }()
     
-    // MARK: LifeCycle
-    init(configuration: APIConfiguration) {
-        self.configuration = configuration
-    }
+    
+    
     //Recreate the Session If the App Was Terminated
     /*
      If the system terminated the app while it was suspended, the system relaunches the app in the background. As part of your launch time setup, recreate the background session (see Listing 1), using the same session identifier as before, to allow the system to reassociate the background download task with your session. You do this so your background session is ready to go whether the app was launched by the user or by the system. Once the app relaunches, the series of events is the same as if the app had been suspended and resumed, as discussed earlier in
  */
     
-    // MARK: Public Method
+    // MARK: APITEXTravel Protocol Method
+    required init(configuration: APIConfiguration) {
+        self.configuration = configuration
+    }
+    
     func subscribe(providerTrip: PublishSubject<Trip>) {
         providerTrip.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
             if let trip = event.element {
@@ -65,30 +51,11 @@ class API: NSObject, URLSessionDelegate, URLSessionDownloadDelegate, URLSessionT
     func sendTrip(trip: Trip) {
         print("@@@@@@URL \(self.configuration.baseUrl())/data")
         if let url = URL(string: "\(self.configuration.baseUrl())/data") {
-            let backgroundTask = self.urlSession.downloadTask(with: URLRequest.createUrlRequest(url: url, body: (self.serializeWithGeneralInformation(dictionary: trip.serialize())) ))
+            let dictionaryBody = Dictionary<String, Any>.serializeWithGeneralInformation(dictionary: trip.serialize(), appId: self.configuration.appId)
+            let backgroundTask = self.urlSession.downloadTask(with: URLRequest.createUrlRequest(url: url, body: dictionaryBody))
             print("backgroundTask \(backgroundTask)")
             backgroundTask.resume()
         }
-    }
-    
-    func serializeWithGeneralInformation(dictionary: [String: Any]) -> [String: Any] {
-        var newDictionary = dictionary
-        let uuid = UIDevice.current.identifierForVendor?.uuidString
-        let timeZone = DateFormatter.formattedTimeZone()
-        let os = "\(UIDevice.current.systemName) \(UIDevice.current.systemVersion)"
-        let model = UIDevice.current.hardwareString()
-        let sdkVersion = Bundle(for: type(of: self)).infoDictionary!["CFBundleShortVersionString"] as! String
-        let firstVia = "TEX_iOS_SDK/\(os)/\(sdkVersion)"
-        //        token _texConfig.texUser.authToken
-        //        client_id _texConfig.texUser.userId
-        newDictionary["uid"] = uuid
-        newDictionary["timezone"] = timeZone
-        newDictionary["os"] = os
-        newDictionary["model"] = model
-        newDictionary["version"] = sdkVersion
-        newDictionary["app_name"] = self.configuration.appId
-        newDictionary["via"] = [firstVia]
-        return newDictionary
     }
     
     // MARK: URLSessionDelegate Method
@@ -109,8 +76,6 @@ class API: NSObject, URLSessionDelegate, URLSessionDownloadDelegate, URLSessionT
     }
     
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-//        print("url session URLAuthenticationChallenge \(challenge)")
-//        print("*** received SESSION challenge...\(challenge)")
         let trust = challenge.protectionSpace.serverTrust!
         let credential = URLCredential(trust: trust)
         
@@ -133,10 +98,9 @@ class API: NSObject, URLSessionDelegate, URLSessionDownloadDelegate, URLSessionT
     }
     
     // MARK: URLSessionDownloadDelegate
-    //Retrieving the downloaded file
+    // Retrieving the downloaded file
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask,
                     didFinishDownloadingTo location: URL) {
-//        print("Did finish downloading: \(location.absoluteString)")
         guard let httpResponse = downloadTask.response as? HTTPURLResponse else {
                 return
         }
