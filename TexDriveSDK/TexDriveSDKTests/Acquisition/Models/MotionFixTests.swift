@@ -58,8 +58,8 @@ class MotionFixTests: XCTestCase {
         let magnetometerMotion = XYZAxisValues(x: 6, y: 7, z: 8)
         
         let motion = MotionFix(timestamp: timestamp, accelerationMotion: accelerationMotion, gravityMotion: gavityMotion, magnetometerMotion: magnetometerMotion, crashDetected: true)
-        
-        XCTAssertEqual(motion.timestamp, timestamp)
+        let realtimestamp = Date(timeInterval: timestamp, since: Date.init(timeIntervalSinceNow: -1 * ProcessInfo.processInfo.systemUptime)).timeIntervalSince1970
+        XCTAssertEqual(motion.timestamp.rounded(), realtimestamp.rounded())
         XCTAssertEqual(motion.acceleration.x, 0)
         XCTAssertEqual(motion.acceleration.y, 1)
         XCTAssertEqual(motion.acceleration.z, 2)
@@ -117,7 +117,7 @@ class MotionFixTests: XCTestCase {
         
         let result = motion.normL2Acceleration()
         
-        XCTAssertEqual(String(result), String(12.4499))
+        XCTAssertEqual(String(result), String(12.4498995979887))
     }
     
     // MARK: class func convert(acceleration: CMAcceleration) -> XYZAxisValues
@@ -169,27 +169,28 @@ class MotionFixTests: XCTestCase {
     func testSerialize() {
         let timestamp = Date().timeIntervalSinceNow
         let accelerationMotion = XYZAxisValues(x: 0.8118888188181, y: 1.8118888188181, z: 2.8118881188181)
-        let gavityMotion = XYZAxisValues(x: 3.8118888188181, y: 4.8118888188181, z: 5.8118881188181)
+        let gravityMotion = XYZAxisValues(x: 3.8118888188181, y: 4.8118888188181, z: 5.8118881188181)
         let magnetometerMotion = XYZAxisValues(x: 6.8118888188181, y: 7.8118888188181, z: 8.8118881188181)
         
-        let motionFix = MotionFix(timestamp: timestamp, accelerationMotion: accelerationMotion, gravityMotion: gavityMotion, magnetometerMotion: magnetometerMotion, crashDetected: true)
+        let motionFix = MotionFix(timestamp: timestamp, accelerationMotion: accelerationMotion, gravityMotion: gravityMotion, magnetometerMotion: magnetometerMotion, crashDetected: true)
         
         let result = motionFix.serialize()
         
         XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
-        XCTAssertEqual(result["timestamp"] as! Int, Int(timestamp*1000))
+        let realtimestamp = Date(timeInterval: timestamp, since: Date.init(timeIntervalSinceNow: -1 * ProcessInfo.processInfo.systemUptime)).timeIntervalSince1970
+        XCTAssertEqual(result["timestamp"] as! Int, Int(realtimestamp*1000))
         let detailResult = result["motion"] as! [String : Any]
         let magnetometerResult = detailResult["magnetometer"] as! [String : Any]
-        XCTAssertEqual(magnetometerResult["x"] as! Double, 6.811889)
-        XCTAssertEqual(magnetometerResult["y"] as! Double, 7.811889)
-        XCTAssertEqual(magnetometerResult["z"] as! Double, 8.811888)
+        XCTAssertEqual(magnetometerResult["x"] as! Double, magnetometerMotion.x)
+        XCTAssertEqual(magnetometerResult["y"] as! Double, magnetometerMotion.y)
+        XCTAssertEqual(magnetometerResult["z"] as! Double, magnetometerMotion.z)
         let gravityResult = detailResult["gravity"] as! [String : Any]
-        XCTAssertEqual(gravityResult["x"] as! Double, 3.811889)
-        XCTAssertEqual(gravityResult["y"] as! Double, 4.811889)
-        XCTAssertEqual(gravityResult["z"] as! Double, 5.811888)
+        XCTAssertEqual(gravityResult["x"] as! Double, gravityMotion.x)
+        XCTAssertEqual(gravityResult["y"] as! Double, gravityMotion.y)
+        XCTAssertEqual(gravityResult["z"] as! Double, gravityMotion.z)
         let accelerationResult = detailResult["acceleration"] as! [String : Any]
-        XCTAssertEqual(accelerationResult["x"] as! Double, 0.811889)
-        XCTAssertEqual(accelerationResult["y"] as! Double, 1.811889)
-        XCTAssertEqual(accelerationResult["z"] as! Double, 2.811888)
+        XCTAssertEqual(accelerationResult["x"] as! Double, accelerationMotion.x)
+        XCTAssertEqual(accelerationResult["y"] as! Double, accelerationMotion.y)
+        XCTAssertEqual(accelerationResult["z"] as! Double, accelerationMotion.z)
     }
 }

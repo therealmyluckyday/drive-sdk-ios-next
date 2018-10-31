@@ -60,12 +60,12 @@ class LocationFixTests: XCTestCase {
         
         let detailResult = result["location"] as! [String : Any]
         XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
-        XCTAssertEqual(detailResult["latitude"] as! Double, 48.811889)
-        XCTAssertEqual(detailResult["longitude"] as! Double, 2.347246)
+        XCTAssertEqual(detailResult["latitude"] as! Double, latitude)
+        XCTAssertEqual(detailResult["longitude"] as! Double,longitude)
         XCTAssertEqual(detailResult["precision"] as! Double, precision)
-        XCTAssertEqual(detailResult["speed"] as! Double, speed)
+        XCTAssertEqual(detailResult["speed"] as! Double, Double(speed))
         XCTAssertEqual(detailResult["bearing"] as! Double, bearing)
-        XCTAssertEqual(detailResult["altitude"] as! Double, 1.456779)
+        XCTAssertEqual(detailResult["altitude"] as! Double, altitude)
         XCTAssertEqual(result["timestamp"] as! Int, Int(timestamp*1000))
     }
 }

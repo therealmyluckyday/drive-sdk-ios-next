@@ -16,9 +16,9 @@ struct ConstantMotion {
 }
 
 struct XYZAxisValues  {
-    let x: Float
-    let y: Float
-    let z: Float
+    let x: Double
+    let y: Double
+    let z: Double
 }
 
 class MotionFix: Fix {
@@ -63,8 +63,8 @@ class MotionFix: Fix {
         return ["magnetometer": self.serializeXYZAxisValues(value: magnetometer), "gravity": self.serializeXYZAxisValues(value: self.gravity), "acceleration": self.serializeXYZAxisValues(value: self.acceleration)]
     }
     
-    private func serializeXYZAxisValues(value: XYZAxisValues) -> [String: Decimal] {
-        return ["x": Double(value.x).rounded(toDecimalPlaces: 6), "y": Double(value.y).rounded(toDecimalPlaces: 6), "z": Double(value.z).rounded(toDecimalPlaces: 6)]
+    private func serializeXYZAxisValues(value: XYZAxisValues) -> [String: Double] {
+        return ["x": value.x, "y": value.y, "z": value.z]
     }
 }
 // @(roundToDecimal(motion.userAcceleration.x * GravityConstant, AXAMaxDecimalPlaces));
@@ -81,7 +81,7 @@ extension MotionFix {
         return pow(x*x + y*y + z*z, 0.5);
     }
     
-    func normL2Acceleration() -> Float {
+    func normL2Acceleration() -> Double {
         let x = self.gravity.x + self.acceleration.x;
         let y = self.gravity.y + self.acceleration.y;
         let z = self.gravity.z + self.acceleration.z;
@@ -89,16 +89,16 @@ extension MotionFix {
     }
     
     class func convert(acceleration: CMAcceleration) -> XYZAxisValues {
-        let x = Float(acceleration.x * ConstantMotion.gravity)
-        let y = Float(acceleration.y * ConstantMotion.gravity)
-        let z = Float(acceleration.z * ConstantMotion.gravity)
+        let x = acceleration.x * ConstantMotion.gravity
+        let y = acceleration.y * ConstantMotion.gravity
+        let z = acceleration.z * ConstantMotion.gravity
         return XYZAxisValues(x: x, y: y, z: z)
     }
     
     class func convert(field: CMMagneticField) -> XYZAxisValues {
-        let x = Float(field.x)
-        let y = Float(field.y)
-        let z = Float(field.z)
+        let x = field.x
+        let y = field.y
+        let z = field.z
         return XYZAxisValues(x: x, y: y, z: z)
     }
 }

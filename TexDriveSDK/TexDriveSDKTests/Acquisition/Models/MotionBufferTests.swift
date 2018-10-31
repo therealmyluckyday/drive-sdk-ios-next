@@ -23,16 +23,16 @@ class MotionBufferTests: XCTestCase {
         let motionBuffer = MotionBuffer(futureBufferSizeInSecond: 0)
         
         var isSend = false
+        let realtimestamp = Date(timeInterval: timestamp, since: Date.init(timeIntervalSinceNow: -1 * ProcessInfo.processInfo.systemUptime)).timeIntervalSince1970
         let subscribe = motionBuffer.rx_crashMotionFix.asObservable().subscribe({ (event) in
             isSend = true
-            
             XCTAssertNotNil(event.element)
             if let motionsFix = event.element {
                 print("\(motionsFix)")
                 XCTAssertEqual(motionsFix.count, 3)
-                XCTAssertEqual(motionsFix[0].timestamp, timestamp)
-                XCTAssertEqual(motionsFix[1].timestamp, timestamp)
-                XCTAssertEqual(motionsFix[2].timestamp, timestamp)
+                XCTAssertEqual(motionsFix[0].timestamp.rounded(), realtimestamp.rounded())
+                XCTAssertEqual(motionsFix[1].timestamp.rounded(), realtimestamp.rounded())
+                XCTAssertEqual(motionsFix[2].timestamp.rounded(), realtimestamp.rounded())
             }
         })
 

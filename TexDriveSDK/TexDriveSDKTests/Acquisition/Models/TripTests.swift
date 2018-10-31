@@ -131,7 +131,7 @@ class TripTests: XCTestCase {
         
         let trip = Trip()
         
-        XCTAssertEqual(trip.tripId, tripId)
+        XCTAssertTrue(trip.tripId.contains(tripId))
     }
     
     func testInitWithTripId() {
@@ -243,12 +243,12 @@ class TripTests: XCTestCase {
         let locationFixResult = detailResult[0]
         let locationDetailResult = locationFixResult["location"] as! [String : Any]
         XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
-        XCTAssertEqual(locationDetailResult["latitude"] as! Double, 48.811889)
-        XCTAssertEqual(locationDetailResult["longitude"] as! Double, 2.347246)
-        XCTAssertEqual(locationDetailResult["precision"] as! Double, precision)
-        XCTAssertEqual(locationDetailResult["speed"] as! Double, speed)
-        XCTAssertEqual(locationDetailResult["bearing"] as! Double, bearing)
-        XCTAssertEqual(locationDetailResult["altitude"] as! Double, 1.456779)
+        XCTAssertEqual(locationDetailResult["latitude"] as! Double, latitude)
+        XCTAssertEqual(locationDetailResult["longitude"] as! Double, longitude)
+        XCTAssertEqual(locationDetailResult["precision"] as! Double, Double(precision))
+        XCTAssertEqual(locationDetailResult["speed"] as! Double, Double(speed))
+        XCTAssertEqual(locationDetailResult["bearing"] as! Double, Double(bearing))
+        XCTAssertEqual(locationDetailResult["altitude"] as! Double, altitude)
         XCTAssertEqual(locationFixResult["timestamp"] as! Int, Int(timestamp*1000))
     }
     
@@ -258,9 +258,9 @@ class TripTests: XCTestCase {
         // Motion Fix
         let timestamp = Date().timeIntervalSinceNow
         let accelerationMotion = XYZAxisValues(x: 0.8118888188181, y: 1.8118888188181, z: 2.8118881188181)
-        let gavityMotion = XYZAxisValues(x: 3.8118888188181, y: 4.8118888188181, z: 5.8118881188181)
+        let gravityMotion = XYZAxisValues(x: 3.8118888188181, y: 4.8118888188181, z: 5.8118881188181)
         let magnetometerMotion = XYZAxisValues(x: 6.8118888188181, y: 7.8118888188181, z: 8.8118881188181)
-        let motionFix = MotionFix(timestamp: timestamp, accelerationMotion: accelerationMotion, gravityMotion: gavityMotion, magnetometerMotion: magnetometerMotion, crashDetected: true)
+        let motionFix = MotionFix(timestamp: timestamp, accelerationMotion: accelerationMotion, gravityMotion: gravityMotion, magnetometerMotion: magnetometerMotion, crashDetected: true)
         trip.append(fix: motionFix)
         
         
@@ -280,17 +280,18 @@ class TripTests: XCTestCase {
         let motionResult = detailResult[0]
         let motionDetailResult = motionResult["motion"] as! [String : Any]
         let magnetometerResult = motionDetailResult["magnetometer"] as! [String : Any]
-        XCTAssertEqual(magnetometerResult["x"] as! Double, 6.811889)
-        XCTAssertEqual(magnetometerResult["y"] as! Double, 7.811889)
-        XCTAssertEqual(magnetometerResult["z"] as! Double, 8.811888)
+        XCTAssertEqual(magnetometerResult["x"] as! Double, magnetometerMotion.x)
+        XCTAssertEqual(magnetometerResult["y"] as! Double, magnetometerMotion.y)
+        XCTAssertEqual(magnetometerResult["z"] as! Double, magnetometerMotion.z)
         let gravityResult = motionDetailResult["gravity"] as! [String : Any]
-        XCTAssertEqual(gravityResult["x"] as! Double, 3.811889)
-        XCTAssertEqual(gravityResult["y"] as! Double, 4.811889)
-        XCTAssertEqual(gravityResult["z"] as! Double, 5.811888)
+        XCTAssertEqual(gravityResult["x"] as! Double, gravityMotion.x)
+        XCTAssertEqual(gravityResult["y"] as! Double, gravityMotion.y)
+        XCTAssertEqual(gravityResult["z"] as! Double, gravityMotion.z)
         let accelerationResult = motionDetailResult["acceleration"] as! [String : Any]
-        XCTAssertEqual(accelerationResult["x"] as! Double, 0.811889)
-        XCTAssertEqual(accelerationResult["y"] as! Double, 1.811889)
-        XCTAssertEqual(accelerationResult["z"] as! Double, 2.811888)
-        XCTAssertEqual(motionResult["timestamp"] as! Int, Int(timestamp*1000))
+        XCTAssertEqual(accelerationResult["x"] as! Double, accelerationMotion.x)
+        XCTAssertEqual(accelerationResult["y"] as! Double, accelerationMotion.y)
+        XCTAssertEqual(accelerationResult["z"] as! Double, accelerationMotion.z)
+        let realtimestamp = Date(timeInterval: timestamp, since: Date.init(timeIntervalSinceNow: -1 * ProcessInfo.processInfo.systemUptime)).timeIntervalSince1970
+        XCTAssertEqual(motionResult["timestamp"] as! Int, Int(realtimestamp*1000))
     }
 }

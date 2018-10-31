@@ -50,12 +50,12 @@ class LocationFix : Fix {
     // @(roundToDecimal(location.coordinate.latitude, AXAMaxDecimalPlaces)) ?
     private func serializeLocation() -> [String: Any] {
         var dictionary = [String: Any]()
-        dictionary["latitude"] = latitude.rounded(toDecimalPlaces: 6)
-        dictionary["longitude"] = longitude.rounded(toDecimalPlaces: 6)
-        dictionary["precision"] = precision.rounded(toDecimalPlaces: 6)
-        dictionary["speed"] = speed.rounded(toDecimalPlaces: 6)
-        dictionary["bearing"] = bearing.rounded(toDecimalPlaces: 6)
-        dictionary["altitude"] = altitude.rounded(toDecimalPlaces: 6)
+        dictionary["latitude"] = latitude
+        dictionary["longitude"] = longitude
+        dictionary["precision"] = precision
+        dictionary["speed"] = speed
+        dictionary["bearing"] = bearing
+        dictionary["altitude"] = altitude
         return dictionary
     }
 }
