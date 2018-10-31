@@ -39,7 +39,7 @@ class TripTests: XCTestCase {
         let fix = BatteryFix(timestamp: timestamp, level: level, state: state)
         
         var i = 0
-        while i <= TripConstant.MaxSizeFixes {
+        while i <= TripConstant.MinFixesToSend {
             trip.append(fix: fix)
             i += 1
         }
@@ -59,7 +59,7 @@ class TripTests: XCTestCase {
         trip.append(eventType: EventType.crash)
         
         var i = 0
-        while i <= TripConstant.MaxSizeFixes {
+        while i <= TripConstant.MinFixesToSend {
             trip.append(fix: fix)
             i += 1
         }
@@ -80,7 +80,7 @@ class TripTests: XCTestCase {
         trip.append(eventType: EventType.crash)
         
         var i = 0
-        while i <= TripConstant.MaxSizeFixes {
+        while i <= TripConstant.MinFixesToSend {
             trip.append(fix: fix)
             i += 1
         }

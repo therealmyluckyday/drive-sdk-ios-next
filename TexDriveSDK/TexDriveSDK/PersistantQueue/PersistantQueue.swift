@@ -28,7 +28,7 @@ class PersistantQueue {
                     trip.append(eventType: eventType)
                     if eventType == EventType.stop {
                         self?.providerTrip.onNext(trip)
-                        self?.trip = Trip()
+                        self?.trip = nil
                     }
                 }
 

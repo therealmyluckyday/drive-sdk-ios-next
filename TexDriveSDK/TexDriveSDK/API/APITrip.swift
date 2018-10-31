@@ -12,7 +12,6 @@ import RxSwift
 protocol APITripProtocol {
     init(apiSessionManager: APISessionManager)
     func subscribe(providerTrip: PublishSubject<Trip>)
-    func sendTrip(trip: Trip)
 }
 
 class APITrip: APITripProtocol {

@@ -9,7 +9,7 @@
 import Foundation
 
 struct TripConstant {
-    static let MaxSizeFixes = 10
+    static let MinFixesToSend = 10
 }
 
 class Trip: Collection {
@@ -49,7 +49,7 @@ class Trip: Collection {
         if event.count > 0 && event.contains(EventType.crash), let _ = fixes.last as? MotionFix {
             return false
         }
-        return fixes.count > TripConstant.MaxSizeFixes
+        return fixes.count > TripConstant.MinFixesToSend
     }
     
     // MARK: Lifecycle
