@@ -34,102 +34,96 @@ class MotionBuffer {
     
     // MARK: Public Method
     func append(fix: MotionFix) {
+        let file = #file
+        let function = #function
         // Check if the 5 second after crash is passed
-        //print("fix.motionTimestamp: \(fix.timestamp)")
-        //print("crashMotionFix.motionTimestamp: \(String(describing: crashMotionFix?.timestamp))")
-        //print("futureBufferSizeInSec: \(futureBufferSizeInSec)")
+        Log.Print("fix motionTimestamp \(fix.timestamp)", type: .Info, file: file, function: function)
+        Log.Print("crashMotionFix.motionTimestamp \(String(describing: crashMotionFix?.timestamp))", type: .Info, file: file, function: function)
+        Log.Print("futureBufferSizeInSec: \(futureBufferSizeInSec)", type: .Info, file: file, function: function)
         if let crashMotionFix = self.crashMotionFix, fix.timestamp >= crashMotionFix.timestamp + futureBufferSizeInSec {
             // Launch crash buffer
-            print("DISSSSPATCH")
-            print("[\(#file)] [\(#function)] [\(#line)] [\(#column)] ")
+            Log.Print("DISSSSPATCH", type: .Info, file: file, function: function)
             dispatchCrashHandler(crashMotion: crashMotionFix)
         }
         
         motions.append(fix)
         if fix.isCrashDetected {
-            print("[\(#file)] [\(#function)] [\(#line)] [\(#column)] ")
             // Only add Fix from different timestamp
             if let lastFix = crashMotions.last, fix.timestamp == lastFix.timestamp {
                 return
             }
-            print("fix.isCrashDetected")
+            Log.Print("fix isCrashDetected", type: .Info, file: file, function: function)
             crashMotions.append(fix)
         }
         else {
-            //print("[\(#file)] [\(#function)] [\(#line)] [\(#column)] ")
             // Crash timeline finished we need to find the highest crash point
             if crashMotions.count > 0 {
-                print("[\(#file)] [\(#function)] [\(#line)] [\(#column)] ")
-                
-                print("crashMotions.count > 0 && !fix.isCrashDetected Find Highest peak")
+                Log.Print("crashMotions.count > 0 && !fix.isCrashDetected Find Highest peak", type: .Info, file: file, function: function)
                 let highestPeakAcceleration = findHighestPeakAcceleration(motions: crashMotions)
                 
                 // Compare with current Crash
                 if let fix = crashMotionFix, fix.normL2Acceleration() > highestPeakAcceleration.normL2Acceleration() || fix.timestamp == highestPeakAcceleration.timestamp {
                     // Do Nothing
-                    print("Do Nothing")
-                    print("[\(#file)] [\(#function)] [\(#line)] [\(#column)] ")
+                    Log.Print("Do Nothing", type: .Info, file: file, function: function)
                     return
                 }
                 else {
-                    print("[\(#file)] [\(#function)] [\(#line)] [\(#column)] ")
                     // By changing crashMotionFix it will cancel last previous crash timer
-                    print("new CrashMotionFix")
+                    Log.Print("new CrashMotionFix", type: .Info, file: file, function: function)
                     crashMotionFix = highestPeakAcceleration
                     
                     // Clean Before
-                    print("cleanBuffer")
+                    Log.Print("cleanBuffer", type: .Info, file: file, function: function)
                     cleanBuffer(before: highestPeakAcceleration.timestamp)
                 }
             }
             else {
-                print("[\(#file)] [\(#function)] [\(#line)] [\(#column)] ")
-                
+                Log.Print("clena unused buffer", type: .Info, file: file, function: function)
                 // Clean unused buffer
                 cleanBuffer()
             }
         }
-        //print("MOTIONS: \(motions)")
-        //print("crashMotions: \(crashMotions)")
+        Log.Print("MOTIONS: \(motions)", type: .Info, file: file, function: function)
+        Log.Print("crashMotions: \(crashMotions)", type: .Info, file: file, function: function)
         if let fix = crashMotionFix {
-            print("crashMotionFix: \(fix)")
+            Log.Print("crashMotionFix: \(fix)", type: .Info, file: file, function: function)
         }
     }
     
     private func dispatchCrashHandler(crashMotion: MotionFix) {
-        print("dispatchCrashHandler")
+        Log.Print("dispatchCrashHandler", type: .Info, file: #file, function: #function)
         // Send crash info to FixCollector
         rx_crashMotionFix.onNext(motions)
         // Reset Crash Info
         crashMotionFix = nil
         // Only remove past
         crashMotions = [MotionFix]()
-        print("dispatchCrashHandler END")
+        Log.Print("dispatchCrashHandler END", type: .Info, file: #file, function: #function)
     }
     
     private func findHighestPeakAcceleration(motions: [MotionFix]) -> MotionFix {
-        print("findHighestPeakAcceleration")
+        Log.Print("findHighestPeakAcceleration", type: .Info, file: #file, function: #function)
         var highestPeakAcceleration = motions.first!
         for fix in crashMotions {
             if fix.normL2Acceleration() > highestPeakAcceleration.normL2Acceleration() {
                 highestPeakAcceleration = fix
             }
         }
-        print("findHighestPeakAcceleration END")
+        Log.Print("findHighestPeakAcceleration END", type: .Info, file: #file, function: #function)
         return highestPeakAcceleration
     }
     
     private func cleanBuffer() {
-        print("cleanBufferW")
+        Log.Print("cleanBufferW", type: .Info, file: #file, function: #function)
         if motions.count > MotionBufferConstant.bufferMaxLength() {
             let begin = motions.count - MotionBufferConstant.bufferMaxLength()
             motions = Array(motions[begin..<motions.count])
         }
-        print("cleanBuffer END")
+        Log.Print("cleanBuffer END", type: .Info, file: #file, function: #function)
     }
     
     private func cleanBuffer(before: TimeInterval) {
-        print("cleanBuffer BEFORE")
+        Log.Print("cleanBuffer BEFORE", type: .Info, file: #file, function: #function)
         if let crashMotionFix = crashMotionFix {
             var i = 0
             while i < motions.count {
@@ -143,6 +137,6 @@ class MotionBuffer {
             print("i: \(i)")
             motions = Array(motions[i..<motions.count])
         }
-        print("cleanBuffer BEFORE")
+        Log.Print("cleanBuffer BEFORE", type: .Info, file: #file, function: #function)
     }
 }

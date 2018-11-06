@@ -26,7 +26,7 @@ class FixCollector {
     // MARK: Public Method
     func collect<T>(tracker: T) where T: Tracker {
         self.subscribe(fromProviderFix: tracker.provideFix()) { [weak self](fix) in
-//            print("fix datetime \(fix.description)")
+            Log.Print("fix datetime \(fix.description)", type: .Info, file: #file, function: #function)
             self?.rx_fix.onNext(fix)
         }
         trackers.append(tracker)

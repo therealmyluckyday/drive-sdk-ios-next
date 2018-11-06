@@ -53,7 +53,7 @@ class APISessionManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegat
     }
     
     func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
-        print("\(String(describing: error))")
+        Log.Print("-------------JSON ERROR-----------------------\(String(describing: error))", type: .Error, file: #file, function: #function)
     }
     
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
@@ -62,10 +62,10 @@ class APISessionManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegat
         
         let remoteCertMatchesPinnedCert = trust.isRemoteCertificateMatchingPinnedCertificate(domain: self.configuration.domain.rawValue)
         if remoteCertMatchesPinnedCert {
-            //            print("*** TRUSTING CERTIFICATE")
+            Log.Print("HTTP TRUSTING CERTIFICATE", type: .Info, file: #file, function: #function)
             completionHandler(.useCredential, credential)
         } else {
-            print("NOT TRUSTING CERTIFICATE")
+            Log.Print("NOT TRUSTING CERTIFICATE", type: .Error, file: #file, function: #function)
             completionHandler(.rejectProtectionSpace, nil)
         }
         if challenge.previousFailureCount > 0 {
@@ -74,7 +74,7 @@ class APISessionManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegat
         if let serverTrust = challenge.protectionSpace.serverTrust {
             completionHandler(Foundation.URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust: serverTrust))
         } else {
-            print("unknown state. error: \(String(describing: challenge.error))")
+            Log.Print("server trust error \(String(describing: challenge.error))", type: .Error, file: #file, function: #function)
         }
     }
     
@@ -94,18 +94,18 @@ class APISessionManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegat
             let savedURL = documentsURL.appendingPathComponent(
                 location.lastPathComponent)
             try FileManager.default.moveItem(at: location, to: savedURL)
-            print("\(httpResponse)")
+            Log.Print("HTTP response \(httpResponse)", type: .Info, file: #file, function: #function)
             if (200...299).contains(httpResponse.statusCode) {
-                //                print("success \(httpResponse.statusCode)")
+
             } else {
-                print("error \(httpResponse.statusCode)")
+                Log.Print("HTTP Error \(httpResponse.statusCode)", type: .Error, file: #file, function: #function)
             }
             let data = try Data(contentsOf: savedURL)
             if let body = String(bytes: data, encoding: String.Encoding.utf8) {
-                print(body)
+                Log.Print("HTTP BODY \(body)", type: .Info, file: #file, function: #function)
             }
         } catch {
-            print ("file error: \(error)")
+            Log.Print("HTTP File Error \(error)", type: .Error, file: #file, function: #function)
         }
     }
     
@@ -115,7 +115,7 @@ class APISessionManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegat
             return
         }
         let progress = Double(Double(totalBytesWritten)/Double(totalBytesExpectedToWrite))
-        print("Download progress: \(progress)")
+        Log.Print("HTTP Download progress: \(progress)", type: .Info, file: #file, function: #function)
     }
     
     // MARK: URLSessionTaskDelegate Protocol
@@ -123,27 +123,28 @@ class APISessionManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegat
                     task: URLSessionTask,
                     didCompleteWithError error: Error?) {
         if let error = error {
-            print ("connection error: \(error)")
+//            Log.Print("HTTP connection error: \(error)", type: .Error, file: #file, function: #function)
+            Log.Print("HTTP connection error: \(error)", type: .Error, file: #file, function: #function)
         }
     }
     
     func urlSession(_ session: URLSession, task: URLSessionTask, willPerformHTTPRedirection response: HTTPURLResponse, newRequest request: URLRequest, completionHandler: @escaping (URLRequest?) -> Void) {
-        print("urlsession WillperformHTTPRedirection")
+        Log.Print("HTTP urlsession WillperformHTTPRedirection", type: .Info, file: #file, function: #function)
     }
     
     func urlSession(_ session: URLSession, task: URLSessionTask, didSendBodyData bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) {
-        print("urlsession didSendBodyData \(totalBytesSent)")
+        Log.Print("HTTP urlsession didSendBodyData \(totalBytesSent)", type: .Info, file: #file, function: #function)
     }
     func urlSession(_ session: URLSession, task: URLSessionTask, needNewBodyStream completionHandler: @escaping (InputStream?) -> Void) {
-        print("urlsession needNewBodyStream \(task)")
+        Log.Print("HTTP urlsession needNewBodyStream \(task)", type: .Info, file: #file, function: #function)
     }
     
     func urlSession(_ session: URLSession, task: URLSessionTask, willBeginDelayedRequest request: URLRequest, completionHandler: @escaping (URLSession.DelayedRequestDisposition, URLRequest?) -> Void) {
-        print("urlsession delayedRequest \(task)")
+        Log.Print("HTTP urlsession delayedRequest \(task)", type: .Info, file: #file, function: #function)
         completionHandler(URLSession.DelayedRequestDisposition.continueLoading, nil)
     }
     
     func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
-        //print("urlsession didFinishCollecting \(task)")
+        Log.Print("HTTP urlsession didFinishCollecting \(task)", type: .Info, file: #file, function: #function)
     }
 }

@@ -43,7 +43,7 @@ class CallTracker: NSObject, Tracker, CXCallObserverDelegate {
     }
     
     func newCallfFix(callFix: CallFix) {
-        print("\(callFix.state) \(lastState)")
+        Log.Print("CALL \(callFix.state) \(lastState)", type: .Info, file: #file, function: #function)
         if lastState != callFix.state {
             rx_callProviderFix.asObserver().onNext(Result.Success(callFix))
             lastState = callFix.state

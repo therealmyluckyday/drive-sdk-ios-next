@@ -29,6 +29,8 @@
 		C18AE986216E2E2A0065F0BB /* LocationFixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18AE985216E2E2A0065F0BB /* LocationFixTests.swift */; };
 		C18AE989216E31E30065F0BB /* BatteryTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18AE988216E31E30065F0BB /* BatteryTrackerTests.swift */; };
 		C18AE98B216E44D60065F0BB /* LocationTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18AE98A216E44D60065F0BB /* LocationTrackerTests.swift */; };
+		C1C83BD7219042F500D8E4B3 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C83BD6219042F500D8E4B3 /* Log.swift */; };
+		C1C83BD92190750000D8E4B3 /* LogRx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C83BD82190750000D8E4B3 /* LogRx.swift */; };
 		C1D13437218728600099B650 /* SecTrustExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D13436218728600099B650 /* SecTrustExtension.swift */; };
 		C1D13439218729900099B650 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D13438218729900099B650 /* UIDeviceExtension.swift */; };
 		C1D1343F218740290099B650 /* URLRequestExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D1343E218740290099B650 /* URLRequestExtension.swift */; };
@@ -97,6 +99,8 @@
 		C18AE985216E2E2A0065F0BB /* LocationFixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFixTests.swift; sourceTree = "<group>"; };
 		C18AE988216E31E30065F0BB /* BatteryTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryTrackerTests.swift; sourceTree = "<group>"; };
 		C18AE98A216E44D60065F0BB /* LocationTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTrackerTests.swift; sourceTree = "<group>"; };
+		C1C83BD6219042F500D8E4B3 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		C1C83BD82190750000D8E4B3 /* LogRx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogRx.swift; sourceTree = "<group>"; };
 		C1D13436218728600099B650 /* SecTrustExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecTrustExtension.swift; sourceTree = "<group>"; };
 		C1D13438218729900099B650 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
 		C1D1343E218740290099B650 /* URLRequestExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestExtension.swift; sourceTree = "<group>"; };
@@ -194,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				C17E9A72216F826000FCF93E /* Public */,
+				C1C83BD82190750000D8E4B3 /* LogRx.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -205,6 +210,7 @@
 				C17E9A75216F82F100FCF93E /* Config.swift */,
 				C17E9A77216F85BD00FCF93E /* Service.swift */,
 				C17E9A7B216F944500FCF93E /* TripRecorderFeature.swift */,
+				C1C83BD6219042F500D8E4B3 /* Log.swift */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -543,6 +549,7 @@
 			files = (
 				C1F2A0DB2183179800765D08 /* TEX-elb-ssl.der in Sources */,
 				C124ABF7217F45D80038A0B1 /* Trip.swift in Sources */,
+				C1C83BD7219042F500D8E4B3 /* Log.swift in Sources */,
 				C1D13441218742320099B650 /* DateFormatterExtension.swift in Sources */,
 				C1273EA32176314F0006E6E0 /* MotionBuffer.swift in Sources */,
 				C1273EA12175F59C0006E6E0 /* MotionTracker.swift in Sources */,
@@ -558,6 +565,7 @@
 				C17E9A74216F828400FCF93E /* User.swift in Sources */,
 				C1DD032D21886B77000BBBBF /* APIConfiguration.swift in Sources */,
 				C107606F217E2C8000FB28AA /* PersistantQueue.swift in Sources */,
+				C1C83BD92190750000D8E4B3 /* LogRx.swift in Sources */,
 				C1E521B22170ECBE00B80C64 /* CallTracker.swift in Sources */,
 				C124ABFB217F4F070038A0B1 /* APITrip.swift in Sources */,
 				C1273E9F2175EE800006E6E0 /* MotionFix.swift in Sources */,

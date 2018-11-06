@@ -49,13 +49,15 @@ public class Config {
         try currentTripRecorderFeatures.forEach { (feature) in
             switch (feature, feature.canActivate()) {
             case (TripRecorderFeature.Location, false):
+                Log.Print("FEATURE \(feature) Can not activate", type: .Error, file: #file, function: #function)
                 throw ConfigurationError.LocationNotDetermined("Need to ask user permission: requestAlwaysAuthorization() on a CLLocationManager")
             case (TripRecorderFeature.Motion, false):
+                Log.Print("FEATURE \(feature) Can not activate", type: .Error, file: #file, function: #function)
                 throw ConfigurationError.MotionNotAvailable("Need to configure the UIRequiredDeviceCapabilities key of its Info.plist file with the accelerometer and gyroscope values. And add NSMotionUsageDescription in Info.plist")
             case (_, false):
-                print("ERROR : \(feature) Can not activate")
+                Log.Print("FEATURE \(feature) Can not activate", type: .Error, file: #file, function: #function)
             default:
-                //print("\(feature) \(feature.canActivate())")
+                Log.Print("Feature can activate", type: .Info, file: #file, function: #function)
                 break
             }
         }
@@ -64,6 +66,13 @@ public class Config {
         user = currentUser
         mode = currentMode
         tripRecorderFeatures = currentTripRecorderFeatures
+        
+        do {
+            let regex = try NSRegularExpression(pattern: ".*API.*", options: NSRegularExpression.Options.caseInsensitive)
+            Log.configure(regex: regex, logType: LogType.Error)
+        } catch {
+            print("-------------REGEX ERROR-----------------------\(error)")
+        }
     }
 }
 

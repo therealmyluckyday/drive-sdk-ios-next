@@ -50,23 +50,22 @@ extension SecTrust: SecurityPolicy {
                 }
                 
                 // Compare certificate data
-//                print("*** CERTIFICATE count \(SecTrustGetCertificateCount(self))")
                 // obtain the chain after being validated, which *should* contain the pinned certificate in the last position (if it's the Root CA)
                 let serverCertificates = self.certificateTrustChainData()
                 for certificateData in serverCertificates.reversed() {
                     if pinnedCertData.isEqual(to: certificateData) {
-//                        print("*** CERTIFICATE DATA MATCHES")
+                        Log.Print("CERTIFICATE DATA MATCHES", type: .Info, file: #file, function: #function)
                         return true
                     }
                     else {
-//                        print("*** MISMATCH IN CERT DATA.... :(")
+                        Log.Print("CERTIFICATE MISMATCH IN CERT DATA", type: .Error, file: #file, function: #function)
                     }
                 }
             } else {
-                print("*** Couldn't read pinning certificate data")
+                Log.Print("CERTIFICATE Couldn't read pinning certificate data", type: .Error, file: #file, function: #function)
             }
         } else {
-            print("*** Couldn't load pinning certificate!")
+            Log.Print("CERTIFICATE Couldn't load pinning certificate!", type: .Error, file: #file, function: #function)
         }
         return false
     }
