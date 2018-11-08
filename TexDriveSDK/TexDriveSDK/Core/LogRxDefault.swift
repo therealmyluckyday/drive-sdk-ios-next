@@ -19,7 +19,7 @@ class LogRxDefault: LogRx, LogDefaultImplementation {
     }
     
     // MARK: LogImplementation Protocol
-    func print(_ description: String, type: LogType = .Info, function: String? = nil) {
+    func print(_ description: String, type: LogType = .Info, function: String = #function) {
         super.print(description, type: type, file: file, function: function)
     }
 }

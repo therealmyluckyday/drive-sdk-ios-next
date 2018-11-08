@@ -34,7 +34,7 @@ class LogRxDefaultTests: XCTestCase {
     
     // MARK: func print(_ description: String, type: LogType = .Info, file: String, function: String? = nil)
     func testPrint() {
-        let type = LogType.Error
+        let type = LogType.Info
         let detail = "myDetail"
         let file = #file
         let function = #function
@@ -54,7 +54,30 @@ class LogRxDefaultTests: XCTestCase {
             }.disposed(by: disposeBag!)
         
         log.print(detail, type: type, file: file, function: function)
+        XCTAssert(isCalled)
+    }
+    
+    func testPrintShort() {
+        let type = LogType.Info
+        let detail = "myDetail"
+        let file = #file
+        let function = #function
+        let rx_log = PublishSubject<LogDetail>()
+        let log = LogRxDefault(rxLog: rx_log, currentFile: file)
+        var isCalled = false
         
+        rx_log.asObservable().subscribe { (event) in
+            if let logDetail = event.element {
+                isCalled = true
+                
+                XCTAssertEqual(logDetail.detail, detail)
+                XCTAssertEqual(logDetail.file, "LogRxDefaultTests.swift")
+                XCTAssertEqual(logDetail.type, type)
+                XCTAssertEqual(logDetail.function!, function)
+            }
+            }.disposed(by: disposeBag!)
+        
+        log.print(detail)
         XCTAssert(isCalled)
     }
 }

@@ -13,7 +13,6 @@ class FixCollector {
     private let disposeBag = DisposeBag()
     private var rx_errorCollecting = PublishSubject<Error>()
     private var trackers = [GenericTracker]()
-
     private var rx_eventType: PublishSubject<EventType>
     private var rx_fix: PublishSubject<Fix>
     
@@ -26,7 +25,7 @@ class FixCollector {
     // MARK: Public Method
     func collect<T>(tracker: T) where T: Tracker {
         self.subscribe(fromProviderFix: tracker.provideFix()) { [weak self](fix) in
-            Log.print("fix datetime \(fix.description)", type: .Info, file: #file, function: #function)
+            Log.print("fix datetime \(fix.description)")
             self?.rx_fix.onNext(fix)
         }
         trackers.append(tracker)

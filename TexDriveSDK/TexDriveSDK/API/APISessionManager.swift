@@ -62,7 +62,7 @@ class APISessionManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegat
         
         let remoteCertMatchesPinnedCert = trust.isRemoteCertificateMatchingPinnedCertificate(domain: self.configuration.domain.rawValue)
         if remoteCertMatchesPinnedCert {
-            Log.print("HTTP TRUSTING CERTIFICATE", type: .Info, file: #file, function: #function)
+            Log.print("HTTP TRUSTING CERTIFICATE")
             completionHandler(.useCredential, credential)
         } else {
             Log.print("NOT TRUSTING CERTIFICATE", type: .Error, file: #file, function: #function)
@@ -94,7 +94,7 @@ class APISessionManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegat
             let savedURL = documentsURL.appendingPathComponent(
                 location.lastPathComponent)
             try FileManager.default.moveItem(at: location, to: savedURL)
-            Log.print("HTTP response \(httpResponse)", type: .Info, file: #file, function: #function)
+            Log.print("HTTP response \(httpResponse)")
             if (200...299).contains(httpResponse.statusCode) {
 
             } else {
@@ -102,7 +102,7 @@ class APISessionManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegat
             }
             let data = try Data(contentsOf: savedURL)
             if let body = String(bytes: data, encoding: String.Encoding.utf8) {
-                Log.print("HTTP BODY \(body)", type: .Info, file: #file, function: #function)
+                Log.print("HTTP BODY \(body)")
             }
         } catch {
             Log.print("HTTP File Error \(error)", type: .Error, file: #file, function: #function)
@@ -115,7 +115,7 @@ class APISessionManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegat
             return
         }
         let progress = Double(Double(totalBytesWritten)/Double(totalBytesExpectedToWrite))
-        Log.print("HTTP Download progress: \(progress)", type: .Info, file: #file, function: #function)
+        Log.print("HTTP Download progress: \(progress)")
     }
     
     // MARK: URLSessionTaskDelegate Protocol
@@ -129,22 +129,22 @@ class APISessionManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegat
     }
     
     func urlSession(_ session: URLSession, task: URLSessionTask, willPerformHTTPRedirection response: HTTPURLResponse, newRequest request: URLRequest, completionHandler: @escaping (URLRequest?) -> Void) {
-        Log.print("HTTP urlsession WillperformHTTPRedirection", type: .Info, file: #file, function: #function)
+        Log.print("HTTP urlsession WillperformHTTPRedirection")
     }
     
     func urlSession(_ session: URLSession, task: URLSessionTask, didSendBodyData bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) {
-        Log.print("HTTP urlsession didSendBodyData \(totalBytesSent)", type: .Info, file: #file, function: #function)
+        Log.print("HTTP urlsession didSendBodyData \(totalBytesSent)")
     }
     func urlSession(_ session: URLSession, task: URLSessionTask, needNewBodyStream completionHandler: @escaping (InputStream?) -> Void) {
-        Log.print("HTTP urlsession needNewBodyStream \(task)", type: .Info, file: #file, function: #function)
+        Log.print("HTTP urlsession needNewBodyStream \(task)")
     }
     
     func urlSession(_ session: URLSession, task: URLSessionTask, willBeginDelayedRequest request: URLRequest, completionHandler: @escaping (URLSession.DelayedRequestDisposition, URLRequest?) -> Void) {
-        Log.print("HTTP urlsession delayedRequest \(task)", type: .Info, file: #file, function: #function)
+        Log.print("HTTP urlsession delayedRequest \(task)")
         completionHandler(URLSession.DelayedRequestDisposition.continueLoading, nil)
     }
     
     func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
-        Log.print("HTTP urlsession didFinishCollecting \(task)", type: .Info, file: #file, function: #function)
+        Log.print("HTTP urlsession didFinishCollecting \(task)")
     }
 }

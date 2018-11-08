@@ -64,11 +64,11 @@ class LogRxTests: XCTestCase {
                 XCTAssertEqual(logDetail.detail, detail)
                 XCTAssertEqual(logDetail.file, "LogRxTests.swift")
                 XCTAssertEqual(logDetail.type, type)
-                XCTAssertNil(logDetail.function)
+                XCTAssertEqual(logDetail.function, "testPrintWithoutFunction()")
             }
             }.disposed(by: disposeBag!)
         
-        log.print(detail, type: type, file: file, function: nil)
+        log.print(detail, type: type, file: file)
         
         XCTAssert(isCalled)
     }

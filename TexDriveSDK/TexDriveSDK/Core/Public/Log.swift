@@ -15,12 +15,12 @@ protocol LogProtocol {
 }
 
 protocol LogImplementation {
-    func print(_ description: String, type: LogType, file: String, function: String?)
+    func print(_ description: String, type: LogType, file: String, function: String)
 }
 
 protocol LogDefaultImplementation: LogImplementation{
         var file: String { get }
-        func print(_ description: String, type: LogType, function: String?)
+        func print(_ description: String, type: LogType, function: String)
 }
 
 protocol LogFactory {
@@ -38,10 +38,9 @@ public class Log: LogProtocol {
         _log.configure(regex: regex, logType: logType)
     }
     
-    static func print(_ description: String, type: LogType, file: String, function: String) {
-        _log.mainLogger.print(description, type: type, file: file, function: function)
+    static func print(_ description: String, type: LogType = .Info, file: String = #file, function: String = #function) {
+            _log.mainLogger.print(description, type: type, file: file, function: function)
     }
-    
     static func configure(loggerFactory: LogFactory) {
         _log = loggerFactory
     }

@@ -57,7 +57,7 @@ public class Config {
             case (_, false):
                 Log.print("FEATURE \(feature) Can not activate", type: .Error, file: #file, function: #function)
             default:
-                Log.print("Feature can activate", type: .Info, file: #file, function: #function)
+                Log.print("Feature can activate")
                 break
             }
         }
@@ -68,8 +68,8 @@ public class Config {
         tripRecorderFeatures = currentTripRecorderFeatures
         
         do {
-            let regex = try NSRegularExpression(pattern: ".*API.*", options: NSRegularExpression.Options.caseInsensitive)
-            Log.configure(regex: regex, logType: LogType.Error)
+            let regex = try NSRegularExpression(pattern: ".*.*", options: NSRegularExpression.Options.caseInsensitive)
+            Log.configure(regex: regex, logType: LogType.Info)
         } catch {
             print("-------------REGEX ERROR-----------------------\(error)")
         }

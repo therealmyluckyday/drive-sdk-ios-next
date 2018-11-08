@@ -18,8 +18,8 @@ class LogRx: LogImplementation {
         rx_log = rxLog
     }
     
-    // MARK: LogImplementation Protocol
-    func print(_ description: String, type: LogType = .Info, file: String, function: String? = nil) {
+    // MARK: LogImplementation Protocol    
+    func print(_ description: String, type: LogType = .Info, file: String = #file, function: String = #function) {
         let logDetail = LogDetail(type: type, detail: description, file: file, function: function)
         self.rx_log.onNext(logDetail)
     }
