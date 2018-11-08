@@ -11,7 +11,7 @@ import Foundation
 protocol LogProtocol {
     static func defaultLogger(file: String) -> LogDefaultImplementation
     static func configure(regex: NSRegularExpression, logType: LogType)
-    static func configure(loggerFactory: (()->(LogFactory)))
+    static func configure(loggerFactory: LogFactory)
 }
 
 protocol LogImplementation {
@@ -42,8 +42,8 @@ public class Log: LogProtocol {
         _log.mainLogger.print(description, type: type, file: file, function: function)
     }
     
-    static func configure(loggerFactory: (()->(LogFactory))) {
-        _log = loggerFactory()
+    static func configure(loggerFactory: LogFactory) {
+        _log = loggerFactory
     }
     
     static func defaultLogger(file: String) -> LogDefaultImplementation {

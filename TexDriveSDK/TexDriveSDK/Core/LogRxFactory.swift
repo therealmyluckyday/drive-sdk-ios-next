@@ -27,7 +27,7 @@ class LogRxFactory: LogFactory {
 
     func configure(regex: NSRegularExpression, logType: LogType) {
         self.rules[regex] = logType
-        self.rx_log.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
+        self.rx_log.asObservable().subscribe { [weak self](event) in
             if let logDetail = event.element {
                 if logDetail.canLog(regex: regex, logType: logType) {
                     self?.report(logDetail: logDetail)

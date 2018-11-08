@@ -28,7 +28,6 @@ class MotionBufferTests: XCTestCase {
             isSend = true
             XCTAssertNotNil(event.element)
             if let motionsFix = event.element {
-                print("\(motionsFix)")
                 XCTAssertEqual(motionsFix.count, 3)
                 XCTAssertEqual(motionsFix[0].timestamp.rounded(), realtimestamp.rounded())
                 XCTAssertEqual(motionsFix[1].timestamp.rounded(), realtimestamp.rounded())
