@@ -54,18 +54,18 @@ extension SecTrust: SecurityPolicy {
                 let serverCertificates = self.certificateTrustChainData()
                 for certificateData in serverCertificates.reversed() {
                     if pinnedCertData.isEqual(to: certificateData) {
-                        Log.Print("CERTIFICATE DATA MATCHES", type: .Info, file: #file, function: #function)
+                        Log.print("CERTIFICATE DATA MATCHES", type: .Info, file: #file, function: #function)
                         return true
                     }
                     else {
-                        Log.Print("CERTIFICATE MISMATCH IN CERT DATA", type: .Error, file: #file, function: #function)
+                        Log.print("CERTIFICATE MISMATCH IN CERT DATA", type: .Error, file: #file, function: #function)
                     }
                 }
             } else {
-                Log.Print("CERTIFICATE Couldn't read pinning certificate data", type: .Error, file: #file, function: #function)
+                Log.print("CERTIFICATE Couldn't read pinning certificate data", type: .Error, file: #file, function: #function)
             }
         } else {
-            Log.Print("CERTIFICATE Couldn't load pinning certificate!", type: .Error, file: #file, function: #function)
+            Log.print("CERTIFICATE Couldn't load pinning certificate!", type: .Error, file: #file, function: #function)
         }
         return false
     }

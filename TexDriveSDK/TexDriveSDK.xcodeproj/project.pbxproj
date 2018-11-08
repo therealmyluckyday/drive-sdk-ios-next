@@ -29,8 +29,11 @@
 		C18AE986216E2E2A0065F0BB /* LocationFixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18AE985216E2E2A0065F0BB /* LocationFixTests.swift */; };
 		C18AE989216E31E30065F0BB /* BatteryTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18AE988216E31E30065F0BB /* BatteryTrackerTests.swift */; };
 		C18AE98B216E44D60065F0BB /* LocationTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18AE98A216E44D60065F0BB /* LocationTrackerTests.swift */; };
+		C1A7987D2191F76C0045765C /* LogRxFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A7987C2191F76C0045765C /* LogRxFactory.swift */; };
 		C1C83BD7219042F500D8E4B3 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C83BD6219042F500D8E4B3 /* Log.swift */; };
 		C1C83BD92190750000D8E4B3 /* LogRx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C83BD82190750000D8E4B3 /* LogRx.swift */; };
+		C1D0BD9C2192FB4000365428 /* LogDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D0BD9B2192FB4000365428 /* LogDetail.swift */; };
+		C1D0BD9E2193455700365428 /* LogRxDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D0BD9D2193455700365428 /* LogRxDefault.swift */; };
 		C1D13437218728600099B650 /* SecTrustExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D13436218728600099B650 /* SecTrustExtension.swift */; };
 		C1D13439218729900099B650 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D13438218729900099B650 /* UIDeviceExtension.swift */; };
 		C1D1343F218740290099B650 /* URLRequestExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D1343E218740290099B650 /* URLRequestExtension.swift */; };
@@ -49,7 +52,6 @@
 		C1E521B821749A9400B80C64 /* CallTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E521B721749A9400B80C64 /* CallTrackerTests.swift */; };
 		C1E93DFA2187635D0082B2B3 /* TripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E93DF92187635D0082B2B3 /* TripTests.swift */; };
 		C1F2A0D72183129900765D08 /* TEX-elb-ssl.der in Resources */ = {isa = PBXBuildFile; fileRef = C148D7152181F34C00F1088B /* TEX-elb-ssl.der */; };
-		C1F2A0DB2183179800765D08 /* TEX-elb-ssl.der in Sources */ = {isa = PBXBuildFile; fileRef = C148D7152181F34C00F1088B /* TEX-elb-ssl.der */; };
 		C1FAAA3A2163C7B700FD3C1D /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FAAA392163C7B700FD3C1D /* Tracker.swift */; };
 		E2798EB42147F0DC006228A3 /* TexDriveSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2798EAA2147F0DC006228A3 /* TexDriveSDK.framework */; };
 		E2798EB92147F0DC006228A3 /* TexDriveSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2798EB82147F0DC006228A3 /* TexDriveSDKTests.swift */; };
@@ -99,8 +101,11 @@
 		C18AE985216E2E2A0065F0BB /* LocationFixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFixTests.swift; sourceTree = "<group>"; };
 		C18AE988216E31E30065F0BB /* BatteryTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryTrackerTests.swift; sourceTree = "<group>"; };
 		C18AE98A216E44D60065F0BB /* LocationTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTrackerTests.swift; sourceTree = "<group>"; };
+		C1A7987C2191F76C0045765C /* LogRxFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogRxFactory.swift; sourceTree = "<group>"; };
 		C1C83BD6219042F500D8E4B3 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		C1C83BD82190750000D8E4B3 /* LogRx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogRx.swift; sourceTree = "<group>"; };
+		C1D0BD9B2192FB4000365428 /* LogDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogDetail.swift; sourceTree = "<group>"; };
+		C1D0BD9D2193455700365428 /* LogRxDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogRxDefault.swift; sourceTree = "<group>"; };
 		C1D13436218728600099B650 /* SecTrustExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecTrustExtension.swift; sourceTree = "<group>"; };
 		C1D13438218729900099B650 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
 		C1D1343E218740290099B650 /* URLRequestExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestExtension.swift; sourceTree = "<group>"; };
@@ -199,6 +204,8 @@
 			children = (
 				C17E9A72216F826000FCF93E /* Public */,
 				C1C83BD82190750000D8E4B3 /* LogRx.swift */,
+				C1A7987C2191F76C0045765C /* LogRxFactory.swift */,
+				C1D0BD9D2193455700365428 /* LogRxDefault.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -211,6 +218,7 @@
 				C17E9A77216F85BD00FCF93E /* Service.swift */,
 				C17E9A7B216F944500FCF93E /* TripRecorderFeature.swift */,
 				C1C83BD6219042F500D8E4B3 /* Log.swift */,
+				C1D0BD9B2192FB4000365428 /* LogDetail.swift */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -547,12 +555,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C1F2A0DB2183179800765D08 /* TEX-elb-ssl.der in Sources */,
 				C124ABF7217F45D80038A0B1 /* Trip.swift in Sources */,
 				C1C83BD7219042F500D8E4B3 /* Log.swift in Sources */,
 				C1D13441218742320099B650 /* DateFormatterExtension.swift in Sources */,
 				C1273EA32176314F0006E6E0 /* MotionBuffer.swift in Sources */,
 				C1273EA12175F59C0006E6E0 /* MotionTracker.swift in Sources */,
+				C1D0BD9E2193455700365428 /* LogRxDefault.swift in Sources */,
 				E2798ED1214AB6F3006228A3 /* FixCollector.swift in Sources */,
 				E2798EC721480E3B006228A3 /* Fix.swift in Sources */,
 				C1D1343F218740290099B650 /* URLRequestExtension.swift in Sources */,
@@ -578,6 +586,8 @@
 				C1D13439218729900099B650 /* UIDeviceExtension.swift in Sources */,
 				E2798EC921481570006228A3 /* BatteryFix.swift in Sources */,
 				E2798ED62158DFC4006228A3 /* LocationTracker.swift in Sources */,
+				C1A7987D2191F76C0045765C /* LogRxFactory.swift in Sources */,
+				C1D0BD9C2192FB4000365428 /* LogDetail.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

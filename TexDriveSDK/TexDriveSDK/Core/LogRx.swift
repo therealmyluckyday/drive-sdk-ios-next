@@ -11,29 +11,16 @@ import RxSwift
 
 class LogRx: LogImplementation {
     // MARK: Property
-    var rules = [NSRegularExpression: LogType]()
-    var rx_log = PublishSubject<LogDetail>()
-    var rx_disposeBag = DisposeBag()
+    private let rx_log: PublishSubject<LogDetail>
+    
+    // Lifecycle method
+    init(rxLog: PublishSubject<LogDetail>) {
+        rx_log = rxLog
+    }
     
     // MARK: LogImplementation Protocol
-    func Print(_ description: String, type: LogType = .Info, file: String) {
-        self.rx_log.onNext(LogDetail(type: type, description: description, file: file))
-    }
-    
-    func configure(regex: NSRegularExpression, logType: LogType) {
-        self.rules[regex] = logType
-        self.rx_log.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in    
-            if let logDetail = event.element, let fileSubstring = logDetail.file.split(separator: "/").last {
-                let file = String(fileSubstring)
-                let results = regex.matches(in: file, options:NSRegularExpression.MatchingOptions.anchored, range: NSRange(location: 0, length: file.count))
-                if results.count > 0 && logType.rawValue >= logDetail.type.rawValue {
-                    self?.report(description: "[\(file)]\(logDetail.description)")
-                }
-            }
-            }.disposed(by: self.rx_disposeBag)
-    }
-    
-    func report(description: String) {
-        print(description)
+    func print(_ description: String, type: LogType = .Info, file: String, function: String? = nil) {
+        let logDetail = LogDetail(type: type, detail: description, file: file, function: function)
+        self.rx_log.onNext(logDetail)
     }
 }

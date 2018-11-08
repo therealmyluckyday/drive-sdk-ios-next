@@ -8,44 +8,45 @@
 
 import Foundation
 
-struct LogDetail {
-    let type: LogType
-    let description: String
-    let file: String
-}
-
-enum LogType: Int {
-    case Error = 0
-    case Warning = 1
-    case Info = 2
-}
-
 protocol LogProtocol {
+    static func defaultLogger(file: String) -> LogDefaultImplementation
     static func configure(regex: NSRegularExpression, logType: LogType)
-    static func Print(_ description: String, type: LogType, file: String, function: String?)
+    static func configure(loggerFactory: (()->(LogFactory)))
 }
 
 protocol LogImplementation {
+    func print(_ description: String, type: LogType, file: String, function: String?)
+}
+
+protocol LogDefaultImplementation: LogImplementation{
+        var file: String { get }
+        func print(_ description: String, type: LogType, function: String?)
+}
+
+protocol LogFactory {
+    var mainLogger: LogImplementation { get }
+    func getLogger(file: String) -> LogDefaultImplementation
     func configure(regex: NSRegularExpression, logType: LogType)
-    func Print(_ description: String, type: LogType, file: String)
 }
 
 public class Log: LogProtocol {
     // MARK: Property
-    private static let _log = LogRx()
+    private static var _log: LogFactory = LogRxFactory()
     
     // MARK: LogProtocol Method
-    static func Print(_ description: String, type: LogType = .Info, file: String, function: String? = nil) {
-        var log = ""
-        if let function = function {
-            log += "[\(function)]"
-        }
-        log += description
-        _log.Print(log, type: type, file: file)
-    }
-    
     static func configure(regex: NSRegularExpression, logType: LogType) {
         _log.configure(regex: regex, logType: logType)
     }
+    
+    static func print(_ description: String, type: LogType, file: String, function: String) {
+        _log.mainLogger.print(description, type: type, file: file, function: function)
+    }
+    
+    static func configure(loggerFactory: (()->(LogFactory))) {
+        _log = loggerFactory()
+    }
+    
+    static func defaultLogger(file: String) -> LogDefaultImplementation {
+        return _log.getLogger(file: file)
+    }
 }
-
