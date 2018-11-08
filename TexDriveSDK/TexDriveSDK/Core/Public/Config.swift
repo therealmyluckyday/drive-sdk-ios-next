@@ -10,6 +10,7 @@ import Foundation
 import CoreLocation
 import CallKit
 import CoreMotion
+import os
 
 public protocol AppDelegateText: UIApplicationDelegate {
     var backgroundCompletionHandler: (() -> ())? { get set }
@@ -53,7 +54,7 @@ public class Config {
                 throw ConfigurationError.LocationNotDetermined("Need to ask user permission: requestAlwaysAuthorization() on a CLLocationManager")
             case (TripRecorderFeature.Motion, false):
                 Log.print("FEATURE \(feature) Can not activate", type: .Error, file: #file, function: #function)
-                throw ConfigurationError.MotionNotAvailable("Need to configure the UIRequiredDeviceCapabilities key of its Info.plist file with the accelerometer and gyroscope values. And add NSMotionUsageDescription in Info.plist")
+                throw ConfigurationError.MotionNotAvailable("Need to configure the UIRequiredDeviceCapabilities key of its Info.plist file with the accelerometer and gyroscope values. And add NSMotionUsageDescription in Info.plist. This feature is not availaible on simulator")
             case (_, false):
                 Log.print("FEATURE \(feature) Can not activate", type: .Error, file: #file, function: #function)
             default:
@@ -71,7 +72,8 @@ public class Config {
             let regex = try NSRegularExpression(pattern: ".*.*", options: NSRegularExpression.Options.caseInsensitive)
             Log.configure(regex: regex, logType: LogType.Info)
         } catch {
-            print("-------------REGEX ERROR-----------------------\(error)")
+            let customLog = OSLog(subsystem: "fr.axa.tex", category: #file)
+            os_log("-------------REGEX ERROR--------------- %@", log: customLog, type: .error, error.localizedDescription)
         }
     }
 }

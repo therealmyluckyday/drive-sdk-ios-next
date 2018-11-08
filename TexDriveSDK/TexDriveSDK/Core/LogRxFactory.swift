@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import os
 
 class LogRxFactory: LogFactory {
     // MARK: Property
@@ -37,7 +38,20 @@ class LogRxFactory: LogFactory {
     }
     
     func report(logDetail: LogDetail) {
-        print(logDetail.description)
+        let customLog = OSLog(subsystem: "fr.axa.tex", category: logDetail.file)
+
+        switch logDetail.type {
+        case .Info:
+            os_log("%@", log: customLog, type: .info, logDetail.description)
+            break
+        case .Warning:
+            os_log("%@", log: customLog, type: .debug, logDetail.description)
+            break
+        case .Error:
+            os_log("%@", log: customLog, type: .error, logDetail.description)
+            break
+        }
+            
         rx_logOutput.onNext(logDetail)
     }
 }
