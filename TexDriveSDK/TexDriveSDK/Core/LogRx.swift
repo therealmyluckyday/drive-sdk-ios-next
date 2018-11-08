@@ -23,4 +23,12 @@ class LogRx: LogImplementation {
         let logDetail = LogDetail(type: type, detail: description, file: file, function: function)
         self.rx_log.onNext(logDetail)
     }
+    
+    func warning(_ description: String, file: String = #file, function: String = #function) {
+        self.print(description, type: LogType.Warning, file: file, function: function)
+    }
+    
+    func error(_ description: String, file: String = #file, function: String = #function) {
+        self.print(description, type: LogType.Error, file: file, function: function)
+    }
 }

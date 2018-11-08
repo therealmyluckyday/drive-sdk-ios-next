@@ -72,4 +72,104 @@ class LogRxTests: XCTestCase {
         
         XCTAssert(isCalled)
     }
+    
+    // MARK: func warning(_ description: String, file: String = #file, function: String = #function)
+    func testWarning() {
+        let type = LogType.Warning
+        let detail = "myDetail"
+        let file = #file
+        let function = #function
+        let rx_log = PublishSubject<LogDetail>()
+        let log = LogRx(rxLog: rx_log)
+        var isCalled = false
+        
+        rx_log.asObservable().subscribe { (event) in
+            if let logDetail = event.element {
+                isCalled = true
+                
+                XCTAssertEqual(logDetail.detail, detail)
+                XCTAssertEqual(logDetail.file, "LogRxTests.swift")
+                XCTAssertEqual(logDetail.type, type)
+                XCTAssertEqual(logDetail.function!, function)
+            }
+            }.disposed(by: disposeBag!)
+        
+        log.warning(detail, file: file, function: function)
+        
+        XCTAssert(isCalled)
+    }
+    
+    func testWarningShort() {
+        let type = LogType.Warning
+        let detail = "myDetail"
+        let function = #function
+        let rx_log = PublishSubject<LogDetail>()
+        let log = LogRx(rxLog: rx_log)
+        var isCalled = false
+        
+        rx_log.asObservable().subscribe { (event) in
+            if let logDetail = event.element {
+                isCalled = true
+                
+                XCTAssertEqual(logDetail.detail, detail)
+                XCTAssertEqual(logDetail.file, "LogRxTests.swift")
+                XCTAssertEqual(logDetail.type, type)
+                XCTAssertEqual(logDetail.function!, function)
+            }
+            }.disposed(by: disposeBag!)
+        
+        log.warning(detail)
+        
+        XCTAssert(isCalled)
+    }
+    
+    // MARK: func error(_ description: String, file: String = #file, function: String = #function)
+    func testError() {
+        let type = LogType.Error
+        let detail = "myDetail"
+        let file = #file
+        let function = #function
+        let rx_log = PublishSubject<LogDetail>()
+        let log = LogRx(rxLog: rx_log)
+        var isCalled = false
+        
+        rx_log.asObservable().subscribe { (event) in
+            if let logDetail = event.element {
+                isCalled = true
+                
+                XCTAssertEqual(logDetail.detail, detail)
+                XCTAssertEqual(logDetail.file, "LogRxTests.swift")
+                XCTAssertEqual(logDetail.type, type)
+                XCTAssertEqual(logDetail.function!, function)
+            }
+            }.disposed(by: disposeBag!)
+        
+        log.error(detail, file: file, function: function)
+        
+        XCTAssert(isCalled)
+    }
+    
+    func testErrorShort() {
+        let type = LogType.Error
+        let detail = "myDetail"
+        let function = #function
+        let rx_log = PublishSubject<LogDetail>()
+        let log = LogRx(rxLog: rx_log)
+        var isCalled = false
+        
+        rx_log.asObservable().subscribe { (event) in
+            if let logDetail = event.element {
+                isCalled = true
+                
+                XCTAssertEqual(logDetail.detail, detail)
+                XCTAssertEqual(logDetail.file, "LogRxTests.swift")
+                XCTAssertEqual(logDetail.type, type)
+                XCTAssertEqual(logDetail.function!, function)
+            }
+            }.disposed(by: disposeBag!)
+        
+        log.error(detail)
+        
+        XCTAssert(isCalled)
+    }
 }
