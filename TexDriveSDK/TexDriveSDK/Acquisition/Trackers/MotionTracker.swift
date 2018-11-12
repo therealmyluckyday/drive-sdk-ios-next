@@ -22,7 +22,7 @@ class MotionTracker: Tracker {
     // MARK: Lifecycle
     init(sensor: CMMotionManager, buffer: MotionBuffer = MotionBuffer()) {
         motionSensor = sensor
-        motionSensor.deviceMotionUpdateInterval = 1;
+        motionSensor.deviceMotionUpdateInterval = 0.01;
         motionSensor.showsDeviceMovementDisplay = true
         motionBuffer = buffer
         operationQueue.maxConcurrentOperationCount = 1
@@ -35,7 +35,7 @@ class MotionTracker: Tracker {
         motionBuffer.rx_crashMotionFix.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
             if let motions = event.element {
                 for motion in motions {
-                    self?.rx_motionProviderFix.onNext(Result.Success(motion))
+                    self?.provideFix().onNext(Result.Success(motion))
                 }
             }
         }.disposed(by: disposeBag)
@@ -47,7 +47,7 @@ class MotionTracker: Tracker {
             }
             if let accelerationThreshold = self?.accelerationThreshold {
                 let motionFix = MotionFix(timestamp: motion.timestamp, accelerationMotion: MotionFix.convert(acceleration: motion.userAcceleration), gravityMotion: MotionFix.convert(acceleration: motion.gravity), magnetometerMotion: MotionFix.convert(field: motion.magneticField.field), crashDetected: MotionFix.normL2Acceleration(motion: motion) > accelerationThreshold)
-                self?.provideFix().onNext(Result.Success(motionFix))
+                self?.motionBuffer.append(fix: motionFix)
             }
         }
     }

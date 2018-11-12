@@ -37,10 +37,10 @@ class ViewController: UIViewController {
     @IBAction func tripSegmentedControlValueChanged(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
-            tripRecorder!.start()
+            tripRecorder?.start()
             break
         default:
-            tripRecorder!.stop()
+            tripRecorder?.stop()
         }
     }
 }

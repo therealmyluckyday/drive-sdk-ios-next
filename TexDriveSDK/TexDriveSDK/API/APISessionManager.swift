@@ -123,7 +123,6 @@ class APISessionManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegat
                     task: URLSessionTask,
                     didCompleteWithError error: Error?) {
         if let error = error {
-//            Log.print("HTTP connection error: \(error)", type: .Error)
             Log.print("HTTP connection error: \(error)", type: .Error)
         }
     }
