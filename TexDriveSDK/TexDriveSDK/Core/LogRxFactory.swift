@@ -38,7 +38,7 @@ class LogRxFactory: LogFactory {
     }
     
     func report(logDetail: LogDetail) {
-        let customLog = OSLog(subsystem: "fr.axa.tex", category: logDetail.file)
+        let customLog = OSLog(subsystem: "fr.axa.tex", category: logDetail.fileName)
 
         switch logDetail.type {
         case .Info:

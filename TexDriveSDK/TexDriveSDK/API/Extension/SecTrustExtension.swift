@@ -58,14 +58,14 @@ extension SecTrust: SecurityPolicy {
                         return true
                     }
                     else {
-                        Log.print("CERTIFICATE MISMATCH IN CERT DATA", type: .Error, file: #file, function: #function)
+                        Log.print("CERTIFICATE MISMATCH IN CERT DATA", type: .Error)
                     }
                 }
             } else {
-                Log.print("CERTIFICATE Couldn't read pinning certificate data", type: .Error, file: #file, function: #function)
+                Log.print("CERTIFICATE Couldn't read pinning certificate data", type: .Error)
             }
         } else {
-            Log.print("CERTIFICATE Couldn't load pinning certificate!", type: .Error, file: #file, function: #function)
+            Log.print("CERTIFICATE Couldn't load pinning certificate!", type: .Error)
         }
         return false
     }

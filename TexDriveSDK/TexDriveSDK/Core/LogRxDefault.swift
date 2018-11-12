@@ -10,16 +10,16 @@ import RxSwift
 
 class LogRxDefault: LogRx, LogDefaultImplementation {
     // MARK: Property
-    let file: String
+    let fileName: String
     
     // Lifecycle method
     init(rxLog: PublishSubject<LogDetail>, currentFile: String) {
-        file = currentFile
+        fileName = currentFile
         super.init(rxLog: rxLog)
     }
     
     // MARK: LogImplementation Protocol
-    func print(_ description: String, type: LogType = .Info, function: String = #function) {
-        super.print(description, type: type, file: file, function: function)
+    func print(_ description: String, type: LogType = .Info, functionName: String = #function) {
+        super.print(description, type: type, fileName: fileName, functionName: functionName)
     }
 }

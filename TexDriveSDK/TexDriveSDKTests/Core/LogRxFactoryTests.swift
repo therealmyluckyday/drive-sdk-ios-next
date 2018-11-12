@@ -39,7 +39,7 @@ class LogRxFactoryTests: XCTestCase {
         log.rx_logOutput.asObservable().subscribe { (event) in
             isCalled = true
             }.disposed(by: disposeBag!)
-        log.mainLogger.print("toto", type: LogType.Info, file: "superFile", function: "totoFunction")
+        log.mainLogger.print("toto", type: LogType.Info, fileName: "superFile", functionName: "totoFunction")
         
         XCTAssert(isCalled)
     }
@@ -59,7 +59,7 @@ class LogRxFactoryTests: XCTestCase {
         log.rx_logOutput.asObservable().subscribe { (event) in
             isCalled = true
             }.disposed(by: disposeBag!)
-        log.mainLogger.print("toto", type: LogType.Info, file: "superFile", function: "totoFunction")
+        log.mainLogger.print("toto", type: LogType.Info, fileName: "superFile", functionName: "totoFunction")
         
         XCTAssertFalse(isCalled)
     }
@@ -80,7 +80,7 @@ class LogRxFactoryTests: XCTestCase {
         log.rx_logOutput.asObservable().subscribe { (event) in
             isCalled = true
             }.disposed(by: disposeBag!)
-        log.getLogger(file: "toto").print("", type: LogType.Info, function: "toto")
+        log.getLogger(file: "toto").print("", type: LogType.Info, functionName: "toto")
         
         XCTAssert(isCalled)
     }
@@ -100,7 +100,7 @@ class LogRxFactoryTests: XCTestCase {
         log.rx_logOutput.asObservable().subscribe { (event) in
             isCalled = true
             }.disposed(by: disposeBag!)
-        log.getLogger(file: "toto").print("", type: LogType.Info, function: "toto")
+        log.getLogger(file: "toto").print("", type: LogType.Info, functionName: "toto")
         
         XCTAssertFalse(isCalled)
     }
@@ -121,8 +121,8 @@ class LogRxFactoryTests: XCTestCase {
         log.rx_logOutput.asObservable().subscribe { (event) in
             isCalled = true
             }.disposed(by: disposeBag!)
-        log.getLogger(file: "toto").print("", type: LogType.Info, function: "toto")
-        log.mainLogger.print("toto", type: LogType.Info, file: "superFile", function: "totoFunction")
+        log.getLogger(file: "toto").print("", type: LogType.Info, functionName: "toto")
+        log.mainLogger.print("toto", type: LogType.Info, fileName: "superFile", functionName: "totoFunction")
         
         XCTAssert(isCalled)
     }
@@ -135,15 +135,15 @@ class LogRxFactoryTests: XCTestCase {
         let log = LogRxFactory()
         let function = #function
         var isCalled = false
-        let logDetail = LogDetail(type: type, detail: detail, file: file, function: function)
+        let logDetail = LogDetail(type: type, detail: detail, fileName: file, functionName: function)
         
         log.rx_logOutput.asObservable().subscribe { (event) in
             if let logDetail = event.element {
                 isCalled = true
                 XCTAssertEqual(logDetail.detail, detail)
-                XCTAssertEqual(logDetail.file, file)
+                XCTAssertEqual(logDetail.fileName, file)
                 XCTAssertEqual(logDetail.type, type)
-                XCTAssertEqual(logDetail.function!, function)
+                XCTAssertEqual(logDetail.functionName, function)
             }
             }.disposed(by: disposeBag!)
         

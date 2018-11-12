@@ -35,7 +35,7 @@ extension URLRequest: APIURLRequest {
                 return nil
             }
         } catch {
-            Log.print("-------------JSON ERROR-----------------------\(error)", type: .Error, file: #file, function: #function)
+            Log.print("-------------JSON ERROR-----------------------\(error)", type: .Error)
             return nil
         }
         

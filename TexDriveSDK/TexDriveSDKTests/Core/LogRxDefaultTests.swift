@@ -29,10 +29,10 @@ class LogRxDefaultTests: XCTestCase {
         let rx_log = PublishSubject<LogDetail>()
         let log = LogRxDefault(rxLog: rx_log, currentFile: file)
         
-        XCTAssertEqual(log.file, file)
+        XCTAssertEqual(log.fileName, file)
     }
     
-    // MARK: func print(_ description: String, type: LogType = .Info, file: String, function: String? = nil)
+    // MARK: func print(_ description: String, type: LogType = .Info, fileName: String, functionName: String? = nil)
     func testPrint() {
         let type = LogType.Info
         let detail = "myDetail"
@@ -47,13 +47,13 @@ class LogRxDefaultTests: XCTestCase {
                 isCalled = true
                 
                 XCTAssertEqual(logDetail.detail, detail)
-                XCTAssertEqual(logDetail.file, "LogRxDefaultTests.swift")
+                XCTAssertEqual(logDetail.fileName, "LogRxDefaultTests.swift")
                 XCTAssertEqual(logDetail.type, type)
-                XCTAssertEqual(logDetail.function!, function)
+                XCTAssertEqual(logDetail.functionName, function)
             }
             }.disposed(by: disposeBag!)
         
-        log.print(detail, type: type, file: file, function: function)
+        log.print(detail, type: type, fileName: file, functionName: function)
         XCTAssert(isCalled)
     }
     
@@ -71,9 +71,9 @@ class LogRxDefaultTests: XCTestCase {
                 isCalled = true
                 
                 XCTAssertEqual(logDetail.detail, detail)
-                XCTAssertEqual(logDetail.file, "LogRxDefaultTests.swift")
+                XCTAssertEqual(logDetail.fileName, "LogRxDefaultTests.swift")
                 XCTAssertEqual(logDetail.type, type)
-                XCTAssertEqual(logDetail.function!, function)
+                XCTAssertEqual(logDetail.functionName, function)
             }
             }.disposed(by: disposeBag!)
         

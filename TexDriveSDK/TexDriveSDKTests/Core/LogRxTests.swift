@@ -23,7 +23,7 @@ class LogRxTests: XCTestCase {
         super.tearDown()
     }
     
-    // MARK: func print(_ description: String, type: LogType = .Info, file: String, function: String? = nil)
+    // MARK: func print(_ description: String, type: LogType = .Info, fileName: String, functionName: String? = nil)
     func testPrint() {
         let type = LogType.Error
         let detail = "myDetail"
@@ -38,13 +38,13 @@ class LogRxTests: XCTestCase {
                 isCalled = true
                 
                 XCTAssertEqual(logDetail.detail, detail)
-                XCTAssertEqual(logDetail.file, "LogRxTests.swift")
+                XCTAssertEqual(logDetail.fileName, "LogRxTests.swift")
                 XCTAssertEqual(logDetail.type, type)
-                XCTAssertEqual(logDetail.function!, function)
+                XCTAssertEqual(logDetail.functionName, function)
             }
             }.disposed(by: disposeBag!)
         
-        log.print(detail, type: type, file: file, function: function)
+        log.print(detail, type: type, fileName: file, functionName: function)
         
         XCTAssert(isCalled)
     }
@@ -62,18 +62,18 @@ class LogRxTests: XCTestCase {
                 isCalled = true
                 
                 XCTAssertEqual(logDetail.detail, detail)
-                XCTAssertEqual(logDetail.file, "LogRxTests.swift")
+                XCTAssertEqual(logDetail.fileName, "LogRxTests.swift")
                 XCTAssertEqual(logDetail.type, type)
-                XCTAssertEqual(logDetail.function, "testPrintWithoutFunction()")
+                XCTAssertEqual(logDetail.functionName, "testPrintWithoutFunction()")
             }
             }.disposed(by: disposeBag!)
         
-        log.print(detail, type: type, file: file)
+        log.print(detail, type: type, fileName: file)
         
         XCTAssert(isCalled)
     }
     
-    // MARK: func warning(_ description: String, file: String = #file, function: String = #function)
+    // MARK: func warning(_ description: String, fileName: String = #file, functionName: String = #function)
     func testWarning() {
         let type = LogType.Warning
         let detail = "myDetail"
@@ -88,13 +88,13 @@ class LogRxTests: XCTestCase {
                 isCalled = true
                 
                 XCTAssertEqual(logDetail.detail, detail)
-                XCTAssertEqual(logDetail.file, "LogRxTests.swift")
+                XCTAssertEqual(logDetail.fileName, "LogRxTests.swift")
                 XCTAssertEqual(logDetail.type, type)
-                XCTAssertEqual(logDetail.function!, function)
+                XCTAssertEqual(logDetail.functionName, function)
             }
             }.disposed(by: disposeBag!)
         
-        log.warning(detail, file: file, function: function)
+        log.warning(detail, fileName: file, functionName: function)
         
         XCTAssert(isCalled)
     }
@@ -112,9 +112,9 @@ class LogRxTests: XCTestCase {
                 isCalled = true
                 
                 XCTAssertEqual(logDetail.detail, detail)
-                XCTAssertEqual(logDetail.file, "LogRxTests.swift")
+                XCTAssertEqual(logDetail.fileName, "LogRxTests.swift")
                 XCTAssertEqual(logDetail.type, type)
-                XCTAssertEqual(logDetail.function!, function)
+                XCTAssertEqual(logDetail.functionName, function)
             }
             }.disposed(by: disposeBag!)
         
@@ -123,7 +123,7 @@ class LogRxTests: XCTestCase {
         XCTAssert(isCalled)
     }
     
-    // MARK: func error(_ description: String, file: String = #file, function: String = #function)
+    // MARK: func error(_ description: String, fileName: String = #file, functionName: String = #function)
     func testError() {
         let type = LogType.Error
         let detail = "myDetail"
@@ -138,13 +138,13 @@ class LogRxTests: XCTestCase {
                 isCalled = true
                 
                 XCTAssertEqual(logDetail.detail, detail)
-                XCTAssertEqual(logDetail.file, "LogRxTests.swift")
+                XCTAssertEqual(logDetail.fileName, "LogRxTests.swift")
                 XCTAssertEqual(logDetail.type, type)
-                XCTAssertEqual(logDetail.function!, function)
+                XCTAssertEqual(logDetail.functionName, function)
             }
             }.disposed(by: disposeBag!)
         
-        log.error(detail, file: file, function: function)
+        log.error(detail, fileName: file, functionName: function)
         
         XCTAssert(isCalled)
     }
@@ -162,9 +162,9 @@ class LogRxTests: XCTestCase {
                 isCalled = true
                 
                 XCTAssertEqual(logDetail.detail, detail)
-                XCTAssertEqual(logDetail.file, "LogRxTests.swift")
+                XCTAssertEqual(logDetail.fileName, "LogRxTests.swift")
                 XCTAssertEqual(logDetail.type, type)
-                XCTAssertEqual(logDetail.function!, function)
+                XCTAssertEqual(logDetail.functionName, function)
             }
             }.disposed(by: disposeBag!)
         

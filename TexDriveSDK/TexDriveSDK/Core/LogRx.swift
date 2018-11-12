@@ -19,16 +19,16 @@ class LogRx: LogImplementation {
     }
     
     // MARK: LogImplementation Protocol    
-    func print(_ description: String, type: LogType = .Info, file: String = #file, function: String = #function) {
-        let logDetail = LogDetail(type: type, detail: description, file: file, function: function)
+    func print(_ description: String, type: LogType = .Info, fileName: String = #file, functionName: String = #function) {
+        let logDetail = LogDetail(type: type, detail: description, fileName: fileName, functionName: functionName)
         self.rx_log.onNext(logDetail)
     }
     
-    func warning(_ description: String, file: String = #file, function: String = #function) {
-        self.print(description, type: LogType.Warning, file: file, function: function)
+    func warning(_ description: String, fileName: String = #file, functionName: String = #function) {
+        self.print(description, type: LogType.Warning, fileName: fileName, functionName: functionName)
     }
     
-    func error(_ description: String, file: String = #file, function: String = #function) {
-        self.print(description, type: LogType.Error, file: file, function: function)
+    func error(_ description: String, fileName: String = #file, functionName: String = #function) {
+        self.print(description, type: LogType.Error, fileName: fileName, functionName: functionName)
     }
 }

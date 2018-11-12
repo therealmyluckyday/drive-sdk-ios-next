@@ -18,15 +18,15 @@ class LogDetail: CustomStringConvertible {
     // MARK: Property
     let type: LogType
     let detail: String
-    let file: String
-    let function: String?
+    let fileName: String
+    let functionName: String?
     
     // MARK: Lifecycle
-    init(type currentType: LogType, detail description: String, file fileWithPath: String, function currentFunction: String?) {
+    init(type currentType: LogType, detail description: String, fileName fileWithPath: String, functionName currentFunction: String?) {
         type = currentType
         detail = description
-        function = currentFunction
-        file = LogDetail.cleanPathForFile(fileWithPath: fileWithPath)
+        functionName = currentFunction
+        fileName = LogDetail.cleanPathForFile(fileWithPath: fileWithPath)
     }
     
     // MARK: Method
@@ -38,16 +38,16 @@ class LogDetail: CustomStringConvertible {
     }
     
     func canLog(regex: NSRegularExpression, logType: LogType) -> Bool {
-        let results = regex.matches(in: file, options:NSRegularExpression.MatchingOptions.anchored, range: NSRange(location: 0, length: file.count))
+        let results = regex.matches(in: fileName, options:NSRegularExpression.MatchingOptions.anchored, range: NSRange(location: 0, length: fileName.count))
         return results.count > 0 && logType.rawValue >= self.type.rawValue
     }
     
     // MARK: CustomStringConvertible protocol
     var description: String {
-        if let function = function {
-            return "[\(file)][\(function)]\(detail)"
+        if let function = functionName {
+            return "[\(fileName)][\(function)]\(detail)"
         }
-        return "[\(file)]\(detail)"
+        return "[\(fileName)]\(detail)"
     }
 }
 

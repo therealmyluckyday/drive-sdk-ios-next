@@ -53,7 +53,7 @@ class APISessionManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegat
     }
     
     func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
-        Log.print("-------------JSON ERROR-----------------------\(String(describing: error))", type: .Error, file: #file, function: #function)
+        Log.print("-------------JSON ERROR-----------------------\(String(describing: error))", type: .Error)
     }
     
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
@@ -65,7 +65,7 @@ class APISessionManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegat
             Log.print("HTTP TRUSTING CERTIFICATE")
             completionHandler(.useCredential, credential)
         } else {
-            Log.print("NOT TRUSTING CERTIFICATE", type: .Error, file: #file, function: #function)
+            Log.print("NOT TRUSTING CERTIFICATE", type: .Error)
             completionHandler(.rejectProtectionSpace, nil)
         }
         if challenge.previousFailureCount > 0 {
@@ -74,7 +74,7 @@ class APISessionManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegat
         if let serverTrust = challenge.protectionSpace.serverTrust {
             completionHandler(Foundation.URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust: serverTrust))
         } else {
-            Log.print("server trust error \(String(describing: challenge.error))", type: .Error, file: #file, function: #function)
+            Log.print("server trust error \(String(describing: challenge.error))", type: .Error)
         }
     }
     
@@ -98,14 +98,14 @@ class APISessionManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegat
             if (200...299).contains(httpResponse.statusCode) {
 
             } else {
-                Log.print("HTTP Error \(httpResponse.statusCode)", type: .Error, file: #file, function: #function)
+                Log.print("HTTP Error \(httpResponse.statusCode)", type: .Error)
             }
             let data = try Data(contentsOf: savedURL)
             if let body = String(bytes: data, encoding: String.Encoding.utf8) {
                 Log.print("HTTP BODY \(body)")
             }
         } catch {
-            Log.print("HTTP File Error \(error)", type: .Error, file: #file, function: #function)
+            Log.print("HTTP File Error \(error)", type: .Error)
         }
     }
     
@@ -123,8 +123,8 @@ class APISessionManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegat
                     task: URLSessionTask,
                     didCompleteWithError error: Error?) {
         if let error = error {
-//            Log.print("HTTP connection error: \(error)", type: .Error, file: #file, function: #function)
-            Log.print("HTTP connection error: \(error)", type: .Error, file: #file, function: #function)
+//            Log.print("HTTP connection error: \(error)", type: .Error)
+            Log.print("HTTP connection error: \(error)", type: .Error)
         }
     }
     
