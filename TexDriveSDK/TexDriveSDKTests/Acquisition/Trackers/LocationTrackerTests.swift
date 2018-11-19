@@ -46,6 +46,12 @@ class MockLocationManager: CLLocationManager {
             mockAllowsBackgroundLocationUpdates = newValue
         }
     }
+    
+    func send(locations: [CLLocation]) {
+        for location in locations {
+            self.delegate?.locationManager!(self, didUpdateLocations: [location])
+        }
+    }
 }
 
 class MockLocationManagerNotDetermined: MockLocationManager {

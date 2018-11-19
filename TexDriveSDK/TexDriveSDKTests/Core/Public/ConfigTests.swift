@@ -39,7 +39,7 @@ class ConfigTests: XCTestCase {
         }
     }
     
-    func testInit_BAtteryFeature_can_activated() {
+    func testInit_BatteryFeature_can_activated() {
         let appId = "MyAppId"
         let locale = Locale.current
         let user = User.Anonymous
@@ -54,8 +54,25 @@ class ConfigTests: XCTestCase {
         }
     }
     
-    func testInit_General() {
-        
+    // MARK: func generateAPISessionManager() -> APISessionManagerProtocol
+    func testgenerateAPISessionManager() {
+        let appId = "MyAppId"
+        let locale = Locale.current
+        let user = User.Anonymous
+        let mode = Mode.manual
+        let feature = TripRecorderFeature.Battery(UIDevice.current)
+        let features = [feature]
+        do {
+            let configuration = try Config(applicationId: appId, applicationLocale: locale, currentUser: user, currentMode: mode, currentTripRecorderFeatures: features)
+            if let apiSessionManager = configuration?.generateAPISessionManager() as? APISessionManager {
+                XCTAssert(true)
+            } else {
+                XCTAssert(false)
+            }
+        } catch {
+            XCTAssert(false)
+        }
+
     }
     
 }
