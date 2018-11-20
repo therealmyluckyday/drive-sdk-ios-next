@@ -8,7 +8,6 @@
 
 import CoreLocation
 import RxSwift
-import RxCocoa
 
 class LocationTracker: NSObject, Tracker, CLLocationManagerDelegate {
     // MARK: Property

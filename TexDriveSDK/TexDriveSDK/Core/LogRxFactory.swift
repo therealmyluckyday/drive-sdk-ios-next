@@ -38,20 +38,6 @@ class LogRxFactory: LogFactory {
     }
     
     func report(logDetail: LogDetail) {
-        let customLog = OSLog(subsystem: "fr.axa.tex", category: logDetail.fileName)
-
-        switch logDetail.type {
-        case .Info:
-            os_log("%@", log: customLog, type: .info, logDetail.description)
-            break
-        case .Warning:
-            os_log("%@", log: customLog, type: .debug, logDetail.description)
-            break
-        case .Error:
-            os_log("%@", log: customLog, type: .error, logDetail.description)
-            break
-        }
-            
         rx_logOutput.onNext(logDetail)
     }
 }
