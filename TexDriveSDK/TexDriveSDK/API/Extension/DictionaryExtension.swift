@@ -9,11 +9,11 @@
 import Foundation
 
 protocol SerializeAPIGeneralInformation {
-    func serializeWithGeneralInformation(dictionary: [String: Any], appId: String) -> [String: Any]
+    func serializeWithGeneralInformation(dictionary: [String: Any], appId: String, user: User) -> [String: Any]
 }
 
 extension Dictionary where Key == String {
-    static func serializeWithGeneralInformation(dictionary: [String: Any], appId: String) -> [String: Any] {
+    static func serializeWithGeneralInformation(dictionary: [String: Any], appId: String, user: User) -> [String: Any] {
         var newDictionary = dictionary
         let uuid = UIDevice.current.identifierForVendor?.uuidString
         let timeZone = DateFormatter.formattedTimeZone()
@@ -23,6 +23,12 @@ extension Dictionary where Key == String {
         let firstVia = "TEX_iOS_SDK/\(os)/\(sdkVersion)"
         //        token _texConfig.texUser.authToken
         //        client_id _texConfig.texUser.userId
+        switch user {
+        case .Authentified(let clientId):
+            newDictionary["client_id"] = clientId
+        default:
+            break
+        }
         newDictionary["uid"] = uuid
         newDictionary["timezone"] = timeZone
         newDictionary["os"] = os

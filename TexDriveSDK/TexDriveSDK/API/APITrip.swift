@@ -10,23 +10,23 @@ import Foundation
 import RxSwift
 
 protocol APITripProtocol {
-    init(apiSessionManager: APISessionManager)
-    func subscribe(providerTrip: PublishSubject<Trip>)
+    init(apiSessionManager: APISessionManagerProtocol)
+    func subscribe(providerTrip: PublishSubject<Trip>, scheduler: ImmediateSchedulerType)
 }
 
 class APITrip: APITripProtocol {
     // MARK: Property
     private let disposeBag = DisposeBag()
-    private let sessionManager : APISessionManager
+    private let sessionManager : APISessionManagerProtocol
 
     
     // MARK: APITripProtocol Protocol Method
-    required init(apiSessionManager: APISessionManager) {
+    required init(apiSessionManager: APISessionManagerProtocol) {
         self.sessionManager = apiSessionManager
     }
     
-    func subscribe(providerTrip: PublishSubject<Trip>) {
-        providerTrip.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
+    func subscribe(providerTrip: PublishSubject<Trip>, scheduler: ImmediateSchedulerType = MainScheduler.asyncInstance) {
+        providerTrip.asObservable().observeOn(scheduler).subscribe { [weak self](event) in
             if let trip = event.element {
                 self?.sendTrip(trip: trip)
             }

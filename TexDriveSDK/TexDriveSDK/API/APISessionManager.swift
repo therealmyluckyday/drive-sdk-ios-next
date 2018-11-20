@@ -8,7 +8,12 @@
 
 import Foundation
 
-class APISessionManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegate, URLSessionTaskDelegate {
+public protocol APISessionManagerProtocol {
+    func put(dictionaryBody: [String: Any])
+}
+
+
+class APISessionManager: NSObject, APISessionManagerProtocol, URLSessionDelegate, URLSessionDownloadDelegate, URLSessionTaskDelegate {
     // MARK: Property
     private let configuration : APIConfiguration
     private lazy var urlSession: URLSession = {
@@ -31,7 +36,7 @@ class APISessionManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegat
     
     func put(dictionaryBody: [String: Any]) {
         if let url = URL(string: "\(self.configuration.baseUrl())/data") {
-            let dictionaryBody = Dictionary<String, Any>.serializeWithGeneralInformation(dictionary: dictionaryBody, appId: self.configuration.appId)
+            let dictionaryBody = Dictionary<String, Any>.serializeWithGeneralInformation(dictionary: dictionaryBody, appId: self.configuration.appId, user: self.configuration.user)
             if let request = URLRequest.createUrlRequest(url: url, body: dictionaryBody, httpMethod: HttpMethod.PUT) {
                 let backgroundTask = self.urlSession.downloadTask(with: request)
                 backgroundTask.resume()

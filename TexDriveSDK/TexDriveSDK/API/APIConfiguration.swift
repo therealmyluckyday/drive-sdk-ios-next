@@ -20,6 +20,7 @@ enum Domain: String {
 struct APIConfiguration {
     let appId: String
     let domain: Domain
+    let user: User
     
     func baseUrl() -> String {
         return "https://"+domain.rawValue+"/v2.0"
