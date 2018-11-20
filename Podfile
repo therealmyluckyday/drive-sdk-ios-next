@@ -4,8 +4,8 @@ workspace 'TexDrive'
 
 def shared_pods
     use_frameworks!
-    pod 'RxSwift',  '4.3'
-    pod 'RxCocoa',  '4.3'
+    pod 'RxSwift', '4.3'
+    pod 'RxCocoa', '4.3'
     
 end
 
@@ -24,14 +24,14 @@ target 'TexDriveApp' do
 end
 
 target 'TexDriveSDK' do
-    pod 'RxSwift'
-    pod 'RxCocoa'
+    pod 'RxSwift', '4.3'
+    pod 'RxCocoa', '4.3'
     project 'TexDriveSDK/TexDriveSDK.xcodeproj'
     
     target 'TexDriveSDKTests' do
         inherit! :search_paths
         # RxTest and RxBlocking make the most sense in the context of unit/integration tests
-        pod 'RxBlocking', '~> 4.0'
-        pod 'RxTest',     '~> 4.0'
+        pod 'RxBlocking', '4.3'
+        pod 'RxTest', '4.3'
     end
 end

@@ -9,7 +9,6 @@
 import Foundation
 
 protocol LogProtocol {
-    static func defaultLogger(file: String) -> LogDefaultImplementation
     static func configure(regex: NSRegularExpression, logType: LogType)
     static func configure(loggerFactory: LogFactory)
 }
@@ -31,7 +30,7 @@ protocol LogFactory {
     func configure(regex: NSRegularExpression, logType: LogType)
 }
 
-public class Log: LogProtocol {
+class Log: LogProtocol {
     // MARK: Property
     private static var _log: LogFactory?
     
@@ -45,9 +44,5 @@ public class Log: LogProtocol {
     }
     static func configure(loggerFactory: LogFactory) {
         _log = loggerFactory
-    }
-    
-    static func defaultLogger(file: String) -> LogDefaultImplementation? {
-        return _log?.getLogger(file: file)
     }
 }

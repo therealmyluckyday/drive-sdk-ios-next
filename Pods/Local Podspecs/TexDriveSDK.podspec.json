@@ -23,6 +23,12 @@
     ],
     "RxCocoa": [
 
+    ],
+    "RxBlocking": [
+
+    ],
+    "RxTest": [
+
     ]
   }
 }

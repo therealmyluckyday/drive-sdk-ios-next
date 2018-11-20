@@ -153,13 +153,17 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/RxBlocking-framework/RxBlocking.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/RxCocoa-framework/RxCocoa.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/RxSwift-framework/RxSwift.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/RxTest-framework/RxTest.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/TexDriveSDK/TexDriveSDK.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/RxBlocking-framework/RxBlocking.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/RxCocoa-framework/RxCocoa.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/RxSwift-framework/RxSwift.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/RxTest-framework/RxTest.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/TexDriveSDK/TexDriveSDK.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
