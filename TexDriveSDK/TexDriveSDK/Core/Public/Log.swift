@@ -33,21 +33,21 @@ protocol LogFactory {
 
 public class Log: LogProtocol {
     // MARK: Property
-    private static var _log: LogFactory = LogRxFactory()
+    private static var _log: LogFactory?
     
     // MARK: LogProtocol Method
     static func configure(regex: NSRegularExpression, logType: LogType) {
-        _log.configure(regex: regex, logType: logType)
+        _log?.configure(regex: regex, logType: logType)
     }
     
     static func print(_ description: String, type: LogType = .Info, fileName: String = #file, functionName: String = #function) {
-            _log.mainLogger.print(description, type: type, fileName: fileName, functionName: functionName)
+            _log?.mainLogger.print(description, type: type, fileName: fileName, functionName: functionName)
     }
     static func configure(loggerFactory: LogFactory) {
         _log = loggerFactory
     }
     
-    static func defaultLogger(file: String) -> LogDefaultImplementation {
-        return _log.getLogger(file: file)
+    static func defaultLogger(file: String) -> LogDefaultImplementation? {
+        return _log?.getLogger(file: file)
     }
 }

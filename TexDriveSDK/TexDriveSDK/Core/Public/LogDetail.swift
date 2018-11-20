@@ -8,21 +8,21 @@
 
 import Foundation
 
-enum LogType: Int {
+public enum LogType: Int {
     case Error = 0
     case Warning = 1
     case Info = 2
 }
 
-class LogDetail: CustomStringConvertible {
+public class LogDetail: CustomStringConvertible {
     // MARK: Property
-    let type: LogType
-    let detail: String
-    let fileName: String
-    let functionName: String?
+    public let type: LogType
+    public let detail: String
+    public let fileName: String
+    public let functionName: String
     
     // MARK: Lifecycle
-    init(type currentType: LogType, detail description: String, fileName fileWithPath: String, functionName currentFunction: String?) {
+    init(type currentType: LogType, detail description: String, fileName fileWithPath: String, functionName currentFunction: String) {
         type = currentType
         detail = description
         functionName = currentFunction
@@ -43,11 +43,8 @@ class LogDetail: CustomStringConvertible {
     }
     
     // MARK: CustomStringConvertible protocol
-    var description: String {
-        if let function = functionName {
-            return "[\(fileName)][\(function)]\(detail)"
-        }
-        return "[\(fileName)]\(detail)"
+    public var description: String {
+        return "[\(fileName)][\(functionName)]\(detail)"
     }
 }
 

@@ -11,6 +11,7 @@ import CoreLocation
 import CallKit
 import CoreMotion
 import os
+import RxSwift
 
 public protocol AppDelegateText: UIApplicationDelegate {
     var backgroundCompletionHandler: (() -> ())? { get set }
@@ -21,19 +22,31 @@ public enum ConfigurationError: Error {
     case MotionNotAvailable(String)
 }
 
+public protocol ConfigurationProtocol {
+    var tripRecorderFeatures: [TripRecorderFeature] { get }
+    var rx_log: PublishSubject<LogDetail> { get }
+    func generateAPISessionManager() -> APISessionManagerProtocol
+}
+
 public enum Mode {
     case auto
     case autoBlueTooth
     case manual
 }
 
-public class Config {
+public class Config: ConfigurationProtocol {
+    public var rx_log: PublishSubject<LogDetail> {
+        get {
+            return logFactory.rx_logOutput
+        }
+    }
+    public let tripRecorderFeatures: [TripRecorderFeature]
+    
     let appId: String
     let locale: Locale
     let user: User
     let mode: Mode
-    let tripRecorderFeatures: [TripRecorderFeature]
-    
+    let logFactory = LogRxFactory()
     
     public convenience init?(applicationId: String, applicationLocale: Locale, currentUser: User, currentMode: Mode) throws {
         let locationfeature : TripRecorderFeature = TripRecorderFeature.Location(CLLocationManager())
@@ -67,14 +80,19 @@ public class Config {
         user = currentUser
         mode = currentMode
         tripRecorderFeatures = currentTripRecorderFeatures
-        
         do {
-            let regex = try NSRegularExpression(pattern: ".*.*", options: NSRegularExpression.Options.caseInsensitive)
+            let regex = try NSRegularExpression(pattern: ".*SecTrustExtension.swift.*", options: NSRegularExpression.Options.caseInsensitive)
+            
+            Log.configure(loggerFactory: logFactory)
             Log.configure(regex: regex, logType: LogType.Info)
         } catch {
             let customLog = OSLog(subsystem: "fr.axa.tex", category: #file)
             os_log("-------------REGEX ERROR--------------- %@", log: customLog, type: .error, error.localizedDescription)
         }
+    }
+    
+    public func generateAPISessionManager() -> APISessionManagerProtocol {
+        return APISessionManager(configuration: APIConfiguration(appId: appId, domain: Domain.Preproduction, user: user))
     }
 }
 
