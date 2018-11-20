@@ -37,19 +37,6 @@ class LogDetailTests: XCTestCase {
         XCTAssertEqual(logDetail.functionName, function)
     }
     
-    func testInitWithoutFunction() {
-        let type = LogType.Info
-        let detail = "myDetail"
-        let file = #file
-        
-        let logDetail = LogDetail(type: type, detail: detail, fileName: file, functionName: nil)
-        
-        XCTAssertNil(logDetail.functionName)
-        XCTAssertEqual(logDetail.type, type)
-        XCTAssertEqual(logDetail.detail, detail)
-        XCTAssertEqual(logDetail.fileName, "LogDetailTests.swift")
-    }
-    
     // MARK: class func cleanPathForFile(fileWithPath: String) -> String
     func testcleanPathForFileWithFolder() {
         let file = "/myFile.tata"

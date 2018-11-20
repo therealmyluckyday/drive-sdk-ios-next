@@ -16,7 +16,7 @@ class DictionaryExtensionTests: XCTestCase {
         let dictionary = ["toto": 1984]
         let appId = "AXAAppId"
         
-        let result = Dictionary<String, Any>.serializeWithGeneralInformation(dictionary: dictionary, appId: appId)
+        let result = Dictionary<String, Any>.serializeWithGeneralInformation(dictionary: dictionary, appId: appId, user: User.Anonymous)
         
         let os = "\(UIDevice.current.systemName) \(UIDevice.current.systemVersion)"
         let sdkVersion = Bundle(for: APITrip.self).infoDictionary!["CFBundleShortVersionString"] as! String

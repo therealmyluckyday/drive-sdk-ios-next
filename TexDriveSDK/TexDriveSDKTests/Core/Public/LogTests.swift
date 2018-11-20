@@ -203,40 +203,6 @@ class LogTests: XCTestCase {
         XCTAssertFalse(isCalled)
     }
 
-    // MARK: static func defaultLogger(file: String) -> LogDefaultImplementation
-    func testdefaultLoggerCorrectFile() {
-        let regexPattern = ".*"
-        let description = "TATA"
-        let type = LogType.Error
-        let file = "/LOVELYFILE.toto"
-        let function = "superFunction"
-        let loggerFactory = LogRxFactory()
-        
-        Log.configure(loggerFactory: loggerFactory)
-        do {
-            let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
-            Log.configure(regex: regex, logType: LogType.Info)
-        } catch {
-            XCTAssertFalse(true)
-        }
-        
-        var isCalled = false
-        loggerFactory.rx_logOutput.asObservable().subscribe { (event) in
-            if let logDetail = event.element {
-                isCalled = true
-                
-                XCTAssertEqual(logDetail.detail, description)
-                XCTAssertEqual(logDetail.fileName, "LOVELYFILE.toto")
-                XCTAssertEqual(logDetail.type, LogType.Error)
-                XCTAssertEqual(logDetail.functionName, function)
-            }
-            }.disposed(by: disposeBag!)
-        
-        let log = Log.defaultLogger(file: file)
-        log.print(description, type: type, functionName: function)
-        
-        XCTAssert(isCalled)
-    }
     // MARK: static func configure(regex: NSRegularExpression, logType: LogType)
     func testConfigureRegExNotCalled() {
         let regexPattern = ".*TATA.*"

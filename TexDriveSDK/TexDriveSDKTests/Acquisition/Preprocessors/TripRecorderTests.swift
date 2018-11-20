@@ -7,12 +7,19 @@
 //
 
 import XCTest
+import RxSwift
 import CoreLocation
 @testable import TexDriveSDK
 
 
 
 class MockConfiguration : ConfigurationProtocol {
+    var rx_log = PublishSubject<LogDetail>()
+    
+    func log(regex: NSRegularExpression, logType: LogType) {
+        
+    }
+    
     var tripRecorderFeatures: [TripRecorderFeature]
     let mockApiSessionManager = APISessionManagerMock()
     
