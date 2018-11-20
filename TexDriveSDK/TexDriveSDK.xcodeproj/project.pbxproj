@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		239A97B88AAAED6A41660992 /* libPods-TexDriveSDKTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FE513EF12F337E19975F6A5D /* libPods-TexDriveSDKTests.a */; };
-		6BAAD4D24025869A301144E9 /* libPods-TexDriveSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 10178534269D367C809B0197 /* libPods-TexDriveSDK.a */; };
+		76578802AD1E22FC85ACBA59 /* libPods-TexDriveSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FF9BB194DE92C32454DA6CB /* libPods-TexDriveSDK.a */; };
+		8132CC17A88B22895528C8CC /* libPods-TexDriveSDKTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EB9F29EAFBFD2B3E91BCDF7 /* libPods-TexDriveSDKTests.a */; };
 		C107606F217E2C8000FB28AA /* PersistantQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C107606E217E2C8000FB28AA /* PersistantQueue.swift */; };
 		C1076071217E2E9400FB28AA /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1076070217E2E9400FB28AA /* Event.swift */; };
 		C12373992166468100A95A2A /* TripRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12373982166468100A95A2A /* TripRecorder.swift */; };
@@ -51,6 +51,7 @@
 		C1DD032D21886B77000BBBBF /* APIConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DD032C21886B77000BBBBF /* APIConfiguration.swift */; };
 		C1DD032F21886BD5000BBBBF /* APIConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DD032E21886BD5000BBBBF /* APIConfigurationTests.swift */; };
 		C1DD033121887EE6000BBBBF /* APISessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DD033021887EE6000BBBBF /* APISessionManager.swift */; };
+		C1E0508A21A2EF4000B21D99 /* TEX-elb-ssl.der in Sources */ = {isa = PBXBuildFile; fileRef = C148D7152181F34C00F1088B /* TEX-elb-ssl.der */; };
 		C1E521B22170ECBE00B80C64 /* CallTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E521B12170ECBE00B80C64 /* CallTracker.swift */; };
 		C1E521B42170ED5300B80C64 /* CallFix.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E521B32170ED5300B80C64 /* CallFix.swift */; };
 		C1E521B621748CE800B80C64 /* CallFixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E521B521748CE800B80C64 /* CallFixTests.swift */; };
@@ -58,6 +59,15 @@
 		C1E93DFA2187635D0082B2B3 /* TripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E93DF92187635D0082B2B3 /* TripTests.swift */; };
 		C1F2A0D72183129900765D08 /* TEX-elb-ssl.der in Resources */ = {isa = PBXBuildFile; fileRef = C148D7152181F34C00F1088B /* TEX-elb-ssl.der */; };
 		C1FAAA3A2163C7B700FD3C1D /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FAAA392163C7B700FD3C1D /* Tracker.swift */; };
+		C1FDE33B219C58E500F15AF3 /* PersistantQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE33A219C58E500F15AF3 /* PersistantQueueTests.swift */; };
+		C1FDE33D219C5A4C00F15AF3 /* ServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE33C219C5A4C00F15AF3 /* ServiceTests.swift */; };
+		C1FDE340219C5B1300F15AF3 /* TripRecorderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE33F219C5B1300F15AF3 /* TripRecorderTests.swift */; };
+		C1FDE342219C5B4300F15AF3 /* FixCollectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE341219C5B4300F15AF3 /* FixCollectorTests.swift */; };
+		C1FDE344219C5B7E00F15AF3 /* APISessionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE343219C5B7E00F15AF3 /* APISessionManagerTests.swift */; };
+		C1FDE346219C5BA700F15AF3 /* APITripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE345219C5BA700F15AF3 /* APITripTests.swift */; };
+		C1FDE348219C5BED00F15AF3 /* UserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE347219C5BED00F15AF3 /* UserTests.swift */; };
+		C1FDE34A219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE349219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift */; };
+		C1FDE34C219C72C400F15AF3 /* FixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE34B219C72C400F15AF3 /* FixTests.swift */; };
 		E2798EB42147F0DC006228A3 /* TexDriveSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2798EAA2147F0DC006228A3 /* TexDriveSDK.framework */; };
 		E2798EB92147F0DC006228A3 /* TexDriveSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2798EB82147F0DC006228A3 /* TexDriveSDKTests.swift */; };
 		E2798EBB2147F0DC006228A3 /* TexDriveSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = E2798EAD2147F0DC006228A3 /* TexDriveSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -80,9 +90,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		10178534269D367C809B0197 /* libPods-TexDriveSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TexDriveSDK.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		50A2513B59D5B3B15FA7C0BA /* Pods-TexDriveSDKTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveSDKTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-TexDriveSDKTests/Pods-TexDriveSDKTests.debug.xcconfig"; sourceTree = "<group>"; };
+		5EB9F29EAFBFD2B3E91BCDF7 /* libPods-TexDriveSDKTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TexDriveSDKTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C9C02028661D6DB90B8EF11 /* Pods-TexDriveSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveSDK.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-TexDriveSDK/Pods-TexDriveSDK.debug.xcconfig"; sourceTree = "<group>"; };
+		8FF9BB194DE92C32454DA6CB /* libPods-TexDriveSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TexDriveSDK.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A225B2E66F16EA9C461C17A6 /* Pods-TexDriveSDKTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveSDKTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-TexDriveSDKTests/Pods-TexDriveSDKTests.release.xcconfig"; sourceTree = "<group>"; };
 		AF9E4DBBDCD5D4E15A273DDC /* Pods-TexDriveSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveSDK.release.xcconfig"; path = "../Pods/Target Support Files/Pods-TexDriveSDK/Pods-TexDriveSDK.release.xcconfig"; sourceTree = "<group>"; };
 		C107606E217E2C8000FB28AA /* PersistantQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistantQueue.swift; sourceTree = "<group>"; };
@@ -134,6 +145,15 @@
 		C1E521B721749A9400B80C64 /* CallTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallTrackerTests.swift; sourceTree = "<group>"; };
 		C1E93DF92187635D0082B2B3 /* TripTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripTests.swift; sourceTree = "<group>"; };
 		C1FAAA392163C7B700FD3C1D /* Tracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
+		C1FDE33A219C58E500F15AF3 /* PersistantQueueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistantQueueTests.swift; sourceTree = "<group>"; };
+		C1FDE33C219C5A4C00F15AF3 /* ServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceTests.swift; sourceTree = "<group>"; };
+		C1FDE33F219C5B1300F15AF3 /* TripRecorderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecorderTests.swift; sourceTree = "<group>"; };
+		C1FDE341219C5B4300F15AF3 /* FixCollectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixCollectorTests.swift; sourceTree = "<group>"; };
+		C1FDE343219C5B7E00F15AF3 /* APISessionManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APISessionManagerTests.swift; sourceTree = "<group>"; };
+		C1FDE345219C5BA700F15AF3 /* APITripTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITripTests.swift; sourceTree = "<group>"; };
+		C1FDE347219C5BED00F15AF3 /* UserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTests.swift; sourceTree = "<group>"; };
+		C1FDE349219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecorderFeatureTests.swift; sourceTree = "<group>"; };
+		C1FDE34B219C72C400F15AF3 /* FixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixTests.swift; sourceTree = "<group>"; };
 		E2798EAA2147F0DC006228A3 /* TexDriveSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TexDriveSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2798EAD2147F0DC006228A3 /* TexDriveSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TexDriveSDK.h; sourceTree = "<group>"; };
 		E2798EAE2147F0DC006228A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -146,7 +166,6 @@
 		E2798ED0214AB6F3006228A3 /* FixCollector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixCollector.swift; sourceTree = "<group>"; };
 		E2798ED52158DFC4006228A3 /* LocationTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTracker.swift; sourceTree = "<group>"; };
 		E2798EDC215A5D65006228A3 /* LocationFix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFix.swift; sourceTree = "<group>"; };
-		FE513EF12F337E19975F6A5D /* libPods-TexDriveSDKTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TexDriveSDKTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,7 +173,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BAAD4D24025869A301144E9 /* libPods-TexDriveSDK.a in Frameworks */,
+				76578802AD1E22FC85ACBA59 /* libPods-TexDriveSDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,7 +182,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2798EB42147F0DC006228A3 /* TexDriveSDK.framework in Frameworks */,
-				239A97B88AAAED6A41660992 /* libPods-TexDriveSDKTests.a in Frameworks */,
+				8132CC17A88B22895528C8CC /* libPods-TexDriveSDKTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,8 +192,8 @@
 		0AA4710ACFB5F4F1B5D0FF88 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				10178534269D367C809B0197 /* libPods-TexDriveSDK.a */,
-				FE513EF12F337E19975F6A5D /* libPods-TexDriveSDKTests.a */,
+				8FF9BB194DE92C32454DA6CB /* libPods-TexDriveSDK.a */,
+				5EB9F29EAFBFD2B3E91BCDF7 /* libPods-TexDriveSDKTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -250,6 +269,9 @@
 				C17E9A7D216FA53900FCF93E /* ConfigTests.swift */,
 				C15B9FC621942E720072439F /* LogTests.swift */,
 				C15B9FC82194441F0072439F /* LogDetailTests.swift */,
+				C1FDE33C219C5A4C00F15AF3 /* ServiceTests.swift */,
+				C1FDE347219C5BED00F15AF3 /* UserTests.swift */,
+				C1FDE349219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -257,6 +279,7 @@
 		C18AE981216E21210065F0BB /* Acquisition */ = {
 			isa = PBXGroup;
 			children = (
+				C1FDE33E219C5AF000F15AF3 /* Preprocessors */,
 				C18AE987216E31BB0065F0BB /* Trackers */,
 				C18AE982216E21380065F0BB /* Models */,
 			);
@@ -266,13 +289,14 @@
 		C18AE982216E21380065F0BB /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				C1FDE34B219C72C400F15AF3 /* FixTests.swift */,
 				C18AE983216E21A00065F0BB /* BatteryFixTests.swift */,
 				C18AE985216E2E2A0065F0BB /* LocationFixTests.swift */,
 				C1E521B521748CE800B80C64 /* CallFixTests.swift */,
-				C1273EA4217790C50006E6E0 /* MotionBufferTests.swift */,
 				C1273EA62178B3640006E6E0 /* MotionFixTests.swift */,
-				C1E93DF92187635D0082B2B3 /* TripTests.swift */,
+				C1273EA4217790C50006E6E0 /* MotionBufferTests.swift */,
 				C1DD032221885AE4000BBBBF /* EventTests.swift */,
+				C1E93DF92187635D0082B2B3 /* TripTests.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -305,6 +329,8 @@
 			children = (
 				C1E93DF621875F460082B2B3 /* Extension */,
 				C1DD032E21886BD5000BBBBF /* APIConfigurationTests.swift */,
+				C1FDE343219C5B7E00F15AF3 /* APISessionManagerTests.swift */,
+				C1FDE345219C5BA700F15AF3 /* APITripTests.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -327,10 +353,26 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		C1FDE339219C58CE00F15AF3 /* PersistantQueue */ = {
+			isa = PBXGroup;
+			children = (
+				C1FDE33A219C58E500F15AF3 /* PersistantQueueTests.swift */,
+			);
+			path = PersistantQueue;
+			sourceTree = "<group>";
+		};
+		C1FDE33E219C5AF000F15AF3 /* Preprocessors */ = {
+			isa = PBXGroup;
+			children = (
+				C1FDE33F219C5B1300F15AF3 /* TripRecorderTests.swift */,
+				C1FDE341219C5B4300F15AF3 /* FixCollectorTests.swift */,
+			);
+			path = Preprocessors;
+			sourceTree = "<group>";
+		};
 		E2798EA02147F0DB006228A3 = {
 			isa = PBXGroup;
 			children = (
-				C1F2A0DA2183174900765D08 /* Resources */,
 				E2798EAC2147F0DC006228A3 /* TexDriveSDK */,
 				E2798EB72147F0DC006228A3 /* TexDriveSDKTests */,
 				E2798EAB2147F0DC006228A3 /* Products */,
@@ -351,6 +393,7 @@
 		E2798EAC2147F0DC006228A3 /* TexDriveSDK */ = {
 			isa = PBXGroup;
 			children = (
+				C1F2A0DA2183174900765D08 /* Resources */,
 				C124ABF8217F4EEB0038A0B1 /* API */,
 				C107606D217E2C5D00FB28AA /* PersistantQueue */,
 				C17E9A71216F824100FCF93E /* Core */,
@@ -364,6 +407,7 @@
 		E2798EB72147F0DC006228A3 /* TexDriveSDKTests */ = {
 			isa = PBXGroup;
 			children = (
+				C1FDE339219C58CE00F15AF3 /* PersistantQueue */,
 				C1E93DF521875F2D0082B2B3 /* API */,
 				C17E9A79216F8F5400FCF93E /* Core */,
 				C18AE981216E21210065F0BB /* Acquisition */,
@@ -570,6 +614,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C1E0508A21A2EF4000B21D99 /* TEX-elb-ssl.der in Sources */,
 				C124ABF7217F45D80038A0B1 /* Trip.swift in Sources */,
 				C1C83BD7219042F500D8E4B3 /* Log.swift in Sources */,
 				C1D13441218742320099B650 /* DateFormatterExtension.swift in Sources */,
@@ -611,13 +656,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				C15B9FCD21944C1F0072439F /* LogRxDefaultTests.swift in Sources */,
+				C1FDE33D219C5A4C00F15AF3 /* ServiceTests.swift in Sources */,
 				C18AE98B216E44D60065F0BB /* LocationTrackerTests.swift in Sources */,
 				C15B9FC92194441F0072439F /* LogDetailTests.swift in Sources */,
 				C17E9A7E216FA53900FCF93E /* ConfigTests.swift in Sources */,
+				C1FDE342219C5B4300F15AF3 /* FixCollectorTests.swift in Sources */,
 				C15B9FC721942E720072439F /* LogTests.swift in Sources */,
 				C1E521B621748CE800B80C64 /* CallFixTests.swift in Sources */,
 				E2798EB92147F0DC006228A3 /* TexDriveSDKTests.swift in Sources */,
+				C1FDE346219C5BA700F15AF3 /* APITripTests.swift in Sources */,
+				C1FDE340219C5B1300F15AF3 /* TripRecorderTests.swift in Sources */,
 				C1273EA92178C1670006E6E0 /* MotionTrackerTests.swift in Sources */,
+				C1FDE34C219C72C400F15AF3 /* FixTests.swift in Sources */,
 				C1273EA5217790C50006E6E0 /* MotionBufferTests.swift in Sources */,
 				C1DD0329218866CA000BBBBF /* DictionaryExtensionTests.swift in Sources */,
 				C1E93DFA2187635D0082B2B3 /* TripTests.swift in Sources */,
@@ -627,10 +677,14 @@
 				C18AE984216E21A00065F0BB /* BatteryFixTests.swift in Sources */,
 				C1DD0325218861F4000BBBBF /* DateFormatterExtensionTests.swift in Sources */,
 				C1DD032321885AE4000BBBBF /* EventTests.swift in Sources */,
+				C1FDE34A219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift in Sources */,
 				C1DD032B21886A01000BBBBF /* UIDeviceExtensionTests.swift in Sources */,
 				C1273EA72178B3640006E6E0 /* MotionFixTests.swift in Sources */,
 				C18AE989216E31E30065F0BB /* BatteryTrackerTests.swift in Sources */,
 				C18AE986216E2E2A0065F0BB /* LocationFixTests.swift in Sources */,
+				C1FDE348219C5BED00F15AF3 /* UserTests.swift in Sources */,
+				C1FDE33B219C58E500F15AF3 /* PersistantQueueTests.swift in Sources */,
+				C1FDE344219C5B7E00F15AF3 /* APISessionManagerTests.swift in Sources */,
 				C1DD032F21886BD5000BBBBF /* APIConfigurationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
