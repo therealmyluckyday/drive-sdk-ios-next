@@ -54,6 +54,13 @@ class ViewController: UIViewController {
             if let configuration = try Config(applicationId: "APP-TEST", applicationLocale: Locale.current, currentUser: user, currentMode: Mode.manual) {
                 tripRecorder = TripRecorder(config: configuration)
                 configureLog(configuration.rx_log)
+                do {
+                    let regex = try NSRegularExpression(pattern: ".*.*", options: NSRegularExpression.Options.caseInsensitive)
+                    configuration.log(regex: regex, logType: LogType.Info)
+                } catch {
+                    let customLog = OSLog(subsystem: "fr.axa.tex", category: #file)
+                    os_log("-------------REGEX ERROR--------------- %@", log: customLog, type: .error, error.localizedDescription)
+                }
             }
         } catch ConfigurationError.LocationNotDetermined(let description) {
             print(description)

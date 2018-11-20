@@ -25,6 +25,7 @@ public enum ConfigurationError: Error {
 public protocol ConfigurationProtocol {
     var tripRecorderFeatures: [TripRecorderFeature] { get }
     var rx_log: PublishSubject<LogDetail> { get }
+    func log(regex: NSRegularExpression, logType: LogType)
     func generateAPISessionManager() -> APISessionManagerProtocol
 }
 
@@ -80,15 +81,12 @@ public class Config: ConfigurationProtocol {
         user = currentUser
         mode = currentMode
         tripRecorderFeatures = currentTripRecorderFeatures
-        do {
-            let regex = try NSRegularExpression(pattern: ".*SecTrustExtension.swift.*", options: NSRegularExpression.Options.caseInsensitive)
-            
-            Log.configure(loggerFactory: logFactory)
-            Log.configure(regex: regex, logType: LogType.Info)
-        } catch {
-            let customLog = OSLog(subsystem: "fr.axa.tex", category: #file)
-            os_log("-------------REGEX ERROR--------------- %@", log: customLog, type: .error, error.localizedDescription)
-        }
+        Log.configure(loggerFactory: logFactory)
+        
+    }
+    
+    public func log(regex: NSRegularExpression, logType: LogType) {
+        Log.configure(regex: regex, logType: LogType.Info)
     }
     
     public func generateAPISessionManager() -> APISessionManagerProtocol {
