@@ -14,7 +14,7 @@ s.author = { "vhiribarren" => "vhiribarren@users.noreply.github.com" }
 s.source       = { :git => "https://github.com/axadil/tex-drive-sdk.git", :tag => "3.0.0" }
 
 s.source_files  = "TexDriveSDK/TexDriveSDK/**/*.{h,m,c,swift}"
-s.resources = "TexDriveSDK/**/*.{png,jpeg,jpg,storyboard,xib,xcassets}"
+s.resources = "TEXDriveSDK/TEXDriveSDK/Resources/*"
 
 s.dependency 'RxSwift'
 s.dependency 'RxCocoa'
