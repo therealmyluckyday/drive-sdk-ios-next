@@ -1,6 +1,0 @@
-module Pods_TexDriveSDK {
-  umbrella header "Pods-TexDriveSDK-umbrella.h"
-
-  export *
-  module * { export * }
-}

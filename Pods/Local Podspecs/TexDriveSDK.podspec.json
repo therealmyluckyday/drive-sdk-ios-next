@@ -16,7 +16,7 @@
     "tag": "3.0.0"
   },
   "source_files": "TexDriveSDK/TexDriveSDK/**/*.{h,m,c,swift}",
-  "resources": "TexDriveSDK/**/*.{png,jpeg,jpg,storyboard,xib,xcassets}",
+  "resources": "TEXDriveSDK/TEXDriveSDK/Resources/*",
   "dependencies": {
     "RxSwift": [
 
