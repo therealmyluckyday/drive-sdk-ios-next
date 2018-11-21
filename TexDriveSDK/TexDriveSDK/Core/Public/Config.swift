@@ -86,7 +86,7 @@ public class Config: ConfigurationProtocol {
     }
     
     public func log(regex: NSRegularExpression, logType: LogType) {
-        Log.configure(regex: regex, logType: LogType.Info)
+        Log.configure(regex: regex, logType: logType)
     }
     
     public func generateAPISessionManager() -> APISessionManagerProtocol {

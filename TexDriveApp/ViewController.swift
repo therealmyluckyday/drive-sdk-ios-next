@@ -56,7 +56,7 @@ class ViewController: UIViewController {
                 configureLog(configuration.rx_log)
                 do {
                     let regex = try NSRegularExpression(pattern: ".*.*", options: NSRegularExpression.Options.caseInsensitive)
-                    configuration.log(regex: regex, logType: LogType.Info)
+                    configuration.log(regex: regex, logType: LogType.Error)
                 } catch {
                     let customLog = OSLog(subsystem: "fr.axa.tex", category: #file)
                     os_log("-------------REGEX ERROR--------------- %@", log: customLog, type: .error, error.localizedDescription)
@@ -104,11 +104,7 @@ class ViewController: UIViewController {
         let oldLog = self.logTextField.text ?? ""
         let newLog = String(describing:logDetail.description)
         let text = "\(oldLog)\n\(newLog)"
-        print("oldLog"+oldLog)
-        print("newLog"+newLog)
         self.logTextField.text = text
-        
-        print(text)
     }
     
     func logUser(userName: String) {

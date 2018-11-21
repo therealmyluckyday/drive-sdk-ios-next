@@ -13,7 +13,6 @@ PODS:
     - RxBlocking
     - RxCocoa
     - RxSwift
-    - RxTest
 
 DEPENDENCIES:
   - Crashlytics (~> 3.11.1)
@@ -44,7 +43,7 @@ SPEC CHECKSUMS:
   RxCocoa: 71b9cce833fbcb89a8eec11816dd225830c2bd3c
   RxSwift: a9717a34df3179fe63563f76e046ad345078dd3a
   RxTest: 831444848ac3c5efdd7d80ff5dc4b50ba08877a9
-  TexDriveSDK: f95e1ff11d3bfee18a5c8186830971d42c4b62e6
+  TexDriveSDK: 0c2b4382244119187d385e4dc8560d9a7dfff090
 
 PODFILE CHECKSUM: 86426af090753c7cffe41d07054cdbaf641f5b28
 

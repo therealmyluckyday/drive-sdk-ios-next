@@ -1,9 +1,9 @@
 ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
-FRAMEWORK_SEARCH_PATHS = $(inherited) "$(PLATFORM_DIR)/Developer/Library/Frameworks" "${PODS_CONFIGURATION_BUILD_DIR}/RxBlocking-framework" "${PODS_CONFIGURATION_BUILD_DIR}/RxCocoa-framework" "${PODS_CONFIGURATION_BUILD_DIR}/RxSwift-framework" "${PODS_CONFIGURATION_BUILD_DIR}/RxTest-framework" "${PODS_CONFIGURATION_BUILD_DIR}/TexDriveSDK" "${PODS_ROOT}/Crashlytics/iOS" "${PODS_ROOT}/Fabric/iOS"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/RxBlocking-framework" "${PODS_CONFIGURATION_BUILD_DIR}/RxCocoa-framework" "${PODS_CONFIGURATION_BUILD_DIR}/RxSwift-framework" "${PODS_CONFIGURATION_BUILD_DIR}/TexDriveSDK" "${PODS_ROOT}/Crashlytics/iOS" "${PODS_ROOT}/Fabric/iOS"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/RxBlocking-framework/RxBlocking.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/RxCocoa-framework/RxCocoa.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/RxSwift-framework/RxSwift.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/RxTest-framework/RxTest.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/TexDriveSDK/TexDriveSDK.framework/Headers" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/RxCocoa"
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/RxBlocking-framework/RxBlocking.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/RxCocoa-framework/RxCocoa.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/RxSwift-framework/RxSwift.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/TexDriveSDK/TexDriveSDK.framework/Headers" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/RxCocoa"
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
-OTHER_LDFLAGS = $(inherited) -ObjC -l"c++" -l"z" -framework "Crashlytics" -framework "Fabric" -framework "RxBlocking" -framework "RxCocoa" -framework "RxSwift" -framework "RxTest" -framework "Security" -framework "SystemConfiguration" -framework "TexDriveSDK" -framework "UIKit" -framework "XCTest"
+OTHER_LDFLAGS = $(inherited) -ObjC -l"c++" -l"z" -framework "Crashlytics" -framework "Fabric" -framework "RxBlocking" -framework "RxCocoa" -framework "RxSwift" -framework "Security" -framework "SystemConfiguration" -framework "TexDriveSDK" -framework "UIKit"
 OTHER_SWIFT_FLAGS = $(inherited) -D COCOAPODS
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)

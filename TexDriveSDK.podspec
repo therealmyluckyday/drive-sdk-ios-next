@@ -19,6 +19,5 @@ s.resources = "TEXDriveSDK/TEXDriveSDK/Resources/*"
 s.dependency 'RxSwift'
 s.dependency 'RxCocoa'
 s.dependency 'RxBlocking'
-s.dependency 'RxTest'
 
 end
