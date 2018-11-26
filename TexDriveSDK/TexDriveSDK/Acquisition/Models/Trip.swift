@@ -9,7 +9,7 @@
 import Foundation
 
 struct TripConstant {
-    static let MinFixesToSend = 10
+    static let MinFixesToSend = 100
 }
 
 class Trip: Collection {

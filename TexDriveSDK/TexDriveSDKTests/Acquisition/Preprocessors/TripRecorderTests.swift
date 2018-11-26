@@ -14,6 +14,12 @@ import CoreLocation
 
 
 class MockConfiguration : ConfigurationProtocol {
+    var rx_scheduler: SerialDispatchQueueScheduler {
+        get {
+            return MainScheduler.instance
+        }
+    }
+    
     var rx_log = PublishSubject<LogDetail>()
     
     func log(regex: NSRegularExpression, logType: LogType) {
@@ -34,18 +40,7 @@ class MockConfiguration : ConfigurationProtocol {
 
 
 class TripRecorderTests: XCTestCase {
-    
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
-    
+     
     func testInit_LocationFeature() {
         let mockLocationManager = MockLocationManager()
         let locationFeature = TripRecorderFeature.Location(mockLocationManager)
@@ -55,13 +50,18 @@ class TripRecorderTests: XCTestCase {
         let tripRecorder = TripRecorder(config: configuration)
         
         var locations = [CLLocation]()
-        for i in 0...1000 {
-            locations.append(CLLocation(latitude: CLLocationDegrees(i), longitude: CLLocationDegrees(i)))
-        }
         
         tripRecorder.start()
         
-        mockLocationManager.send(locations: locations)
+        for i in 0...1000 {
+            let location = CLLocation(latitude: CLLocationDegrees(i), longitude: CLLocationDegrees(i))
+            locations.append(location)
+            
+            mockLocationManager.send(locations: [location])
+        }
+        
+        
+        tripRecorder.stop()
         
         XCTAssertTrue(configuration.mockApiSessionManager.isPutCalled)
     }

@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import RxSwift
 import CoreMotion
 
 @testable import TexDriveSDK
@@ -28,7 +29,7 @@ class MotionTrackerTests: XCTestCase {
     // MARK: func disableTracking()
     func testDisableTracking() {
         let mock = MockMotionSensor()
-        let tracker = MotionTracker(sensor: mock)
+        let tracker = MotionTracker(sensor: mock, scheduler: MainScheduler.instance)
         
         tracker.disableTracking()
         
@@ -38,7 +39,8 @@ class MotionTrackerTests: XCTestCase {
     
     func testEnableTracking() {
         let mock = MockMotionSensor()
-        let tracker = MotionTracker(sensor: mock)
+        
+        let tracker = MotionTracker(sensor: mock, scheduler: MainScheduler.instance)
         
         tracker.enableTracking()
         

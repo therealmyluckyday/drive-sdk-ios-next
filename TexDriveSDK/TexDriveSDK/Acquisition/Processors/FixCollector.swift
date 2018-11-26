@@ -15,11 +15,14 @@ class FixCollector {
     private var trackers = [GenericTracker]()
     private var rx_eventType: PublishSubject<EventType>
     private var rx_fix: PublishSubject<Fix>
+    private let rx_scheduler: SerialDispatchQueueScheduler
     
     // MARK: LifeCycle
-    init(eventsType: PublishSubject<EventType>, fixes: PublishSubject<Fix>) {
+    init(eventsType: PublishSubject<EventType>, fixes: PublishSubject<Fix>, scheduler: SerialDispatchQueueScheduler) {
+        print(fixes)
         rx_fix = fixes
         rx_eventType = eventsType
+        rx_scheduler = scheduler
     }
     
     // MARK: Public Method
@@ -49,7 +52,7 @@ class FixCollector {
     // MARK: private Method
     private func subscribe<T> (fromProviderFix: PublishSubject<Result<T>>?, resultClosure: @escaping ((T)->())) where T: Fix {
         if let proviveFix = fromProviderFix {
-            proviveFix.asObservable().observeOn(MainScheduler.asyncInstance).subscribe({ [weak self](event) in
+            proviveFix.asObservable().observeOn(rx_scheduler).subscribe({ [weak self](event) in
                 switch (event.element) {
                 case .Success(let fix)?:
                     resultClosure(fix)

@@ -35,10 +35,10 @@ public class TripRecorder: TripRecorderProtocol {
     
     // MARK: Lifecycle
     public init(config: ConfigurationProtocol) {
-        persistantQueue = PersistantQueue(eventType: rx_eventType, fixes: rx_fix)
+        persistantQueue = PersistantQueue(eventType: rx_eventType, fixes: rx_fix, scheduler: config.rx_scheduler)
         apiTrip = APITrip(apiSessionManager: config.generateAPISessionManager())
-        apiTrip.subscribe(providerTrip: persistantQueue.providerTrip)
-        collector = FixCollector(eventsType: rx_eventType, fixes: rx_fix)
+        apiTrip.subscribe(providerTrip: persistantQueue.providerTrip, scheduler: config.rx_scheduler)
+        collector = FixCollector(eventsType: rx_eventType, fixes: rx_fix, scheduler: config.rx_scheduler)
         
         config.tripRecorderFeatures.forEach { (feature) in
             switch feature {
@@ -55,7 +55,7 @@ public class TripRecorder: TripRecorderProtocol {
                 collector.collect(tracker: callTracker)
                 break
             case .Motion(let motionManager):
-                let motionTracker = MotionTracker(sensor: motionManager)
+                let motionTracker = MotionTracker(sensor: motionManager, scheduler: config.rx_scheduler)
                 collector.collect(tracker: motionTracker)
                 break
             }

@@ -24,6 +24,7 @@ public enum ConfigurationError: Error {
 
 public protocol ConfigurationProtocol {
     var tripRecorderFeatures: [TripRecorderFeature] { get }
+    var rx_scheduler: SerialDispatchQueueScheduler { get }
     var rx_log: PublishSubject<LogDetail> { get }
     func log(regex: NSRegularExpression, logType: LogType)
     func generateAPISessionManager() -> APISessionManagerProtocol
@@ -42,7 +43,7 @@ public class Config: ConfigurationProtocol {
         }
     }
     public let tripRecorderFeatures: [TripRecorderFeature]
-    
+    public let rx_scheduler = MainScheduler.asyncInstance
     let appId: String
     let locale: Locale
     let user: User

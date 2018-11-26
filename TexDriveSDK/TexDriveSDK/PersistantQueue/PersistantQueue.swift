@@ -17,8 +17,8 @@ class PersistantQueue {
     
     
     // MARK: Lifecycle
-    init(eventType: PublishSubject<EventType>, fixes: PublishSubject<Fix>) {
-        eventType.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
+    init(eventType: PublishSubject<EventType>, fixes: PublishSubject<Fix>, scheduler: SerialDispatchQueueScheduler) {
+        eventType.asObservable().observeOn(scheduler).subscribe { [weak self](event) in
             if let eventType = event.element {
                 
                 if eventType == EventType.start {
@@ -35,7 +35,7 @@ class PersistantQueue {
             }
         }.disposed(by: disposeBag)
         
-        fixes.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
+        fixes.asObservable().observeOn(scheduler).subscribe { [weak self](event) in
             if let fix = event.element, let trip = self?.trip {
                 trip.append(fix: fix)
                 if trip.canUpload() {

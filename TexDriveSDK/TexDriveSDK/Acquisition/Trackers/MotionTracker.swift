@@ -18,21 +18,23 @@ class MotionTracker: Tracker {
     private let accelerationThreshold = 2.5
     private let motionBuffer: MotionBuffer
     private var disposeBag = DisposeBag()
+    private let rx_scheduler: SerialDispatchQueueScheduler
     
     // MARK: Lifecycle
-    init(sensor: CMMotionManager, buffer: MotionBuffer = MotionBuffer()) {
+    init(sensor: CMMotionManager, scheduler: SerialDispatchQueueScheduler, buffer: MotionBuffer = MotionBuffer()) {
         motionSensor = sensor
         motionSensor.deviceMotionUpdateInterval = 0.01;
         motionSensor.showsDeviceMovementDisplay = true
         motionBuffer = buffer
         operationQueue.maxConcurrentOperationCount = 1
+        rx_scheduler = scheduler
     }
     
     // MARK: Protocol Tracker
     typealias T = MotionFix
 
     func enableTracking() {
-        motionBuffer.rx_crashMotionFix.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
+        motionBuffer.rx_crashMotionFix.asObservable().observeOn(rx_scheduler).subscribe { [weak self](event) in
             if let motions = event.element {
                 for motion in motions {
                     self?.provideFix().onNext(Result.Success(motion))
