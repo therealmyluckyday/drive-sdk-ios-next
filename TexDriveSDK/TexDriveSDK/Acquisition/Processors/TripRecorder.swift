@@ -19,7 +19,7 @@ public protocol TripRecorderProtocol {
 public class TripRecorder: TripRecorderProtocol {
     // MARK: Property
     private let collector: FixCollector
-    private let persistantQueue: PersistantQueue
+    internal let persistantQueue: PersistantQueue
     private var rx_eventType = PublishSubject<EventType>()
     private var rx_fix = PublishSubject<Fix>()
     private let apiTrip: APITrip

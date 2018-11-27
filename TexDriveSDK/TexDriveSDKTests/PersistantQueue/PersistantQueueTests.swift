@@ -79,15 +79,7 @@ class PersistantQueueTests: XCTestCase {
         XCTAssertTrue(isproviderTripCalled)
     }
         //eventType.onNext(EventType.stop)
-//        do{
-//            if let trip = try persistantQueue.providerTrip.toBlocking(timeout: 5).first() {
-//                XCTAssertEqual(trip.event[0], EventType.start)
-//                XCTAssertEqual(trip.event.count, 1)
-//                XCTAssertEqual(trip.count, 1)
-//            }
-//        } catch {
-//            XCTAssertFalse(true)
-//        }
+
         
     
     

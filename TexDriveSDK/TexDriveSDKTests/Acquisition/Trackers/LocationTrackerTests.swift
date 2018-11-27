@@ -55,12 +55,6 @@ class MockLocationManager: CLLocationManager {
     }
 }
 
-class MockLocationManagerNotDetermined: MockLocationManager {
-    override class func authorizationStatus() -> CLAuthorizationStatus {
-        return CLAuthorizationStatus.notDetermined
-    }
-}
-
 class LocationTrackerTests: XCTestCase {
     var mockLocationManager : MockLocationManager?
     var locationTracker : LocationTracker?
@@ -68,6 +62,7 @@ class LocationTrackerTests: XCTestCase {
     override func setUp() {
         super.setUp()
         mockLocationManager = MockLocationManager()
+        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
         locationTracker = LocationTracker(sensor: mockLocationManager!)
     }
     
@@ -109,7 +104,8 @@ class LocationTrackerTests: XCTestCase {
     }
     
     func testEnableTracking_authorizationStatus_NotDetermined() {
-        let locationManagerNotDetermined = MockLocationManagerNotDetermined()
+        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.notDetermined
+        let locationManagerNotDetermined = MockLocationManager()
         let tracker = LocationTracker(sensor: locationManagerNotDetermined)
         
         let subscribe = tracker.provideFix().asObservable().subscribe({ (event) in

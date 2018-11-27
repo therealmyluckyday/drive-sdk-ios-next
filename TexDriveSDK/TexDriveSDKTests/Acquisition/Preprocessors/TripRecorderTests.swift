@@ -16,7 +16,7 @@ import CoreLocation
 class MockConfiguration : ConfigurationProtocol {
     var rx_scheduler: SerialDispatchQueueScheduler {
         get {
-            return MainScheduler.instance
+            return MainScheduler.asyncInstance
         }
     }
     
@@ -42,6 +42,7 @@ class MockConfiguration : ConfigurationProtocol {
 class TripRecorderTests: XCTestCase {
      
     func testInit_LocationFeature() {
+        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
         let mockLocationManager = MockLocationManager()
         let locationFeature = TripRecorderFeature.Location(mockLocationManager)
         let features = [locationFeature]
@@ -53,7 +54,7 @@ class TripRecorderTests: XCTestCase {
         
         tripRecorder.start()
         
-        for i in 0...1000 {
+        for i in 0...100 {
             let location = CLLocation(latitude: CLLocationDegrees(i), longitude: CLLocationDegrees(i))
             locations.append(location)
             
@@ -62,6 +63,17 @@ class TripRecorderTests: XCTestCase {
         
         
         tripRecorder.stop()
+        
+        do{
+            if let trip = try tripRecorder.persistantQueue.providerTrip.toBlocking(timeout: 5).first() {
+                XCTAssertEqual(trip.event[0], EventType.start)
+                XCTAssertEqual(trip.event[1], EventType.stop)
+                XCTAssertEqual(trip.event.count, 2)
+                XCTAssertEqual(trip.count, 100)
+            }
+        } catch {
+            XCTAssertFalse(true)
+        }
         
         XCTAssertTrue(configuration.mockApiSessionManager.isPutCalled)
     }

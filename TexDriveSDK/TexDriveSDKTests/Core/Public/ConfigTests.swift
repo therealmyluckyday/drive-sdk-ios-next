@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import CoreLocation
 @testable import TexDriveSDK
 
 class ConfigTests: XCTestCase {
@@ -26,7 +27,8 @@ class ConfigTests: XCTestCase {
         let locale = Locale.current
         let user = User.Anonymous
         let mode = Mode.manual
-        let mockLocationManager = MockLocationManagerNotDetermined()
+        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.notDetermined
+        let mockLocationManager = MockLocationManager()
         let locationFeature = TripRecorderFeature.Location(mockLocationManager)
         let features = [locationFeature]
         do {

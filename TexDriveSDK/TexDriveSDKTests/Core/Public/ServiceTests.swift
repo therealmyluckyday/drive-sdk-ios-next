@@ -7,10 +7,12 @@
 //
 
 import XCTest
+import CoreLocation
 @testable import TexDriveSDK
 
 class ServiceTests: XCTestCase {
     func testInit() {
+        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
         let mockLocationManager = MockLocationManager()
         let locationFeature = TripRecorderFeature.Location(mockLocationManager)
         let features = [locationFeature]
@@ -22,6 +24,7 @@ class ServiceTests: XCTestCase {
     }
     
     func testService() {
+        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
         let mockLocationManager = MockLocationManager()
         let locationFeature = TripRecorderFeature.Location(mockLocationManager)
         let features = [locationFeature]
