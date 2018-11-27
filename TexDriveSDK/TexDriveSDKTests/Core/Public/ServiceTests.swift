@@ -7,11 +7,28 @@
 //
 
 import XCTest
+@testable import TexDriveSDK
 
 class ServiceTests: XCTestCase {
-    func testTODO() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        XCTAssert(false)
+    func testInit() {
+        let mockLocationManager = MockLocationManager()
+        let locationFeature = TripRecorderFeature.Location(mockLocationManager)
+        let features = [locationFeature]
+        let configuration = MockConfiguration(features: features)
+        
+        let service = Service(configuration: configuration)
+        
+        XCTAssertEqual(service.config.tripRecorderFeatures.count, configuration.tripRecorderFeatures.count)
+    }
+    
+    func testService() {
+        let mockLocationManager = MockLocationManager()
+        let locationFeature = TripRecorderFeature.Location(mockLocationManager)
+        let features = [locationFeature]
+        let configuration = MockConfiguration(features: features)
+        
+        let service = Service.service(withConfiguration: configuration)
+        
+        XCTAssertEqual(service.config.tripRecorderFeatures.count, configuration.tripRecorderFeatures.count)
     }
 }

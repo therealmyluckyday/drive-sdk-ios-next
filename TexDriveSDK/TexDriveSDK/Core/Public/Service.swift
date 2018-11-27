@@ -10,20 +10,20 @@ import Foundation
 
 public class Service {
     let tripRecorder: TripRecorder
-    var config: Config {
+    var config: ConfigurationProtocol {
         get {
             return _config
         }
     }
     
-    private var _config: Config
+    private var _config: ConfigurationProtocol
     
-    init(configuration: Config) {
+    init(configuration: ConfigurationProtocol) {
         _config = configuration
         tripRecorder = TripRecorder(config: configuration)
     }
     
-    class func service(withConfiguration configuration: Config) -> Service{
+    class func service(withConfiguration configuration: ConfigurationProtocol) -> Service {
         return Service(configuration: configuration)
     }
 }

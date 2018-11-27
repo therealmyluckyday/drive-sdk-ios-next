@@ -12,8 +12,9 @@ import CoreLocation
 @testable import TexDriveSDK
 
 class MockLocationManager: CLLocationManager {
+    static var mockAuthorizationStatus: CLAuthorizationStatus?
     override class func authorizationStatus() -> CLAuthorizationStatus {
-        return CLAuthorizationStatus.authorizedAlways
+        return mockAuthorizationStatus!
     }
     
     var isStartUpdatingLocationCalled = false
@@ -95,7 +96,7 @@ class LocationTrackerTests: XCTestCase {
         mockLocationManager!.allowsBackgroundLocationUpdates = false
         mockLocationManager?.isStartUpdatingLocationCalled = false
         mockLocationManager?.isStopUpdatingLocationCalled = false
-        
+        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
         locationTracker?.enableTracking()
         
         XCTAssertNotNil(mockLocationManager?.delegate, "")
