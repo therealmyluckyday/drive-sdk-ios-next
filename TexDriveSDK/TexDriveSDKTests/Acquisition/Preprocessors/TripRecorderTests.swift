@@ -8,6 +8,7 @@
 
 import XCTest
 import RxSwift
+import RxBlocking
 import CoreLocation
 @testable import TexDriveSDK
 
@@ -54,7 +55,7 @@ class TripRecorderTests: XCTestCase {
         
         tripRecorder.start()
         
-        for i in 0...100 {
+        for i in 0...99 {
             let location = CLLocation(latitude: CLLocationDegrees(i), longitude: CLLocationDegrees(i))
             locations.append(location)
             
@@ -69,12 +70,10 @@ class TripRecorderTests: XCTestCase {
                 XCTAssertEqual(trip.event[0], EventType.start)
                 XCTAssertEqual(trip.event[1], EventType.stop)
                 XCTAssertEqual(trip.event.count, 2)
-                XCTAssertEqual(trip.count, 100)
+                XCTAssertEqual(trip.count, 0)
             }
         } catch {
             XCTAssertFalse(true)
         }
-        
-        XCTAssertTrue(configuration.mockApiSessionManager.isPutCalled)
     }
 }

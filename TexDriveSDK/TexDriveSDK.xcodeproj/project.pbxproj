@@ -65,7 +65,6 @@
 		C1FDE342219C5B4300F15AF3 /* FixCollectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE341219C5B4300F15AF3 /* FixCollectorTests.swift */; };
 		C1FDE344219C5B7E00F15AF3 /* APISessionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE343219C5B7E00F15AF3 /* APISessionManagerTests.swift */; };
 		C1FDE346219C5BA700F15AF3 /* APITripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE345219C5BA700F15AF3 /* APITripTests.swift */; };
-		C1FDE348219C5BED00F15AF3 /* UserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE347219C5BED00F15AF3 /* UserTests.swift */; };
 		C1FDE34A219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE349219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift */; };
 		C1FDE34C219C72C400F15AF3 /* FixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE34B219C72C400F15AF3 /* FixTests.swift */; };
 		E2798EB42147F0DC006228A3 /* TexDriveSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2798EAA2147F0DC006228A3 /* TexDriveSDK.framework */; };
@@ -151,7 +150,6 @@
 		C1FDE341219C5B4300F15AF3 /* FixCollectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixCollectorTests.swift; sourceTree = "<group>"; };
 		C1FDE343219C5B7E00F15AF3 /* APISessionManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APISessionManagerTests.swift; sourceTree = "<group>"; };
 		C1FDE345219C5BA700F15AF3 /* APITripTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITripTests.swift; sourceTree = "<group>"; };
-		C1FDE347219C5BED00F15AF3 /* UserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTests.swift; sourceTree = "<group>"; };
 		C1FDE349219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecorderFeatureTests.swift; sourceTree = "<group>"; };
 		C1FDE34B219C72C400F15AF3 /* FixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixTests.swift; sourceTree = "<group>"; };
 		E2798EAA2147F0DC006228A3 /* TexDriveSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TexDriveSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -270,7 +268,6 @@
 				C15B9FC621942E720072439F /* LogTests.swift */,
 				C15B9FC82194441F0072439F /* LogDetailTests.swift */,
 				C1FDE33C219C5A4C00F15AF3 /* ServiceTests.swift */,
-				C1FDE347219C5BED00F15AF3 /* UserTests.swift */,
 				C1FDE349219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift */,
 			);
 			path = Public;
@@ -682,7 +679,6 @@
 				C1273EA72178B3640006E6E0 /* MotionFixTests.swift in Sources */,
 				C18AE989216E31E30065F0BB /* BatteryTrackerTests.swift in Sources */,
 				C18AE986216E2E2A0065F0BB /* LocationFixTests.swift in Sources */,
-				C1FDE348219C5BED00F15AF3 /* UserTests.swift in Sources */,
 				C1FDE33B219C58E500F15AF3 /* PersistantQueueTests.swift in Sources */,
 				C1FDE344219C5B7E00F15AF3 /* APISessionManagerTests.swift in Sources */,
 				C1DD032F21886BD5000BBBBF /* APIConfigurationTests.swift in Sources */,
