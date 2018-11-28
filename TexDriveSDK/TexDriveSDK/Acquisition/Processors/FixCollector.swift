@@ -11,7 +11,7 @@ import RxSwift
 class FixCollector {
     // MARK: Property
     private let disposeBag = DisposeBag()
-    private var rx_errorCollecting = PublishSubject<Error>()
+    var rx_errorCollecting = PublishSubject<Error>() // @VHI currently do nothin
     private var trackers = [GenericTracker]()
     private var rx_eventType: PublishSubject<EventType>
     private var rx_fix: PublishSubject<Fix>
