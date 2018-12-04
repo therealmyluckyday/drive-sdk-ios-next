@@ -21,7 +21,7 @@ class MockConfiguration : ConfigurationProtocol {
         }
     }
     
-    var rx_log = PublishSubject<LogDetail>()
+    var rx_log = PublishSubject<LogMessage>()
     
     func log(regex: NSRegularExpression, logType: LogType) {
         

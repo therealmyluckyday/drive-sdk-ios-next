@@ -13,7 +13,7 @@ class LogRxDefault: LogRx, LogDefaultImplementation {
     let fileName: String
     
     // Lifecycle method
-    init(rxLog: PublishSubject<LogDetail>, currentFile: String) {
+    init(rxLog: PublishSubject<LogMessage>, currentFile: String) {
         fileName = currentFile
         super.init(rxLog: rxLog)
     }

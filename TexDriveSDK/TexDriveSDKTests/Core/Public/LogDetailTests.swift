@@ -28,11 +28,11 @@ class LogDetailTests: XCTestCase {
         let file = "/myFile.tata"
         let function = #function
         
-        let logDetail = LogDetail(type: type, detail: detail, fileName: file, functionName: function)
+        let logDetail = LogMessage(type: type, detail: detail, fileName: file, functionName: function)
         
         XCTAssertNotNil(logDetail.functionName)
         XCTAssertEqual(logDetail.type, type)
-        XCTAssertEqual(logDetail.detail, detail)
+        XCTAssertEqual(logDetail.message, detail)
         XCTAssertEqual(logDetail.fileName, "myFile.tata")
         XCTAssertEqual(logDetail.functionName, function)
     }
@@ -41,7 +41,7 @@ class LogDetailTests: XCTestCase {
     func testcleanPathForFileWithFolder() {
         let file = "/myFile.tata"
         
-        let result = LogDetail.cleanPathForFile(fileWithPath: file)
+        let result = LogMessage.cleanPathForFile(fileWithPath: file)
         
         XCTAssertEqual(result, "myFile.tata")
     }
@@ -49,7 +49,7 @@ class LogDetailTests: XCTestCase {
     func testcleanPathForFileWithoutFolder() {
         let file = "myFile.tata"
         
-        let result = LogDetail.cleanPathForFile(fileWithPath: file)
+        let result = LogMessage.cleanPathForFile(fileWithPath: file)
         
         XCTAssertEqual(result, "myFile.tata")
     }
@@ -60,7 +60,7 @@ class LogDetailTests: XCTestCase {
         let detail = "myDetail"
         let file = "/myFile.tata"
         let function = #function
-        let logDetail = LogDetail(type: type, detail: detail, fileName: file, functionName: function)
+        let logDetail = LogMessage(type: type, detail: detail, fileName: file, functionName: function)
         let regexPattern = ".*"
         let logTypeTest = LogType.Info
         do {
@@ -79,7 +79,7 @@ class LogDetailTests: XCTestCase {
         let detail = "myDetail"
         let file = "/myFile.tata"
         let function = #function
-        let logDetail = LogDetail(type: type, detail: detail, fileName: file, functionName: function)
+        let logDetail = LogMessage(type: type, detail: detail, fileName: file, functionName: function)
         let regexPattern = ".*TOTO.*"
         let logTypeTest = LogType.Info
         do {
@@ -99,7 +99,7 @@ class LogDetailTests: XCTestCase {
         let detail = "myDetail"
         let file = "/myFile.tata"
         let function = #function
-        let logDetail = LogDetail(type: type, detail: detail, fileName: file, functionName: function)
+        let logDetail = LogMessage(type: type, detail: detail, fileName: file, functionName: function)
         let regexPattern = ".*"
         let logTypeTest = LogType.Warning
         do {
@@ -118,7 +118,7 @@ class LogDetailTests: XCTestCase {
         let detail = "myDetail"
         let file = "/myFile.tata"
         let function = #function
-        let logDetail = LogDetail(type: type, detail: detail, fileName: file, functionName: function)
+        let logDetail = LogMessage(type: type, detail: detail, fileName: file, functionName: function)
         let regexPattern = ".*"
         let logTypeTest = LogType.Error
         do {
@@ -137,7 +137,7 @@ class LogDetailTests: XCTestCase {
         let detail = "myDetail"
         let file = "/myFile.tata"
         let function = #function
-        let logDetail = LogDetail(type: type, detail: detail, fileName: file, functionName: function)
+        let logDetail = LogMessage(type: type, detail: detail, fileName: file, functionName: function)
         let regexPattern = ".*"
         let logTypeTest = LogType.Warning
         do {
@@ -155,7 +155,7 @@ class LogDetailTests: XCTestCase {
         let detail = "myDetail"
         let file = "/myFile.tata"
         let function = #function
-        let logDetail = LogDetail(type: type, detail: detail, fileName: file, functionName: function)
+        let logDetail = LogMessage(type: type, detail: detail, fileName: file, functionName: function)
         let regexPattern = ".*"
         let logTypeTest = LogType.Error
         do {
@@ -173,7 +173,7 @@ class LogDetailTests: XCTestCase {
         let detail = "myDetail"
         let file = "/myFile.tata"
         let function = #function
-        let logDetail = LogDetail(type: type, detail: detail, fileName: file, functionName: function)
+        let logDetail = LogMessage(type: type, detail: detail, fileName: file, functionName: function)
         let regexPattern = ".*"
         let logTypeTest = LogType.Warning
         do {
@@ -191,7 +191,7 @@ class LogDetailTests: XCTestCase {
         let detail = "myDetail"
         let file = "/myFile.tata"
         let function = #function
-        let logDetail = LogDetail(type: type, detail: detail, fileName: file, functionName: function)
+        let logDetail = LogMessage(type: type, detail: detail, fileName: file, functionName: function)
         let regexPattern = ".*"
         let logTypeTest = LogType.Info
         do {

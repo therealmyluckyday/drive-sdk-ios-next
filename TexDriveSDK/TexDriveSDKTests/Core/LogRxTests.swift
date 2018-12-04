@@ -29,7 +29,7 @@ class LogRxTests: XCTestCase {
         let detail = "myDetail"
         let file = #file
         let function = #function
-        let rx_log = PublishSubject<LogDetail>()
+        let rx_log = PublishSubject<LogMessage>()
         let log = LogRx(rxLog: rx_log)
         var isCalled = false
         
@@ -37,7 +37,7 @@ class LogRxTests: XCTestCase {
             if let logDetail = event.element {
                 isCalled = true
                 
-                XCTAssertEqual(logDetail.detail, detail)
+                XCTAssertEqual(logDetail.message, detail)
                 XCTAssertEqual(logDetail.fileName, "LogRxTests.swift")
                 XCTAssertEqual(logDetail.type, type)
                 XCTAssertEqual(logDetail.functionName, function)
@@ -53,7 +53,7 @@ class LogRxTests: XCTestCase {
         let type = LogType.Error
         let detail = "myDetail"
         let file = #file
-        let rx_log = PublishSubject<LogDetail>()
+        let rx_log = PublishSubject<LogMessage>()
         let log = LogRx(rxLog: rx_log)
         var isCalled = false
         
@@ -61,7 +61,7 @@ class LogRxTests: XCTestCase {
             if let logDetail = event.element {
                 isCalled = true
                 
-                XCTAssertEqual(logDetail.detail, detail)
+                XCTAssertEqual(logDetail.message, detail)
                 XCTAssertEqual(logDetail.fileName, "LogRxTests.swift")
                 XCTAssertEqual(logDetail.type, type)
                 XCTAssertEqual(logDetail.functionName, "testPrintWithoutFunction()")
@@ -79,7 +79,7 @@ class LogRxTests: XCTestCase {
         let detail = "myDetail"
         let file = #file
         let function = #function
-        let rx_log = PublishSubject<LogDetail>()
+        let rx_log = PublishSubject<LogMessage>()
         let log = LogRx(rxLog: rx_log)
         var isCalled = false
         
@@ -87,7 +87,7 @@ class LogRxTests: XCTestCase {
             if let logDetail = event.element {
                 isCalled = true
                 
-                XCTAssertEqual(logDetail.detail, detail)
+                XCTAssertEqual(logDetail.message, detail)
                 XCTAssertEqual(logDetail.fileName, "LogRxTests.swift")
                 XCTAssertEqual(logDetail.type, type)
                 XCTAssertEqual(logDetail.functionName, function)
@@ -103,7 +103,7 @@ class LogRxTests: XCTestCase {
         let type = LogType.Warning
         let detail = "myDetail"
         let function = #function
-        let rx_log = PublishSubject<LogDetail>()
+        let rx_log = PublishSubject<LogMessage>()
         let log = LogRx(rxLog: rx_log)
         var isCalled = false
         
@@ -111,7 +111,7 @@ class LogRxTests: XCTestCase {
             if let logDetail = event.element {
                 isCalled = true
                 
-                XCTAssertEqual(logDetail.detail, detail)
+                XCTAssertEqual(logDetail.message, detail)
                 XCTAssertEqual(logDetail.fileName, "LogRxTests.swift")
                 XCTAssertEqual(logDetail.type, type)
                 XCTAssertEqual(logDetail.functionName, function)
@@ -129,7 +129,7 @@ class LogRxTests: XCTestCase {
         let detail = "myDetail"
         let file = #file
         let function = #function
-        let rx_log = PublishSubject<LogDetail>()
+        let rx_log = PublishSubject<LogMessage>()
         let log = LogRx(rxLog: rx_log)
         var isCalled = false
         
@@ -137,7 +137,7 @@ class LogRxTests: XCTestCase {
             if let logDetail = event.element {
                 isCalled = true
                 
-                XCTAssertEqual(logDetail.detail, detail)
+                XCTAssertEqual(logDetail.message, detail)
                 XCTAssertEqual(logDetail.fileName, "LogRxTests.swift")
                 XCTAssertEqual(logDetail.type, type)
                 XCTAssertEqual(logDetail.functionName, function)
@@ -153,7 +153,7 @@ class LogRxTests: XCTestCase {
         let type = LogType.Error
         let detail = "myDetail"
         let function = #function
-        let rx_log = PublishSubject<LogDetail>()
+        let rx_log = PublishSubject<LogMessage>()
         let log = LogRx(rxLog: rx_log)
         var isCalled = false
         
@@ -161,7 +161,7 @@ class LogRxTests: XCTestCase {
             if let logDetail = event.element {
                 isCalled = true
                 
-                XCTAssertEqual(logDetail.detail, detail)
+                XCTAssertEqual(logDetail.message, detail)
                 XCTAssertEqual(logDetail.fileName, "LogRxTests.swift")
                 XCTAssertEqual(logDetail.type, type)
                 XCTAssertEqual(logDetail.functionName, function)

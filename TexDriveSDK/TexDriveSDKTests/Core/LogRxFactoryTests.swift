@@ -135,12 +135,12 @@ class LogRxFactoryTests: XCTestCase {
         let log = LogRxFactory()
         let function = #function
         var isCalled = false
-        let logDetail = LogDetail(type: type, detail: detail, fileName: file, functionName: function)
+        let logDetail = LogMessage(type: type, detail: detail, fileName: file, functionName: function)
         
         log.rx_logOutput.asObservable().subscribe { (event) in
             if let logDetail = event.element {
                 isCalled = true
-                XCTAssertEqual(logDetail.detail, detail)
+                XCTAssertEqual(logDetail.message, detail)
                 XCTAssertEqual(logDetail.fileName, file)
                 XCTAssertEqual(logDetail.type, type)
                 XCTAssertEqual(logDetail.functionName, function)

@@ -47,7 +47,7 @@ class LogTests: XCTestCase {
         loggerFactory.rx_logOutput.asObservable().subscribe { (event) in
             if let logDetail = event.element {
                 isCalled = true
-                XCTAssertEqual(logDetail.detail, description)
+                XCTAssertEqual(logDetail.message, description)
                 XCTAssertEqual(logDetail.fileName, "LogTests.swift")
                 XCTAssertEqual(logDetail.type, LogType.Error)
                 XCTAssertEqual(logDetail.functionName, function)
@@ -80,7 +80,7 @@ class LogTests: XCTestCase {
             if let logDetail = event.element {
                 isCalled = true
                 
-                XCTAssertEqual(logDetail.detail, description)
+                XCTAssertEqual(logDetail.message, description)
                 XCTAssertEqual(logDetail.fileName, "LogTests.swift")
                 XCTAssertEqual(logDetail.type, type)
                 XCTAssertEqual(logDetail.functionName, function)
@@ -113,7 +113,7 @@ class LogTests: XCTestCase {
             if let logDetail = event.element {
                 isCalled = true
                 
-                XCTAssertEqual(logDetail.detail, description)
+                XCTAssertEqual(logDetail.message, description)
                 XCTAssertEqual(logDetail.fileName, "LogTests.swift")
                 XCTAssertEqual(logDetail.type, type)
                 XCTAssertEqual(logDetail.functionName, function)
@@ -251,7 +251,7 @@ class LogTests: XCTestCase {
             if let logDetail = event.element {
                 isCalled = true
                 
-                XCTAssertEqual(logDetail.detail, description)
+                XCTAssertEqual(logDetail.message, description)
                 XCTAssertEqual(logDetail.fileName, "LogTests.swift")
                 XCTAssertEqual(logDetail.type, type)
                 XCTAssertEqual(logDetail.functionName, function)

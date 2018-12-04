@@ -13,7 +13,8 @@ import CoreMotion
 import os
 import RxSwift
 
-public protocol AppDelegateText: UIApplicationDelegate {
+// This protocol is used on APISessionManager in backgroundmode
+public protocol AppDelegateTex: UIApplicationDelegate {
     var backgroundCompletionHandler: (() -> ())? { get set }
 }
 
@@ -25,7 +26,7 @@ public enum ConfigurationError: Error {
 public protocol ConfigurationProtocol {
     var tripRecorderFeatures: [TripRecorderFeature] { get }
     var rx_scheduler: SerialDispatchQueueScheduler { get }
-    var rx_log: PublishSubject<LogDetail> { get }
+    var rx_log: PublishSubject<LogMessage> { get }
     func log(regex: NSRegularExpression, logType: LogType)
     func generateAPISessionManager() -> APISessionManagerProtocol
 }
@@ -37,7 +38,7 @@ public enum Mode {
 }
 
 public class Config: ConfigurationProtocol {
-    public var rx_log: PublishSubject<LogDetail> {
+    public var rx_log: PublishSubject<LogMessage> {
         get {
             return logFactory.rx_logOutput
         }

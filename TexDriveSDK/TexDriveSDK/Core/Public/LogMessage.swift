@@ -14,19 +14,19 @@ public enum LogType: Int {
     case Info = 2
 }
 
-public class LogDetail: CustomStringConvertible {
+public class LogMessage: CustomStringConvertible {
     // MARK: Property
     public let type: LogType
-    public let detail: String
+    public let message: String
     public let fileName: String
     public let functionName: String
     
     // MARK: Lifecycle
     init(type currentType: LogType, detail description: String, fileName fileWithPath: String, functionName currentFunction: String) {
         type = currentType
-        detail = description
+        message = description
         functionName = currentFunction
-        fileName = LogDetail.cleanPathForFile(fileWithPath: fileWithPath)
+        fileName = LogMessage.cleanPathForFile(fileWithPath: fileWithPath)
     }
     
     // MARK: Method
@@ -44,7 +44,7 @@ public class LogDetail: CustomStringConvertible {
     
     // MARK: CustomStringConvertible protocol
     public var description: String {
-        return "[\(fileName)][\(functionName)]\(detail)"
+        return "[\(fileName)][\(functionName)]\(message)"
     }
 }
 

@@ -15,8 +15,16 @@ protocol LogProtocol {
 
 protocol LogImplementation {
     func print(_ description: String, type: LogType, fileName: String, functionName: String)
-    func warning(_ description: String, fileName: String, functionName: String)
-    func error(_ description: String, fileName: String, functionName: String)
+}
+
+extension LogImplementation {
+    func warning(_ description: String, fileName: String, functionName: String) {
+        print(description, type: LogType.Warning, fileName: fileName, functionName: functionName)
+    }
+    
+    func error(_ description: String, fileName: String, functionName: String) {
+        print(description, type: LogType.Error, fileName: fileName, functionName: functionName)
+    }
 }
 
 protocol LogDefaultImplementation: LogImplementation{

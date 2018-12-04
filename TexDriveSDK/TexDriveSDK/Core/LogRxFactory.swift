@@ -12,14 +12,14 @@ import os
 
 class LogRxFactory: LogFactory {
     // MARK: Property
-    private var rx_log = PublishSubject<LogDetail>()
+    private var rx_log = PublishSubject<LogMessage>()
     private var rules = [NSRegularExpression: LogType]()
     private var rx_disposeBag = DisposeBag()
     lazy var mainLogger: LogImplementation =  {
         return LogRx(rxLog: rx_log)
     }()
     
-    let rx_logOutput = PublishSubject<LogDetail>()
+    let rx_logOutput = PublishSubject<LogMessage>()
     
     // MARK: LogFactory protocol
     func getLogger(file: String) -> LogDefaultImplementation {
@@ -37,7 +37,7 @@ class LogRxFactory: LogFactory {
             }.disposed(by: self.rx_disposeBag)
     }
     
-    func report(logDetail: LogDetail) {
+    func report(logDetail: LogMessage) {
         rx_logOutput.onNext(logDetail)
     }
 }

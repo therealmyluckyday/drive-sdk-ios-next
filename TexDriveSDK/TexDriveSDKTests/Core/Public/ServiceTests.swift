@@ -18,7 +18,7 @@ class ServiceTests: XCTestCase {
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)
         
-        let service = Service(configuration: configuration)
+        let service = TexServices(configuration: configuration)
         
         XCTAssertEqual(service.config.tripRecorderFeatures.count, configuration.tripRecorderFeatures.count)
     }
@@ -30,7 +30,7 @@ class ServiceTests: XCTestCase {
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)
         
-        let service = Service.service(withConfiguration: configuration)
+        let service = TexServices.service(withConfiguration: configuration)
         
         XCTAssertEqual(service.config.tripRecorderFeatures.count, configuration.tripRecorderFeatures.count)
     }

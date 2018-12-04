@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class Service {
+public class TexServices {
     let tripRecorder: TripRecorder
     var config: ConfigurationProtocol {
         get {
@@ -23,7 +23,12 @@ public class Service {
         tripRecorder = TripRecorder(config: configuration)
     }
     
-    class func service(withConfiguration configuration: ConfigurationProtocol) -> Service {
-        return Service(configuration: configuration)
+    class func service(withConfiguration configuration: ConfigurationProtocol) -> TexServices {
+        return TexServices(configuration: configuration)
+    }
+    
+    func getScoringClient() -> (ScoringClientProtocol) {
+        let scoringClient = ScoringClient()
+        return scoringClient
     }
 }

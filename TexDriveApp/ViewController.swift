@@ -51,7 +51,7 @@ class ViewController: UIViewController {
         }
         
         do {
-            if let configuration = try Config(applicationId: "APP-TEST", applicationLocale: Locale.current, currentUser: user, currentMode: Mode.manual) {
+            if let configuration = try Config(applicationId: "youdrive_france_prospect", applicationLocale: Locale.current, currentUser: user, currentMode: Mode.manual) {
                 tripRecorder = TripRecorder(config: configuration)
                 configureLog(configuration.rx_log)
                 do {
@@ -69,7 +69,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func configureLog(_ log: PublishSubject<LogDetail>) {
+    func configureLog(_ log: PublishSubject<LogMessage>) {
         log.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
             if let logDetail = event.element {
                 self?.report(logDetail: logDetail)
@@ -78,7 +78,7 @@ class ViewController: UIViewController {
         
     }
     
-    func report(logDetail: LogDetail) {
+    func report(logDetail: LogMessage) {
         let customLog = OSLog(subsystem: "fr.axa.tex", category: logDetail.fileName)
         
         switch logDetail.type {
@@ -88,17 +88,17 @@ class ViewController: UIViewController {
                                             "filename" : logDetail.fileName,
                                             "functionName": logDetail.functionName,
                                             "type": "Info",
-                                            "detail": logDetail.detail
+                                            "detail": logDetail.message
                 ])
             os_log("%@", log: customLog, type: .info, logDetail.description)
             break
         case .Warning:
-            Crashlytics.sharedInstance().recordError(NSError(domain: logDetail.fileName, code: 1111, userInfo: ["filename" : logDetail.fileName, "functionName": logDetail.functionName, "description": logDetail.detail]))
+            Crashlytics.sharedInstance().recordError(NSError(domain: logDetail.fileName, code: 1111, userInfo: ["filename" : logDetail.fileName, "functionName": logDetail.functionName, "description": logDetail.message]))
             os_log("%@", log: customLog, type: .debug, logDetail.description)
             break
         case .Error:
             os_log("%@", log: customLog, type: .error, logDetail.description)
-            Crashlytics.sharedInstance().recordError(NSError(domain: logDetail.fileName, code: 9999, userInfo: ["filename" : logDetail.fileName, "functionName": logDetail.functionName, "description": logDetail.detail]))
+            Crashlytics.sharedInstance().recordError(NSError(domain: logDetail.fileName, code: 9999, userInfo: ["filename" : logDetail.fileName, "functionName": logDetail.functionName, "description": logDetail.message]))
             break
         }
         let oldLog = self.logTextField.text ?? ""

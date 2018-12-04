@@ -26,7 +26,7 @@ class LogRxDefaultTests: XCTestCase {
     // MARK: init(rxLog: PublishSubject<LogDetail>, currentFile: String)
     func testInit() {
         let file = #file
-        let rx_log = PublishSubject<LogDetail>()
+        let rx_log = PublishSubject<LogMessage>()
         let log = LogRxDefault(rxLog: rx_log, currentFile: file)
         
         XCTAssertEqual(log.fileName, file)
@@ -38,7 +38,7 @@ class LogRxDefaultTests: XCTestCase {
         let detail = "myDetail"
         let file = #file
         let function = #function
-        let rx_log = PublishSubject<LogDetail>()
+        let rx_log = PublishSubject<LogMessage>()
         let log = LogRxDefault(rxLog: rx_log, currentFile: file)
         var isCalled = false
         
@@ -46,7 +46,7 @@ class LogRxDefaultTests: XCTestCase {
             if let logDetail = event.element {
                 isCalled = true
                 
-                XCTAssertEqual(logDetail.detail, detail)
+                XCTAssertEqual(logDetail.message, detail)
                 XCTAssertEqual(logDetail.fileName, "LogRxDefaultTests.swift")
                 XCTAssertEqual(logDetail.type, type)
                 XCTAssertEqual(logDetail.functionName, function)
@@ -62,7 +62,7 @@ class LogRxDefaultTests: XCTestCase {
         let detail = "myDetail"
         let file = #file
         let function = #function
-        let rx_log = PublishSubject<LogDetail>()
+        let rx_log = PublishSubject<LogMessage>()
         let log = LogRxDefault(rxLog: rx_log, currentFile: file)
         var isCalled = false
         
@@ -70,7 +70,7 @@ class LogRxDefaultTests: XCTestCase {
             if let logDetail = event.element {
                 isCalled = true
                 
-                XCTAssertEqual(logDetail.detail, detail)
+                XCTAssertEqual(logDetail.message, detail)
                 XCTAssertEqual(logDetail.fileName, "LogRxDefaultTests.swift")
                 XCTAssertEqual(logDetail.type, type)
                 XCTAssertEqual(logDetail.functionName, function)

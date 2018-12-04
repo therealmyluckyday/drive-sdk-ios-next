@@ -11,16 +11,16 @@ import RxSwift
 
 class LogRx: LogImplementation {
     // MARK: Property
-    private let rx_log: PublishSubject<LogDetail>
+    private let rx_log: PublishSubject<LogMessage>
     
     // Lifecycle method
-    init(rxLog: PublishSubject<LogDetail>) {
+    init(rxLog: PublishSubject<LogMessage>) {
         rx_log = rxLog
     }
     
     // MARK: LogImplementation Protocol    
     func print(_ description: String, type: LogType = .Info, fileName: String = #file, functionName: String = #function) {
-        let logDetail = LogDetail(type: type, detail: description, fileName: fileName, functionName: functionName)
+        let logDetail = LogMessage(type: type, detail: description, fileName: fileName, functionName: functionName)
         self.rx_log.onNext(logDetail)
     }
     

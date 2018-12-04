@@ -12,7 +12,7 @@ import Fabric
 import Crashlytics
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateText {
+class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
 
     var window: UIWindow?
     var backgroundCompletionHandler: (() -> ())?

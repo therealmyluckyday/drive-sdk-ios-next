@@ -47,7 +47,7 @@ class APISessionManager: NSObject, APISessionManagerProtocol, URLSessionDelegate
     // MARK: URLSessionDelegate Method
     func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
         DispatchQueue.main.async {
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegateText,
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegateTex,
                 let backgroundCompletionHandler =
                 appDelegate.backgroundCompletionHandler else {
                     return
