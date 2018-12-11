@@ -7,21 +7,70 @@
 //
 
 import XCTest
+import RxSwift
+@testable import TexDriveSDK
 
 class APISessionManagerTests: XCTestCase {
+    var apiSessionManager: APISessionManager?
+    var disposeBag: DisposeBag?
+    let logFactory = LogRxFactory()
     
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        disposeBag = DisposeBag()
+        let user = User.Authentified("Erwan-ios12")
+        let appId = "youdrive_france_prospect"
+        apiSessionManager = APISessionManager(configuration: APIConfiguration(appId: appId, domain: Domain.Preproduction, user: user))
     }
     
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        
         super.tearDown()
     }
-    
-    func testExample() {
-        XCTAssert(false)
+    // func get(parameters: [String: Any], completionHandler: @escaping (Result<[String: Any]>) -> ())
+    func testGetSuccess() {
+        var isCompleted = false
+        let tripId = "461105AE-A712-41A7-939C-4982413BE30F1543910782.13927"
+        let getSuccessExpected = self.expectation(description: "testGetSuccessExpectation")
+        let dictionary = ["trip_id":tripId, "lang": Locale.current.identifier]
+        apiSessionManager!.get(parameters: dictionary) { (result) in
+            switch result {
+            case Result.Success(let response):
+                let score = Score(dictionary: response)
+                XCTAssertNotNil(score)
+                break
+            default:
+                XCTAssert(false)
+            }
+            isCompleted = true
+            getSuccessExpected.fulfill()
+            
+        }
+        wait(for: [getSuccessExpected], timeout: 5)
+        XCTAssertTrue(isCompleted)
     }
     
+    func testGetError() {
+        var isCompleted = false
+        let getSuccessExpected = self.expectation(description: "testGetFailureExpectation")
+        let dictionary = [String: Any]()
+        apiSessionManager!.get(parameters: dictionary) { (result) in
+            switch result {
+            case Result.Success(_):
+                XCTAssert(false)
+                break
+            case Result.Failure(let error as APIError):
+                XCTAssertEqual(error.statusCode, 400)
+            case .Failure(_):
+                XCTAssert(false)
+            }
+            isCompleted = true
+            getSuccessExpected.fulfill()
+            
+        }
+        wait(for: [getSuccessExpected], timeout: 5)
+        XCTAssertTrue(isCompleted)
+    }
 }
+
+

@@ -18,28 +18,63 @@ import os
 class ViewController: UIViewController {
     @IBOutlet weak var TripSegmentedControl: UISegmentedControl!
     
+    @IBOutlet weak var scoreButton: UIButton!
     @IBOutlet weak var logTextField: UITextView!
     @IBOutlet weak var textfield: UITextField!
+    
+    
+    
     var tripRecorder : TripRecorder?
     var locationManager = CLLocationManager()
     let rx_disposeBag = DisposeBag()
+    let rxScore = PublishSubject<Score>()
+    var currentTripId : String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        scoreButton.alpha = 0
         TripSegmentedControl.selectedSegmentIndex = 1
         locationManager.requestAlwaysAuthorization()
+        textfield.text = "Erwan-ios12"
+        rxScore.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
+            let score = event.event
+            self.appendText(string: "SCORE: \(score)")
+            
+        }.disposed(by: rx_disposeBag)
     }
     
     @IBAction func tripSegmentedControlValueChanged(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
-            tripRecorder?.stop()
-            launchTracking()
-            tripRecorder?.start()
+            startTrip()
             break
         default:
-            tripRecorder?.stop()
+            stopTrip()
         }
+    }
+    
+    func startTrip() {
+        tripRecorder?.stop()
+        launchTracking()
+        tripRecorder?.start()
+    }
+    
+    func stopTrip() {
+        tripRecorder?.stop()
+        UIView.animate(withDuration: 0.3, delay: 260, options: UIViewAnimationOptions.curveEaseInOut, animations: {
+            self.scoreButton.alpha = 1
+        }) { (finished) in
+        
+        }
+    }
+    
+    @IBAction func getScore(_ sender: Any) {
+        UIView.animate(withDuration: 0.6, delay: 0, options: UIViewAnimationOptions.curveEaseInOut, animations: {
+            self.scoreButton.alpha = 0
+        }) { (finished) in
+            
+        }
+        tripRecorder!.getScore(tripId: "461105AE-A712-41A7-939C-4982413BE30F1543910782.13927", rxScore: rxScore)
     }
     
     func launchTracking()  {
@@ -61,6 +96,7 @@ class ViewController: UIViewController {
                     let customLog = OSLog(subsystem: "fr.axa.tex", category: #file)
                     os_log("-------------REGEX ERROR--------------- %@", log: customLog, type: .error, error.localizedDescription)
                 }
+                
             }
         } catch ConfigurationError.LocationNotDetermined(let description) {
             print(description)
@@ -80,7 +116,7 @@ class ViewController: UIViewController {
     
     func report(logDetail: LogMessage) {
         let customLog = OSLog(subsystem: "fr.axa.tex", category: logDetail.fileName)
-        
+        print(logDetail.description)
         switch logDetail.type {
         case .Info:
             Answers.logCustomEvent(withName: logDetail.functionName,
@@ -101,9 +137,14 @@ class ViewController: UIViewController {
             Crashlytics.sharedInstance().recordError(NSError(domain: logDetail.fileName, code: 9999, userInfo: ["filename" : logDetail.fileName, "functionName": logDetail.functionName, "description": logDetail.message]))
             break
         }
-        let oldLog = self.logTextField.text ?? ""
+
         let newLog = String(describing:logDetail.description)
-        let text = "\(oldLog)\n\(newLog)"
+        self.appendText(string: newLog)
+    }
+    
+    func appendText(string: String) {
+        let oldLog = self.logTextField.text ?? ""
+        let text = "\(oldLog)\n\(string)"
         self.logTextField.text = text
     }
     

@@ -10,14 +10,14 @@ import XCTest
 import RxCocoa
 import RxSwift
 import RxTest
-//import RxSwiftExt
-//import RxBlocking
-//import RxTest
 
 
 @testable import TexDriveSDK
 
 class APISessionManagerMock: APISessionManagerProtocol {
+    func get(parameters: [String : Any], completionHandler: @escaping (Result<[String : Any]>) -> ()) {
+    }
+    
     var isPutCalled = false
     var dictionaryPut : [String: Any]?
     func put(dictionaryBody: [String: Any]) {

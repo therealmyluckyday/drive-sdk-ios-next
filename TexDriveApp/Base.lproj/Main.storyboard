@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="yQJ-CE-t6p">
-                                <rect key="frame" x="0.0" y="66" width="375" height="601"/>
+                                <rect key="frame" x="0.0" y="119" width="375" height="548"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="8"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -46,10 +46,18 @@
                                     <action selector="tripSegmentedControlValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="zd4-8E-zJL"/>
                                 </connections>
                             </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Q2-Ft-CYJ">
+                                <rect key="frame" x="16" y="57" width="246" height="54"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="get score"/>
+                                <connections>
+                                    <action selector="getScore:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HMQ-Za-MNv"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="yQJ-CE-t6p" firstAttribute="top" secondItem="ZNo-wx-BGK" secondAttribute="bottom" constant="17" id="7rN-5r-qVg"/>
+                            <constraint firstItem="yQJ-CE-t6p" firstAttribute="top" secondItem="ZNo-wx-BGK" secondAttribute="bottom" constant="70" id="7rN-5r-qVg"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="PRB-fP-xN2" secondAttribute="trailing" constant="16" id="IPu-kP-rnP"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="yQJ-CE-t6p" secondAttribute="bottom" id="Jvf-eu-kxE"/>
                             <constraint firstItem="ZNo-wx-BGK" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="SfR-fT-rkh"/>
@@ -63,6 +71,7 @@
                     <connections>
                         <outlet property="TripSegmentedControl" destination="PRB-fP-xN2" id="iTY-xD-cMQ"/>
                         <outlet property="logTextField" destination="yQJ-CE-t6p" id="KEr-p3-QH0"/>
+                        <outlet property="scoreButton" destination="0Q2-Ft-CYJ" id="l8V-hl-JYg"/>
                         <outlet property="textfield" destination="ZNo-wx-BGK" id="i8B-PQ-7C9"/>
                     </connections>
                 </viewController>

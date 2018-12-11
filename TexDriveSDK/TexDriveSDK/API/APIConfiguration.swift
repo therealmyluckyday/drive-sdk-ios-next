@@ -9,6 +9,7 @@
 import Foundation
 enum HttpMethod: String {
     case PUT = "PUT"
+    case GET = "GET"
 }
 
 enum Domain: String {

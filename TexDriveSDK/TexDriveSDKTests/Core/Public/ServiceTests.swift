@@ -34,4 +34,16 @@ class ServiceTests: XCTestCase {
         
         XCTAssertEqual(service.config.tripRecorderFeatures.count, configuration.tripRecorderFeatures.count)
     }
+    
+    // MARK : func getScoringClient() -> (ScoringClient)
+    func testGetScoringClient() {
+        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
+        let mockLocationManager = MockLocationManager()
+        let locationFeature = TripRecorderFeature.Location(mockLocationManager)
+        let features = [locationFeature]
+        let configuration = MockConfiguration(features: features)
+        let service = TexServices.service(withConfiguration: configuration)
+        
+        let scoringClient = service.getScoringClient()
+    }
 }

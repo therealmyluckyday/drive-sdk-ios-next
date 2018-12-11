@@ -8,18 +8,37 @@
 
 import Foundation
 
+struct APIError: Error {
+    var message: String
+    var statusCode: Int
+    lazy var localizedDescription: String =  {
+        "Error on request \(self.statusCode) message: \(self.message)"
+    }()
+    
+    init(message: String, statusCode: Int) {
+        self.message = message
+        self.statusCode = statusCode
+    }
+}
+
 public protocol APISessionManagerProtocol {
     func put(dictionaryBody: [String: Any])
+    func get(parameters: [String: Any], completionHandler: @escaping (Result<[String: Any]>) -> ())
 }
 
 
 class APISessionManager: NSObject, APISessionManagerProtocol, URLSessionDelegate, URLSessionDownloadDelegate, URLSessionTaskDelegate {
     // MARK: Property
     private let configuration : APIConfiguration
-    private lazy var urlSession: URLSession = {
+    private lazy var urlBackgroundTaskSession: URLSession = {
         let config = URLSessionConfiguration.background(withIdentifier: "TexSession")
-        //config.isDiscretionary = true
+        config.isDiscretionary = true
         config.sessionSendsLaunchEvents = true
+        config.httpAdditionalHeaders = self.configuration.httpHeaders()
+        return URLSession(configuration: config, delegate: self, delegateQueue: nil)
+    }()
+    private lazy var urlDataTaskSession: URLSession = {
+        let config = URLSessionConfiguration.default
         config.httpAdditionalHeaders = self.configuration.httpHeaders()
         return URLSession(configuration: config, delegate: self, delegateQueue: nil)
     }()
@@ -34,12 +53,80 @@ class APISessionManager: NSObject, APISessionManagerProtocol, URLSessionDelegate
         self.configuration = configuration
     }
     
+    // MARK: PUT HTTP
     func put(dictionaryBody: [String: Any]) {
         if let url = URL(string: "\(self.configuration.baseUrl())/data") {
             let dictionaryBody = Dictionary<String, Any>.serializeWithGeneralInformation(dictionary: dictionaryBody, appId: self.configuration.appId, user: self.configuration.user)
             if let request = URLRequest.createUrlRequest(url: url, body: dictionaryBody, httpMethod: HttpMethod.PUT) {
-                let backgroundTask = self.urlSession.downloadTask(with: request)
+                let backgroundTask = self.urlBackgroundTaskSession.downloadTask(with: request)
+//                backgroundTask.earliestBeginDate = Date().addingTimeInterval(250)
                 backgroundTask.resume()
+            }
+        }
+    }
+    
+    
+    // MARK: GET HTTP
+    func get(parameters: [String: Any], completionHandler: @escaping (Result<[String: Any]>) -> ()) {
+        if let url = URL(string: "\(self.configuration.baseUrl())/score") {
+            Log.print(url.absoluteString)
+
+            var urlComponent = URLComponents(string: "\(self.configuration.baseUrl())/score")
+            var queryItems = [URLQueryItem]()
+            for (key, value) in parameters {
+                queryItems.append(URLQueryItem(name: key, value: "\(value)"))
+            }
+            
+            urlComponent?.queryItems = queryItems
+            
+            if let url = urlComponent?.url {
+                let request = URLRequest(url: url)
+                let task = self.urlDataTaskSession.dataTask(with: request) { (data, response, error) in
+                    guard let httpResponse = response as? HTTPURLResponse,
+                        (200...299).contains(httpResponse.statusCode) else {
+                            var statusCode = 400
+                            if let httpResponse = response as? HTTPURLResponse {
+                                statusCode = httpResponse.statusCode
+                            }
+                            var message = "Unkown error on API"
+                            if let data = data,
+                                let string = String(data: data, encoding: .utf8) {
+                                message = string
+                                Log.print(string, type: LogType.Error)
+                            }
+                            
+                            if let error = error {
+                                Log.print("Error On API \(error)", type: LogType.Error)
+                                print(error)
+                                completionHandler(Result.Failure(error))
+                            }
+                            else {
+                                Log.print("Error On API", type: LogType.Error)
+                                let apiError = APIError(message: message, statusCode: statusCode)
+                                completionHandler(Result.Failure(apiError))
+                            }
+                            return
+                    }
+                    do {
+                        if let data = data {
+                            if let json = try (JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)) as? [String: Any] {
+                                completionHandler(Result.Success(json))
+                            }
+                            else {
+                                completionHandler(Result.Success([String: Any]()))
+                            }
+                        }
+                        
+                    } catch let jsonError {
+                        if let data = data,
+                            let string = String(data: data, encoding: .utf8) {
+                            Log.print(string, type: LogType.Info)
+                        }
+                        Log.print("Error On API JSON", type: LogType.Error)
+                        completionHandler(Result.Failure(jsonError))
+                    }
+                }
+                task.resume()
             }
         }
     }
@@ -99,9 +186,10 @@ class APISessionManager: NSObject, APISessionManagerProtocol, URLSessionDelegate
             let savedURL = documentsURL.appendingPathComponent(
                 location.lastPathComponent)
             try FileManager.default.moveItem(at: location, to: savedURL)
+            Log.print(location.absoluteString)
             Log.print("HTTP response \(httpResponse)")
             if (200...299).contains(httpResponse.statusCode) {
-
+                
             } else {
                 Log.print("HTTP Error \(httpResponse.statusCode)", type: .Error)
             }
@@ -151,4 +239,40 @@ class APISessionManager: NSObject, APISessionManagerProtocol, URLSessionDelegate
     func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
         Log.print("HTTP urlsession didFinishCollecting \(task)")
     }
+    
+    
+    func urlSession(_ session: URLSession, taskIsWaitingForConnectivity task: URLSessionTask) {
+        Log.print("HTTP urlsession")
+    }
+    
+    
+    func urlSession(_ session: URLSession, task: URLSessionTask, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Swift.Void) {
+        Log.print("HTTP urlsession")
+    }
+    
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Swift.Void) {
+        Log.print("HTTP urlsession")
+    }
+    
+    
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didBecome downloadTask: URLSessionDownloadTask) {
+        Log.print("HTTP urlsession")
+    }
+    
+    
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didBecome streamTask: URLSessionStreamTask) {
+        Log.print("HTTP urlsession")
+    }
+    
+    
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        Log.print("HTTP urlsession")
+    }
+    
+    
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, willCacheResponse proposedResponse: CachedURLResponse, completionHandler: @escaping (CachedURLResponse?) -> Swift.Void) {
+        Log.print("HTTP urlsession")
+    }
 }
+
+
