@@ -27,7 +27,7 @@ class Trip: Collection {
     var endIndex: Index { return fixes.endIndex }
     
     // Required subscript, based on a Array index
-    subscript(index: Index) -> Iterator.Element {
+    subscript(index: Index) -> Fix {
         get { return fixes[index] }
     }
     
@@ -62,6 +62,7 @@ class Trip: Collection {
     }
     
     // Private Method
+    //GUID voir uuid
     static func generateTripId() -> String {
         return UIDevice.current.identifierForVendor!.uuidString + "\(Date().timeIntervalSince1970)"
     }

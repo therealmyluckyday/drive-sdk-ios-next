@@ -41,7 +41,36 @@ class MockConfiguration : ConfigurationProtocol {
 
 
 class TripRecorderTests: XCTestCase {
-     
+    var tripRecorder: TripRecorder?
+    var disposeBag: DisposeBag?
+    
+    override func setUp() {
+        super.setUp()
+        disposeBag = DisposeBag()
+        
+        
+        let user = User.Authentified("Erwan-ios12")
+        let appId = "youdrive_france_prospect"
+        do {
+            let configuration = try Config(applicationId: appId, applicationLocale: Locale.current, currentUser: user, currentMode: Mode.manual, currentTripRecorderFeatures: [TripRecorderFeature]())
+            
+            tripRecorder = TripRecorder(config: configuration!, sessionManager: configuration!.generateAPISessionManager())
+            
+            let logFactory = configuration!.logFactory
+            logFactory.rx_logOutput.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
+                if let logDetail = event.element {
+                    print(logDetail.description)
+                }
+                }.disposed(by: disposeBag!)
+        } catch {
+            XCTAssert(false)
+        }
+    }
+    
+    override func tearDown() {
+        super.tearDown()
+    }
+    
     func testInit_LocationFeature() {
         MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
         let mockLocationManager = MockLocationManager()
@@ -49,7 +78,7 @@ class TripRecorderTests: XCTestCase {
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)
         
-        let tripRecorder = TripRecorder(config: configuration)
+        let tripRecorder = TripRecorder(config: configuration, sessionManager: configuration.generateAPISessionManager())
         
         var locations = [CLLocation]()
         
@@ -77,3 +106,4 @@ class TripRecorderTests: XCTestCase {
         }
     }
 }
+

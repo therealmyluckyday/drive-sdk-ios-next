@@ -58,7 +58,7 @@ public class Config: ConfigurationProtocol {
         let sensor = CMMotionManager()
         let motionFeature = TripRecorderFeature.Motion(sensor)
         
-        let tripRecorderFeatures = [locationfeature, batteryfeature, phoneCallFeature, motionFeature]
+        let tripRecorderFeatures = [locationfeature, batteryfeature, phoneCallFeature]
         try self.init(applicationId: applicationId, applicationLocale: applicationLocale, currentUser: currentUser, currentMode: currentMode, currentTripRecorderFeatures: tripRecorderFeatures)
     }
     
@@ -95,10 +95,3 @@ public class Config: ConfigurationProtocol {
         return APISessionManager(configuration: APIConfiguration(appId: appId, domain: Domain.Preproduction, user: user))
     }
 }
-
-// TODO
-//@property(readonly) AXAPlatform platform;
-//@property(readonly) BOOL isObdManagerEnabled;
-//@property(readonly) BOOL isScoreDatabaseEnabled;
-//@property(readonly) BOOL isPredictionServiceEnabled;
-//@property(readonly) BOOL isScoringServiceEnabled;

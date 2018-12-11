@@ -9,8 +9,8 @@
 import Foundation
 import RxSwift
 
-enum Result<SpecificFix>{
-    case Success(SpecificFix)
+public enum Result<T>{
+    case Success(T)
     case Failure(Error)
 }
 
