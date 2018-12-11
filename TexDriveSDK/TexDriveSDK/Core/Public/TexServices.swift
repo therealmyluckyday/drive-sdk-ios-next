@@ -9,8 +9,8 @@
 import Foundation
 
 public class TexServices {
-    let tripRecorder: TripRecorder
-    let scoringClient: ScoringClient
+    public let tripRecorder: TripRecorder
+    public let scoringClient: ScoringClientProtocol
     var config: ConfigurationProtocol {
         get {
             return _config
@@ -19,7 +19,7 @@ public class TexServices {
     
     private var _config: ConfigurationProtocol
     
-    init(configuration: ConfigurationProtocol) {
+    public init(configuration: ConfigurationProtocol) {
         _config = configuration
         let sessionManager = configuration.generateAPISessionManager()
         tripRecorder = TripRecorder(config: configuration, sessionManager: sessionManager)
@@ -30,6 +30,7 @@ public class TexServices {
         return TexServices(configuration: configuration)
     }
     
+    @available(*, deprecated, message: "Please used scoringClient property")
     func getScoringClient() -> (ScoringClientProtocol) {
         return scoringClient
     }

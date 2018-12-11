@@ -29,6 +29,7 @@ class ViewController: UIViewController {
     let rx_disposeBag = DisposeBag()
     let rxScore = PublishSubject<Score>()
     var currentTripId : String?
+    var texServices: TexServices?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,7 +62,7 @@ class ViewController: UIViewController {
     
     func stopTrip() {
         tripRecorder?.stop()
-        UIView.animate(withDuration: 0.3, delay: 260, options: UIViewAnimationOptions.curveEaseInOut, animations: {
+        UIView.animate(withDuration: 0.3, delay: 26, options: UIViewAnimationOptions.curveEaseInOut, animations: {
             self.scoreButton.alpha = 1
         }) { (finished) in
         
@@ -74,7 +75,8 @@ class ViewController: UIViewController {
         }) { (finished) in
             
         }
-        tripRecorder!.getScore(tripId: "461105AE-A712-41A7-939C-4982413BE30F1543910782.13927", rxScore: rxScore)
+
+        texServices!.scoringClient.getScore(tripId: "461105AE-A712-41A7-939C-4982413BE30F1543910782.13927", rxScore: rxScore)
     }
     
     func launchTracking()  {
@@ -87,7 +89,8 @@ class ViewController: UIViewController {
         
         do {
             if let configuration = try Config(applicationId: "youdrive_france_prospect", applicationLocale: Locale.current, currentUser: user, currentMode: Mode.manual) {
-                tripRecorder = TripRecorder(config: configuration)
+                texServices = TexServices(configuration:configuration)
+                tripRecorder = texServices!.tripRecorder
                 configureLog(configuration.rx_log)
                 do {
                     let regex = try NSRegularExpression(pattern: ".*.*", options: NSRegularExpression.Options.caseInsensitive)
