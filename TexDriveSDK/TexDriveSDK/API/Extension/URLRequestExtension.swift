@@ -19,8 +19,7 @@ extension URLRequest: APIURLRequest {
         urlRequest.httpMethod = httpMethod.rawValue
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: body, options:[])
-            Log.print("-------------JSON-----------------------")
-            Log.print("\(String(describing: String(bytes:jsonData, encoding: String.Encoding.utf8)))")
+            Log.print("[Json]\(String(describing: String(bytes:jsonData, encoding: String.Encoding.utf8)))")
             if withCompression {
                 var compressedJsonData = Data(capacity:jsonData.count)
                 let algorithm = COMPRESSION_ZLIB
@@ -41,7 +40,7 @@ extension URLRequest: APIURLRequest {
             }
            
         } catch {
-            Log.print("-------------JSON ERROR-----------------------\(error)", type: .Error)
+            Log.print("Json serialization error: \(error)", type: .Error)
             return nil
         }
         
