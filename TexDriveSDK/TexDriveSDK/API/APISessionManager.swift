@@ -29,7 +29,7 @@ public protocol APISessionManagerProtocol {
 
 class APISessionManager: NSObject, APISessionManagerProtocol, URLSessionDelegate, URLSessionDownloadDelegate, URLSessionTaskDelegate {
     // MARK: Property
-    private let configuration : APIConfiguration
+    private let configuration: APIConfiguration
     private lazy var urlBackgroundTaskSession: URLSession = {
         let config = URLSessionConfiguration.background(withIdentifier: "TexSession")
         config.isDiscretionary = true
@@ -55,8 +55,7 @@ class APISessionManager: NSObject, APISessionManagerProtocol, URLSessionDelegate
     
     // MARK: PUT HTTP
     func put(dictionaryBody: [String: Any]) {
-        if let url = URL(string: "\(self.configuration.baseUrl())/data") {
-            let dictionaryBody = Dictionary<String, Any>.serializeWithGeneralInformation(dictionary: dictionaryBody, appId: self.configuration.appId, user: self.configuration.user)
+        if let url = URL(string: "\(configuration.baseUrl())/data") {
             if let request = URLRequest.createUrlRequest(url: url, body: dictionaryBody, httpMethod: HttpMethod.PUT) {
                 let backgroundTask = self.urlBackgroundTaskSession.downloadTask(with: request)
 //                backgroundTask.earliestBeginDate = Date().addingTimeInterval(250)
@@ -68,10 +67,10 @@ class APISessionManager: NSObject, APISessionManagerProtocol, URLSessionDelegate
     
     // MARK: GET HTTP
     func get(parameters: [String: Any], completionHandler: @escaping (Result<[String: Any]>) -> ()) {
-        if let url = URL(string: "\(self.configuration.baseUrl())/score") {
+        if let url = URL(string: "\(configuration.baseUrl())/score") {
             Log.print(url.absoluteString)
 
-            var urlComponent = URLComponents(string: "\(self.configuration.baseUrl())/score")
+            var urlComponent = URLComponents(string: "\(configuration.baseUrl())/score")
             var queryItems = [URLQueryItem]()
             for (key, value) in parameters {
                 queryItems.append(URLQueryItem(name: key, value: "\(value)"))

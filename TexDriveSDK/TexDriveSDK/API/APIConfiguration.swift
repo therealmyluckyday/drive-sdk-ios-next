@@ -18,11 +18,13 @@ enum Domain: String {
     case Production = "gw.tex.dil.services"
 }
 
-struct APIConfiguration {
-    let appId: String
-    let domain: Domain
-    let user: User
-    
+protocol APIConfiguration {
+    var domain: Domain { get }
+    func baseUrl() -> String
+    func httpHeaders() -> [String: Any]
+}
+
+extension TripInfos: APIConfiguration {
     func baseUrl() -> String {
         return "https://"+domain.rawValue+"/v2.0"
     }

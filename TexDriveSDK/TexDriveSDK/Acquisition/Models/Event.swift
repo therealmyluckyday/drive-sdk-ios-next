@@ -17,51 +17,29 @@ enum EventType: String {
     case crash = "crash"
 }
 
-class Event: Fix, Collection {
-    
+class Event: Fix {
     // MARK: Property
-    var eventsType = [EventType]()
-    var timestamp: TimeInterval {
-        get {
-            return Date().timeIntervalSince1970
-        }
+    let eventType: EventType
+    let timestamp: TimeInterval
+    
+    // Lifecycle
+    init(eventType: EventType, timestamp: TimeInterval) {
+        self.eventType = eventType
+        self.timestamp = timestamp
     }
+    
     // MARK: Protocol CustomStringConvertible
     var description: String {
         get {
             var description = "Events: \(self.timestamp) \n"
-            if let firstEvent = eventsType.first {
-                description += eventsType.reduce(firstEvent.rawValue) { $0 + ", " + $1.rawValue }
+            
+            for eventDescription in self.serializeEvents() {
+                description += " "+eventDescription
             }
             return description
         }
     }
     
-    // MARK: Typealias & Property Collection Protocol
-    typealias Element = EventType
-    typealias Index = Int
-    
-    // The upper and lower bounds of the collection, used in iterations
-    var startIndex: Index { return eventsType.startIndex }
-    var endIndex: Index { return eventsType.endIndex }
-    
-    // Required subscript, based on a Array index
-    subscript(index: Index) -> EventType {
-        get { return eventsType[index] }
-    }
-    
-    // Method that returns the next index when iterating
-    func index(after i: Index) -> Index {
-        return eventsType.index(after: i)
-    }
-    
-    // MARK: Public function
-    func append(eventType: EventType) {
-        if !eventsType.contains(eventType) {
-            self.eventsType.append(eventType)
-        }
-    }
-
     // MARK: Serialize
     func serialize() -> [String : Any] {
         let (key, value) = self.serializeTimestamp()
@@ -70,8 +48,10 @@ class Event: Fix, Collection {
     }
     
     private func serializeEvents() -> [String] {
-        return eventsType.map({ (eventType) -> String in
-            return eventType.rawValue
-        })
+        // @EMA @TODO serialize in array when it is an autostop or autostart
+//        return eventsType.map({ (eventType) -> String in
+//            return eventType.rawValue
+//        })
+        return [eventType.rawValue]
     }
 }

@@ -1,19 +1,24 @@
 //
-//  DictionaryExtension.swift
+//  TripInfos.swift
 //  TexDriveSDK
 //
-//  Created by Erwan Masson on 30/10/2018.
+//  Created by Erwan Masson on 12/12/2018.
 //  Copyright © 2018 Axa. All rights reserved.
 //
 
 import Foundation
-
 protocol SerializeAPIGeneralInformation {
-    func serializeWithGeneralInformation(dictionary: [String: Any], appId: String, user: User) -> [String: Any]
+    func serializeWithGeneralInformation(dictionary: [String: Any]) -> [String: Any]
 }
 
-extension Dictionary where Key == String {
-    static func serializeWithGeneralInformation(dictionary: [String: Any], appId: String, user: User) -> [String: Any] {
+public struct TripInfos {
+    let appId: String
+    let user: User
+    let domain: Domain
+}
+
+extension TripInfos: SerializeAPIGeneralInformation {
+    func serializeWithGeneralInformation(dictionary: [String : Any]) -> [String : Any] {
         var newDictionary = dictionary
         let uuid = UIDevice.current.identifierForVendor?.uuidString
         let timeZone = DateFormatter.formattedTimeZone()
@@ -22,7 +27,7 @@ extension Dictionary where Key == String {
         let sdkVersion = Bundle(for: APITrip.self).infoDictionary!["CFBundleShortVersionString"] as! String
         let firstVia = "TEX_iOS_SDK/\(os)/\(sdkVersion)"
         //        token _texConfig.texUser.authToken
-        //        client_id _texConfig.texUser.userId
+
         switch user {
         case .Authentified(let clientId):
             newDictionary["client_id"] = clientId

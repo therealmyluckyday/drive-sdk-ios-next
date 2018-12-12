@@ -17,13 +17,12 @@ class PersistantQueueTests: XCTestCase {
         let fixes = PublishSubject<Fix>()
         let scheduler = MainScheduler.instance
         
-        let persistantQueue = PersistantQueue(eventType: eventType, fixes: fixes, scheduler: scheduler)
+        let persistantQueue = PersistantQueue(eventType: eventType, fixes: fixes, scheduler: scheduler, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
         var isproviderTripCalled = false
         let _ = persistantQueue.providerTrip.asObserver().subscribe { (eventTrip) in
             if let trip = eventTrip.element {
                 isproviderTripCalled = true
-                XCTAssertEqual(trip.event[0], EventType.start)
-                XCTAssertEqual(trip.event.count, 1)
+                XCTAssertEqual(trip.event!.eventType, EventType.start)
                 XCTAssertEqual(trip.count, 101)
             }
         }
@@ -45,19 +44,48 @@ class PersistantQueueTests: XCTestCase {
         XCTAssertTrue(isproviderTripCalled)
     }
     
-    func testProviderTripStartStop() {
+    func testProviderTripStart() {
         let eventType = PublishSubject<EventType>()
         let fixes = PublishSubject<Fix>()
         let scheduler = MainScheduler.instance
         
-        let persistantQueue = PersistantQueue(eventType: eventType, fixes: fixes, scheduler: scheduler)
+        let persistantQueue = PersistantQueue(eventType: eventType, fixes: fixes, scheduler: scheduler, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
         var isproviderTripCalled = false
         let _ = persistantQueue.providerTrip.asObserver().subscribe { (eventTrip) in
             if let trip = eventTrip.element {
                 isproviderTripCalled = true
-                XCTAssertEqual(trip.event[0], EventType.start)
-                XCTAssertEqual(trip.event[1], EventType.stop)
-                XCTAssertEqual(trip.event.count, 2)
+                XCTAssertEqual(trip.event!.eventType, EventType.start)
+            }
+        }
+        eventType.onNext(EventType.start)
+        for i in 0...TripConstant.MinFixesToSend {
+            let date = Date(timeIntervalSinceNow: 9999)
+            let latitude = 48.886951
+            let longitude = 2.343072
+            let precision = 5.1
+            let speed = 1.2
+            let bearing = 1.3
+            let altitude = Double(i)
+            
+            let locationFix = LocationFix(timestamp: date.timeIntervalSince1970, latitude: latitude, longitude: longitude, precision: precision, speed: speed, bearing: bearing, altitude: altitude)
+            
+            fixes.onNext(locationFix)
+            
+        }
+        XCTAssertTrue(isproviderTripCalled)
+    }
+    
+    func testProviderTripStop() {
+        let eventType = PublishSubject<EventType>()
+        let fixes = PublishSubject<Fix>()
+        let scheduler = MainScheduler.instance
+        
+        let persistantQueue = PersistantQueue(eventType: eventType, fixes: fixes, scheduler: scheduler, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
+        var isproviderTripCalled = false
+        let _ = persistantQueue.providerTrip.asObserver().subscribe { (eventTrip) in
+            if let trip = eventTrip.element {
+                isproviderTripCalled = true
+                XCTAssertEqual(trip.event!.eventType, EventType.stop)
             }
         }
         eventType.onNext(EventType.start)
@@ -88,7 +116,7 @@ class PersistantQueueTests: XCTestCase {
         let fixes = PublishSubject<Fix>()
         let scheduler = MainScheduler.instance
         
-        let persistantQueue = PersistantQueue(eventType: eventType, fixes: fixes, scheduler: scheduler)
+        let persistantQueue = PersistantQueue(eventType: eventType, fixes: fixes, scheduler: scheduler, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
         var isproviderTripCalled = false
         let _ = persistantQueue.providerTrip.asObserver().subscribe { (eventTrip) in
             if eventTrip.element != nil {
@@ -117,7 +145,7 @@ class PersistantQueueTests: XCTestCase {
         let fixes = PublishSubject<Fix>()
         let scheduler = MainScheduler.instance
         
-        let persistantQueue = PersistantQueue(eventType: eventType, fixes: fixes, scheduler: scheduler)
+        let persistantQueue = PersistantQueue(eventType: eventType, fixes: fixes, scheduler: scheduler, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
         var isproviderTripCalled = false
         let _ = persistantQueue.providerTrip.asObserver().subscribe { (eventTrip) in
             if eventTrip.element != nil {

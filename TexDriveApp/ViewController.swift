@@ -88,7 +88,7 @@ class ViewController: UIViewController {
         }
         
         do {
-            if let configuration = try Config(applicationId: "youdrive_france_prospect", applicationLocale: Locale.current, currentUser: user, currentMode: Mode.manual) {
+            if let configuration = try Config(applicationId: "youdrive_france_prospect", applicationLocale: Locale.current, currentUser: user) {
                 texServices = TexServices(configuration:configuration)
                 tripRecorder = texServices!.tripRecorder
                 configureLog(configuration.rxLog)

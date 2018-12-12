@@ -1,22 +1,22 @@
 //
-//  DictionaryExtensionTests.swift
+//  TripInfosTests.swift
 //  TexDriveSDKTests
 //
-//  Created by Erwan Masson on 30/10/2018.
+//  Created by Erwan Masson on 12/12/2018.
 //  Copyright © 2018 Axa. All rights reserved.
 //
 
 import XCTest
-
 @testable import TexDriveSDK
 
-class DictionaryExtensionTests: XCTestCase {
+class TripInfosTests: XCTestCase {
+    
     // MARK: static func serializeWithGeneralInformation(dictionary: [String: Any], appId: String) -> [String: Any]
     func testSerializeWithGeneralInformation() {
         let dictionary = ["toto": 1984]
         let appId = "AXAAppId"
-        
-        let result = Dictionary<String, Any>.serializeWithGeneralInformation(dictionary: dictionary, appId: appId, user: User.Anonymous)
+        let tripInfos =  TripInfos(appId: appId, user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction)
+        let result = tripInfos.serializeWithGeneralInformation(dictionary: dictionary)
         
         let os = "\(UIDevice.current.systemName) \(UIDevice.current.systemVersion)"
         let sdkVersion = Bundle(for: APITrip.self).infoDictionary!["CFBundleShortVersionString"] as! String
@@ -29,4 +29,5 @@ class DictionaryExtensionTests: XCTestCase {
         XCTAssertEqual(result["app_name"] as! String, appId)
         XCTAssertEqual(result["via"] as! [String], [firstVia])
     }
+    
 }

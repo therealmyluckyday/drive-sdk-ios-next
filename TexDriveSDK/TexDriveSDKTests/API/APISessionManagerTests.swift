@@ -20,7 +20,7 @@ class APISessionManagerTests: XCTestCase {
         rxDisposeBag = DisposeBag()
         let user = User.Authentified("Erwan-ios12")
         let appId = "youdrive_france_prospect"
-        apiSessionManager = APISessionManager(configuration: APIConfiguration(appId: appId, domain: Domain.Preproduction, user: user))
+        apiSessionManager = APISessionManager(configuration: TripInfos(appId: appId, user: user, domain: Domain.Preproduction))
     }
     
     override func tearDown() {
