@@ -35,7 +35,7 @@ public class TripRecorder: TripRecorderProtocol {
     
     // MARK: Lifecycle
     public init(config: ConfigurationProtocol, sessionManager: APISessionManagerProtocol) {
-        persistantQueue = PersistantQueue(eventType: rxEventType, fixes: rxFix, scheduler: config.rxScheduler)
+        persistantQueue = PersistantQueue(eventType: rxEventType, fixes: rxFix, scheduler: config.rxScheduler, tripInfos: config.tripInfos)
         apiTrip = APITrip(apiSessionManager: config.generateAPISessionManager())
         apiTrip.subscribe(providerTrip: persistantQueue.providerTrip, scheduler: config.rxScheduler)
         collector = FixCollector(eventsType: rxEventType, fixes: rxFix, scheduler: config.rxScheduler)

@@ -11,6 +11,8 @@
 		8132CC17A88B22895528C8CC /* libPods-TexDriveSDKTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EB9F29EAFBFD2B3E91BCDF7 /* libPods-TexDriveSDKTests.a */; };
 		C107606F217E2C8000FB28AA /* PersistantQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C107606E217E2C8000FB28AA /* PersistantQueue.swift */; };
 		C1076071217E2E9400FB28AA /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1076070217E2E9400FB28AA /* Event.swift */; };
+		C121002F21C14C9100A126E6 /* TripInfos.swift in Sources */ = {isa = PBXBuildFile; fileRef = C121002E21C14C9100A126E6 /* TripInfos.swift */; };
+		C121003121C1632500A126E6 /* TripInfosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C121003021C1632500A126E6 /* TripInfosTests.swift */; };
 		C12373992166468100A95A2A /* TripRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12373982166468100A95A2A /* TripRecorder.swift */; };
 		C124ABF7217F45D80038A0B1 /* TripChunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = C124ABF6217F45D80038A0B1 /* TripChunk.swift */; };
 		C124ABFB217F4F070038A0B1 /* APITrip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C124ABFA217F4F070038A0B1 /* APITrip.swift */; };
@@ -100,6 +102,8 @@
 		AF9E4DBBDCD5D4E15A273DDC /* Pods-TexDriveSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveSDK.release.xcconfig"; path = "../Pods/Target Support Files/Pods-TexDriveSDK/Pods-TexDriveSDK.release.xcconfig"; sourceTree = "<group>"; };
 		C107606E217E2C8000FB28AA /* PersistantQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistantQueue.swift; sourceTree = "<group>"; };
 		C1076070217E2E9400FB28AA /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		C121002E21C14C9100A126E6 /* TripInfos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripInfos.swift; sourceTree = "<group>"; };
+		C121003021C1632500A126E6 /* TripInfosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripInfosTests.swift; sourceTree = "<group>"; };
 		C12373982166468100A95A2A /* TripRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecorder.swift; sourceTree = "<group>"; };
 		C124ABF6217F45D80038A0B1 /* TripChunk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripChunk.swift; sourceTree = "<group>"; };
 		C124ABFA217F4F070038A0B1 /* APITrip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITrip.swift; sourceTree = "<group>"; };
@@ -221,6 +225,15 @@
 			path = PersistantQueue;
 			sourceTree = "<group>";
 		};
+		C121002D21C14C6800A126E6 /* Log */ = {
+			isa = PBXGroup;
+			children = (
+				C1C83BD6219042F500D8E4B3 /* Log.swift */,
+				C1D0BD9B2192FB4000365428 /* LogMessage.swift */,
+			);
+			path = Log;
+			sourceTree = "<group>";
+		};
 		C124ABF8217F4EEB0038A0B1 /* API */ = {
 			isa = PBXGroup;
 			children = (
@@ -255,13 +268,13 @@
 		C17E9A72216F826000FCF93E /* Public */ = {
 			isa = PBXGroup;
 			children = (
+				C121002D21C14C6800A126E6 /* Log */,
 				C1F7E45421B53B5000EA0445 /* Score */,
 				C17E9A73216F828400FCF93E /* User.swift */,
 				C17E9A75216F82F100FCF93E /* Config.swift */,
 				C17E9A77216F85BD00FCF93E /* TexServices.swift */,
 				C17E9A7B216F944500FCF93E /* TripRecorderFeature.swift */,
-				C1C83BD6219042F500D8E4B3 /* Log.swift */,
-				C1D0BD9B2192FB4000365428 /* LogMessage.swift */,
+				C121002E21C14C9100A126E6 /* TripInfos.swift */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -286,6 +299,7 @@
 				C15B9FC82194441F0072439F /* LogDetailTests.swift */,
 				C1FDE33C219C5A4C00F15AF3 /* ServiceTests.swift */,
 				C1FDE349219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift */,
+				C121003021C1632500A126E6 /* TripInfosTests.swift */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -687,6 +701,7 @@
 				E2798ED62158DFC4006228A3 /* LocationTracker.swift in Sources */,
 				C1A7987D2191F76C0045765C /* LogRxFactory.swift in Sources */,
 				C1F7E45621B53B6000EA0445 /* Score.swift in Sources */,
+				C121002F21C14C9100A126E6 /* TripInfos.swift in Sources */,
 				C1D0BD9C2192FB4000365428 /* LogMessage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -695,6 +710,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C121003121C1632500A126E6 /* TripInfosTests.swift in Sources */,
 				C15B9FCD21944C1F0072439F /* LogRxDefaultTests.swift in Sources */,
 				C1FDE33D219C5A4C00F15AF3 /* ServiceTests.swift in Sources */,
 				C18AE98B216E44D60065F0BB /* LocationTrackerTests.swift in Sources */,

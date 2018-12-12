@@ -27,6 +27,7 @@ public protocol ConfigurationProtocol {
     var tripRecorderFeatures: [TripRecorderFeature] { get }
     var rxScheduler: SerialDispatchQueueScheduler { get }
     var rxLog: PublishSubject<LogMessage> { get }
+    var tripInfos: TripInfos { get }
     func log(regex: NSRegularExpression, logType: LogType)
     func generateAPISessionManager() -> APISessionManagerProtocol
 }
@@ -39,10 +40,9 @@ public class Config: ConfigurationProtocol {
     }
     public let tripRecorderFeatures: [TripRecorderFeature]
     public let rxScheduler = MainScheduler.asyncInstance
-    let appId: String
     let locale: Locale
-    let user: User
     let logFactory = LogRxFactory()
+    public let tripInfos: TripInfos
     
     public convenience init?(applicationId: String, applicationLocale: Locale, currentUser: User) throws {
         let locationfeature : TripRecorderFeature = TripRecorderFeature.Location(CLLocationManager())
@@ -50,7 +50,7 @@ public class Config: ConfigurationProtocol {
         let phoneCallFeature : TripRecorderFeature = TripRecorderFeature.PhoneCall(CXCallObserver())
         let sensor = CMMotionManager()
         let motionFeature = TripRecorderFeature.Motion(sensor)
-        
+
         let tripRecorderFeatures = [locationfeature, batteryfeature, phoneCallFeature]
         try self.init(applicationId: applicationId, applicationLocale: applicationLocale, currentUser: currentUser, currentTripRecorderFeatures: tripRecorderFeatures)
     }
@@ -71,9 +71,8 @@ public class Config: ConfigurationProtocol {
                 break
             }
         }
-        appId = applicationId
+       tripInfos = TripInfos(appId: applicationId, user: currentUser, domain: Domain.Preproduction)
         locale = applicationLocale
-        user = currentUser
         tripRecorderFeatures = currentTripRecorderFeatures
         Log.configure(loggerFactory: logFactory)
         
@@ -84,6 +83,6 @@ public class Config: ConfigurationProtocol {
     }
     
     public func generateAPISessionManager() -> APISessionManagerProtocol {
-        return APISessionManager(configuration: APIConfiguration(appId: appId, domain: Domain.Preproduction, user: user))
+        return APISessionManager(configuration: tripInfos)
     }
 }

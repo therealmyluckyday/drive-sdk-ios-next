@@ -14,15 +14,16 @@ class PersistantQueue {
     private var trip: TripChunk?
     private let rxDisposeBag = DisposeBag()
     var providerTrip = PublishSubject<TripChunk>()
-    
+    let tripInfos: TripInfos
     
     // MARK: Lifecycle
-    init(eventType: PublishSubject<EventType>, fixes: PublishSubject<Fix>, scheduler: SerialDispatchQueueScheduler) {
+    init(eventType: PublishSubject<EventType>, fixes: PublishSubject<Fix>, scheduler: SerialDispatchQueueScheduler, tripInfos: TripInfos) {
+        self.tripInfos = tripInfos
         eventType.asObservable().observeOn(scheduler).subscribe { [weak self](event) in
             if let eventType = event.element {
                 
-                if eventType == EventType.start {
-                    self?.trip = TripChunk()
+                if let tripInfos = self?.tripInfos, eventType == EventType.start {
+                    self?.trip = TripChunk(tripInfos: tripInfos)
                 }
                 if let trip = self?.trip {
                     trip.append(eventType: eventType)
@@ -38,9 +39,9 @@ class PersistantQueue {
         fixes.asObservable().observeOn(scheduler).subscribe { [weak self](event) in
             if let fix = event.element, let trip = self?.trip {
                 trip.append(fix: fix)
-                if trip.canUpload() {
+                if let tripInfos = self?.tripInfos, trip.canUpload() {
                     self?.providerTrip.onNext(trip)
-                    self?.trip = TripChunk(tripId: trip.tripId)
+                    self?.trip = TripChunk(tripId: trip.tripId, tripInfos: tripInfos)
                 }
             }
         }.disposed(by: rxDisposeBag)

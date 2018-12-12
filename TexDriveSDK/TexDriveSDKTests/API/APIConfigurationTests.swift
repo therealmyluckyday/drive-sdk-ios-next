@@ -23,7 +23,7 @@ class APIConfigurationTests: XCTestCase {
     func testBaseUrlIntegration() {
         let domain = Domain.Integration
         let appId = "APPxID"
-        let config = APIConfiguration(appId: appId, domain: domain, user: User.Anonymous)
+        let config = TripInfos(appId: appId, user: User.Authentified("Erwan-ios12"), domain: domain)
         
         let result = config.baseUrl()
         
@@ -32,7 +32,7 @@ class APIConfigurationTests: XCTestCase {
     func testBaseUrlPreprod() {
         let domain = Domain.Preproduction
         let appId = "APPxID"
-        let config = APIConfiguration(appId: appId, domain: domain, user: User.Anonymous)
+        let config = TripInfos(appId: appId, user: User.Authentified("Erwan-ios12"), domain: domain)
         
         let result = config.baseUrl()
         
@@ -41,7 +41,7 @@ class APIConfigurationTests: XCTestCase {
     func testBaseUrlProd() {
         let domain = Domain.Production
         let appId = "APPxID"
-        let config = APIConfiguration(appId: appId, domain: domain, user: User.Anonymous)
+        let config = TripInfos(appId: appId, user: User.Authentified("Erwan-ios12"), domain: domain)
         
         let result = config.baseUrl()
         
@@ -52,7 +52,7 @@ class APIConfigurationTests: XCTestCase {
     func testHTTPHeaders() {
         let domain = Domain.Production
         let appId = "APPxID"
-        let config = APIConfiguration(appId: appId, domain: domain, user: User.Anonymous)
+        let config = TripInfos(appId: appId, user: User.Authentified("Erwan-ios12"), domain: domain)
         
         let result = config.httpHeaders()
         

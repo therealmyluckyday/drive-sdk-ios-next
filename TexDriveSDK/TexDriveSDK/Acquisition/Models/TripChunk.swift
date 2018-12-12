@@ -12,15 +12,12 @@ struct TripConstant {
     static let MinFixesToSend = 100
 }
 
-protocol SerializeAPIGeneralInformation {
-    static func serializeWithGeneralInformation(dictionary: [String: Any], appId: String, user: User) -> [String: Any]
-}
-
 class TripChunk: Collection {
     // MARK: Property
     let tripId: String //GUI generated. Format MUST be in capital
     private var fixes = [Fix]()
     var event: Event?
+    let tripInfos: TripInfos
     
     // MARK: Typealias & Property Collection Protocol
     typealias Element = Fix
@@ -57,12 +54,13 @@ class TripChunk: Collection {
     }
     
     // MARK: Lifecycle
-    convenience init() {
-        self.init(tripId: TripChunk.generateTripId())
+    convenience init(tripInfos: TripInfos) {
+        self.init(tripId: TripChunk.generateTripId(), tripInfos: tripInfos)
     }
     
-    init(tripId: String) {
+    init(tripId: String, tripInfos: TripInfos) {
         self.tripId = tripId.uppercased()
+        self.tripInfos = tripInfos
     }
     
     // Private Method
@@ -80,36 +78,11 @@ class TripChunk: Collection {
         var dictionary = [String : Any]()
         dictionary["trip_id"] = self.tripId
         dictionary["fixes"] = fix
-        
-        return dictionary
+
+        return tripInfos.serializeWithGeneralInformation(dictionary: dictionary)
     }
+    
 }
 
 
-extension TripChunk: SerializeAPIGeneralInformation {
-    static func serializeWithGeneralInformation(dictionary: [String : Any], appId: String, user: User) -> [String : Any] {
-        var newDictionary = dictionary
-        let uuid = UIDevice.current.identifierForVendor?.uuidString
-        let timeZone = DateFormatter.formattedTimeZone()
-        let os = UIDevice.current.os()
-        let model = UIDevice.current.hardwareString()
-        let sdkVersion = Bundle(for: APITrip.self).infoDictionary!["CFBundleShortVersionString"] as! String
-        let firstVia = "TEX_iOS_SDK/\(os)/\(sdkVersion)"
-        //        token _texConfig.texUser.authToken
-        //        client_id _texConfig.texUser.userId
-        switch user {
-        case .Authentified(let clientId):
-            newDictionary["client_id"] = clientId
-        default:
-            break
-        }
-        newDictionary["uid"] = uuid
-        newDictionary["timezone"] = timeZone
-        newDictionary["os"] = os
-        newDictionary["model"] = model
-        newDictionary["version"] = sdkVersion
-        newDictionary["app_name"] = appId
-        newDictionary["via"] = [firstVia]
-        return newDictionary
-    }
-}
+

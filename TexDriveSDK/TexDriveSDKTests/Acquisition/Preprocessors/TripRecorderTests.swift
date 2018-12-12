@@ -15,6 +15,8 @@ import CoreLocation
 
 
 class MockConfiguration : ConfigurationProtocol {
+    var tripInfos: TripInfos
+    
     var rxScheduler: SerialDispatchQueueScheduler {
         get {
             return MainScheduler.instance
@@ -32,6 +34,7 @@ class MockConfiguration : ConfigurationProtocol {
     
     init(features: [TripRecorderFeature]) {
         tripRecorderFeatures = features
+        tripInfos = TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction)
     }
     
     func generateAPISessionManager() -> APISessionManagerProtocol {
