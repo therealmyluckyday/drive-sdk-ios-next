@@ -15,7 +15,7 @@ class LogRxDefault: LogRx, LogDefaultImplementation {
     // Lifecycle method
     init(rxLog: PublishSubject<LogMessage>, currentFile: String) {
         fileName = currentFile
-        super.init(rxLog: rxLog)
+        super.init(logMessage: rxLog)
     }
     
     // MARK: LogImplementation Protocol

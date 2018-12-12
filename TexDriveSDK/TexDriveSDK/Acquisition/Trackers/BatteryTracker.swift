@@ -19,20 +19,20 @@ class BatteryTracker: Tracker {
         return device.batteryLevel
     }
     private var device : UIDevice
-    private var rx_batteryFix = PublishSubject<Result<BatteryFix>>()
-    private var rx_subscriptionBatteryState: Disposable?
-    private var rx_subscriptionBatteryLevel: Disposable?
+    private var rxBatteryFix = PublishSubject<Result<BatteryFix>>()
+    private var rxSubscriptionBatteryState: Disposable?
+    private var rxSubscriptionBatteryLevel: Disposable?
     
     // MARK: Tracker Protocol
     func enableTracking() {
-        rx_subscriptionBatteryState = NotificationCenter.default.rx.notification(NSNotification.Name.UIDeviceBatteryStateDidChange).subscribe({ [weak self](event) in
+        rxSubscriptionBatteryState = NotificationCenter.default.rx.notification(NSNotification.Name.UIDeviceBatteryStateDidChange).subscribe({ [weak self](event) in
             if event.element != nil, let batteryFix = self?.generateBatteryFix() {
-                self?.rx_batteryFix.onNext(Result.Success(batteryFix))
+                self?.rxBatteryFix.onNext(Result.Success(batteryFix))
             }
         })
-        rx_subscriptionBatteryLevel = NotificationCenter.default.rx.notification(NSNotification.Name.UIDeviceBatteryLevelDidChange).subscribe({ [weak self](event) in
+        rxSubscriptionBatteryLevel = NotificationCenter.default.rx.notification(NSNotification.Name.UIDeviceBatteryLevelDidChange).subscribe({ [weak self](event) in
             if event.element != nil, let batteryFix = self?.generateBatteryFix()  {
-                self?.rx_batteryFix.onNext(Result.Success(batteryFix))
+                self?.rxBatteryFix.onNext(Result.Success(batteryFix))
             }
         })
         
@@ -41,12 +41,12 @@ class BatteryTracker: Tracker {
     
     func disableTracking() {
         device.isBatteryMonitoringEnabled = false
-        rx_subscriptionBatteryLevel?.dispose()
-        rx_subscriptionBatteryState?.dispose()
+        rxSubscriptionBatteryLevel?.dispose()
+        rxSubscriptionBatteryState?.dispose()
     }
     
     func provideFix() -> PublishSubject<Result<BatteryFix>> {
-        return rx_batteryFix
+        return rxBatteryFix
     }
     
     // MARK: Lifecycle method

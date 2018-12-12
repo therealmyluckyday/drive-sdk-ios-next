@@ -26,7 +26,7 @@ class ViewController: UIViewController {
     
     var tripRecorder : TripRecorder?
     var locationManager = CLLocationManager()
-    let rx_disposeBag = DisposeBag()
+    let rxDisposeBag = DisposeBag()
     let rxScore = PublishSubject<Score>()
     var currentTripId : String?
     var texServices: TexServices?
@@ -41,7 +41,7 @@ class ViewController: UIViewController {
             let score = event.event
             self.appendText(string: "SCORE: \(score)")
             
-        }.disposed(by: rx_disposeBag)
+        }.disposed(by: rxDisposeBag)
     }
     
     @IBAction func tripSegmentedControlValueChanged(_ sender: UISegmentedControl) {
@@ -91,7 +91,7 @@ class ViewController: UIViewController {
             if let configuration = try Config(applicationId: "youdrive_france_prospect", applicationLocale: Locale.current, currentUser: user, currentMode: Mode.manual) {
                 texServices = TexServices(configuration:configuration)
                 tripRecorder = texServices!.tripRecorder
-                configureLog(configuration.rx_log)
+                configureLog(configuration.rxLog)
                 do {
                     let regex = try NSRegularExpression(pattern: ".*.*", options: NSRegularExpression.Options.caseInsensitive)
                     configuration.log(regex: regex, logType: LogType.Error)
@@ -113,7 +113,7 @@ class ViewController: UIViewController {
             if let logDetail = event.element {
                 self?.report(logDetail: logDetail)
             }
-            }.disposed(by: self.rx_disposeBag)
+            }.disposed(by: self.rxDisposeBag)
         
     }
     

@@ -18,7 +18,7 @@ protocol APIScoreProtocol {
 
 class APIScore: APIScoreProtocol {
     // MARK: Property
-    private let disposeBag = DisposeBag()
+    private let rxDisposeBag = DisposeBag()
     private let sessionManager : APISessionManagerProtocol
     
     

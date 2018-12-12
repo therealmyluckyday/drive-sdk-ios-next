@@ -74,7 +74,7 @@ class LocationTrackerTests: XCTestCase {
     /* TODO
      guard CLLocationManager.authorizationStatus() != .notDetermined else {
      let error = CLError(_nsError: NSError(domain: "CLLocationManagerNotDetermined", code: CLError.denied.rawValue, userInfo: nil))
-     rx_locationFix.onNext(Result.Failure(error))
+     rxLocationFix.onNext(Result.Failure(error))
      //            locationManager.requestAlwaysAuthorization() -> REsponsability to user
      return
      }

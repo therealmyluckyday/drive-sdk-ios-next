@@ -12,14 +12,14 @@ import RxSwift
 @testable import TexDriveSDK
 
 class LogRxTests: XCTestCase {
-    private var disposeBag : DisposeBag?
+    private var rxDisposeBag : DisposeBag?
     override func setUp() {
         super.setUp()
-        disposeBag = DisposeBag()
+        rxDisposeBag = DisposeBag()
     }
     
     override func tearDown() {
-        disposeBag = nil
+        rxDisposeBag = nil
         super.tearDown()
     }
     
@@ -29,11 +29,11 @@ class LogRxTests: XCTestCase {
         let detail = "myDetail"
         let file = #file
         let function = #function
-        let rx_log = PublishSubject<LogMessage>()
-        let log = LogRx(rxLog: rx_log)
+        let rxLog = PublishSubject<LogMessage>()
+        let log = LogRx(logMessage: rxLog)
         var isCalled = false
         
-        rx_log.asObservable().subscribe { (event) in
+        rxLog.asObservable().subscribe { (event) in
             if let logDetail = event.element {
                 isCalled = true
                 
@@ -42,7 +42,7 @@ class LogRxTests: XCTestCase {
                 XCTAssertEqual(logDetail.type, type)
                 XCTAssertEqual(logDetail.functionName, function)
             }
-            }.disposed(by: disposeBag!)
+            }.disposed(by: rxDisposeBag!)
         
         log.print(detail, type: type, fileName: file, functionName: function)
         
@@ -53,11 +53,11 @@ class LogRxTests: XCTestCase {
         let type = LogType.Error
         let detail = "myDetail"
         let file = #file
-        let rx_log = PublishSubject<LogMessage>()
-        let log = LogRx(rxLog: rx_log)
+        let rxLog = PublishSubject<LogMessage>()
+        let log = LogRx(logMessage: rxLog)
         var isCalled = false
         
-        rx_log.asObservable().subscribe { (event) in
+        rxLog.asObservable().subscribe { (event) in
             if let logDetail = event.element {
                 isCalled = true
                 
@@ -66,7 +66,7 @@ class LogRxTests: XCTestCase {
                 XCTAssertEqual(logDetail.type, type)
                 XCTAssertEqual(logDetail.functionName, "testPrintWithoutFunction()")
             }
-            }.disposed(by: disposeBag!)
+            }.disposed(by: rxDisposeBag!)
         
         log.print(detail, type: type, fileName: file)
         
@@ -79,11 +79,11 @@ class LogRxTests: XCTestCase {
         let detail = "myDetail"
         let file = #file
         let function = #function
-        let rx_log = PublishSubject<LogMessage>()
-        let log = LogRx(rxLog: rx_log)
+        let rxLog = PublishSubject<LogMessage>()
+        let log = LogRx(logMessage: rxLog)
         var isCalled = false
         
-        rx_log.asObservable().subscribe { (event) in
+        rxLog.asObservable().subscribe { (event) in
             if let logDetail = event.element {
                 isCalled = true
                 
@@ -92,7 +92,7 @@ class LogRxTests: XCTestCase {
                 XCTAssertEqual(logDetail.type, type)
                 XCTAssertEqual(logDetail.functionName, function)
             }
-            }.disposed(by: disposeBag!)
+            }.disposed(by: rxDisposeBag!)
         
         log.warning(detail, fileName: file, functionName: function)
         
@@ -103,11 +103,11 @@ class LogRxTests: XCTestCase {
         let type = LogType.Warning
         let detail = "myDetail"
         let function = #function
-        let rx_log = PublishSubject<LogMessage>()
-        let log = LogRx(rxLog: rx_log)
+        let rxLog = PublishSubject<LogMessage>()
+        let log = LogRx(logMessage: rxLog)
         var isCalled = false
         
-        rx_log.asObservable().subscribe { (event) in
+        rxLog.asObservable().subscribe { (event) in
             if let logDetail = event.element {
                 isCalled = true
                 
@@ -116,7 +116,7 @@ class LogRxTests: XCTestCase {
                 XCTAssertEqual(logDetail.type, type)
                 XCTAssertEqual(logDetail.functionName, function)
             }
-            }.disposed(by: disposeBag!)
+            }.disposed(by: rxDisposeBag!)
         
         log.warning(detail)
         
@@ -129,11 +129,11 @@ class LogRxTests: XCTestCase {
         let detail = "myDetail"
         let file = #file
         let function = #function
-        let rx_log = PublishSubject<LogMessage>()
-        let log = LogRx(rxLog: rx_log)
+        let rxLog = PublishSubject<LogMessage>()
+        let log = LogRx(logMessage: rxLog)
         var isCalled = false
         
-        rx_log.asObservable().subscribe { (event) in
+        rxLog.asObservable().subscribe { (event) in
             if let logDetail = event.element {
                 isCalled = true
                 
@@ -142,7 +142,7 @@ class LogRxTests: XCTestCase {
                 XCTAssertEqual(logDetail.type, type)
                 XCTAssertEqual(logDetail.functionName, function)
             }
-            }.disposed(by: disposeBag!)
+            }.disposed(by: rxDisposeBag!)
         
         log.error(detail, fileName: file, functionName: function)
         
@@ -153,11 +153,11 @@ class LogRxTests: XCTestCase {
         let type = LogType.Error
         let detail = "myDetail"
         let function = #function
-        let rx_log = PublishSubject<LogMessage>()
-        let log = LogRx(rxLog: rx_log)
+        let rxLog = PublishSubject<LogMessage>()
+        let log = LogRx(logMessage: rxLog)
         var isCalled = false
         
-        rx_log.asObservable().subscribe { (event) in
+        rxLog.asObservable().subscribe { (event) in
             if let logDetail = event.element {
                 isCalled = true
                 
@@ -166,7 +166,7 @@ class LogRxTests: XCTestCase {
                 XCTAssertEqual(logDetail.type, type)
                 XCTAssertEqual(logDetail.functionName, function)
             }
-            }.disposed(by: disposeBag!)
+            }.disposed(by: rxDisposeBag!)
         
         log.error(detail)
         

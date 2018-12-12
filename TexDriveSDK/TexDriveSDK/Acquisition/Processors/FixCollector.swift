@@ -10,40 +10,40 @@ import RxSwift
 
 class FixCollector {
     // MARK: Property
-    private let disposeBag = DisposeBag()
-    var rx_errorCollecting = PublishSubject<Error>() // @VHI currently do nothin
+    private let rxDisposeBag = DisposeBag()
+    var rxErrorCollecting = PublishSubject<Error>() // @VHI currently do nothin
     private var trackers = [GenericTracker]()
-    private var rx_eventType: PublishSubject<EventType>
-    private var rx_fix: PublishSubject<Fix>
-    private let rx_scheduler: SerialDispatchQueueScheduler
+    private var rxEventType: PublishSubject<EventType>
+    private var rxFix: PublishSubject<Fix>
+    private let rxScheduler: SerialDispatchQueueScheduler
     
     // MARK: LifeCycle
     init(eventsType: PublishSubject<EventType>, fixes: PublishSubject<Fix>, scheduler: SerialDispatchQueueScheduler) {
         print(fixes)
-        rx_fix = fixes
-        rx_eventType = eventsType
-        rx_scheduler = scheduler
+        rxFix = fixes
+        rxEventType = eventsType
+        rxScheduler = scheduler
     }
     
     // MARK: Public Method
     func collect<T>(tracker: T) where T: Tracker {
         self.subscribe(fromProviderFix: tracker.provideFix()) { [weak self](fix) in
             Log.print("fix datetime \(fix.description)")
-            self?.rx_fix.onNext(fix)
+            self?.rxFix.onNext(fix)
         }
         trackers.append(tracker)
     }
     
     func startCollect() {
-        self.rx_eventType.onNext(EventType.start)
+        self.rxEventType.onNext(EventType.start)
         for tracker in trackers {
             tracker.enableTracking()
         }
     }
     
     func stopCollect() {
-        self.rx_eventType.onNext(EventType.stop)
-//        self.rx_eventType.onCompleted()
+        self.rxEventType.onNext(EventType.stop)
+//        self.rxEventType.onCompleted()
         for tracker in trackers {
             tracker.disableTracking()
         }
@@ -52,19 +52,19 @@ class FixCollector {
     // MARK: private Method
     private func subscribe<T> (fromProviderFix: PublishSubject<Result<T>>?, resultClosure: @escaping ((T)->())) where T: Fix {
         if let proviveFix = fromProviderFix {
-            proviveFix.asObservable().observeOn(rx_scheduler).subscribe({ [weak self](event) in
+            proviveFix.asObservable().observeOn(rxScheduler).subscribe({ [weak self](event) in
                 switch (event.element) {
                 case .Success(let fix)?:
                     resultClosure(fix)
                     break
                 case .Failure(let Error)?:
-                    self?.rx_errorCollecting.onNext(Error)
+                    self?.rxErrorCollecting.onNext(Error)
                     break
                 default:
                     break
                 }
             })
-                .disposed(by: disposeBag)
+                .disposed(by: rxDisposeBag)
         }
     }
 }

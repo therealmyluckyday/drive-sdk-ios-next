@@ -12,32 +12,32 @@ import os
 
 class LogRxFactory: LogFactory {
     // MARK: Property
-    private var rx_log = PublishSubject<LogMessage>()
+    private var rxLog = PublishSubject<LogMessage>()
     private var rules = [NSRegularExpression: LogType]()
-    private var rx_disposeBag = DisposeBag()
+    private var rxDisposeBag = DisposeBag()
     lazy var mainLogger: LogImplementation =  {
-        return LogRx(rxLog: rx_log)
+        return LogRx(logMessage: rxLog)
     }()
     
-    let rx_logOutput = PublishSubject<LogMessage>()
+    let rxLogOutput = PublishSubject<LogMessage>()
     
     // MARK: LogFactory protocol
     func getLogger(file: String) -> LogDefaultImplementation {
-        return LogRxDefault(rxLog: rx_log, currentFile: file)
+        return LogRxDefault(rxLog: rxLog, currentFile: file)
     }
 
     func configure(regex: NSRegularExpression, logType: LogType) {
         self.rules[regex] = logType
-        self.rx_log.asObservable().subscribe { [weak self](event) in
+        self.rxLog.asObservable().subscribe { [weak self](event) in
             if let logDetail = event.element {
                 if logDetail.canLog(regex: regex, logType: logType) {
                     self?.report(logDetail: logDetail)
                 }
             }
-            }.disposed(by: self.rx_disposeBag)
+            }.disposed(by: self.rxDisposeBag)
     }
     
     func report(logDetail: LogMessage) {
-        rx_logOutput.onNext(logDetail)
+        rxLogOutput.onNext(logDetail)
     }
 }

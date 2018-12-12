@@ -65,7 +65,7 @@ class FixCollectorTests: XCTestCase {
         let error = NSError(domain: "TEST", code: 044, userInfo: nil)
         let fixCollector = FixCollector(eventsType: eventType, fixes: fixes, scheduler: MainScheduler.instance)
         var isCallSubscribeRxError = false
-        let disposableRxError = fixCollector.rx_errorCollecting.asObserver().subscribe { (event) in
+        let disposableRxError = fixCollector.rxErrorCollecting.asObserver().subscribe { (event) in
             if event.element != nil {
                 isCallSubscribeRxError = true
             }
