@@ -29,11 +29,18 @@ class LogRxTests: XCTestCase {
         let detail = "myDetail"
         let file = #file
         let function = #function
-        let rxLog = PublishSubject<LogMessage>()
-        let log = LogRx(logMessage: rxLog)
+        let regexPattern = ".*"
+        let log = LogRx()
         var isCalled = false
         
-        rxLog.asObservable().subscribe { (event) in
+        do {
+            let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
+            log.configure(regex: regex, logType: LogType.Error)
+        } catch {
+            XCTAssertFalse(true)
+        }
+        
+        log.rxLogOutput.asObservable().subscribe { (event) in
             if let logDetail = event.element {
                 isCalled = true
                 
@@ -53,11 +60,17 @@ class LogRxTests: XCTestCase {
         let type = LogType.Error
         let detail = "myDetail"
         let file = #file
-        let rxLog = PublishSubject<LogMessage>()
-        let log = LogRx(logMessage: rxLog)
+        let regexPattern = ".*"
+        let log = LogRx()
         var isCalled = false
         
-        rxLog.asObservable().subscribe { (event) in
+        do {
+            let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
+            log.configure(regex: regex, logType: LogType.Error)
+        } catch {
+            XCTAssertFalse(true)
+        }
+        log.rxLogOutput.asObservable().subscribe { (event) in
             if let logDetail = event.element {
                 isCalled = true
                 
@@ -79,11 +92,18 @@ class LogRxTests: XCTestCase {
         let detail = "myDetail"
         let file = #file
         let function = #function
-        let rxLog = PublishSubject<LogMessage>()
-        let log = LogRx(logMessage: rxLog)
+        let regexPattern = ".*"
+        let log = LogRx()
         var isCalled = false
         
-        rxLog.asObservable().subscribe { (event) in
+        do {
+            let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
+            log.configure(regex: regex, logType: LogType.Warning)
+        } catch {
+            XCTAssertFalse(true)
+        }
+        
+        log.rxLogOutput.asObservable().subscribe { (event) in
             if let logDetail = event.element {
                 isCalled = true
                 
@@ -103,11 +123,18 @@ class LogRxTests: XCTestCase {
         let type = LogType.Warning
         let detail = "myDetail"
         let function = #function
-        let rxLog = PublishSubject<LogMessage>()
-        let log = LogRx(logMessage: rxLog)
+        let regexPattern = ".*"
+        let log = LogRx()
         var isCalled = false
         
-        rxLog.asObservable().subscribe { (event) in
+        do {
+            let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
+            log.configure(regex: regex, logType: LogType.Warning)
+        } catch {
+            XCTAssertFalse(true)
+        }
+        
+        log.rxLogOutput.asObservable().subscribe { (event) in
             if let logDetail = event.element {
                 isCalled = true
                 
@@ -129,11 +156,18 @@ class LogRxTests: XCTestCase {
         let detail = "myDetail"
         let file = #file
         let function = #function
-        let rxLog = PublishSubject<LogMessage>()
-        let log = LogRx(logMessage: rxLog)
+        let regexPattern = ".*"
+        let log = LogRx()
         var isCalled = false
         
-        rxLog.asObservable().subscribe { (event) in
+        do {
+            let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
+            log.configure(regex: regex, logType: LogType.Error)
+        } catch {
+            XCTAssertFalse(true)
+        }
+        
+        log.rxLogOutput.asObservable().subscribe { (event) in
             if let logDetail = event.element {
                 isCalled = true
                 
@@ -153,11 +187,18 @@ class LogRxTests: XCTestCase {
         let type = LogType.Error
         let detail = "myDetail"
         let function = #function
-        let rxLog = PublishSubject<LogMessage>()
-        let log = LogRx(logMessage: rxLog)
+        let regexPattern = ".*"
+        let log = LogRx()
         var isCalled = false
         
-        rxLog.asObservable().subscribe { (event) in
+        do {
+            let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
+            log.configure(regex: regex, logType: LogType.Error)
+        } catch {
+            XCTAssertFalse(true)
+        }
+        
+        log.rxLogOutput.asObservable().subscribe { (event) in
             if let logDetail = event.element {
                 isCalled = true
                 
@@ -170,6 +211,134 @@ class LogRxTests: XCTestCase {
         
         log.error(detail)
         
+        XCTAssert(isCalled)
+    }
+    
+    // MARK: lazy var mainLogger: LogImplementation
+    func testConfigureAndMainLoggerCanLog() {
+        let regexPattern = ".*"
+        let log = LogRx()
+        var isCalled = false
+        
+        do {
+            let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
+            log.configure(regex: regex, logType: LogType.Info)
+        } catch {
+            XCTAssertFalse(true)
+        }
+        
+        log.rxLogOutput.asObservable().subscribe { (event) in
+            isCalled = true
+            }.disposed(by: rxDisposeBag!)
+        log.print("toto", type: LogType.Info, fileName: "superFile", functionName: "totoFunction")
+        
+        XCTAssert(isCalled)
+    }
+    
+    func testConfigureAndMainLoggerCannotLog() {
+        let regexPattern = "FALSE"
+        let log = LogRx()
+        var isCalled = false
+        
+        do {
+            let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
+            log.configure(regex: regex, logType: LogType.Info)
+        } catch {
+            XCTAssertFalse(true)
+        }
+        
+        log.rxLogOutput.asObservable().subscribe { (event) in
+            isCalled = true
+            }.disposed(by: rxDisposeBag!)
+        log.print("toto", type: LogType.Info, fileName: "superFile", functionName: "totoFunction")
+        
+        XCTAssertFalse(isCalled)
+    }
+    
+    // MARK: func getLogger(file: String) -> LogDefaultImplementation
+    func testConfigureAndGetLoggerCanLog() {
+        let regexPattern = ".*"
+        let log = LogRx()
+        var isCalled = false
+        
+        do {
+            let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
+            log.configure(regex: regex, logType: LogType.Info)
+        } catch {
+            XCTAssertFalse(true)
+        }
+        
+        log.rxLogOutput.asObservable().subscribe { (event) in
+            isCalled = true
+            }.disposed(by: rxDisposeBag!)
+        log.print("", type: LogType.Info, functionName: "toto")
+        
+        XCTAssert(isCalled)
+    }
+    
+    func testConfigureAndGetLoggerCannotLog() {
+        let regexPattern = "FALSE"
+        let log = LogRx()
+        var isCalled = false
+        
+        do {
+            let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
+            log.configure(regex: regex, logType: LogType.Info)
+        } catch {
+            XCTAssertFalse(true)
+        }
+        
+        log.rxLogOutput.asObservable().subscribe { (event) in
+            isCalled = true
+            }.disposed(by: rxDisposeBag!)
+        log.print("", type: LogType.Info, functionName: "toto")
+        
+        XCTAssertFalse(isCalled)
+    }
+    
+    // MARK: func configure(regex: NSRegularExpression, logType: LogType)
+    func testConfigure() {
+        let regexPattern = ".*"
+        let log = LogRx()
+        var isCalled = false
+        
+        do {
+            let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
+            log.configure(regex: regex, logType: LogType.Info)
+        } catch {
+            XCTAssertFalse(true)
+        }
+        
+        log.rxLogOutput.asObservable().subscribe { (event) in
+            isCalled = true
+            }.disposed(by: rxDisposeBag!)
+        log.print("", type: LogType.Info, functionName: "toto")
+        log.print("toto", type: LogType.Info, fileName: "superFile", functionName: "totoFunction")
+        
+        XCTAssert(isCalled)
+    }
+    
+    // MARK: func report(logDetail: LogDetail)
+    func testReport() {
+        let type = LogType.Info
+        let detail = "sdodsfo"
+        let file = "sdcidsfile"
+        let log = LogRx()
+        let function = #function
+        var isCalled = false
+        let logDetail = LogMessage(type: type, detail: detail, fileName: file, functionName: function)
+        
+        log.rxLogOutput.asObservable().subscribe { (event) in
+            if let logDetail = event.element {
+                isCalled = true
+                XCTAssertEqual(logDetail.message, detail)
+                XCTAssertEqual(logDetail.fileName, file)
+                XCTAssertEqual(logDetail.type, type)
+                XCTAssertEqual(logDetail.functionName, function)
+            }
+            }.disposed(by: rxDisposeBag!)
+        
+        log.report(logDetail: logDetail)
         XCTAssert(isCalled)
     }
 }

@@ -33,9 +33,9 @@ class LogTests: XCTestCase {
         let type = LogType.Error
         let file = #file
         let function = #function
-        let loggerFactory = LogRxFactory()
+        let loggerFactory = LogRx()
         
-        Log.configure(loggerFactory: loggerFactory)
+        Log.configure(logger: loggerFactory)
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
             Log.configure(regex: regex, logType: LogType.Info)
@@ -65,9 +65,9 @@ class LogTests: XCTestCase {
         let type = LogType.Warning
         let file = #file
         let function = #function
-        let loggerFactory = LogRxFactory()
+        let loggerFactory = LogRx()
         
-        Log.configure(loggerFactory: loggerFactory)
+        Log.configure(logger: loggerFactory)
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
             Log.configure(regex: regex, logType: LogType.Info)
@@ -98,9 +98,9 @@ class LogTests: XCTestCase {
         let type = LogType.Info
         let file = #file
         let function = #function
-        let loggerFactory = LogRxFactory()
+        let loggerFactory = LogRx()
         
-        Log.configure(loggerFactory: loggerFactory)
+        Log.configure(logger: loggerFactory)
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
             Log.configure(regex: regex, logType: LogType.Info)
@@ -131,9 +131,9 @@ class LogTests: XCTestCase {
         let type = LogType.Info
         let file = #file
         let function = #function
-        let loggerFactory = LogRxFactory()
+        let loggerFactory = LogRx()
         
-        Log.configure(loggerFactory: loggerFactory)
+        Log.configure(logger: loggerFactory)
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
             Log.configure(regex: regex, logType: LogType.Error)
@@ -157,9 +157,9 @@ class LogTests: XCTestCase {
         let type = LogType.Info
         let file = #file
         let function = #function
-        let loggerFactory = LogRxFactory()
+        let loggerFactory = LogRx()
         
-        Log.configure(loggerFactory: loggerFactory)
+        Log.configure(logger: loggerFactory)
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
             Log.configure(regex: regex, logType: LogType.Warning)
@@ -183,9 +183,9 @@ class LogTests: XCTestCase {
         let type = LogType.Warning
         let file = #file
         let function = #function
-        let loggerFactory = LogRxFactory()
+        let loggerFactory = LogRx()
         
-        Log.configure(loggerFactory: loggerFactory)
+        Log.configure(logger: loggerFactory)
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
             Log.configure(regex: regex, logType: LogType.Error)
@@ -210,9 +210,9 @@ class LogTests: XCTestCase {
         let type = LogType.Info
         let file = #file
         let function = #function
-        let loggerFactory = LogRxFactory()
+        let loggerFactory = LogRx()
         
-        Log.configure(loggerFactory: loggerFactory)
+        Log.configure(logger: loggerFactory)
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
             Log.configure(regex: regex, logType: LogType.Info)
@@ -236,9 +236,9 @@ class LogTests: XCTestCase {
         let type = LogType.Info
         let file = #file
         let function = #function
-        let loggerFactory = LogRxFactory()
+        let loggerFactory = LogRx()
         
-        Log.configure(loggerFactory: loggerFactory)
+        Log.configure(logger: loggerFactory)
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
             Log.configure(regex: regex, logType: LogType.Info)

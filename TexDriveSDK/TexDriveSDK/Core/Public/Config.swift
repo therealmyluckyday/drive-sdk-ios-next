@@ -41,7 +41,7 @@ public class Config: ConfigurationProtocol {
     public let tripRecorderFeatures: [TripRecorderFeature]
     public let rxScheduler = MainScheduler.asyncInstance
     let locale: Locale
-    let logFactory = LogRxFactory()
+    let logFactory = LogRx()
     public let tripInfos: TripInfos
     
     public convenience init?(applicationId: String, applicationLocale: Locale, currentUser: User) throws {
@@ -74,7 +74,7 @@ public class Config: ConfigurationProtocol {
        tripInfos = TripInfos(appId: applicationId, user: currentUser, domain: Domain.Preproduction)
         locale = applicationLocale
         tripRecorderFeatures = currentTripRecorderFeatures
-        Log.configure(loggerFactory: logFactory)
+        Log.configure(logger: logFactory)
         
     }
     

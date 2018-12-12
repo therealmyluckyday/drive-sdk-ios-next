@@ -13,7 +13,7 @@ import RxSwift
 class APISessionManagerTests: XCTestCase {
     var apiSessionManager: APISessionManager?
     var rxDisposeBag: DisposeBag?
-    let logFactory = LogRxFactory()
+    let logFactory = LogRx()
     
     override func setUp() {
         super.setUp()

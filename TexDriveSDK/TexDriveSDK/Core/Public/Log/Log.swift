@@ -10,11 +10,12 @@ import Foundation
 
 protocol LogProtocol {
     static func configure(regex: NSRegularExpression, logType: LogType)
-    static func configure(loggerFactory: LogFactory)
+    static func configure(logger: LogImplementation)
 }
 
 protocol LogImplementation {
     func print(_ description: String, type: LogType, fileName: String, functionName: String)
+    func configure(regex: NSRegularExpression, logType: LogType)
 }
 
 extension LogImplementation {
@@ -27,20 +28,9 @@ extension LogImplementation {
     }
 }
 
-protocol LogDefaultImplementation: LogImplementation{
-        var fileName: String { get }
-        func print(_ description: String, type: LogType, functionName: String)
-}
-
-protocol LogFactory {
-    var mainLogger: LogImplementation { get }
-    func getLogger(file: String) -> LogDefaultImplementation
-    func configure(regex: NSRegularExpression, logType: LogType)
-}
-
 class Log: LogProtocol {
     // MARK: Property
-    private static var _log: LogFactory?
+    private static var _log: LogImplementation?
     
     // MARK: LogProtocol Method
     static func configure(regex: NSRegularExpression, logType: LogType) {
@@ -48,9 +38,9 @@ class Log: LogProtocol {
     }
     
     static func print(_ description: String, type: LogType = .Info, fileName: String = #file, functionName: String = #function) {
-            _log?.mainLogger.print(description, type: type, fileName: fileName, functionName: functionName)
+            _log?.print(description, type: type, fileName: fileName, functionName: functionName)
     }
-    static func configure(loggerFactory: LogFactory) {
-        _log = loggerFactory
+    static func configure(logger: LogImplementation) {
+        _log = logger
     }
 }

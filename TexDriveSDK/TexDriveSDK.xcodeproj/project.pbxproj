@@ -22,12 +22,11 @@
 		C1273EA5217790C50006E6E0 /* MotionBufferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1273EA4217790C50006E6E0 /* MotionBufferTests.swift */; };
 		C1273EA72178B3640006E6E0 /* MotionFixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1273EA62178B3640006E6E0 /* MotionFixTests.swift */; };
 		C1273EA92178C1670006E6E0 /* MotionTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1273EA82178C1670006E6E0 /* MotionTrackerTests.swift */; };
+		C12E34C421C174B600696B03 /* LogRx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12E34C321C174B600696B03 /* LogRx.swift */; };
 		C14CA50A21BED0C000158BA0 /* ScoringClientTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CA50921BED0C000158BA0 /* ScoringClientTest.swift */; };
 		C15B9FC721942E720072439F /* LogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15B9FC621942E720072439F /* LogTests.swift */; };
 		C15B9FC92194441F0072439F /* LogDetailTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15B9FC82194441F0072439F /* LogDetailTests.swift */; };
 		C15B9FCB219449270072439F /* LogRxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15B9FCA219449270072439F /* LogRxTests.swift */; };
-		C15B9FCD21944C1F0072439F /* LogRxDefaultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15B9FCC21944C1F0072439F /* LogRxDefaultTests.swift */; };
-		C15B9FCF21944F2E0072439F /* LogRxFactoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15B9FCE21944F2E0072439F /* LogRxFactoryTests.swift */; };
 		C17E9A74216F828400FCF93E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A73216F828400FCF93E /* User.swift */; };
 		C17E9A76216F82F100FCF93E /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A75216F82F100FCF93E /* Config.swift */; };
 		C17E9A78216F85BD00FCF93E /* TexServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A77216F85BD00FCF93E /* TexServices.swift */; };
@@ -37,11 +36,8 @@
 		C18AE986216E2E2A0065F0BB /* LocationFixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18AE985216E2E2A0065F0BB /* LocationFixTests.swift */; };
 		C18AE989216E31E30065F0BB /* BatteryTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18AE988216E31E30065F0BB /* BatteryTrackerTests.swift */; };
 		C18AE98B216E44D60065F0BB /* LocationTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18AE98A216E44D60065F0BB /* LocationTrackerTests.swift */; };
-		C1A7987D2191F76C0045765C /* LogRxFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A7987C2191F76C0045765C /* LogRxFactory.swift */; };
 		C1C83BD7219042F500D8E4B3 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C83BD6219042F500D8E4B3 /* Log.swift */; };
-		C1C83BD92190750000D8E4B3 /* LogRx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C83BD82190750000D8E4B3 /* LogRx.swift */; };
 		C1D0BD9C2192FB4000365428 /* LogMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D0BD9B2192FB4000365428 /* LogMessage.swift */; };
-		C1D0BD9E2193455700365428 /* LogRxDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D0BD9D2193455700365428 /* LogRxDefault.swift */; };
 		C1D13437218728600099B650 /* SecTrustExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D13436218728600099B650 /* SecTrustExtension.swift */; };
 		C1D13439218729900099B650 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D13438218729900099B650 /* UIDeviceExtension.swift */; };
 		C1D1343F218740290099B650 /* URLRequestExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D1343E218740290099B650 /* URLRequestExtension.swift */; };
@@ -113,13 +109,12 @@
 		C1273EA4217790C50006E6E0 /* MotionBufferTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionBufferTests.swift; sourceTree = "<group>"; };
 		C1273EA62178B3640006E6E0 /* MotionFixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionFixTests.swift; sourceTree = "<group>"; };
 		C1273EA82178C1670006E6E0 /* MotionTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionTrackerTests.swift; sourceTree = "<group>"; };
+		C12E34C321C174B600696B03 /* LogRx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LogRx.swift; path = TexDriveSDK/Core/LogRx.swift; sourceTree = SOURCE_ROOT; };
 		C148D7152181F34C00F1088B /* TEX-elb-ssl.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TEX-elb-ssl.der"; sourceTree = "<group>"; };
 		C14CA50921BED0C000158BA0 /* ScoringClientTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoringClientTest.swift; sourceTree = "<group>"; };
 		C15B9FC621942E720072439F /* LogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogTests.swift; sourceTree = "<group>"; };
 		C15B9FC82194441F0072439F /* LogDetailTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogDetailTests.swift; sourceTree = "<group>"; };
 		C15B9FCA219449270072439F /* LogRxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogRxTests.swift; sourceTree = "<group>"; };
-		C15B9FCC21944C1F0072439F /* LogRxDefaultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogRxDefaultTests.swift; sourceTree = "<group>"; };
-		C15B9FCE21944F2E0072439F /* LogRxFactoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogRxFactoryTests.swift; sourceTree = "<group>"; };
 		C17E9A73216F828400FCF93E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C17E9A75216F82F100FCF93E /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		C17E9A77216F85BD00FCF93E /* TexServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexServices.swift; sourceTree = "<group>"; };
@@ -129,11 +124,8 @@
 		C18AE985216E2E2A0065F0BB /* LocationFixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFixTests.swift; sourceTree = "<group>"; };
 		C18AE988216E31E30065F0BB /* BatteryTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryTrackerTests.swift; sourceTree = "<group>"; };
 		C18AE98A216E44D60065F0BB /* LocationTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTrackerTests.swift; sourceTree = "<group>"; };
-		C1A7987C2191F76C0045765C /* LogRxFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogRxFactory.swift; sourceTree = "<group>"; };
 		C1C83BD6219042F500D8E4B3 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
-		C1C83BD82190750000D8E4B3 /* LogRx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogRx.swift; sourceTree = "<group>"; };
 		C1D0BD9B2192FB4000365428 /* LogMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogMessage.swift; sourceTree = "<group>"; };
-		C1D0BD9D2193455700365428 /* LogRxDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogRxDefault.swift; sourceTree = "<group>"; };
 		C1D13436218728600099B650 /* SecTrustExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecTrustExtension.swift; sourceTree = "<group>"; };
 		C1D13438218729900099B650 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
 		C1D1343E218740290099B650 /* URLRequestExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestExtension.swift; sourceTree = "<group>"; };
@@ -258,9 +250,6 @@
 			isa = PBXGroup;
 			children = (
 				C17E9A72216F826000FCF93E /* Public */,
-				C1C83BD82190750000D8E4B3 /* LogRx.swift */,
-				C1A7987C2191F76C0045765C /* LogRxFactory.swift */,
-				C1D0BD9D2193455700365428 /* LogRxDefault.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -268,6 +257,7 @@
 		C17E9A72216F826000FCF93E /* Public */ = {
 			isa = PBXGroup;
 			children = (
+				C12E34C321C174B600696B03 /* LogRx.swift */,
 				C121002D21C14C6800A126E6 /* Log */,
 				C1F7E45421B53B5000EA0445 /* Score */,
 				C17E9A73216F828400FCF93E /* User.swift */,
@@ -284,8 +274,6 @@
 			children = (
 				C17E9A7A216F8F5B00FCF93E /* Public */,
 				C15B9FCA219449270072439F /* LogRxTests.swift */,
-				C15B9FCC21944C1F0072439F /* LogRxDefaultTests.swift */,
-				C15B9FCE21944F2E0072439F /* LogRxFactoryTests.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -672,7 +660,7 @@
 				C1D13441218742320099B650 /* DateFormatterExtension.swift in Sources */,
 				C1273EA32176314F0006E6E0 /* MotionBuffer.swift in Sources */,
 				C1273EA12175F59C0006E6E0 /* MotionTracker.swift in Sources */,
-				C1D0BD9E2193455700365428 /* LogRxDefault.swift in Sources */,
+				C12E34C421C174B600696B03 /* LogRx.swift in Sources */,
 				E2798ED1214AB6F3006228A3 /* FixCollector.swift in Sources */,
 				E2798EC721480E3B006228A3 /* Fix.swift in Sources */,
 				C1F7E45321B5365C00EA0445 /* ScoringClient.swift in Sources */,
@@ -686,7 +674,6 @@
 				C17E9A74216F828400FCF93E /* User.swift in Sources */,
 				C1DD032D21886B77000BBBBF /* APIConfiguration.swift in Sources */,
 				C107606F217E2C8000FB28AA /* PersistantQueue.swift in Sources */,
-				C1C83BD92190750000D8E4B3 /* LogRx.swift in Sources */,
 				C1E521B22170ECBE00B80C64 /* CallTracker.swift in Sources */,
 				C124ABFB217F4F070038A0B1 /* APITrip.swift in Sources */,
 				C1273E9F2175EE800006E6E0 /* MotionFix.swift in Sources */,
@@ -699,7 +686,6 @@
 				C1D13439218729900099B650 /* UIDeviceExtension.swift in Sources */,
 				E2798EC921481570006228A3 /* BatteryFix.swift in Sources */,
 				E2798ED62158DFC4006228A3 /* LocationTracker.swift in Sources */,
-				C1A7987D2191F76C0045765C /* LogRxFactory.swift in Sources */,
 				C1F7E45621B53B6000EA0445 /* Score.swift in Sources */,
 				C121002F21C14C9100A126E6 /* TripInfos.swift in Sources */,
 				C1D0BD9C2192FB4000365428 /* LogMessage.swift in Sources */,
@@ -711,7 +697,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C121003121C1632500A126E6 /* TripInfosTests.swift in Sources */,
-				C15B9FCD21944C1F0072439F /* LogRxDefaultTests.swift in Sources */,
 				C1FDE33D219C5A4C00F15AF3 /* ServiceTests.swift in Sources */,
 				C18AE98B216E44D60065F0BB /* LocationTrackerTests.swift in Sources */,
 				C15B9FC92194441F0072439F /* LogDetailTests.swift in Sources */,
@@ -728,7 +713,6 @@
 				C1273EA5217790C50006E6E0 /* MotionBufferTests.swift in Sources */,
 				C1E93DFA2187635D0082B2B3 /* TripChunkTests.swift in Sources */,
 				C1F7E45B21B53DC500EA0445 /* APIScoreTest.swift in Sources */,
-				C15B9FCF21944F2E0072439F /* LogRxFactoryTests.swift in Sources */,
 				C15B9FCB219449270072439F /* LogRxTests.swift in Sources */,
 				C1E521B821749A9400B80C64 /* CallTrackerTests.swift in Sources */,
 				C18AE984216E21A00065F0BB /* BatteryFixTests.swift in Sources */,
