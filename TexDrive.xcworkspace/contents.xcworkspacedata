@@ -2,10 +2,10 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:TexDriveSDK/TexDriveSDK.xcodeproj">
+      location = "group:TexDriveApp.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:TexDriveApp.xcodeproj">
+      location = "group:TexDriveSDK/TexDriveSDK.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
