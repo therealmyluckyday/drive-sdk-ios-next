@@ -30,9 +30,9 @@ class LocationFix : Fix {
     // MARK: Protocol CustomStringConvertible
     var description: String {
         get {
-            var description = "----- LocationFix: timestamp:\(self.timestamp) latitude: \(self.latitude), longitude: \(self.longitude)"
+            var description = "LocationFix: timestamp:\(self.timestamp) latitude: \(self.latitude), longitude: \(self.longitude)"
             description += "LocationFix: precision:\(self.precision) speed: \(self.speed), bearing: \(self.bearing)"
-            description += "LocationFix: altitude:\(self.altitude) ------"
+            description += "LocationFix: altitude:\(self.altitude) "
             return description
         }
         set {

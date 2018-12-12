@@ -97,7 +97,7 @@ class ViewController: UIViewController {
                     configuration.log(regex: regex, logType: LogType.Error)
                 } catch {
                     let customLog = OSLog(subsystem: "fr.axa.tex", category: #file)
-                    os_log("-------------REGEX ERROR--------------- %@", log: customLog, type: .error, error.localizedDescription)
+                    os_log("[ViewController][launchTracking] regex error %@", log: customLog, type: .error, error.localizedDescription)
                 }
                 
             }

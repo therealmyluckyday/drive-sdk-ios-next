@@ -145,7 +145,7 @@ class APISessionManager: NSObject, APISessionManagerProtocol, URLSessionDelegate
     }
     
     func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
-        Log.print("-------------JSON ERROR-----------------------\(String(describing: error))", type: .Error)
+        Log.print("urlsession didBecomeInvalidWithError :\(String(describing: error))", type: .Error)
     }
     
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
@@ -154,10 +154,10 @@ class APISessionManager: NSObject, APISessionManagerProtocol, URLSessionDelegate
         
         let remoteCertMatchesPinnedCert = trust.isRemoteCertificateMatchingPinnedCertificate(domain: self.configuration.domain.rawValue)
         if remoteCertMatchesPinnedCert {
-            Log.print("HTTP TRUSTING CERTIFICATE")
+            Log.print("Http trusting certificate")
             completionHandler(.useCredential, credential)
         } else {
-            Log.print("NOT TRUSTING CERTIFICATE", type: .Error)
+            Log.print("Error no trusting certificate", type: .Error)
             completionHandler(.rejectProtectionSpace, nil)
         }
         if challenge.previousFailureCount > 0 {
@@ -195,7 +195,7 @@ class APISessionManager: NSObject, APISessionManagerProtocol, URLSessionDelegate
             }
             let data = try Data(contentsOf: savedURL)
             if let body = String(bytes: data, encoding: String.Encoding.utf8) {
-                Log.print("HTTP BODY \(body)")
+                Log.print("HTTP Body \(body)")
             }
         } catch {
             Log.print("HTTP File Error \(error)", type: .Error)
