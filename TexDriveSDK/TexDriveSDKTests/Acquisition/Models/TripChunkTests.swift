@@ -10,7 +10,7 @@ import XCTest
 
 @testable import TexDriveSDK
 
-class TripTests: XCTestCase {
+class TripChunkTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
@@ -293,5 +293,24 @@ class TripTests: XCTestCase {
         XCTAssertEqual(accelerationResult["z"] as! Double, accelerationMotion.z)
         let realtimestamp = Date(timeInterval: timestamp, since: Date.init(timeIntervalSinceNow: -1 * ProcessInfo.processInfo.systemUptime)).timeIntervalSince1970
         XCTAssertEqual(motionResult["timestamp"] as! Int, Int(realtimestamp*1000))
+    }
+    
+    // MARK: static func serializeWithGeneralInformation(dictionary: [String: Any], appId: String) -> [String: Any]
+    func testSerializeWithGeneralInformation() {
+        let dictionary = ["toto": 1984]
+        let appId = "AXAAppId"
+        
+        let result = TripChunk.serializeWithGeneralInformation(dictionary: dictionary, appId: appId, user: User.Anonymous)
+        
+        let os = "\(UIDevice.current.systemName) \(UIDevice.current.systemVersion)"
+        let sdkVersion = Bundle(for: APITrip.self).infoDictionary!["CFBundleShortVersionString"] as! String
+        let firstVia = "TEX_iOS_SDK/\(os)/\(sdkVersion)"
+        XCTAssertEqual(result["uid"] as! String, UIDevice.current.identifierForVendor!.uuidString)
+        XCTAssertEqual(result["timezone"] as! String, "+0100")
+        XCTAssertEqual(result["os"] as! String, UIDevice.current.os())
+        XCTAssertEqual(result["model"] as! String, UIDevice.current.hardwareString())
+        XCTAssertEqual(result["version"] as! String, sdkVersion)
+        XCTAssertEqual(result["app_name"] as! String, appId)
+        XCTAssertEqual(result["via"] as! [String], [firstVia])
     }
 }

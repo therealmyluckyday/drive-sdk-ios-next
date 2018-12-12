@@ -46,8 +46,6 @@
 		C1D13441218742320099B650 /* DateFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D13440218742320099B650 /* DateFormatterExtension.swift */; };
 		C1DD032321885AE4000BBBBF /* EventTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DD032221885AE4000BBBBF /* EventTests.swift */; };
 		C1DD0325218861F4000BBBBF /* DateFormatterExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DD0324218861F4000BBBBF /* DateFormatterExtensionTests.swift */; };
-		C1DD0327218863EE000BBBBF /* DictionaryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DD0326218863EE000BBBBF /* DictionaryExtension.swift */; };
-		C1DD0329218866CA000BBBBF /* DictionaryExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DD0328218866CA000BBBBF /* DictionaryExtensionTests.swift */; };
 		C1DD032B21886A01000BBBBF /* UIDeviceExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DD032A21886A01000BBBBF /* UIDeviceExtensionTests.swift */; };
 		C1DD032D21886B77000BBBBF /* APIConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DD032C21886B77000BBBBF /* APIConfiguration.swift */; };
 		C1DD032F21886BD5000BBBBF /* APIConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DD032E21886BD5000BBBBF /* APIConfigurationTests.swift */; };
@@ -57,7 +55,7 @@
 		C1E521B42170ED5300B80C64 /* CallFix.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E521B32170ED5300B80C64 /* CallFix.swift */; };
 		C1E521B621748CE800B80C64 /* CallFixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E521B521748CE800B80C64 /* CallFixTests.swift */; };
 		C1E521B821749A9400B80C64 /* CallTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E521B721749A9400B80C64 /* CallTrackerTests.swift */; };
-		C1E93DFA2187635D0082B2B3 /* TripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E93DF92187635D0082B2B3 /* TripTests.swift */; };
+		C1E93DFA2187635D0082B2B3 /* TripChunkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E93DF92187635D0082B2B3 /* TripChunkTests.swift */; };
 		C1F2A0D72183129900765D08 /* TEX-elb-ssl.der in Resources */ = {isa = PBXBuildFile; fileRef = C148D7152181F34C00F1088B /* TEX-elb-ssl.der */; };
 		C1F7E45321B5365C00EA0445 /* ScoringClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F7E45221B5365C00EA0445 /* ScoringClient.swift */; };
 		C1F7E45621B53B6000EA0445 /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F7E45521B53B6000EA0445 /* Score.swift */; };
@@ -138,8 +136,6 @@
 		C1D13440218742320099B650 /* DateFormatterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtension.swift; sourceTree = "<group>"; };
 		C1DD032221885AE4000BBBBF /* EventTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTests.swift; sourceTree = "<group>"; };
 		C1DD0324218861F4000BBBBF /* DateFormatterExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtensionTests.swift; sourceTree = "<group>"; };
-		C1DD0326218863EE000BBBBF /* DictionaryExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryExtension.swift; sourceTree = "<group>"; };
-		C1DD0328218866CA000BBBBF /* DictionaryExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryExtensionTests.swift; sourceTree = "<group>"; };
 		C1DD032A21886A01000BBBBF /* UIDeviceExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtensionTests.swift; sourceTree = "<group>"; };
 		C1DD032C21886B77000BBBBF /* APIConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConfiguration.swift; sourceTree = "<group>"; };
 		C1DD032E21886BD5000BBBBF /* APIConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConfigurationTests.swift; sourceTree = "<group>"; };
@@ -148,7 +144,7 @@
 		C1E521B32170ED5300B80C64 /* CallFix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallFix.swift; sourceTree = "<group>"; };
 		C1E521B521748CE800B80C64 /* CallFixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallFixTests.swift; sourceTree = "<group>"; };
 		C1E521B721749A9400B80C64 /* CallTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallTrackerTests.swift; sourceTree = "<group>"; };
-		C1E93DF92187635D0082B2B3 /* TripTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripTests.swift; sourceTree = "<group>"; };
+		C1E93DF92187635D0082B2B3 /* TripChunkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripChunkTests.swift; sourceTree = "<group>"; };
 		C1F7E45221B5365C00EA0445 /* ScoringClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoringClient.swift; sourceTree = "<group>"; };
 		C1F7E45521B53B6000EA0445 /* Score.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Score.swift; sourceTree = "<group>"; };
 		C1F7E45A21B53DC500EA0445 /* APIScoreTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIScoreTest.swift; sourceTree = "<group>"; };
@@ -314,7 +310,7 @@
 				C1273EA62178B3640006E6E0 /* MotionFixTests.swift */,
 				C1273EA4217790C50006E6E0 /* MotionBufferTests.swift */,
 				C1DD032221885AE4000BBBBF /* EventTests.swift */,
-				C1E93DF92187635D0082B2B3 /* TripTests.swift */,
+				C1E93DF92187635D0082B2B3 /* TripChunkTests.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -337,7 +333,6 @@
 				C1D13438218729900099B650 /* UIDeviceExtension.swift */,
 				C1D1343E218740290099B650 /* URLRequestExtension.swift */,
 				C1D13440218742320099B650 /* DateFormatterExtension.swift */,
-				C1DD0326218863EE000BBBBF /* DictionaryExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -358,7 +353,6 @@
 			isa = PBXGroup;
 			children = (
 				C1DD0324218861F4000BBBBF /* DateFormatterExtensionTests.swift */,
-				C1DD0328218866CA000BBBBF /* DictionaryExtensionTests.swift */,
 				C1DD032A21886A01000BBBBF /* UIDeviceExtensionTests.swift */,
 			);
 			path = Extension;
@@ -682,7 +676,6 @@
 				C1E521B22170ECBE00B80C64 /* CallTracker.swift in Sources */,
 				C124ABFB217F4F070038A0B1 /* APITrip.swift in Sources */,
 				C1273E9F2175EE800006E6E0 /* MotionFix.swift in Sources */,
-				C1DD0327218863EE000BBBBF /* DictionaryExtension.swift in Sources */,
 				C1F7E45E21B55E5200EA0445 /* APIScore.swift in Sources */,
 				C1076071217E2E9400FB28AA /* Event.swift in Sources */,
 				E2798EDD215A5D65006228A3 /* LocationFix.swift in Sources */,
@@ -717,8 +710,7 @@
 				C1273EA92178C1670006E6E0 /* MotionTrackerTests.swift in Sources */,
 				C1FDE34C219C72C400F15AF3 /* FixTests.swift in Sources */,
 				C1273EA5217790C50006E6E0 /* MotionBufferTests.swift in Sources */,
-				C1DD0329218866CA000BBBBF /* DictionaryExtensionTests.swift in Sources */,
-				C1E93DFA2187635D0082B2B3 /* TripTests.swift in Sources */,
+				C1E93DFA2187635D0082B2B3 /* TripChunkTests.swift in Sources */,
 				C1F7E45B21B53DC500EA0445 /* APIScoreTest.swift in Sources */,
 				C15B9FCF21944F2E0072439F /* LogRxFactoryTests.swift in Sources */,
 				C15B9FCB219449270072439F /* LogRxTests.swift in Sources */,

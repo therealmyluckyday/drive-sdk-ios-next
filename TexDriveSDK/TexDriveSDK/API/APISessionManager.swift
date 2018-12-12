@@ -56,7 +56,7 @@ class APISessionManager: NSObject, APISessionManagerProtocol, URLSessionDelegate
     // MARK: PUT HTTP
     func put(dictionaryBody: [String: Any]) {
         if let url = URL(string: "\(self.configuration.baseUrl())/data") {
-            let dictionaryBody = Dictionary<String, Any>.serializeWithGeneralInformation(dictionary: dictionaryBody, appId: self.configuration.appId, user: self.configuration.user)
+            let dictionaryBody = TripChunk.serializeWithGeneralInformation(dictionary: dictionaryBody, appId: self.configuration.appId, user: self.configuration.user)
             if let request = URLRequest.createUrlRequest(url: url, body: dictionaryBody, httpMethod: HttpMethod.PUT) {
                 let backgroundTask = self.urlBackgroundTaskSession.downloadTask(with: request)
 //                backgroundTask.earliestBeginDate = Date().addingTimeInterval(250)
