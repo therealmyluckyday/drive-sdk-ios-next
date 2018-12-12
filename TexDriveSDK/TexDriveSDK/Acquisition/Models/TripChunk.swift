@@ -20,7 +20,7 @@ class TripChunk: Collection {
     // MARK: Property
     let tripId: String //GUI generated. Format MUST be in capital
     private var fixes = [Fix]()
-    var event = Event()
+    var event: Event?
     
     // MARK: Typealias & Property Collection Protocol
     typealias Element = Fix
@@ -46,11 +46,11 @@ class TripChunk: Collection {
     }
     
     func append(eventType: EventType) {
-        self.event.append(eventType: eventType)
+        self.event = Event(eventType: eventType, timestamp:Date().timeIntervalSince1970)
     }
     
     func canUpload() -> Bool {
-        if event.count > 0 && event.contains(EventType.crash), let _ = fixes.last as? MotionFix {
+        if let _ = fixes.last as? MotionFix, let eventCurrent = self.event, eventCurrent.eventType == EventType.crash {
             return false
         }
         return fixes.count > TripConstant.MinFixesToSend
@@ -66,7 +66,7 @@ class TripChunk: Collection {
     }
     
     // Private Method
-    //GUID voir uuid
+    // GUID voir uuid
     static func generateTripId() -> String {
         return UIDevice.current.identifierForVendor!.uuidString + "\(Date().timeIntervalSince1970)"
     }
@@ -74,7 +74,9 @@ class TripChunk: Collection {
     // MARK: Serialize
     func serialize() -> [String: Any] {
         var fix : [[String: Any]] = self.fixes.map({$0.serialize()})
-        fix.append(self.event.serialize())
+        if let event = self.event {
+            fix.append(event.serialize())
+        }
         var dictionary = [String : Any]()
         dictionary["trip_id"] = self.tripId
         dictionary["fixes"] = fix

@@ -112,17 +112,50 @@ class TripChunkTests: XCTestCase {
     }
     
     // MARK: func append(eventType: EventType)
-    func testAppendEvent() {
+    func testAppendEventCrash() {
+        let trip = TripChunk()
+
+        trip.append(eventType: EventType.crash)
+        
+        XCTAssertEqual(trip.event?.eventType, EventType.crash)
+    }
+    func testAppendEventCallRinging() {
+        let trip = TripChunk()
+        
+        trip.append(eventType: EventType.callRinging)
+        
+        XCTAssertEqual(trip.event?.eventType, EventType.callRinging)
+    }
+    func testAppendEventCallIdle() {
+        let trip = TripChunk()
+
+        trip.append(eventType: EventType.callIdle)
+        
+        XCTAssertEqual(trip.event?.eventType, EventType.callIdle)
+    }
+    func testAppendEventCallBusy() {
         let trip = TripChunk()
         
         trip.append(eventType: EventType.start)
         trip.append(eventType: EventType.stop)
         trip.append(eventType: EventType.callBusy)
-        trip.append(eventType: EventType.callIdle)
-        trip.append(eventType: EventType.callRinging)
-        trip.append(eventType: EventType.crash)
         
-        XCTAssertEqual(trip.event.count, 6)
+        XCTAssertEqual(trip.event?.eventType, EventType.callBusy)
+    }
+    func testAppendEventStop() {
+        let trip = TripChunk()
+        
+        trip.append(eventType: EventType.start)
+        trip.append(eventType: EventType.stop)
+        
+        XCTAssertEqual(trip.event?.eventType, EventType.stop)
+    }
+    func testAppendEventStart() {
+        let trip = TripChunk()
+        
+        trip.append(eventType: EventType.start)
+        
+        XCTAssertEqual(trip.event?.eventType, EventType.start)
     }
     
     // MARK: init(tripId: String)
@@ -152,22 +185,13 @@ class TripChunkTests: XCTestCase {
         let detailResult = result["fixes"] as! [[String : Any]]
         XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
         XCTAssertEqual(result["trip_id"] as! String, tripId)
-        XCTAssertEqual(detailResult.count, 1)
-        let eventFix = detailResult[0]
-        XCTAssertNotNil(eventFix["timestamp"])
-        let events = eventFix["event"] as! [String]
-        XCTAssertEqual(events.count, 0)
+        XCTAssertEqual(detailResult.count, 0)
     }
     
-    func testSerializeWithAllEventsType() {
+    func testSerializeWithStartEventsType() {
         let tripId = "MYTRIIIPID"
         let trip = TripChunk(tripId: tripId)
         trip.append(eventType: EventType.start)
-        trip.append(eventType: EventType.stop)
-        trip.append(eventType: EventType.callIdle)
-        trip.append(eventType: EventType.callRinging)
-        trip.append(eventType: EventType.callBusy)
-        trip.append(eventType: EventType.crash)
         
         let result = trip.serialize()
         
@@ -178,13 +202,8 @@ class TripChunkTests: XCTestCase {
         let eventFix = detailResult[0]
         XCTAssertNotNil(eventFix["timestamp"])
         let events = eventFix["event"] as! [String]
-        XCTAssertEqual(events.count, 6)
+        XCTAssertEqual(events.count, 1)
         XCTAssertTrue(events.contains("start"))
-        XCTAssertTrue(events.contains("stop"))
-        XCTAssertTrue(events.contains("crash"))
-        XCTAssertTrue(events.contains("call_idle"))
-        XCTAssertTrue(events.contains("call_ringing"))
-        XCTAssertTrue(events.contains("call_busy"))
     }
     
     
@@ -203,11 +222,7 @@ class TripChunkTests: XCTestCase {
         let detailResult = result["fixes"] as! [[String : Any]]
         XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
         XCTAssertEqual(result["trip_id"] as! String, tripId)
-        XCTAssertEqual(detailResult.count, 2)
-        let eventFix = detailResult[1]
-        XCTAssertNotNil(eventFix["timestamp"])
-        let events = eventFix["event"] as! [String]
-        XCTAssertEqual(events.count, 0)
+        XCTAssertEqual(detailResult.count, 1)
         let batteryFixResult = detailResult[0]
         let batteryResult = batteryFixResult["battery"] as! [String : Any]
         XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
@@ -235,11 +250,7 @@ class TripChunkTests: XCTestCase {
         let detailResult = result["fixes"] as! [[String : Any]]
         XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
         XCTAssertEqual(result["trip_id"] as! String, tripId)
-        XCTAssertEqual(detailResult.count, 2)
-        let eventFix = detailResult[1]
-        XCTAssertNotNil(eventFix["timestamp"])
-        let events = eventFix["event"] as! [String]
-        XCTAssertEqual(events.count, 0)
+        XCTAssertEqual(detailResult.count, 1)
         let locationFixResult = detailResult[0]
         let locationDetailResult = locationFixResult["location"] as! [String : Any]
         XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
@@ -269,11 +280,7 @@ class TripChunkTests: XCTestCase {
         let detailResult = result["fixes"] as! [[String : Any]]
         XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
         XCTAssertEqual(result["trip_id"] as! String, tripId)
-        XCTAssertEqual(detailResult.count, 2)
-        let eventFix = detailResult[1]
-        XCTAssertNotNil(eventFix["timestamp"])
-        let events = eventFix["event"] as! [String]
-        XCTAssertEqual(events.count, 0)
+        XCTAssertEqual(detailResult.count, 1)
     
         XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
         
@@ -312,5 +319,14 @@ class TripChunkTests: XCTestCase {
         XCTAssertEqual(result["version"] as! String, sdkVersion)
         XCTAssertEqual(result["app_name"] as! String, appId)
         XCTAssertEqual(result["via"] as! [String], [firstVia])
+    }
+    
+    
+    func testWithNoEventsType() {
+        let tripId = "MYTRIIIPID"
+        let trip = TripChunk(tripId: tripId)
+        let event = trip.event
+        XCTAssertNil(event)
+        
     }
 }

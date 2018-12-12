@@ -14,45 +14,81 @@ class EventTests: XCTestCase {
 
 
     // MARK: func serialize() -> [String : Any]
-    func testSerializeWithAllEventsType() {
-        let event = Event()
-        event.append(eventType: EventType.start)
-        event.append(eventType: EventType.stop)
-        event.append(eventType: EventType.callIdle)
-        event.append(eventType: EventType.callRinging)
-        event.append(eventType: EventType.callRinging)
-        event.append(eventType: EventType.callBusy)
-        event.append(eventType: EventType.crash)
+    func testSerializeWithStartEventType() {
+        let event = Event(eventType: EventType.start, timestamp: Date().timeIntervalSince1970)
         
         let result = event.serialize()
         
         let events = result["event"] as! [String]
         XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
         XCTAssertNotNil(result["timestamp"])
-        XCTAssertEqual(events.count, 6)
+        XCTAssertEqual(events.count, 1)
         XCTAssertTrue(events.contains("start"))
+    }
+
+    //        event.append(eventType: EventType.stop)
+    //        event.append(eventType: EventType.callIdle)
+    //        event.append(eventType: EventType.callRinging)
+    //        event.append(eventType: EventType.callRinging)
+    //        event.append(eventType: EventType.callBusy)
+    //        event.append(eventType: EventType.crash)
+    
+    func testSerializeWithStopEventType() {
+        let event = Event(eventType: EventType.stop, timestamp: Date().timeIntervalSince1970)
+        
+        let result = event.serialize()
+        
+        let events = result["event"] as! [String]
+        XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
+        XCTAssertNotNil(result["timestamp"])
+        XCTAssertEqual(events.count, 1)
         XCTAssertTrue(events.contains("stop"))
-        XCTAssertTrue(events.contains("crash"))
+    }
+    
+    func testSerializeCallIdleEventType() {
+        let event = Event(eventType: EventType.callIdle, timestamp: Date().timeIntervalSince1970)
+        
+        let result = event.serialize()
+        
+        let events = result["event"] as! [String]
+        XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
+        XCTAssertNotNil(result["timestamp"])
+        XCTAssertEqual(events.count, 1)
         XCTAssertTrue(events.contains("call_idle"))
-        XCTAssertTrue(events.contains("call_ringing"))
+    }
+    func testSerializeWithCallBusyEventType() {
+        let event = Event(eventType: EventType.callBusy, timestamp: Date().timeIntervalSince1970)
+        
+        let result = event.serialize()
+        
+        let events = result["event"] as! [String]
+        XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
+        XCTAssertNotNil(result["timestamp"])
+        XCTAssertEqual(events.count, 1)
         XCTAssertTrue(events.contains("call_busy"))
     }
     
-    func testSerializeWithNoEventsType() {
-        let event = Event()
+    func testSerializeWithCallRingingEventType() {
+        let event = Event(eventType: EventType.callRinging, timestamp: Date().timeIntervalSince1970)
         
         let result = event.serialize()
         
         let events = result["event"] as! [String]
         XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
         XCTAssertNotNil(result["timestamp"])
-        XCTAssertEqual(events.count, 0)
-        XCTAssertFalse(events.contains("start"))
-        XCTAssertFalse(events.contains("stop"))
-        XCTAssertFalse(events.contains("crash"))
-        XCTAssertFalse(events.contains("call_idle"))
-        XCTAssertFalse(events.contains("call_ringing"))
-        XCTAssertFalse(events.contains("call_busy"))
+        XCTAssertEqual(events.count, 1)
+        XCTAssertTrue(events.contains("call_ringing"))
+    }
+    func testSerializeWithCrashEventType() {
+        let event = Event(eventType: EventType.crash, timestamp: Date().timeIntervalSince1970)
+        
+        let result = event.serialize()
+        
+        let events = result["event"] as! [String]
+        XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
+        XCTAssertNotNil(result["timestamp"])
+        XCTAssertEqual(events.count, 1)
+        XCTAssertTrue(events.contains("crash"))
     }
     
 }

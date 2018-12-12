@@ -17,7 +17,7 @@ import CoreLocation
 class MockConfiguration : ConfigurationProtocol {
     var rxScheduler: SerialDispatchQueueScheduler {
         get {
-            return MainScheduler.asyncInstance
+            return MainScheduler.instance
         }
     }
     
@@ -71,7 +71,7 @@ class TripRecorderTests: XCTestCase {
         super.tearDown()
     }
     
-    func testInit_LocationFeature() {
+    func testInit_LocationFeatureStart() {
         MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
         let mockLocationManager = MockLocationManager()
         let locationFeature = TripRecorderFeature.Location(mockLocationManager)
@@ -84,22 +84,49 @@ class TripRecorderTests: XCTestCase {
         
         tripRecorder.start()
         
-        for i in 0...99 {
+        for i in 0...TripConstant.MinFixesToSend {
             let location = CLLocation(latitude: CLLocationDegrees(i), longitude: CLLocationDegrees(i))
             locations.append(location)
             
-            mockLocationManager.send(locations: [location])
         }
         
+        mockLocationManager.send(locations: locations)
+        
+        do{
+            if let trip = try tripRecorder.persistantQueue.providerTrip.toBlocking(timeout: 5).first() {
+                XCTAssertEqual(trip.event?.eventType, EventType.start)
+                XCTAssertEqual(trip.count, 101)
+            }
+        } catch {
+            XCTAssertFalse(true)
+        }
+    }
+    
+    func testInit_LocationFeatureStop() {
+        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
+        let mockLocationManager = MockLocationManager()
+        let locationFeature = TripRecorderFeature.Location(mockLocationManager)
+        let features = [locationFeature]
+        let configuration = MockConfiguration(features: features)
+        
+        let tripRecorder = TripRecorder(config: configuration, sessionManager: configuration.generateAPISessionManager())
+        
+        var locations = [CLLocation]()
+        
+        tripRecorder.start()
+        
+        for i in 0...TripConstant.MinFixesToSend {
+            let location = CLLocation(latitude: CLLocationDegrees(i), longitude: CLLocationDegrees(i))
+            locations.append(location)
+            
+        }
+        mockLocationManager.send(locations: locations)
         
         tripRecorder.stop()
         
         do{
             if let trip = try tripRecorder.persistantQueue.providerTrip.toBlocking(timeout: 5).first() {
-                XCTAssertEqual(trip.event[0], EventType.start)
-                XCTAssertEqual(trip.event[1], EventType.stop)
-                XCTAssertEqual(trip.event.count, 2)
-                XCTAssertEqual(trip.count, 0)
+                XCTAssertEqual(trip.event?.eventType, EventType.stop)
             }
         } catch {
             XCTAssertFalse(true)
