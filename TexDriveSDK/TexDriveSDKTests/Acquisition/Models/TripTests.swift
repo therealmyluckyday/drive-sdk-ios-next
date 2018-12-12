@@ -24,7 +24,7 @@ class TripTests: XCTestCase {
     
     // MARK: func canUpload() -> Bool
     func testCanUploadNoCrashReturnFalse() {
-        let trip = Trip()
+        let trip = TripChunk()
         
         let result = trip.canUpload()
         
@@ -32,7 +32,7 @@ class TripTests: XCTestCase {
     }
     
     func testCanUploadNoCrashReturnTrue() {
-        let trip = Trip()
+        let trip = TripChunk()
         let timestamp = Date().timeIntervalSince1970
         let level = Float(-1.0)
         let state = BatteryState.plugged
@@ -50,7 +50,7 @@ class TripTests: XCTestCase {
     }
     
     func testCanUploadWithCrashReturnTrue() {
-        let trip = Trip()
+        let trip = TripChunk()
         let timestamp = Date().timeIntervalSince1970
         let level = Float(-1.0)
         let state = BatteryState.plugged
@@ -70,7 +70,7 @@ class TripTests: XCTestCase {
     }
     
     func testCanUploadWithCrashReturnFalse() {
-        let trip = Trip()
+        let trip = TripChunk()
         let timestamp = Date().timeIntervalSinceNow
         let accelerationMotion = XYZAxisValues(x: 0.8118888188181, y: 1.8118888188181, z: 2.8118881188181)
         let gavityMotion = XYZAxisValues(x: 3.8118888188181, y: 4.8118888188181, z: 5.8118881188181)
@@ -92,7 +92,7 @@ class TripTests: XCTestCase {
     
     // MARK: func append(fix: Fix)
     func testAppendFix() {
-        let trip = Trip()
+        let trip = TripChunk()
         let timestamp = Date().timeIntervalSince1970
         let level = Float(-1.0)
         let state = BatteryState.plugged
@@ -113,7 +113,7 @@ class TripTests: XCTestCase {
     
     // MARK: func append(eventType: EventType)
     func testAppendEvent() {
-        let trip = Trip()
+        let trip = TripChunk()
         
         trip.append(eventType: EventType.start)
         trip.append(eventType: EventType.stop)
@@ -129,7 +129,7 @@ class TripTests: XCTestCase {
     func testConvenienceInit() {
         let tripId = UIDevice.current.identifierForVendor!.uuidString
         
-        let trip = Trip()
+        let trip = TripChunk()
         
         XCTAssertTrue(trip.tripId.contains(tripId))
     }
@@ -137,7 +137,7 @@ class TripTests: XCTestCase {
     func testInitWithTripId() {
         let tripId = "MYTRIIIPID"
         
-        let trip = Trip(tripId: tripId)
+        let trip = TripChunk(tripId: tripId)
         
         XCTAssertEqual(trip.tripId, tripId)
     }
@@ -145,7 +145,7 @@ class TripTests: XCTestCase {
     // MARK: func serialize() -> [String : Any]
     func testSerializeEmpty() {
         let tripId = "MYTRIIIPID"
-        let trip = Trip(tripId: tripId)
+        let trip = TripChunk(tripId: tripId)
         
         let result = trip.serialize()
         
@@ -161,7 +161,7 @@ class TripTests: XCTestCase {
     
     func testSerializeWithAllEventsType() {
         let tripId = "MYTRIIIPID"
-        let trip = Trip(tripId: tripId)
+        let trip = TripChunk(tripId: tripId)
         trip.append(eventType: EventType.start)
         trip.append(eventType: EventType.stop)
         trip.append(eventType: EventType.callIdle)
@@ -190,7 +190,7 @@ class TripTests: XCTestCase {
     
     func testSerializeWithBatteryFix() {
         let tripId = "MYTRIIIPID"
-        let trip = Trip(tripId: tripId)
+        let trip = TripChunk(tripId: tripId)
         // Battery Fix
         let timestamp = Date().timeIntervalSince1970
         let level = Float(-1.0)
@@ -218,7 +218,7 @@ class TripTests: XCTestCase {
     
     func testSerializeWithLocationFix() {
         let tripId = "MYTRIIIPID"
-        let trip = Trip(tripId: tripId)
+        let trip = TripChunk(tripId: tripId)
         // Location Fix
         let timestamp = Date().timeIntervalSince1970
         let latitude = 48.8118888188181
@@ -254,7 +254,7 @@ class TripTests: XCTestCase {
     
     func testSerializeWithMotionFix() {
         let tripId = "MYTRIIIPID"
-        let trip = Trip(tripId: tripId)
+        let trip = TripChunk(tripId: tripId)
         // Motion Fix
         let timestamp = Date().timeIntervalSinceNow
         let accelerationMotion = XYZAxisValues(x: 0.8118888188181, y: 1.8118888188181, z: 2.8118881188181)

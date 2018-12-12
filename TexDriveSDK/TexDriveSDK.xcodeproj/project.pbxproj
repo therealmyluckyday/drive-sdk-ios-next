@@ -12,7 +12,7 @@
 		C107606F217E2C8000FB28AA /* PersistantQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C107606E217E2C8000FB28AA /* PersistantQueue.swift */; };
 		C1076071217E2E9400FB28AA /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1076070217E2E9400FB28AA /* Event.swift */; };
 		C12373992166468100A95A2A /* TripRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12373982166468100A95A2A /* TripRecorder.swift */; };
-		C124ABF7217F45D80038A0B1 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C124ABF6217F45D80038A0B1 /* Trip.swift */; };
+		C124ABF7217F45D80038A0B1 /* TripChunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = C124ABF6217F45D80038A0B1 /* TripChunk.swift */; };
 		C124ABFB217F4F070038A0B1 /* APITrip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C124ABFA217F4F070038A0B1 /* APITrip.swift */; };
 		C1273E9F2175EE800006E6E0 /* MotionFix.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1273E9E2175EE800006E6E0 /* MotionFix.swift */; };
 		C1273EA12175F59C0006E6E0 /* MotionTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1273EA02175F59C0006E6E0 /* MotionTracker.swift */; };
@@ -103,7 +103,7 @@
 		C107606E217E2C8000FB28AA /* PersistantQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistantQueue.swift; sourceTree = "<group>"; };
 		C1076070217E2E9400FB28AA /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		C12373982166468100A95A2A /* TripRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecorder.swift; sourceTree = "<group>"; };
-		C124ABF6217F45D80038A0B1 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
+		C124ABF6217F45D80038A0B1 /* TripChunk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripChunk.swift; sourceTree = "<group>"; };
 		C124ABFA217F4F070038A0B1 /* APITrip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITrip.swift; sourceTree = "<group>"; };
 		C1273E9E2175EE800006E6E0 /* MotionFix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionFix.swift; sourceTree = "<group>"; };
 		C1273EA02175F59C0006E6E0 /* MotionTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionTracker.swift; sourceTree = "<group>"; };
@@ -481,7 +481,7 @@
 				C1273E9E2175EE800006E6E0 /* MotionFix.swift */,
 				C1273EA22176314F0006E6E0 /* MotionBuffer.swift */,
 				C1076070217E2E9400FB28AA /* Event.swift */,
-				C124ABF6217F45D80038A0B1 /* Trip.swift */,
+				C124ABF6217F45D80038A0B1 /* TripChunk.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -659,7 +659,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C1E0508A21A2EF4000B21D99 /* TEX-elb-ssl.der in Sources */,
-				C124ABF7217F45D80038A0B1 /* Trip.swift in Sources */,
+				C124ABF7217F45D80038A0B1 /* TripChunk.swift in Sources */,
 				C1C83BD7219042F500D8E4B3 /* Log.swift in Sources */,
 				C1D13441218742320099B650 /* DateFormatterExtension.swift in Sources */,
 				C1273EA32176314F0006E6E0 /* MotionBuffer.swift in Sources */,

@@ -11,9 +11,9 @@ import RxSwift
 
 class PersistantQueue {
     // MARK: Property
-    private var trip: Trip?
+    private var trip: TripChunk?
     private let rxDisposeBag = DisposeBag()
-    var providerTrip = PublishSubject<Trip>()
+    var providerTrip = PublishSubject<TripChunk>()
     
     
     // MARK: Lifecycle
@@ -22,7 +22,7 @@ class PersistantQueue {
             if let eventType = event.element {
                 
                 if eventType == EventType.start {
-                    self?.trip = Trip()
+                    self?.trip = TripChunk()
                 }
                 if let trip = self?.trip {
                     trip.append(eventType: eventType)
@@ -40,7 +40,7 @@ class PersistantQueue {
                 trip.append(fix: fix)
                 if trip.canUpload() {
                     self?.providerTrip.onNext(trip)
-                    self?.trip = Trip(tripId: trip.tripId)
+                    self?.trip = TripChunk(tripId: trip.tripId)
                 }
             }
         }.disposed(by: rxDisposeBag)

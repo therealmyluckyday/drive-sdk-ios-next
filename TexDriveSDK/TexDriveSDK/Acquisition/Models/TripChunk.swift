@@ -12,7 +12,7 @@ struct TripConstant {
     static let MinFixesToSend = 100
 }
 
-class Trip: Collection {
+class TripChunk: Collection {
     // MARK: Property
     let tripId: String //GUI generated. Format MUST be in capital
     private var fixes = [Fix]()
@@ -54,7 +54,7 @@ class Trip: Collection {
     
     // MARK: Lifecycle
     convenience init() {
-        self.init(tripId: Trip.generateTripId())
+        self.init(tripId: TripChunk.generateTripId())
     }
     
     init(tripId: String) {

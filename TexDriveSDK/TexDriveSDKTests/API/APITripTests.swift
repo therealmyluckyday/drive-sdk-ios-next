@@ -29,11 +29,11 @@ class APISessionManagerMock: APISessionManagerProtocol {
 class APITripTests: XCTestCase {
     // MARK: func subscribe(providerTrip: PublishSubject<Trip>)
     func testSubscribe() {
-        let publishTrip = PublishSubject<Trip>()
+        let publishTrip = PublishSubject<TripChunk>()
         let mock = APISessionManagerMock()
         let apiTrip = APITrip(apiSessionManager: mock)
         let tripId = "tripId"
-        let trip = Trip(tripId: tripId)
+        let trip = TripChunk(tripId: tripId)
         apiTrip.subscribe(providerTrip: publishTrip, scheduler: MainScheduler.instance)
         publishTrip.onNext(trip)
         
