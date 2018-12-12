@@ -15,13 +15,13 @@ import CoreLocation
 
 
 class MockConfiguration : ConfigurationProtocol {
-    var rx_scheduler: SerialDispatchQueueScheduler {
+    var rxScheduler: SerialDispatchQueueScheduler {
         get {
             return MainScheduler.asyncInstance
         }
     }
     
-    var rx_log = PublishSubject<LogMessage>()
+    var rxLog = PublishSubject<LogMessage>()
     
     func log(regex: NSRegularExpression, logType: LogType) {
         
@@ -42,11 +42,11 @@ class MockConfiguration : ConfigurationProtocol {
 
 class TripRecorderTests: XCTestCase {
     var tripRecorder: TripRecorder?
-    var disposeBag: DisposeBag?
+    var rxDisposeBag: DisposeBag?
     
     override func setUp() {
         super.setUp()
-        disposeBag = DisposeBag()
+        rxDisposeBag = DisposeBag()
         
         
         let user = User.Authentified("Erwan-ios12")
@@ -57,11 +57,11 @@ class TripRecorderTests: XCTestCase {
             tripRecorder = TripRecorder(config: configuration!, sessionManager: configuration!.generateAPISessionManager())
             
             let logFactory = configuration!.logFactory
-            logFactory.rx_logOutput.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
+            logFactory.rxLogOutput.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
                 if let logDetail = event.element {
                     print(logDetail.description)
                 }
-                }.disposed(by: disposeBag!)
+                }.disposed(by: rxDisposeBag!)
         } catch {
             XCTAssert(false)
         }

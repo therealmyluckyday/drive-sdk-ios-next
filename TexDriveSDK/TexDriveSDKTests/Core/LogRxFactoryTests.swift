@@ -12,14 +12,14 @@ import RxSwift
 @testable import TexDriveSDK
 
 class LogRxFactoryTests: XCTestCase {
-    private var disposeBag : DisposeBag?
+    private var rxDisposeBag : DisposeBag?
     override func setUp() {
         super.setUp()
-        disposeBag = DisposeBag()
+        rxDisposeBag = DisposeBag()
     }
     
     override func tearDown() {
-        disposeBag = nil
+        rxDisposeBag = nil
         super.tearDown()
     }
     
@@ -36,9 +36,9 @@ class LogRxFactoryTests: XCTestCase {
             XCTAssertFalse(true)
         }
         
-        log.rx_logOutput.asObservable().subscribe { (event) in
+        log.rxLogOutput.asObservable().subscribe { (event) in
             isCalled = true
-            }.disposed(by: disposeBag!)
+            }.disposed(by: rxDisposeBag!)
         log.mainLogger.print("toto", type: LogType.Info, fileName: "superFile", functionName: "totoFunction")
         
         XCTAssert(isCalled)
@@ -56,9 +56,9 @@ class LogRxFactoryTests: XCTestCase {
             XCTAssertFalse(true)
         }
         
-        log.rx_logOutput.asObservable().subscribe { (event) in
+        log.rxLogOutput.asObservable().subscribe { (event) in
             isCalled = true
-            }.disposed(by: disposeBag!)
+            }.disposed(by: rxDisposeBag!)
         log.mainLogger.print("toto", type: LogType.Info, fileName: "superFile", functionName: "totoFunction")
         
         XCTAssertFalse(isCalled)
@@ -77,9 +77,9 @@ class LogRxFactoryTests: XCTestCase {
             XCTAssertFalse(true)
         }
         
-        log.rx_logOutput.asObservable().subscribe { (event) in
+        log.rxLogOutput.asObservable().subscribe { (event) in
             isCalled = true
-            }.disposed(by: disposeBag!)
+            }.disposed(by: rxDisposeBag!)
         log.getLogger(file: "toto").print("", type: LogType.Info, functionName: "toto")
         
         XCTAssert(isCalled)
@@ -97,9 +97,9 @@ class LogRxFactoryTests: XCTestCase {
             XCTAssertFalse(true)
         }
         
-        log.rx_logOutput.asObservable().subscribe { (event) in
+        log.rxLogOutput.asObservable().subscribe { (event) in
             isCalled = true
-            }.disposed(by: disposeBag!)
+            }.disposed(by: rxDisposeBag!)
         log.getLogger(file: "toto").print("", type: LogType.Info, functionName: "toto")
         
         XCTAssertFalse(isCalled)
@@ -118,9 +118,9 @@ class LogRxFactoryTests: XCTestCase {
             XCTAssertFalse(true)
         }
         
-        log.rx_logOutput.asObservable().subscribe { (event) in
+        log.rxLogOutput.asObservable().subscribe { (event) in
             isCalled = true
-            }.disposed(by: disposeBag!)
+            }.disposed(by: rxDisposeBag!)
         log.getLogger(file: "toto").print("", type: LogType.Info, functionName: "toto")
         log.mainLogger.print("toto", type: LogType.Info, fileName: "superFile", functionName: "totoFunction")
         
@@ -137,7 +137,7 @@ class LogRxFactoryTests: XCTestCase {
         var isCalled = false
         let logDetail = LogMessage(type: type, detail: detail, fileName: file, functionName: function)
         
-        log.rx_logOutput.asObservable().subscribe { (event) in
+        log.rxLogOutput.asObservable().subscribe { (event) in
             if let logDetail = event.element {
                 isCalled = true
                 XCTAssertEqual(logDetail.message, detail)
@@ -145,7 +145,7 @@ class LogRxFactoryTests: XCTestCase {
                 XCTAssertEqual(logDetail.type, type)
                 XCTAssertEqual(logDetail.functionName, function)
             }
-            }.disposed(by: disposeBag!)
+            }.disposed(by: rxDisposeBag!)
         
         log.report(logDetail: logDetail)
         XCTAssert(isCalled)

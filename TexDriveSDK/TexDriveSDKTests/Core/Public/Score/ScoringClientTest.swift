@@ -12,12 +12,12 @@ import RxSwift
 @testable import TexDriveSDK
 
 class ScoringClientTest: XCTestCase {
-    var disposeBag: DisposeBag?
+    var rxDisposeBag: DisposeBag?
     var scoringClient: ScoringClient?
     
     override func setUp() {
         super.setUp()
-        disposeBag = DisposeBag()
+        rxDisposeBag = DisposeBag()
         let user = User.Authentified("Erwan-ios12")
         let appId = "youdrive_france_prospect"
         
@@ -51,7 +51,7 @@ class ScoringClientTest: XCTestCase {
                 XCTAssertTrue(false)
             }
             expectation.fulfill()
-            }.disposed(by: disposeBag!)
+            }.disposed(by: rxDisposeBag!)
         
         scoringClient!.getScore(tripId: tripId, rxScore: rxScore)
         wait(for: [expectation], timeout: 50)

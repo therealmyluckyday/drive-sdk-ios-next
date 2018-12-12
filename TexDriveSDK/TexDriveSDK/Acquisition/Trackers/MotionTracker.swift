@@ -12,13 +12,13 @@ import CoreMotion
 
 class MotionTracker: Tracker {
     // MARK: Property
-    private var rx_motionProviderFix = PublishSubject<Result<MotionFix>>()
+    private var rxMotionProviderFix = PublishSubject<Result<MotionFix>>()
     private var motionSensor: CMMotionManager
     private var operationQueue = OperationQueue()
     private let accelerationThreshold = 2.5
     private let motionBuffer: MotionBuffer
-    private var disposeBag = DisposeBag()
-    private let rx_scheduler: SerialDispatchQueueScheduler
+    private var rxDisposeBag = DisposeBag()
+    private let rxScheduler: SerialDispatchQueueScheduler
     
     // MARK: Lifecycle
     init(sensor: CMMotionManager, scheduler: SerialDispatchQueueScheduler, buffer: MotionBuffer = MotionBuffer()) {
@@ -27,20 +27,20 @@ class MotionTracker: Tracker {
         motionSensor.showsDeviceMovementDisplay = true
         motionBuffer = buffer
         operationQueue.maxConcurrentOperationCount = 1
-        rx_scheduler = scheduler
+        rxScheduler = scheduler
     }
     
     // MARK: Protocol Tracker
     typealias T = MotionFix
 
     func enableTracking() {
-        motionBuffer.rx_crashMotionFix.asObservable().observeOn(rx_scheduler).subscribe { [weak self](event) in
+        motionBuffer.rxCrashMotionFix.asObservable().observeOn(rxScheduler).subscribe { [weak self](event) in
             if let motions = event.element {
                 for motion in motions {
                     self?.provideFix().onNext(Result.Success(motion))
                 }
             }
-        }.disposed(by: disposeBag)
+        }.disposed(by: rxDisposeBag)
         
         motionSensor.startDeviceMotionUpdates(using: CMAttitudeReferenceFrame.xArbitraryCorrectedZVertical, to: operationQueue) { [weak self](motion, error) in
             guard let motion = motion, error == nil else {
@@ -59,6 +59,6 @@ class MotionTracker: Tracker {
     }
     
     func provideFix() -> PublishSubject<Result<MotionFix>> {
-        return rx_motionProviderFix;
+        return rxMotionProviderFix;
     }
 }

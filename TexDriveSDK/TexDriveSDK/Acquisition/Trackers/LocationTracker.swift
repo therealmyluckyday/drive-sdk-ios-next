@@ -13,7 +13,7 @@ class LocationTracker: NSObject, Tracker, CLLocationManagerDelegate {
     // MARK: Property
     typealias T = LocationFix
     private let locationManager: CLLocationManager
-    private var rx_locationFix = PublishSubject<Result<LocationFix>>()
+    private var rxLocationFix = PublishSubject<Result<LocationFix>>()
     
     // MARK: Lifecycle method
     init(sensor: CLLocationManager) {
@@ -28,7 +28,7 @@ class LocationTracker: NSObject, Tracker, CLLocationManagerDelegate {
     func enableTracking() {
         guard type(of: locationManager).authorizationStatus() != .notDetermined else {
             let error = CLError(_nsError: NSError(domain: "CLLocationManagerNotDetermined", code: CLError.denied.rawValue, userInfo: nil))
-            rx_locationFix.onNext(Result.Failure(error))
+            rxLocationFix.onNext(Result.Failure(error))
 //            locationManager.requestAlwaysAuthorization() -> REsponsability to user
             return
         }
@@ -49,7 +49,7 @@ class LocationTracker: NSObject, Tracker, CLLocationManagerDelegate {
     }
     
     func provideFix() -> PublishSubject<Result<LocationFix>> {
-        return rx_locationFix
+        return rxLocationFix
     }
     
     // MARK: Tracker method for Location Fix
@@ -59,10 +59,10 @@ class LocationTracker: NSObject, Tracker, CLLocationManagerDelegate {
         }
         
         let locationFix = LocationFix(timestamp: location.timestamp.timeIntervalSince1970, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, precision: location.horizontalAccuracy, speed: location.speed, bearing: location.course, altitude: location.altitude)
-        rx_locationFix.onNext(Result.Success(locationFix))
+        rxLocationFix.onNext(Result.Success(locationFix))
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        rx_locationFix.onNext(Result.Failure(error))
+        rxLocationFix.onNext(Result.Failure(error))
     }
 }

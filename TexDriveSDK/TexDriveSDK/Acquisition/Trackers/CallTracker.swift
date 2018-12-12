@@ -13,7 +13,7 @@ import RxSwift
 @available(iOS 10.0, *)
 class CallTracker: NSObject, Tracker, CXCallObserverDelegate {
     // MARK: Property
-    private var rx_callProviderFix = PublishSubject<Result<CallFix>>()
+    private var rxCallProviderFix = PublishSubject<Result<CallFix>>()
     private let callObserver: CXCallObserver
     private var lastState: CallFixState
     
@@ -33,7 +33,7 @@ class CallTracker: NSObject, Tracker, CXCallObserverDelegate {
         callObserver.setDelegate(nil, queue: nil)
     }
     func provideFix() -> PublishSubject<Result<CallFix>> {
-        return rx_callProviderFix
+        return rxCallProviderFix
     }
     
     // MARK: CXCallObserverDelegate
@@ -45,7 +45,7 @@ class CallTracker: NSObject, Tracker, CXCallObserverDelegate {
     func newCallfFix(callFix: CallFix) {
         Log.print("CALL \(callFix.state) \(lastState)")
         if lastState != callFix.state {
-            rx_callProviderFix.asObserver().onNext(Result.Success(callFix))
+            rxCallProviderFix.asObserver().onNext(Result.Success(callFix))
             lastState = callFix.state
         }
     }

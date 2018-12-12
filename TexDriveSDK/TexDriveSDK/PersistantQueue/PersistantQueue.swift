@@ -12,7 +12,7 @@ import RxSwift
 class PersistantQueue {
     // MARK: Property
     private var trip: Trip?
-    private let disposeBag = DisposeBag()
+    private let rxDisposeBag = DisposeBag()
     var providerTrip = PublishSubject<Trip>()
     
     
@@ -33,7 +33,7 @@ class PersistantQueue {
                 }
 
             }
-        }.disposed(by: disposeBag)
+        }.disposed(by: rxDisposeBag)
         
         fixes.asObservable().observeOn(scheduler).subscribe { [weak self](event) in
             if let fix = event.element, let trip = self?.trip {
@@ -43,6 +43,6 @@ class PersistantQueue {
                     self?.trip = Trip(tripId: trip.tripId)
                 }
             }
-        }.disposed(by: disposeBag)
+        }.disposed(by: rxDisposeBag)
     }
 }

@@ -25,7 +25,7 @@ class MotionBuffer {
     private var crashMotions = [MotionFix]()
     private var crashMotionFix: MotionFix?
     private var futureBufferSizeInSec: Double
-    var rx_crashMotionFix = PublishSubject<[MotionFix]>()
+    var rxCrashMotionFix = PublishSubject<[MotionFix]>()
     
     // MARK: Lifecycle
     init(futureBufferSizeInSecond: Int = MotionBufferConstant.defaultFutureBufferSizeInSec) {
@@ -77,7 +77,7 @@ class MotionBuffer {
     
     private func dispatchCrashHandler(crashMotion: MotionFix) {
         // Send crash info to FixCollector
-        rx_crashMotionFix.onNext(motions)
+        rxCrashMotionFix.onNext(motions)
         // Reset Crash Info
         crashMotionFix = nil
         // Only remove past

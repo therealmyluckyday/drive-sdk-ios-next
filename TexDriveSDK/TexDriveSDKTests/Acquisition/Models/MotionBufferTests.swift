@@ -24,7 +24,7 @@ class MotionBufferTests: XCTestCase {
         
         var isSend = false
         let realtimestamp = Date(timeInterval: timestamp, since: Date.init(timeIntervalSinceNow: -1 * ProcessInfo.processInfo.systemUptime)).timeIntervalSince1970
-        let subscribe = motionBuffer.rx_crashMotionFix.asObservable().subscribe({ (event) in
+        let subscribe = motionBuffer.rxCrashMotionFix.asObservable().subscribe({ (event) in
             isSend = true
             XCTAssertNotNil(event.element)
             if let motionsFix = event.element {
