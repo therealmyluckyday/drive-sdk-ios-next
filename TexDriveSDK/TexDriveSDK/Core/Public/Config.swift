@@ -31,12 +31,6 @@ public protocol ConfigurationProtocol {
     func generateAPISessionManager() -> APISessionManagerProtocol
 }
 
-public enum Mode {
-    case auto
-    case autoBlueTooth
-    case manual
-}
-
 public class Config: ConfigurationProtocol {
     public var rxLog: PublishSubject<LogMessage> {
         get {
@@ -48,10 +42,9 @@ public class Config: ConfigurationProtocol {
     let appId: String
     let locale: Locale
     let user: User
-    let mode: Mode
     let logFactory = LogRxFactory()
     
-    public convenience init?(applicationId: String, applicationLocale: Locale, currentUser: User, currentMode: Mode) throws {
+    public convenience init?(applicationId: String, applicationLocale: Locale, currentUser: User) throws {
         let locationfeature : TripRecorderFeature = TripRecorderFeature.Location(CLLocationManager())
         let batteryfeature : TripRecorderFeature = TripRecorderFeature.Battery(UIDevice.current)
         let phoneCallFeature : TripRecorderFeature = TripRecorderFeature.PhoneCall(CXCallObserver())
@@ -59,10 +52,10 @@ public class Config: ConfigurationProtocol {
         let motionFeature = TripRecorderFeature.Motion(sensor)
         
         let tripRecorderFeatures = [locationfeature, batteryfeature, phoneCallFeature]
-        try self.init(applicationId: applicationId, applicationLocale: applicationLocale, currentUser: currentUser, currentMode: currentMode, currentTripRecorderFeatures: tripRecorderFeatures)
+        try self.init(applicationId: applicationId, applicationLocale: applicationLocale, currentUser: currentUser, currentTripRecorderFeatures: tripRecorderFeatures)
     }
     
-    init?(applicationId: String, applicationLocale: Locale, currentUser: User, currentMode: Mode, currentTripRecorderFeatures: [TripRecorderFeature]) throws {
+    init?(applicationId: String, applicationLocale: Locale, currentUser: User, currentTripRecorderFeatures: [TripRecorderFeature]) throws {
         try currentTripRecorderFeatures.forEach { (feature) in
             switch (feature, feature.canActivate()) {
             case (TripRecorderFeature.Location, false):
@@ -81,7 +74,6 @@ public class Config: ConfigurationProtocol {
         appId = applicationId
         locale = applicationLocale
         user = currentUser
-        mode = currentMode
         tripRecorderFeatures = currentTripRecorderFeatures
         Log.configure(loggerFactory: logFactory)
         

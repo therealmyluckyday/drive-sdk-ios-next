@@ -52,7 +52,7 @@ class TripRecorderTests: XCTestCase {
         let user = User.Authentified("Erwan-ios12")
         let appId = "youdrive_france_prospect"
         do {
-            let configuration = try Config(applicationId: appId, applicationLocale: Locale.current, currentUser: user, currentMode: Mode.manual, currentTripRecorderFeatures: [TripRecorderFeature]())
+            let configuration = try Config(applicationId: appId, applicationLocale: Locale.current, currentUser: user, currentTripRecorderFeatures: [TripRecorderFeature]())
             
             tripRecorder = TripRecorder(config: configuration!, sessionManager: configuration!.generateAPISessionManager())
             

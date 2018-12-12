@@ -26,13 +26,12 @@ class ConfigTests: XCTestCase {
         let appId = "MyAppId"
         let locale = Locale.current
         let user = User.Anonymous
-        let mode = Mode.manual
         MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.notDetermined
         let mockLocationManager = MockLocationManager()
         let locationFeature = TripRecorderFeature.Location(mockLocationManager)
         let features = [locationFeature]
         do {
-            let configuration = try Config(applicationId: appId, applicationLocale: locale, currentUser: user, currentMode: mode, currentTripRecorderFeatures: features)
+            let configuration = try Config(applicationId: appId, applicationLocale: locale, currentUser: user, currentTripRecorderFeatures: features)
             XCTAssertNil(configuration)
         } catch ConfigurationError.LocationNotDetermined( _) {
             XCTAssert(true)
@@ -45,11 +44,10 @@ class ConfigTests: XCTestCase {
         let appId = "MyAppId"
         let locale = Locale.current
         let user = User.Anonymous
-        let mode = Mode.manual
         let feature = TripRecorderFeature.Battery(UIDevice.current)
         let features = [feature]
         do {
-            let configuration = try Config(applicationId: appId, applicationLocale: locale, currentUser: user, currentMode: mode, currentTripRecorderFeatures: features)
+            let configuration = try Config(applicationId: appId, applicationLocale: locale, currentUser: user, currentTripRecorderFeatures: features)
             XCTAssertNotNil(configuration)
         } catch {
             XCTAssert(false)
@@ -61,11 +59,10 @@ class ConfigTests: XCTestCase {
         let appId = "MyAppId"
         let locale = Locale.current
         let user = User.Anonymous
-        let mode = Mode.manual
         let feature = TripRecorderFeature.Battery(UIDevice.current)
         let features = [feature]
         do {
-            let configuration = try Config(applicationId: appId, applicationLocale: locale, currentUser: user, currentMode: mode, currentTripRecorderFeatures: features)
+            let configuration = try Config(applicationId: appId, applicationLocale: locale, currentUser: user, currentTripRecorderFeatures: features)
             if let apiSessionManager = configuration?.generateAPISessionManager() as? APISessionManager {
                 XCTAssert(true)
             } else {
