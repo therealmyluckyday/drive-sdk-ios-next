@@ -9,6 +9,31 @@
 import XCTest
 import CoreLocation
 @testable import TexDriveSDK
+import RxSwift
+
+class MockConfiguration : ConfigurationProtocol {
+    var tripInfos: TripInfos
+    
+    var rxScheduler: SerialDispatchQueueScheduler = MainScheduler.instance
+    
+    var rxLog = PublishSubject<LogMessage>()
+    
+    func log(regex: NSRegularExpression, logType: LogType) {
+        
+    }
+    
+    var tripRecorderFeatures: [TripRecorderFeature]
+    let mockApiSessionManager = APISessionManagerMock()
+    
+    init(features: [TripRecorderFeature]) {
+        tripRecorderFeatures = features
+        tripInfos = TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction)
+    }
+    
+    func generateAPISessionManager() -> APISessionManagerProtocol {
+        return mockApiSessionManager
+    }
+}
 
 class ConfigTests: XCTestCase {
     

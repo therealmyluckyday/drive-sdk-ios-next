@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum User {
+public enum User: Equatable {
     case Anonymous
     case Authentified(String)
 }

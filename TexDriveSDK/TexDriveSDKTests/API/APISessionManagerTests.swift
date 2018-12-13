@@ -10,6 +10,18 @@ import XCTest
 import RxSwift
 @testable import TexDriveSDK
 
+class APISessionManagerMock: APISessionManagerProtocol {
+    func get(parameters: [String : Any], completionHandler: @escaping (Result<[String : Any]>) -> ()) {
+    }
+    
+    var isPutCalled = false
+    var dictionaryPut : [String: Any]?
+    func put(dictionaryBody: [String: Any]) {
+        isPutCalled = true
+        dictionaryPut = dictionaryBody
+    }
+}
+
 class APISessionManagerTests: XCTestCase {
     var apiSessionManager: APISessionManager?
     var rxDisposeBag: DisposeBag?

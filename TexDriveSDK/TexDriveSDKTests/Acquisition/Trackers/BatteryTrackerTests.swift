@@ -7,9 +7,6 @@
 //
 
 import XCTest
-import RxTest
-import RxBlocking
-
 @testable import TexDriveSDK
 
 class MockUIDevice: UIDevice {

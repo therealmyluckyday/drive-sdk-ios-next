@@ -14,28 +14,14 @@ import RxTest
 
 @testable import TexDriveSDK
 
-class APISessionManagerMock: APISessionManagerProtocol {
-    func get(parameters: [String : Any], completionHandler: @escaping (Result<[String : Any]>) -> ()) {
-    }
-    
-    var isPutCalled = false
-    var dictionaryPut : [String: Any]?
-    func put(dictionaryBody: [String: Any]) {
-        isPutCalled = true
-        dictionaryPut = dictionaryBody
-    }
-}
-
 class APITripTests: XCTestCase {
     // MARK: func subscribe(providerTrip: PublishSubject<Trip>)
     func testSubscribe() {
-        let publishTrip = PublishSubject<TripChunk>()
         let mock = APISessionManagerMock()
         let apiTrip = APITrip(apiSessionManager: mock)
-        let tripId = "tripId"
         let trip = TripChunk(tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
-        apiTrip.subscribe(providerTrip: publishTrip, scheduler: MainScheduler.instance)
-        publishTrip.onNext(trip)
+        
+        apiTrip.sendTrip(trip: trip)
         
         XCTAssertTrue(mock.isPutCalled)
         XCTAssertNotNil(mock.dictionaryPut)

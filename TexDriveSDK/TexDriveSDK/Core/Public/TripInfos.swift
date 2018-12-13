@@ -11,7 +11,7 @@ protocol SerializeAPIGeneralInformation {
     func serializeWithGeneralInformation(dictionary: [String: Any]) -> [String: Any]
 }
 
-public struct TripInfos {
+public struct TripInfos: Equatable {
     let appId: String
     let user: User
     let domain: Domain
