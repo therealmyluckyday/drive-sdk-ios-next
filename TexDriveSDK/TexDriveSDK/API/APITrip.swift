@@ -11,26 +11,16 @@ import RxSwift
 
 protocol APITripProtocol {
     init(apiSessionManager: APISessionManagerProtocol)
-    func subscribe(providerTrip: PublishSubject<TripChunk>, scheduler: ImmediateSchedulerType)
 }
 
 class APITrip: APITripProtocol {
     // MARK: Property
-    private let rxDisposeBag = DisposeBag()
     private let sessionManager : APISessionManagerProtocol
 
     
     // MARK: APITripProtocol Protocol Method
     required init(apiSessionManager: APISessionManagerProtocol) {
         self.sessionManager = apiSessionManager
-    }
-    
-    func subscribe(providerTrip: PublishSubject<TripChunk>, scheduler: ImmediateSchedulerType) {
-        providerTrip.asObservable().observeOn(scheduler).subscribe { [weak self](event) in
-            if let trip = event.element {
-                self?.sendTrip(trip: trip)
-            }
-        }.disposed(by: rxDisposeBag)
     }
     
     func sendTrip(trip: TripChunk) {

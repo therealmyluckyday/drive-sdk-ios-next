@@ -40,7 +40,7 @@ class MotionBufferTests: XCTestCase {
         motionBuffer.append(fix: motion1)
         motionBuffer.append(fix: motion1)
         
-        subscribe.dispose()
         XCTAssertTrue(isSend)
+        subscribe.dispose()
     }
 }

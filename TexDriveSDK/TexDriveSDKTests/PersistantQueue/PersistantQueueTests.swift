@@ -9,7 +9,6 @@
 import XCTest
 @testable import TexDriveSDK
 @testable import RxSwift
-@testable import RxBlocking
 
 class PersistantQueueTests: XCTestCase {
     func testProviderTripStart100FixSend() {

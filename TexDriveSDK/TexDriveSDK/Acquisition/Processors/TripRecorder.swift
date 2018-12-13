@@ -22,6 +22,7 @@ public class TripRecorder: TripRecorderProtocol {
     internal let persistantQueue: PersistantQueue
     private var rxEventType = PublishSubject<EventType>()
     private var rxFix = PublishSubject<Fix>()
+    private let rxDisposeBag = DisposeBag()
     private let apiTrip: APITrip
     
     // MARK: TripRecorder Protocol    
@@ -36,8 +37,7 @@ public class TripRecorder: TripRecorderProtocol {
     // MARK: Lifecycle
     public init(config: ConfigurationProtocol, sessionManager: APISessionManagerProtocol) {
         persistantQueue = PersistantQueue(eventType: rxEventType, fixes: rxFix, scheduler: config.rxScheduler, tripInfos: config.tripInfos)
-        apiTrip = APITrip(apiSessionManager: config.generateAPISessionManager())
-        apiTrip.subscribe(providerTrip: persistantQueue.providerTrip, scheduler: config.rxScheduler)
+        apiTrip = APITrip(apiSessionManager: sessionManager)
         collector = FixCollector(eventsType: rxEventType, fixes: rxFix, scheduler: config.rxScheduler)
         
         config.tripRecorderFeatures.forEach { (feature) in
@@ -60,5 +60,14 @@ public class TripRecorder: TripRecorderProtocol {
                 break
             }
         }
+        self.subscribe(providerTrip: persistantQueue.providerTrip, scheduler: config.rxScheduler)
+    }
+    
+    func subscribe(providerTrip: PublishSubject<TripChunk>, scheduler: ImmediateSchedulerType) {
+        providerTrip.asObservable().observeOn(scheduler).subscribe { [weak self](event) in
+            if let trip = event.element {
+                self?.apiTrip.sendTrip(trip: trip)
+            }
+            }.disposed(by: rxDisposeBag)
     }
 }
