@@ -20,7 +20,7 @@ class ServiceTests: XCTestCase {
         
         let service = TexServices(configuration: configuration)
         
-        XCTAssertEqual(service.config.tripRecorderFeatures.count, configuration.tripRecorderFeatures.count)
+        XCTAssertEqual(service.configuration.tripRecorderFeatures.count, configuration.tripRecorderFeatures.count)
     }
     
     func testService() {
@@ -32,7 +32,7 @@ class ServiceTests: XCTestCase {
         
         let service = TexServices.service(withConfiguration: configuration)
         
-        XCTAssertEqual(service.config.tripRecorderFeatures.count, configuration.tripRecorderFeatures.count)
+        XCTAssertEqual(service.configuration.tripRecorderFeatures.count, configuration.tripRecorderFeatures.count)
     }
     
     // MARK : func getScoringClient() -> (ScoringClient)

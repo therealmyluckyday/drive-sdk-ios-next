@@ -23,7 +23,7 @@ class ScoringClientTest: XCTestCase {
         
         do {
             let configuration = try Config(applicationId: appId, applicationLocale: Locale.current, currentUser: user, currentTripRecorderFeatures: [TripRecorderFeature]())
-            scoringClient = ScoringClient(sessionManager: configuration!.generateAPISessionManager())
+            scoringClient = ScoringClient(sessionManager: configuration!.generateAPISessionManager(), locale: Locale.current)
         } catch {
             XCTAssert(false)
         }

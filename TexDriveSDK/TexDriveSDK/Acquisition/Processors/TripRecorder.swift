@@ -35,12 +35,12 @@ public class TripRecorder: TripRecorderProtocol {
     }
     
     // MARK: Lifecycle
-    public init(config: ConfigurationProtocol, sessionManager: APISessionManagerProtocol) {
-        persistantQueue = PersistantQueue(eventType: rxEventType, fixes: rxFix, scheduler: config.rxScheduler, tripInfos: config.tripInfos)
+    public init(configuration: TripRecorderConfiguration, sessionManager: APISessionManagerProtocol) {
+        persistantQueue = PersistantQueue(eventType: rxEventType, fixes: rxFix, scheduler: configuration.rxScheduler, tripInfos: configuration.tripInfos)
         apiTrip = APITrip(apiSessionManager: sessionManager)
-        collector = FixCollector(eventsType: rxEventType, fixes: rxFix, scheduler: config.rxScheduler)
+        collector = FixCollector(eventsType: rxEventType, fixes: rxFix, scheduler: configuration.rxScheduler)
         
-        config.tripRecorderFeatures.forEach { (feature) in
+        configuration.tripRecorderFeatures.forEach { (feature) in
             switch feature {
             case .Location(let locationManager):
                 let locationTracker = LocationTracker(sensor: locationManager)
@@ -55,12 +55,12 @@ public class TripRecorder: TripRecorderProtocol {
                 collector.collect(tracker: callTracker)
                 break
             case .Motion(let motionManager):
-                let motionTracker = MotionTracker(sensor: motionManager, scheduler: config.rxScheduler)
+                let motionTracker = MotionTracker(sensor: motionManager, scheduler: configuration.rxScheduler)
                 collector.collect(tracker: motionTracker)
                 break
             }
         }
-        self.subscribe(providerTrip: persistantQueue.providerTrip, scheduler: config.rxScheduler)
+        self.subscribe(providerTrip: persistantQueue.providerTrip, scheduler: configuration.rxScheduler)
     }
     
     func subscribe(providerTrip: PublishSubject<TripChunk>, scheduler: ImmediateSchedulerType) {

@@ -11,19 +11,19 @@ import Foundation
 public class TexServices {
     public let tripRecorder: TripRecorder
     public let scoringClient: ScoringClientProtocol
-    var config: ConfigurationProtocol {
+    var configuration: ConfigurationProtocol {
         get {
-            return _config
+            return _configuration
         }
     }
     
-    private var _config: ConfigurationProtocol
+    private var _configuration: ConfigurationProtocol
     
     public init(configuration: ConfigurationProtocol) {
-        _config = configuration
-        let sessionManager = configuration.generateAPISessionManager()
-        tripRecorder = TripRecorder(config: configuration, sessionManager: sessionManager)
-        scoringClient = ScoringClient(sessionManager: sessionManager)
+        _configuration = configuration
+        let sessionManager = APISessionManager(configuration: configuration.tripInfos)
+        tripRecorder = TripRecorder(configuration: configuration, sessionManager: sessionManager)
+        scoringClient = ScoringClient(sessionManager: sessionManager, locale: configuration.locale)
     }
     
     class func service(withConfiguration configuration: ConfigurationProtocol) -> TexServices {

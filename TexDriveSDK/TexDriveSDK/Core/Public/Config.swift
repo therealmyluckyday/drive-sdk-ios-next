@@ -23,28 +23,46 @@ public enum ConfigurationError: Error {
     case MotionNotAvailable(String)
 }
 
-public protocol ConfigurationProtocol {
-    var tripRecorderFeatures: [TripRecorderFeature] { get }
-    var rxScheduler: SerialDispatchQueueScheduler { get }
-    var rxLog: PublishSubject<LogMessage> { get }
-    var tripInfos: TripInfos { get }
-    func log(regex: NSRegularExpression, logType: LogType)
-    func generateAPISessionManager() -> APISessionManagerProtocol
+public protocol ConfigurationProtocol: LogConfiguration, TripRecorderConfiguration , ScoringClientConfiguration {
 }
 
-public class Config: ConfigurationProtocol {
+public protocol TripRecorderConfiguration: APISessionManagerConfiguration {
+    var tripRecorderFeatures: [TripRecorderFeature] { get }
+    var rxScheduler: SerialDispatchQueueScheduler { get }
+}
+
+public protocol LogConfiguration {
+    var rxLog: PublishSubject<LogMessage> { get }
+    func log(regex: NSRegularExpression, logType: LogType)
+}
+
+public protocol APISessionManagerConfiguration {
+    var tripInfos: TripInfos { get }
+}
+
+public protocol ScoringClientConfiguration {
+    var locale: Locale { get }
+}
+
+public class Config: ConfigurationProtocol, ScoringClientConfiguration, APISessionManagerConfiguration {
+    // LogConfiguration
     public var rxLog: PublishSubject<LogMessage> {
         get {
             return logFactory.rxLogOutput
         }
     }
+    let logFactory = LogRx()
+    
     public let tripRecorderFeatures: [TripRecorderFeature]
     public let rxScheduler = MainScheduler.asyncInstance
-    let locale: Locale
-    let logFactory = LogRx()
+    
+    // ScoringClientConfiguration
+    public let locale: Locale
+
+    // APISessionManagerConfiguration
     public let tripInfos: TripInfos
     
-    public convenience init?(applicationId: String, applicationLocale: Locale, currentUser: User) throws {
+    public convenience init?(applicationId: String, applicationLocale: Locale = Locale.current, currentUser: User = User.Anonymous) throws {
         let locationfeature : TripRecorderFeature = TripRecorderFeature.Location(CLLocationManager())
         let batteryfeature : TripRecorderFeature = TripRecorderFeature.Battery(UIDevice.current)
         let phoneCallFeature : TripRecorderFeature = TripRecorderFeature.PhoneCall(CXCallObserver())
@@ -60,7 +78,15 @@ public class Config: ConfigurationProtocol {
     }
     
     init?(applicationId: String, applicationLocale: Locale, currentUser: User, currentTripRecorderFeatures: [TripRecorderFeature]) throws {
-        try currentTripRecorderFeatures.forEach { (feature) in
+        try Config.activable(features: currentTripRecorderFeatures)
+        tripInfos = TripInfos(appId: applicationId, user: currentUser, domain: Domain.Preproduction)
+        locale = applicationLocale
+        tripRecorderFeatures = currentTripRecorderFeatures
+        Log.configure(logger: logFactory)
+    }
+    
+    static func activable(features: [TripRecorderFeature]) throws {
+        try features.forEach { (feature) in
             switch (feature, feature.canActivate()) {
             case (TripRecorderFeature.Location, false):
                 Log.print("Feature \(feature) Can not activate", type: .Error)
@@ -75,13 +101,9 @@ public class Config: ConfigurationProtocol {
                 break
             }
         }
-       tripInfos = TripInfos(appId: applicationId, user: currentUser, domain: Domain.Preproduction)
-        locale = applicationLocale
-        tripRecorderFeatures = currentTripRecorderFeatures
-        Log.configure(logger: logFactory)
-        
     }
     
+    // LogConfiguration
     public func log(regex: NSRegularExpression, logType: LogType) {
         Log.configure(regex: regex, logType: logType)
     }
@@ -90,3 +112,4 @@ public class Config: ConfigurationProtocol {
         return APISessionManager(configuration: tripInfos)
     }
 }
+

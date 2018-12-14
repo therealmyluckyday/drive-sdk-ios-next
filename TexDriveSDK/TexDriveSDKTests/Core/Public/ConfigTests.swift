@@ -12,6 +12,8 @@ import CoreLocation
 import RxSwift
 
 class MockConfiguration : ConfigurationProtocol {
+    var locale: Locale = Locale.current
+    
     var tripInfos: TripInfos
     
     var rxScheduler: SerialDispatchQueueScheduler = MainScheduler.instance
