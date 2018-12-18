@@ -14,7 +14,7 @@ struct TripConstant {
 
 class TripChunk: Collection {
     // MARK: Property
-    let tripId: String //GUI generated. Format MUST be in capital
+    let tripId: NSUUID
     private var fixes = [Fix]()
     var event: Event?
     let tripInfos: TripInfos
@@ -58,15 +58,14 @@ class TripChunk: Collection {
         self.init(tripId: TripChunk.generateTripId(), tripInfos: tripInfos)
     }
     
-    init(tripId: String, tripInfos: TripInfos) {
-        self.tripId = tripId.uppercased()
+    init(tripId: NSUUID, tripInfos: TripInfos) {
+        self.tripId = tripId
         self.tripInfos = tripInfos
     }
     
     // Private Method
-    // GUID voir uuid
-    static func generateTripId() -> String {
-        return UIDevice.current.identifierForVendor!.uuidString + "\(Date().timeIntervalSince1970)"
+    static func generateTripId() -> NSUUID {
+        return NSUUID()
     }
     
     // MARK: Serialize
@@ -76,7 +75,7 @@ class TripChunk: Collection {
             fix.append(event.serialize())
         }
         var dictionary = [String : Any]()
-        dictionary["trip_id"] = self.tripId
+        dictionary["trip_id"] = self.tripId.uuidString
         dictionary["fixes"] = fix
 
         return tripInfos.serializeWithGeneralInformation(dictionary: dictionary)
