@@ -88,11 +88,7 @@ class ConfigTests: XCTestCase {
         let features = [feature]
         do {
             let configuration = try Config(applicationId: appId, applicationLocale: locale, currentUser: user, currentTripRecorderFeatures: features)
-            if let apiSessionManager = configuration?.generateAPISessionManager() as? APISessionManager {
-                XCTAssert(true)
-            } else {
-                XCTAssert(false)
-            }
+            XCTAssertNotNil(configuration?.generateAPISessionManager() as? APISessionManager)
         } catch {
             XCTAssert(false)
         }
