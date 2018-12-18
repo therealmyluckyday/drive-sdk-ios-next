@@ -44,6 +44,6 @@ class ServiceTests: XCTestCase {
         let configuration = MockConfiguration(features: features)
         let service = TexServices.service(withConfiguration: configuration)
         
-        let scoringClient = service.getScoringClient()
+        let _ = service.getScoringClient()
     }
 }

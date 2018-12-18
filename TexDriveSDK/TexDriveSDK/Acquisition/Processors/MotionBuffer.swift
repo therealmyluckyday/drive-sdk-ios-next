@@ -22,7 +22,6 @@ struct MotionBufferConstant {
 class MotionBuffer {
     // MARK: Property
     private var motions = [MotionFix]()
-    private var crashMotions = [MotionFix]()
     private var crashMotionFix: MotionFix?
     private var futureBufferSizeInSec: Double
     var rxCrashMotionFix = PublishSubject<[MotionFix]>()
@@ -37,36 +36,33 @@ class MotionBuffer {
         // Check if the 5 second after crash is passed
         if let crashMotionFix = self.crashMotionFix, fix.timestamp >= crashMotionFix.timestamp + futureBufferSizeInSec {
             // Launch crash buffer
-            Log.print("Dispatch CRASH Motion LOG \(fix.timestamp)")
+            Log.print("Dispatch Crash Motion crashMotionFix timestamp \(crashMotionFix.timestamp)")
+            Log.print("Dispatch Crash Motion fix timestamp \(fix.timestamp)")
             dispatchCrashHandler(crashMotion: crashMotionFix)
         }
         
         motions.append(fix)
         if fix.isCrashDetected {
-            // Only add Fix from different timestamp
-            if let lastFix = crashMotions.last, fix.timestamp == lastFix.timestamp {
-                return
+            // Crash timeline, we need to find the highest crash point between the old crash fix and the new one
+            Log.print("new fix isCrashDetected \(fix.timestamp)")
+            if let crashMotionFix = self.crashMotionFix {
+                if fix.normL2Acceleration() > crashMotionFix.normL2Acceleration() {
+                    self.crashMotionFix = fix
+                }
             }
-            Log.print("fix isCrashDetected \(fix.timestamp)")
-            crashMotions.append(fix)
+            else {
+                self.crashMotionFix = fix
+            }
+            
+            if let crashMotionFix = self.crashMotionFix {
+                // Clean Before
+                cleanBuffer(before: crashMotionFix.timestamp)
+            }
         }
         else {
-            // Crash timeline finished we need to find the highest crash point
-            if crashMotions.count > 0 {
-                let highestPeakAcceleration = findHighestPeakAcceleration(motions: crashMotions)
-                
-                // Compare with current Crash
-                if let fix = crashMotionFix, fix.normL2Acceleration() > highestPeakAcceleration.normL2Acceleration() || fix.timestamp == highestPeakAcceleration.timestamp {
-                    // Do Nothing
-                    return
-                }
-                else {
-                    // By changing crashMotionFix it will cancel last previous crash timer
-                    crashMotionFix = highestPeakAcceleration
-                    
-                    // Clean Before
-                    cleanBuffer(before: highestPeakAcceleration.timestamp)
-                }
+            if let crashMotionFix = self.crashMotionFix {
+                // Clean Before
+                cleanBuffer(before: crashMotionFix.timestamp)
             }
             else {
                 // Clean unused buffer
@@ -80,18 +76,6 @@ class MotionBuffer {
         rxCrashMotionFix.onNext(motions)
         // Reset Crash Info
         crashMotionFix = nil
-        // Only remove past
-        crashMotions = [MotionFix]()
-    }
-    
-    private func findHighestPeakAcceleration(motions: [MotionFix]) -> MotionFix {
-        var highestPeakAcceleration = motions.first!
-        for fix in crashMotions {
-            if fix.normL2Acceleration() > highestPeakAcceleration.normL2Acceleration() {
-                highestPeakAcceleration = fix
-            }
-        }
-        return highestPeakAcceleration
     }
     
     private func cleanBuffer() {
@@ -111,6 +95,9 @@ class MotionBuffer {
                 else {
                     break
                 }
+            }
+            if (motions.count - i) > MotionBufferConstant.bufferMaxLength() {
+                i = motions.count - MotionBufferConstant.bufferMaxLength()
             }
             motions = Array(motions[i..<motions.count])
         }
