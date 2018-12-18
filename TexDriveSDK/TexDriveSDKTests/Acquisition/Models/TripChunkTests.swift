@@ -160,11 +160,9 @@ class TripChunkTests: XCTestCase {
     
     // MARK: init(tripId: String)
     func testConvenienceInit() {
-        let tripId = UIDevice.current.identifierForVendor!.uuidString
-        
         let trip = TripChunk(tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
-        
-        XCTAssertTrue(trip.tripId.contains(tripId))
+        let tripId = TripChunk.generateTripId()
+        XCTAssertNotEqual(trip.tripId, tripId)
     }
     
     func testInitWithTripId() {
@@ -302,14 +300,17 @@ class TripChunkTests: XCTestCase {
         XCTAssertEqual(motionResult["timestamp"] as! Int, Int(realtimestamp*1000))
     }
     
-    
-    
-    
     func testWithNoEventsType() {
         let tripId = "MYTRIIIPID"
         let trip = TripChunk(tripId: tripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
         let event = trip.event
         XCTAssertNil(event)
-        
+    }
+    
+    // MARK : static func generateTripId() -> String
+    func testGenerateTripId() {
+        let tripId1 = TripChunk.generateTripId()
+        let tripId2 = TripChunk.generateTripId()
+        XCTAssertNotEqual(tripId2, tripId1)
     }
 }

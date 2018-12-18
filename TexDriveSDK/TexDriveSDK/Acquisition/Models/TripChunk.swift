@@ -66,7 +66,7 @@ class TripChunk: Collection {
     // Private Method
     // GUID voir uuid
     static func generateTripId() -> String {
-        return UIDevice.current.identifierForVendor!.uuidString + "\(Date().timeIntervalSince1970)"
+        return NSUUID().uuidString
     }
     
     // MARK: Serialize
