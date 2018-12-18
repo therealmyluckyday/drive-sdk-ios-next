@@ -160,13 +160,15 @@ class TripChunkTests: XCTestCase {
     
     // MARK: init(tripId: String)
     func testConvenienceInit() {
-        let trip = TripChunk(tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
+        let uuid = NSUUID(uuidString: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F")!
+        let trip = TripChunk(tripId: uuid , tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
         let tripId = TripChunk.generateTripId()
         XCTAssertNotEqual(trip.tripId, tripId)
+        XCTAssertEqual(trip.tripId.uuidString, "E621E1F8-C36C-495A-93FC-0C247A3E6E5F")
     }
     
     func testInitWithTripId() {
-        let tripId = "MYTRIIIPID"
+        let tripId = NSUUID(uuidString: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F")!
         
         let trip = TripChunk(tripId: tripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
         
@@ -175,19 +177,19 @@ class TripChunkTests: XCTestCase {
     
     // MARK: func serialize() -> [String : Any]
     func testSerializeEmpty() {
-        let tripId = "MYTRIIIPID"
+        let tripId = NSUUID(uuidString: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F")!
         let trip = TripChunk(tripId: tripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
         
         let result = trip.serialize()
         
         let detailResult = result["fixes"] as! [[String : Any]]
         XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
-        XCTAssertEqual(result["trip_id"] as! String, tripId)
+        XCTAssertEqual(result["trip_id"] as! String, tripId.uuidString)
         XCTAssertEqual(detailResult.count, 0)
     }
     
     func testSerializeWithStartEventsType() {
-        let tripId = "MYTRIIIPID"
+        let tripId = NSUUID(uuidString: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F")!
         let trip = TripChunk(tripId: tripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
         trip.append(eventType: EventType.start)
         
@@ -195,7 +197,7 @@ class TripChunkTests: XCTestCase {
         
         let detailResult = result["fixes"] as! [[String : Any]]
         XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
-        XCTAssertEqual(result["trip_id"] as! String, tripId)
+        XCTAssertEqual(result["trip_id"] as! String, tripId.uuidString)
         XCTAssertEqual(detailResult.count, 1)
         let eventFix = detailResult[0]
         XCTAssertNotNil(eventFix["timestamp"])
@@ -206,7 +208,7 @@ class TripChunkTests: XCTestCase {
     
     
     func testSerializeWithBatteryFix() {
-        let tripId = "MYTRIIIPID"
+        let tripId = NSUUID(uuidString: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F")!
         let trip = TripChunk(tripId: tripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
         // Battery Fix
         let timestamp = Date().timeIntervalSince1970
@@ -219,7 +221,7 @@ class TripChunkTests: XCTestCase {
         
         let detailResult = result["fixes"] as! [[String : Any]]
         XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
-        XCTAssertEqual(result["trip_id"] as! String, tripId)
+        XCTAssertEqual(result["trip_id"] as! String, tripId.uuidString)
         XCTAssertEqual(detailResult.count, 1)
         let batteryFixResult = detailResult[0]
         let batteryResult = batteryFixResult["battery"] as! [String : Any]
@@ -230,7 +232,7 @@ class TripChunkTests: XCTestCase {
     }
     
     func testSerializeWithLocationFix() {
-        let tripId = "MYTRIIIPID"
+        let tripId = NSUUID(uuidString: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F")!
         let trip = TripChunk(tripId: tripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
         // Location Fix
         let timestamp = Date().timeIntervalSince1970
@@ -247,7 +249,7 @@ class TripChunkTests: XCTestCase {
         
         let detailResult = result["fixes"] as! [[String : Any]]
         XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
-        XCTAssertEqual(result["trip_id"] as! String, tripId)
+        XCTAssertEqual(result["trip_id"] as! String, tripId.uuidString)
         XCTAssertEqual(detailResult.count, 1)
         let locationFixResult = detailResult[0]
         let locationDetailResult = locationFixResult["location"] as! [String : Any]
@@ -262,7 +264,7 @@ class TripChunkTests: XCTestCase {
     }
     
     func testSerializeWithMotionFix() {
-        let tripId = "MYTRIIIPID"
+        let tripId = NSUUID(uuidString: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F")!
         let trip = TripChunk(tripId: tripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
         // Motion Fix
         let timestamp = Date().timeIntervalSinceNow
@@ -277,7 +279,7 @@ class TripChunkTests: XCTestCase {
         
         let detailResult = result["fixes"] as! [[String : Any]]
         XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
-        XCTAssertEqual(result["trip_id"] as! String, tripId)
+        XCTAssertEqual(result["trip_id"] as! String, tripId.uuidString)
         XCTAssertEqual(detailResult.count, 1)
     
         XCTAssertTrue(JSONSerialization.isValidJSONObject(result))
@@ -301,7 +303,7 @@ class TripChunkTests: XCTestCase {
     }
     
     func testWithNoEventsType() {
-        let tripId = "MYTRIIIPID"
+        let tripId = NSUUID(uuidString: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F")!
         let trip = TripChunk(tripId: tripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
         let event = trip.event
         XCTAssertNil(event)
