@@ -17,7 +17,7 @@ class MotionTracker: Tracker {
     private var operationQueue = OperationQueue()
     private let accelerationThreshold = 2.5
     private let motionBuffer: MotionBuffer
-    private var rxDisposeBag = DisposeBag()
+    private var rxDisposeBag : DisposeBag?
     private let rxScheduler: SerialDispatchQueueScheduler
     
     // MARK: Lifecycle
@@ -34,14 +34,15 @@ class MotionTracker: Tracker {
     typealias T = MotionFix
 
     func enableTracking() {
+        let disposeBag = DisposeBag()
         motionBuffer.rxCrashMotionFix.asObservable().observeOn(rxScheduler).subscribe { [weak self](event) in
             if let motions = event.element {
                 for motion in motions {
                     self?.provideFix().onNext(Result.Success(motion))
                 }
             }
-        }.disposed(by: rxDisposeBag)
-        
+        }.disposed(by: disposeBag)
+        rxDisposeBag = disposeBag
         motionSensor.startDeviceMotionUpdates(using: CMAttitudeReferenceFrame.xArbitraryCorrectedZVertical, to: operationQueue) { [weak self](motion, error) in
             guard let motion = motion, error == nil else {
                 self?.provideFix().onNext(Result.Failure(error!))
@@ -56,6 +57,7 @@ class MotionTracker: Tracker {
     
     func disableTracking() {
         motionSensor.stopDeviceMotionUpdates()
+        rxDisposeBag = nil
     }
     
     func provideFix() -> PublishSubject<Result<MotionFix>> {

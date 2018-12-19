@@ -32,6 +32,7 @@ class CallTracker: NSObject, Tracker, CXCallObserverDelegate {
     func disableTracking() {
         callObserver.setDelegate(nil, queue: nil)
     }
+    
     func provideFix() -> PublishSubject<Result<CallFix>> {
         return rxCallProviderFix
     }

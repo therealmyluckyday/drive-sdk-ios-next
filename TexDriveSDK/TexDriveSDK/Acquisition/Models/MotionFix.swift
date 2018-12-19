@@ -15,7 +15,7 @@ struct ConstantMotion {
     static let gravity = 9.81
 }
 
-struct XYZAxisValues  {
+struct XYZAxisValues: Equatable {
     let x: Double
     let y: Double
     let z: Double
@@ -100,5 +100,11 @@ extension MotionFix {
         let y = field.y
         let z = field.z
         return XYZAxisValues(x: x, y: y, z: z)
+    }
+}
+extension MotionFix: Equatable {
+    // MARK : Equatable
+    static func == (lhs: MotionFix, rhs: MotionFix) -> Bool {
+        return (lhs.acceleration == rhs.acceleration) && (lhs.magnetometer == rhs.magnetometer) && (lhs.gravity == rhs.gravity) && (lhs.timestamp == rhs.timestamp) && (lhs.isCrashDetected == rhs.isCrashDetected)
     }
 }

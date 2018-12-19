@@ -166,7 +166,9 @@ class BatteryTrackerTests: XCTestCase {
         let state = UIDeviceBatteryState.unplugged
         device!.mockBatteryLevel = level
         device!.mockBatteryState = state
+        var isSubscritionCalled = false
         let subscription = tracker!.provideFix().asObservable().subscribe { (event) in
+            isSubscritionCalled = true
             switch (event.element) {
             case .Success(let batteryFix)?:
                 XCTAssertEqual(batteryFix.level, level)
@@ -181,6 +183,7 @@ class BatteryTrackerTests: XCTestCase {
         NotificationCenter.default.post(name: NSNotification.Name.UIDeviceBatteryStateDidChange, object: nil)
         
         subscription.dispose()
+        XCTAssertTrue(isSubscritionCalled)
     }
     
     func testEnableTracking_UIDeviceBatteryLevelDidChange() {
@@ -193,7 +196,9 @@ class BatteryTrackerTests: XCTestCase {
         let state = UIDeviceBatteryState.unplugged
         device!.mockBatteryLevel = level
         device!.mockBatteryState = state
+        var isSubscritionCalled = false
         let subscription = tracker!.provideFix().asObservable().subscribe { (event) in
+            isSubscritionCalled = true
             switch (event.element) {
             case .Success(let batteryFix)?:
                 XCTAssertEqual(batteryFix.level, level)
@@ -206,17 +211,50 @@ class BatteryTrackerTests: XCTestCase {
         }
         
         NotificationCenter.default.post(name: NSNotification.Name.UIDeviceBatteryLevelDidChange, object: nil)
-        
+
         subscription.dispose()
+        XCTAssertTrue(isSubscritionCalled)
     }
     
     // MARK: func disableTracking()
     func testDisableTracking_monitoringEnabled() {
         device!.mockIsBatteryMonitoringEnabled = true
         
+        tracker!.enableTracking()
+        
         tracker!.disableTracking()
         
         XCTAssertFalse(device!.mockIsBatteryMonitoringEnabled)
+        
+        device!.mockBatteryLevel = Float(0.00)
+        device!.mockBatteryState = UIDeviceBatteryState.charging
+        
+        let level = Float(0.75)
+        let state = UIDeviceBatteryState.unplugged
+        device!.mockBatteryLevel = level
+        device!.mockBatteryState = state
+        var isSubscritionCalled = false
+        let subscription = tracker!.provideFix().asObservable().subscribe { (event) in
+            isSubscritionCalled = true
+        }
+    
+        
+        NotificationCenter.default.post(name: NSNotification.Name.UIDeviceBatteryLevelDidChange, object: nil)
+        
+        subscription.dispose()
+        XCTAssertFalse(isSubscritionCalled)
+        
+        
+        var isSubscritionStateCalled = false
+        let subscriptionState = tracker!.provideFix().asObservable().subscribe { (event) in
+            isSubscritionStateCalled = true
+            
+        }
+        
+        NotificationCenter.default.post(name: NSNotification.Name.UIDeviceBatteryStateDidChange, object: nil)
+        
+        subscriptionState.dispose()
+        XCTAssertFalse(isSubscritionStateCalled)
     }
     
 

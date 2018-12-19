@@ -27,9 +27,8 @@ class LocationTracker: NSObject, Tracker, CLLocationManagerDelegate {
     // MARK: Tracker Protocol
     func enableTracking() {
         guard type(of: locationManager).authorizationStatus() != .notDetermined else {
-            let error = CLError(_nsError: NSError(domain: "CLLocationManagerNotDetermined", code: CLError.denied.rawValue, userInfo: nil))
+            let error = CLError(_nsError: NSError(domain: "CLLocationManagerNotDetermined requestAlwaysAuthorization()", code: CLError.denied.rawValue, userInfo: nil))
             rxLocationFix.onNext(Result.Failure(error))
-//            locationManager.requestAlwaysAuthorization() -> REsponsability to user
             return
         }
         
