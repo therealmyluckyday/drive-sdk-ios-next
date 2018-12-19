@@ -43,7 +43,6 @@ class FixCollector {
     
     func stopCollect() {
         self.rxEventType.onNext(EventType.stop)
-//        self.rxEventType.onCompleted()
         for tracker in trackers {
             tracker.disableTracking()
         }

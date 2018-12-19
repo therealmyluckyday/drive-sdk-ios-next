@@ -127,14 +127,15 @@ class MotionBufferTests: XCTestCase {
             XCTAssertNotNil(event.element)
             if let motionsFix = event.element {
                 print(motionsFix.count)
-                XCTAssertEqual(motionsFix.count, 1500)
-                XCTAssert(motionsFix.first!.timestamp < motionCrashHighest.timestamp - 9)
+                XCTAssert(motionsFix.count > 1490)
+                XCTAssert(motionsFix.count < 1501)
+                XCTAssert(motionsFix.first!.timestamp < motionCrashHighest.timestamp - 9, "motionsFix.first!.timestamp \(motionsFix.first!.timestamp) motionCrashHighest.timestamp \(motionCrashHighest.timestamp)")
                 XCTAssert(motionsFix.last!.timestamp > motionCrashHighest.timestamp + 4.9)
             }
         })
         
-        for i in 0...1300 {
-            let motionhz = MotionFix(timestamp: (timestamp - 12) + TimeInterval(i/100), accelerationMotion: accelerationMotion, gravityMotion: gravityMotion, magnetometerMotion: magnetometerMotion, crashDetected: false)
+        for i in 0...1600 {
+            let motionhz = MotionFix(timestamp: (timestamp - 16) + TimeInterval(i/100), accelerationMotion: accelerationMotion, gravityMotion: gravityMotion, magnetometerMotion: magnetometerMotion, crashDetected: false)
             motionBuffer.append(fix:motionhz)
         }
         
@@ -180,7 +181,8 @@ class MotionBufferTests: XCTestCase {
             XCTAssertNotNil(event.element)
             if let motionsFix = event.element {
                 print(motionsFix.count)
-                XCTAssertEqual(motionsFix.count, 1500)
+                XCTAssert(motionsFix.count > 1490)
+                XCTAssert(motionsFix.count < 1501)
                 XCTAssert(motionsFix.first!.timestamp < motionCrashHighest.timestamp - 9)
                 XCTAssert(motionsFix.last!.timestamp > motionCrashHighest.timestamp + 4.9)
             }

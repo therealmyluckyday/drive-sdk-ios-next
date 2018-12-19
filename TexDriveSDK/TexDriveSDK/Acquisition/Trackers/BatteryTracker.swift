@@ -42,7 +42,9 @@ class BatteryTracker: Tracker {
     func disableTracking() {
         device.isBatteryMonitoringEnabled = false
         rxSubscriptionBatteryLevel?.dispose()
+        rxSubscriptionBatteryLevel = nil
         rxSubscriptionBatteryState?.dispose()
+        rxSubscriptionBatteryState = nil
     }
     
     func provideFix() -> PublishSubject<Result<BatteryFix>> {
