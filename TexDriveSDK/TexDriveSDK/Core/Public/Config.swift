@@ -51,7 +51,11 @@ public class Config: ConfigurationProtocol {
         let sensor = CMMotionManager()
         let motionFeature = TripRecorderFeature.Motion(sensor)
 
+        #if targetEnvironment(simulator)
         let tripRecorderFeatures = [locationfeature, batteryfeature, phoneCallFeature]
+        #else
+        let tripRecorderFeatures = [locationfeature, batteryfeature, phoneCallFeature, motionFeature]
+        #endif
         try self.init(applicationId: applicationId, applicationLocale: applicationLocale, currentUser: currentUser, currentTripRecorderFeatures: tripRecorderFeatures)
     }
     
