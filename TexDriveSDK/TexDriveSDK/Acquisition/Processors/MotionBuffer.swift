@@ -19,6 +19,39 @@ struct MotionBufferConstant {
     }
 }
 
+/**
+
+ func append(fix: MotionFix)
+ 
+     +----+    crashMotionFix!=nil
+     |fix +-------------+
+     +----+             |
+                        |
+              +----FALSE+TRUE-->fix.timestamp > crashMotionfix.timestamp + 5 seconds
+              |                               |
+              +------------------------FALSE--+--TRUE+-------+
+              v                                              v
+             append(fix)<-------------------------------+dispatchCrashHandler
+                 +
+                 |
+                 fix.isCrashDetected
+                 |
+          +--TRUE+FALSE---------------------------------------------+
+          |                                                         |
+          |                                                         |
+          v                                                         |
+crashMotionFix!=nil                                                 |
+          |                                                         |
+     FALSE+TRUE--------------+                                      |
+      |                      |                                      |
+      |                      v                                      |
+      +-TRUE+fix.acceleration>crashMotionFix.acceleration+FALSE-----+
+      |                                                             |
+      v                                                             v
+ crashMotionFix=fix+---------------------------------------->cleanBuffer
+ 
+ */
+
 class MotionBuffer {
     // MARK: Property
     private var motions = [MotionFix]()
@@ -61,7 +94,7 @@ class MotionBuffer {
         }
         else {
             if let crashMotionFix = self.crashMotionFix {
-                // Clean Before
+                // Clean buffer Xsec Before
                 cleanBuffer(before: crashMotionFix.timestamp)
             }
             else {
