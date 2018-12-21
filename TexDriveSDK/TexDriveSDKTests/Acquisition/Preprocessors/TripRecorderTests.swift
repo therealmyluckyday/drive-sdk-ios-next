@@ -32,7 +32,7 @@ class TripRecorderTests: XCTestCase {
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)
         
-        let tripRecorder = TripRecorder(config: configuration, sessionManager: configuration.generateAPISessionManager())
+        let tripRecorder = TripRecorder(configuration: configuration, sessionManager: configuration.generateAPISessionManager())
         
         var locations = [CLLocation]()
         
@@ -63,7 +63,7 @@ class TripRecorderTests: XCTestCase {
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)
         
-        let tripRecorder = TripRecorder(config: configuration, sessionManager: configuration.generateAPISessionManager())
+        let tripRecorder = TripRecorder(configuration: configuration, sessionManager: configuration.generateAPISessionManager())
         
         var locations = [CLLocation]()
         
@@ -96,7 +96,7 @@ class TripRecorderTests: XCTestCase {
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)
         configuration.rxScheduler = MainScheduler.instance
-        let tripRecorder = TripRecorder(config: configuration, sessionManager: mock)
+        let tripRecorder = TripRecorder(configuration: configuration, sessionManager: mock)
         let trip = TripChunk(tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
         
         publishTrip.onNext(trip)
@@ -122,7 +122,7 @@ class TripRecorderTests: XCTestCase {
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)
         configuration.rxScheduler = MainScheduler.instance
-        let tripRecorder = TripRecorder(config: configuration, sessionManager: mock)
+        let tripRecorder = TripRecorder(configuration: configuration, sessionManager: mock)
         let trip = TripChunk(tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
         
         tripRecorder.subscribe(providerTrip: publishTrip, scheduler: MainScheduler.instance)

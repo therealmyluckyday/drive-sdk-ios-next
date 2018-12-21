@@ -18,7 +18,7 @@ class APIScoreTest: XCTestCase {
         super.setUp()
         rxDisposeBag = DisposeBag()
         let apiSessionManager = APISessionManager(configuration: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
-        apiScore = APIScore(apiSessionManager: apiSessionManager)
+        apiScore = APIScore(apiSessionManager: apiSessionManager, locale: Locale.current)
     }
     
     override func tearDown() {
@@ -27,7 +27,7 @@ class APIScoreTest: XCTestCase {
     
     func testInit() {
         let apiSessionManager = APISessionManager(configuration: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
-        apiScore = APIScore(apiSessionManager: apiSessionManager)
+        apiScore = APIScore(apiSessionManager: apiSessionManager, locale: Locale.current)
     }
     
     func testGetScore() {

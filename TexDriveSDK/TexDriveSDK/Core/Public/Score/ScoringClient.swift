@@ -17,8 +17,8 @@ public protocol ScoringClientProtocol {
 public class ScoringClient: ScoringClientProtocol {
     let apiScore: APIScoreProtocol
     
-    init(sessionManager: APISessionManagerProtocol) {
-        apiScore = APIScore(apiSessionManager: sessionManager)
+    init(sessionManager: APISessionManagerProtocol, locale: Locale) {
+        apiScore = APIScore(apiSessionManager: sessionManager, locale: locale)
     }
     
     // MARK : SoringClientProtocol
