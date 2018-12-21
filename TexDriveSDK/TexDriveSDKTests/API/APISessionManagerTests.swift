@@ -42,7 +42,7 @@ class APISessionManagerTests: XCTestCase {
     // func get(parameters: [String: Any], completionHandler: @escaping (Result<[String: Any]>) -> ())
     func testGetSuccess() {
         var isCompleted = false
-        let tripId = "461105AE-A712-41A7-939C-4982413BE30F1543910782.13927"
+        let tripId = "461105AE-A712-41A7-939C-4982413BE30F1545295438.22366"
         let getSuccessExpected = self.expectation(description: "testGetSuccessExpectation")
         let dictionary = ["trip_id":tripId, "lang": Locale.current.identifier]
         apiSessionManager!.get(parameters: dictionary) { (result) in

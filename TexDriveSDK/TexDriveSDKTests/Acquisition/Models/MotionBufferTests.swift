@@ -16,7 +16,8 @@ class MotionBufferTests: XCTestCase {
         let accelerationMotion = XYZAxisValues(x: 1, y: 1, z: 1)
         let gravityMotion = XYZAxisValues(x: 1, y: 1, z: 1)
         let magnetometerMotion = XYZAxisValues(x: 1, y: 1, z: 1)
-        let motion1 = MotionFix(timestamp: timestamp, accelerationMotion: accelerationMotion, gravityMotion: gravityMotion, magnetometerMotion: magnetometerMotion, crashDetected: false)
+        let motionBegin = MotionFix(timestamp: timestamp, accelerationMotion: accelerationMotion, gravityMotion: gravityMotion, magnetometerMotion: magnetometerMotion, crashDetected: false)
+        let motionEnd = MotionFix(timestamp: timestamp+0.1, accelerationMotion: accelerationMotion, gravityMotion: gravityMotion, magnetometerMotion: magnetometerMotion, crashDetected: false)
         
         let motionCrash = MotionFix(timestamp: timestamp, accelerationMotion: accelerationMotion, gravityMotion: gravityMotion, magnetometerMotion: magnetometerMotion, crashDetected: true)
         
@@ -34,10 +35,10 @@ class MotionBufferTests: XCTestCase {
             }
         })
         
-        motionBuffer.append(fix:motion1)
+        motionBuffer.append(fix:motionBegin)
         motionBuffer.append(fix: motionCrash)
-        motionBuffer.append(fix: motion1)
-        motionBuffer.append(fix: motion1)
+        motionBuffer.append(fix: motionEnd)
+        motionBuffer.append(fix: motionEnd)
         
         XCTAssertTrue(isSend)
         subscribe.dispose()

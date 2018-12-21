@@ -32,7 +32,7 @@ class ScoringClientTest: XCTestCase {
     
 
     func testGetScore() {
-        let tripId = "461105AE-A712-41A7-939C-4982413BE30F1543910782.13927"
+        let tripId = NSUUID(uuidString: "E621E1F8-C36C-495A-93FC-4C247A3E6E5F")!
         var isCompletionCalled = false
         let scoreExpected = Score(tripId:tripId,  global: 75.33, speed: 100, acceleration: 49.39, braking: 53.01, smoothness: 98.9)
         let expectation = self.expectation(description: "APIGetScoreCalled")

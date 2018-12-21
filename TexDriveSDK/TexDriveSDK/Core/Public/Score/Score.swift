@@ -14,7 +14,7 @@ class ParsingError: Error {
 }
 
 public struct Score {
-    let tripId: String
+    let tripId: NSUUID
     let global: Double
     let speed: Double
     let acceleration: Double
@@ -27,7 +27,8 @@ public struct Score {
         let speedParsed = scoreDictionary["speed"] as? Double,
         let accelerationParsed = scoreDictionary["acceleration"] as? Double,
         let brakingParsed = scoreDictionary["braking"] as? Double,
-        let tripIdParsed = dictionary["trip_id"] as? String,
+        let tripIdStringParsed = dictionary["trip_id"] as? String,
+        let tripIdParsed = NSUUID(uuidString: tripIdStringParsed),
         let smoothnessParsed = scoreDictionary["smoothness"] as? Double
             else {
             return nil
@@ -41,7 +42,7 @@ public struct Score {
         tripId = tripIdParsed
     }
     
-    internal init(tripId: String, global: Double, speed: Double, acceleration: Double, braking: Double, smoothness: Double) {
+    internal init(tripId: NSUUID, global: Double, speed: Double, acceleration: Double, braking: Double, smoothness: Double) {
         self.global = global
         self.speed = speed
         self.acceleration = acceleration

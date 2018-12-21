@@ -9,8 +9,8 @@
 import Foundation
 
 public class TexServices {
-    public let tripRecorder: TripRecorder
-    public let scoringClient: ScoringClientProtocol
+    public let tripRecorder: TripRecorder // Add Lazy
+    public let scoringClient: ScoringClientProtocol // Add Lazy
     var configuration: ConfigurationProtocol {
         get {
             return _configuration
