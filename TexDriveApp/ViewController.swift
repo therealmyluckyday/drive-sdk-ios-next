@@ -106,6 +106,12 @@ class ViewController: UIViewController {
         } catch {
             print("\(error)")
         }
+        tripRecorder?.rxTripId.asObserver().subscribe({event in
+            if let tripId = event.element {
+                self.appendText(string: "\(tripId.uuidString) \n")
+                self.currentTripId = tripId
+            }
+        }).disposed(by: self.rxDisposeBag)
     }
     
     func configureLog(_ log: PublishSubject<LogMessage>) {
