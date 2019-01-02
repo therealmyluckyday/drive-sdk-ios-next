@@ -17,13 +17,14 @@ class PersistantQueue {
     let tripInfos: TripInfos
     
     // MARK: Lifecycle
-    init(eventType: PublishSubject<EventType>, fixes: PublishSubject<Fix>, scheduler: SerialDispatchQueueScheduler, tripInfos: TripInfos) {
+    init(eventType: PublishSubject<EventType>, fixes: PublishSubject<Fix>, scheduler: SerialDispatchQueueScheduler, rxTripId: PublishSubject<NSUUID>, tripInfos: TripInfos) {
         self.tripInfos = tripInfos
         eventType.asObservable().observeOn(scheduler).subscribe { [weak self](event) in
             if let eventType = event.element {
-                
                 if let tripInfos = self?.tripInfos, eventType == EventType.start {
-                    self?.trip = TripChunk(tripInfos: tripInfos)
+                    let aTrip = TripChunk(tripInfos: tripInfos)
+                    self?.trip = aTrip
+                    rxTripId.onNext(aTrip.tripId)
                 }
                 if let trip = self?.trip {
                     trip.append(eventType: eventType)

@@ -11,6 +11,7 @@ import CoreLocation
 import RxSwift
 
 public protocol TripRecorderProtocol {
+    var rxTripId: PublishSubject<NSUUID> { get }
     func start()
     func stop()
 }
@@ -19,11 +20,12 @@ public protocol TripRecorderProtocol {
 public class TripRecorder: TripRecorderProtocol {
     // MARK: Property
     private let collector: FixCollector
-    internal let persistantQueue: PersistantQueue
     private var rxEventType = PublishSubject<EventType>()
     private var rxFix = PublishSubject<Fix>()
     private let rxDisposeBag = DisposeBag()
     private let apiTrip: APITrip
+    internal let persistantQueue: PersistantQueue
+    public let rxTripId = PublishSubject<NSUUID>()
     
     // MARK: TripRecorder Protocol    
     public func start() {
@@ -36,7 +38,7 @@ public class TripRecorder: TripRecorderProtocol {
     
     // MARK: Lifecycle
     public init(configuration: TripRecorderConfiguration, sessionManager: APISessionManagerProtocol) {
-        persistantQueue = PersistantQueue(eventType: rxEventType, fixes: rxFix, scheduler: configuration.rxScheduler, tripInfos: configuration.tripInfos)
+        persistantQueue = PersistantQueue(eventType: rxEventType, fixes: rxFix, scheduler: configuration.rxScheduler, rxTripId: rxTripId, tripInfos: configuration.tripInfos)
         apiTrip = APITrip(apiSessionManager: sessionManager)
         collector = FixCollector(eventsType: rxEventType, fixes: rxFix, scheduler: configuration.rxScheduler)
         

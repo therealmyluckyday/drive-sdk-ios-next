@@ -33,7 +33,6 @@ public struct Score {
             else {
             return nil
         }
-        print(scoreDictionary)
         global = globalParsed
         speed = speedParsed
         acceleration = accelerationParsed

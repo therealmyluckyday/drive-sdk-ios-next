@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 
 protocol APIScoreProtocol {
-    init(apiSessionManager: APISessionManagerProtocol)
+    init(apiSessionManager: APISessionManagerProtocol, locale: Locale)
     func getScore(tripId: NSUUID, rxScore: PublishSubject<Score>)
     func getScore(tripId: NSUUID, completionHandler: @escaping (Result<Score>) -> ())
 }

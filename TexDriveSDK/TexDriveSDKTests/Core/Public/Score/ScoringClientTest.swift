@@ -32,9 +32,9 @@ class ScoringClientTest: XCTestCase {
     
 
     func testGetScore() {
-        let tripId = NSUUID(uuidString: "E621E1F8-C36C-495A-93FC-4C247A3E6E5F")!
+        let tripId = NSUUID(uuidString: "73B1C1B6-8DD8-4DEA-ACAF-4B1E05F6EF09")!
         var isCompletionCalled = false
-        let scoreExpected = Score(tripId:tripId,  global: 75.33, speed: 100, acceleration: 49.39, braking: 53.01, smoothness: 98.9)
+        let scoreExpected = Score(tripId:tripId,  global: 86.07, speed: 100, acceleration: 62.15, braking: 82.11, smoothness: 100)
         let expectation = self.expectation(description: "APIGetScoreCalled")
         let rxScore = PublishSubject<Score>()
         

@@ -115,9 +115,9 @@ class MotionBufferTests: XCTestCase {
         let crashHighestMotion = XYZAxisValues(x: 10, y: 10, z: 10)
         
         let motionCrashHighest = MotionFix(timestamp: timestamp, accelerationMotion: crashHighestMotion, gravityMotion: crashHighestMotion, magnetometerMotion: crashHighestMotion, crashDetected: true)
-        print("---HighestCrash---\(motionCrashHighest.timestamp)")
+
         let motionCrash = MotionFix(timestamp: timestamp + TimeInterval(4.96), accelerationMotion: accelerationMotion, gravityMotion: gravityMotion, magnetometerMotion: magnetometerMotion, crashDetected: true)
-        print("---LowestCrash---\(motionCrash.timestamp)")
+
         
         let motionBuffer = MotionBuffer(futureBufferSizeInSecond: 5)
         
@@ -127,7 +127,7 @@ class MotionBufferTests: XCTestCase {
             isSend = true
             XCTAssertNotNil(event.element)
             if let motionsFix = event.element {
-                print(motionsFix.count)
+
                 XCTAssert(motionsFix.count > 1490)
                 XCTAssert(motionsFix.count < 1501)
                 XCTAssert(motionsFix.first!.timestamp < motionCrashHighest.timestamp - 9, "motionsFix.first!.timestamp \(motionsFix.first!.timestamp) motionCrashHighest.timestamp \(motionCrashHighest.timestamp)")
@@ -140,21 +140,20 @@ class MotionBufferTests: XCTestCase {
             motionBuffer.append(fix:motionhz)
         }
         
-        print("ADD HIGHEST motioncrash : \(motionCrash.timestamp)")
+
         motionBuffer.append(fix: motionCrashHighest)
         
-        print("ADD 495 motion")
         for i in 1...496 {
             let motionhz = MotionFix(timestamp: timestamp + TimeInterval(i/100), accelerationMotion: accelerationMotion, gravityMotion: gravityMotion, magnetometerMotion: magnetometerMotion, crashDetected: false)
             motionBuffer.append(fix:motionhz)
         }
-        print("ADD motioncrash : \(motionCrash.timestamp)")
+
         motionBuffer.append(fix: motionCrash)
         
         for i in 1...800 {
             let time = TimeInterval(timestamp + Double(4.95) + Double(i/100))
             let motionhz = MotionFix(timestamp: time, accelerationMotion: accelerationMotion, gravityMotion: gravityMotion, magnetometerMotion: magnetometerMotion, crashDetected: false)
-            print(motionhz.timestamp)
+
             motionBuffer.append(fix:motionhz)
         }
         XCTAssertTrue(isSend)
@@ -169,9 +168,9 @@ class MotionBufferTests: XCTestCase {
         let crashHighestMotion = XYZAxisValues(x: 10, y: 10, z: 10)
         
         let motionCrashHighest = MotionFix(timestamp: timestamp + TimeInterval(4.96), accelerationMotion: crashHighestMotion, gravityMotion: crashHighestMotion, magnetometerMotion: crashHighestMotion, crashDetected: true)
-        print("---HighestCrash---\(motionCrashHighest.timestamp)")
+
         let motionCrash = MotionFix(timestamp: timestamp , accelerationMotion: accelerationMotion, gravityMotion: gravityMotion, magnetometerMotion: magnetometerMotion, crashDetected: true)
-        print("---LowestCrash---\(motionCrash.timestamp)")
+
         
         let motionBuffer = MotionBuffer(futureBufferSizeInSecond: 5)
         
@@ -181,11 +180,12 @@ class MotionBufferTests: XCTestCase {
             isSend = true
             XCTAssertNotNil(event.element)
             if let motionsFix = event.element {
-                print(motionsFix.count)
                 XCTAssert(motionsFix.count > 1490)
                 XCTAssert(motionsFix.count < 1501)
                 XCTAssert(motionsFix.first!.timestamp < motionCrashHighest.timestamp - 9)
-                XCTAssert(motionsFix.last!.timestamp > motionCrashHighest.timestamp + 4.9)
+                XCTAssert(motionsFix.first!.timestamp > motionCrashHighest.timestamp - 11)
+                XCTAssert(motionsFix.last!.timestamp > motionCrashHighest.timestamp + 4.8)
+                XCTAssert(motionsFix.last!.timestamp < motionCrashHighest.timestamp + 5.1)
             }
         })
         
@@ -194,21 +194,20 @@ class MotionBufferTests: XCTestCase {
             motionBuffer.append(fix:motionhz)
         }
         
-        print("ADD HIGHEST motioncrash : \(motionCrash.timestamp)")
+
         motionBuffer.append(fix: motionCrash)
         
-        print("ADD 495 motion")
+
         for i in 1...496 {
             let motionhz = MotionFix(timestamp: timestamp + TimeInterval(i/100), accelerationMotion: accelerationMotion, gravityMotion: gravityMotion, magnetometerMotion: magnetometerMotion, crashDetected: false)
             motionBuffer.append(fix:motionhz)
         }
-        print("ADD motioncrash : \(motionCrash.timestamp)")
+
         motionBuffer.append(fix: motionCrashHighest)
         
         for i in 1...800 {
             let time = TimeInterval(timestamp + Double(4.96) + Double(i/100))
             let motionhz = MotionFix(timestamp: time, accelerationMotion: accelerationMotion, gravityMotion: gravityMotion, magnetometerMotion: magnetometerMotion, crashDetected: false)
-            print(motionhz.timestamp)
             motionBuffer.append(fix:motionhz)
         }
         XCTAssertTrue(isSend)

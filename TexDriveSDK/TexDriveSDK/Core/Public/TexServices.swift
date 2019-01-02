@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 
 public class TexServices {
     public let tripRecorder: TripRecorder // Add Lazy
@@ -17,6 +18,16 @@ public class TexServices {
         }
     }
     
+    private var _currentTripId : NSUUID?
+    private let disposeBag = DisposeBag()
+    
+    @available(*, deprecated, message: "Please used triprecorder rxTripId property")
+    public var currentTripId: NSUUID? {
+        get {
+            return _currentTripId
+        }
+    }
+    
     private var _configuration: ConfigurationProtocol
     
     public init(configuration: ConfigurationProtocol) {
@@ -24,6 +35,12 @@ public class TexServices {
         let sessionManager = APISessionManager(configuration: configuration.tripInfos)
         tripRecorder = TripRecorder(configuration: configuration, sessionManager: sessionManager)
         scoringClient = ScoringClient(sessionManager: sessionManager, locale: configuration.locale)
+        
+        tripRecorder.rxTripId.asObservable().observeOn(MainScheduler.instance).subscribe {[weak self] (event) in
+            if let tripId = event.element {
+                self?._currentTripId = tripId
+            }
+        }.disposed(by: disposeBag)
     }
     
     class func service(withConfiguration configuration: ConfigurationProtocol) -> TexServices {
