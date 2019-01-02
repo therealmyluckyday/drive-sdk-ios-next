@@ -25,6 +25,7 @@ class TripRecorderTests: XCTestCase {
         super.tearDown()
     }
     
+    // MARK : init
     func testInit_LocationFeatureStart() {
         MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
         let mockLocationManager = MockLocationManager()
@@ -47,7 +48,7 @@ class TripRecorderTests: XCTestCase {
         mockLocationManager.send(locations: locations)
         
         do{
-            if let trip = try tripRecorder.persistantQueue.providerTrip.toBlocking(timeout: 5).first() {
+            if let trip = try tripRecorder.persistantQueue.providerTrip.toBlocking(timeout: 0.1).first() {
                 XCTAssertEqual(trip.event?.eventType, EventType.start)
                 XCTAssertEqual(trip.count, 101)
             }
@@ -79,7 +80,7 @@ class TripRecorderTests: XCTestCase {
         tripRecorder.stop()
         
         do{
-            if let trip = try tripRecorder.persistantQueue.providerTrip.toBlocking(timeout: 0.5).first() {
+            if let trip = try tripRecorder.persistantQueue.providerTrip.toBlocking(timeout: 0.1).first() {
                 XCTAssertEqual(trip.event?.eventType, EventType.stop)
             }
         } catch {
@@ -127,7 +128,7 @@ class TripRecorderTests: XCTestCase {
         
         tripRecorder.subscribe(providerTrip: publishTrip, scheduler: MainScheduler.instance)
         publishTrip.onNext(trip)
-
+        
         do{
             if let trip = try tripRecorder.persistantQueue.providerTrip.toBlocking(timeout: 0.1).first() {
                 XCTAssertEqual(trip.event?.eventType, EventType.stop)
@@ -137,5 +138,63 @@ class TripRecorderTests: XCTestCase {
         XCTAssertTrue(mock.isPutCalled)
         XCTAssertNotNil(mock.dictionaryPut)
     }
+    
+    
+    // MARK : currentTripId
+    func testTripIdNull() {
+        
+        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
+        let mockLocationManager = MockLocationManager()
+        let locationFeature = TripRecorderFeature.Location(mockLocationManager)
+        let features = [locationFeature]
+        let configuration = MockConfiguration(features: features)
+        
+        let tripRecorder = TripRecorder(configuration: configuration, sessionManager: configuration.generateAPISessionManager())
+        
+        var locations = [CLLocation]()
+        
+        do{
+            if let _ = try tripRecorder.rxTripId.toBlocking(timeout: 0.1).first() {
+                XCTAssertFalse(true)
+            }
+        } catch {
+            XCTAssertTrue(true)
+        }
+        
+    }
+    
+    func testCurrentTripIdNotNull() {
+        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
+        let mockLocationManager = MockLocationManager()
+        let locationFeature = TripRecorderFeature.Location(mockLocationManager)
+        let features = [locationFeature]
+        let configuration = MockConfiguration(features: features)
+        
+        let tripRecorder = TripRecorder(configuration: configuration, sessionManager: configuration.generateAPISessionManager())
+        
+        var locations = [CLLocation]()
+        var isRxTripIdCalled = false
+        tripRecorder.rxTripId.asObservable().observeOn(configuration.rxScheduler).subscribe {(event) in
+            isRxTripIdCalled = true
+            XCTAssertNotNil(event.element)
+            }.disposed(by: rxDisposeBag!)
+        
+        tripRecorder.start()
+        
+        for i in 0...TripConstant.MinFixesToSend {
+            let location = CLLocation(latitude: CLLocationDegrees(i), longitude: CLLocationDegrees(i))
+            locations.append(location)
+            
+        }
+        
+        mockLocationManager.send(locations: locations)
+        do{
+            if let _ = try tripRecorder.rxTripId.toBlocking(timeout: 0.1).first() {
+            }
+        } catch {
+        }
+        XCTAssertTrue(isRxTripIdCalled)
+    }
 }
+
 

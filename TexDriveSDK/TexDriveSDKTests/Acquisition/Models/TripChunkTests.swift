@@ -160,7 +160,7 @@ class TripChunkTests: XCTestCase {
     
     // MARK: init(tripId: String)
     func testConvenienceInit() {
-        let uuid = NSUUID(uuidString: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F")!
+        let uuid = TripId(uuidString: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F")!
         let trip = TripChunk(tripId: uuid , tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
         let tripId = TripChunk.generateTripId()
         XCTAssertNotEqual(trip.tripId, tripId)
@@ -168,7 +168,7 @@ class TripChunkTests: XCTestCase {
     }
     
     func testInitWithTripId() {
-        let tripId = NSUUID(uuidString: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F")!
+        let tripId = TripId(uuidString: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F")!
         
         let trip = TripChunk(tripId: tripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
         
@@ -177,7 +177,7 @@ class TripChunkTests: XCTestCase {
     
     // MARK: func serialize() -> [String : Any]
     func testSerializeEmpty() {
-        let tripId = NSUUID(uuidString: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F")!
+        let tripId = TripId(uuidString: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F")!
         let trip = TripChunk(tripId: tripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
         
         let result = trip.serialize()
@@ -189,7 +189,7 @@ class TripChunkTests: XCTestCase {
     }
     
     func testSerializeWithStartEventsType() {
-        let tripId = NSUUID(uuidString: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F")!
+        let tripId = TripId(uuidString: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F")!
         let trip = TripChunk(tripId: tripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
         trip.append(eventType: EventType.start)
         
@@ -208,7 +208,7 @@ class TripChunkTests: XCTestCase {
     
     
     func testSerializeWithBatteryFix() {
-        let tripId = NSUUID(uuidString: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F")!
+        let tripId = TripId(uuidString: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F")!
         let trip = TripChunk(tripId: tripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
         // Battery Fix
         let timestamp = Date().timeIntervalSince1970
@@ -232,7 +232,7 @@ class TripChunkTests: XCTestCase {
     }
     
     func testSerializeWithLocationFix() {
-        let tripId = NSUUID(uuidString: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F")!
+        let tripId = TripId(uuidString: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F")!
         let trip = TripChunk(tripId: tripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
         // Location Fix
         let timestamp = Date().timeIntervalSince1970
@@ -264,7 +264,7 @@ class TripChunkTests: XCTestCase {
     }
     
     func testSerializeWithMotionFix() {
-        let tripId = NSUUID(uuidString: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F")!
+        let tripId = TripId(uuidString: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F")!
         let trip = TripChunk(tripId: tripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
         // Motion Fix
         let timestamp = Date().timeIntervalSinceNow
@@ -303,7 +303,7 @@ class TripChunkTests: XCTestCase {
     }
     
     func testWithNoEventsType() {
-        let tripId = NSUUID(uuidString: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F")!
+        let tripId = TripId(uuidString: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F")!
         let trip = TripChunk(tripId: tripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
         let event = trip.event
         XCTAssertNil(event)

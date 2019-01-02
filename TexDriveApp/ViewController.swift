@@ -28,7 +28,7 @@ class ViewController: UIViewController {
     var locationManager = CLLocationManager()
     let rxDisposeBag = DisposeBag()
     let rxScore = PublishSubject<Score>()
-    var currentTripId : String?
+    var currentTripId = NSUUID(uuidString: "461105AE-A712-41A7-939C-4982413BE30F")
     var texServices: TexServices?
     
     override func viewDidLoad() {
@@ -76,7 +76,7 @@ class ViewController: UIViewController {
             
         }
 
-        texServices!.scoringClient.getScore(tripId: "461105AE-A712-41A7-939C-4982413BE30F1543910782.13927", rxScore: rxScore)
+        texServices!.scoringClient.getScore(tripId: currentTripId!, rxScore: rxScore)
     }
     
     func launchTracking()  {
@@ -106,6 +106,12 @@ class ViewController: UIViewController {
         } catch {
             print("\(error)")
         }
+        tripRecorder?.rxTripId.asObserver().subscribe({event in
+            if let tripId = event.element {
+                self.appendText(string: "\(tripId.uuidString) \n")
+                self.currentTripId = tripId
+            }
+        }).disposed(by: self.rxDisposeBag)
     }
     
     func configureLog(_ log: PublishSubject<LogMessage>) {

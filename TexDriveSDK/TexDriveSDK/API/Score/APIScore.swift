@@ -11,8 +11,8 @@ import RxSwift
 
 protocol APIScoreProtocol {
     init(apiSessionManager: APISessionManagerProtocol, locale: Locale)
-    func getScore(tripId: String, rxScore: PublishSubject<Score>)
-    func getScore(tripId: String, completionHandler: @escaping (Result<Score>) -> ())
+    func getScore(tripId: TripId, rxScore: PublishSubject<Score>)
+    func getScore(tripId: TripId, completionHandler: @escaping (Result<Score>) -> ())
 }
 
 
@@ -30,8 +30,8 @@ class APIScore: APIScoreProtocol {
     }
     
     // MARK : APIScoreProtocol
-    func getScore(tripId: String, rxScore: PublishSubject<Score>) {
-        let dictionary = ["trip_id":tripId, "lang": locale.identifier]
+    func getScore(tripId: TripId, rxScore: PublishSubject<Score>) {
+        let dictionary = ["trip_id":tripId.uuidString, "lang": Locale.current.identifier]
         
         self.sessionManager.get(parameters: dictionary) { (result) in
             switch result {
@@ -50,9 +50,8 @@ class APIScore: APIScoreProtocol {
         }
     }
     
-    @available(*, deprecated, message: "Please use func getScore(tripId: String, rxScore: PublishSubject<Score>)")
-    func getScore(tripId: String, completionHandler: @escaping (Result<Score>) -> ()) {
-        let dictionary = ["trip_id":tripId, "lang": locale.identifier]
+    func getScore(tripId: TripId, completionHandler: @escaping (Result<Score>) -> ()) {
+        let dictionary = ["trip_id":tripId.uuidString, "lang": Locale.current.identifier]
         
         self.sessionManager.get(parameters: dictionary) { (result) in
             switch result {
