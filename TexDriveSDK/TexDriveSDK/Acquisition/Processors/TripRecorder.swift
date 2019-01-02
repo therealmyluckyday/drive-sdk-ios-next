@@ -11,7 +11,7 @@ import CoreLocation
 import RxSwift
 
 public protocol TripRecorderProtocol {
-    var rxTripId: PublishSubject<NSUUID> { get }
+    var rxTripId: PublishSubject<TripId> { get }
     func start()
     func stop()
 }
@@ -25,7 +25,7 @@ public class TripRecorder: TripRecorderProtocol {
     private let rxDisposeBag = DisposeBag()
     private let apiTrip: APITrip
     internal let persistantQueue: PersistantQueue
-    public let rxTripId = PublishSubject<NSUUID>()
+    public let rxTripId = PublishSubject<TripId>()
     
     // MARK: TripRecorder Protocol    
     public func start() {

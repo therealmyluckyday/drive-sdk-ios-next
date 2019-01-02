@@ -12,9 +12,11 @@ struct TripConstant {
     static let MinFixesToSend = 100
 }
 
+public typealias TripId = NSUUID
+
 class TripChunk: Collection {
     // MARK: Property
-    let tripId: NSUUID
+    let tripId: TripId
     private var fixes = [Fix]()
     var event: Event?
     let tripInfos: TripInfos
@@ -58,14 +60,14 @@ class TripChunk: Collection {
         self.init(tripId: TripChunk.generateTripId(), tripInfos: tripInfos)
     }
     
-    init(tripId: NSUUID, tripInfos: TripInfos) {
+    init(tripId: TripId, tripInfos: TripInfos) {
         self.tripId = tripId
         self.tripInfos = tripInfos
     }
     
     // Private Method
-    static func generateTripId() -> NSUUID {
-        return NSUUID()
+    static func generateTripId() -> TripId {
+        return TripId()
     }
     
     // MARK: Serialize

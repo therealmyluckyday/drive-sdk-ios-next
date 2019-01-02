@@ -18,11 +18,11 @@ public class TexServices {
         }
     }
     
-    private var _currentTripId : NSUUID?
+    private var _currentTripId : TripId?
     private let disposeBag = DisposeBag()
     
     @available(*, deprecated, message: "Please used triprecorder rxTripId property")
-    public var currentTripId: NSUUID? {
+    public var currentTripId: TripId? {
         get {
             return _currentTripId
         }

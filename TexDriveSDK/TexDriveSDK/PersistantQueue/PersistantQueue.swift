@@ -17,7 +17,7 @@ class PersistantQueue {
     let tripInfos: TripInfos
     
     // MARK: Lifecycle
-    init(eventType: PublishSubject<EventType>, fixes: PublishSubject<Fix>, scheduler: SerialDispatchQueueScheduler, rxTripId: PublishSubject<NSUUID>, tripInfos: TripInfos) {
+    init(eventType: PublishSubject<EventType>, fixes: PublishSubject<Fix>, scheduler: SerialDispatchQueueScheduler, rxTripId: PublishSubject<TripId>, tripInfos: TripInfos) {
         self.tripInfos = tripInfos
         eventType.asObservable().observeOn(scheduler).subscribe { [weak self](event) in
             if let eventType = event.element {
