@@ -58,7 +58,6 @@ class APISessionManager: NSObject, APISessionManagerProtocol, URLSessionDelegate
         if let url = URL(string: "\(configuration.baseUrl())/data") {
             if let request = URLRequest.createUrlRequest(url: url, body: dictionaryBody, httpMethod: HttpMethod.PUT) {
                 let backgroundTask = self.urlBackgroundTaskSession.downloadTask(with: request)
-//                backgroundTask.earliestBeginDate = Date().addingTimeInterval(250)
                 backgroundTask.resume()
             }
         }
@@ -271,6 +270,43 @@ class APISessionManager: NSObject, APISessionManagerProtocol, URLSessionDelegate
     
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, willCacheResponse proposedResponse: CachedURLResponse, completionHandler: @escaping (CachedURLResponse?) -> Swift.Void) {
         Log.print("HTTP urlsession")
+    }
+    
+    // MARK : func isTripStopedSend(on: downloadTask) -> Bool
+    class func isTripStoppedSend(task: URLSessionDownloadTask) -> Bool {
+        if let body = task.currentRequest?.httpBody {
+            do {
+                if let json = try (JSONSerialization.jsonObject(with: body, options: JSONSerialization.ReadingOptions.allowFragments)) as? [String: Any] {
+                    if let fixes = json["fixes"] as? [[String: Any]] {
+                        for fix in fixes {
+                            if let events = fix["event"] as? [String], events.contains(EventType.stop.rawValue) {
+                                return true
+                            }
+                        }
+                    }
+                }
+            } catch {
+                return false
+            }
+        }
+        return false
+    }
+    
+    class func getTripId(task: URLSessionDownloadTask) -> TripId? {
+        if let body = task.currentRequest?.httpBody {
+            do {
+                if let json = try (JSONSerialization.jsonObject(with: body, options: JSONSerialization.ReadingOptions.allowFragments)) as? [String: Any] {
+                    print(json)
+                    if let tripIdString = json["trip_id"] as? String, let tripId = TripId(uuidString: tripIdString) {
+                        return tripId
+                    }
+                }
+            } catch {
+                return nil
+            }
+        }
+        return nil
+
     }
 }
 
