@@ -11,8 +11,8 @@ end
 
 target 'TexDriveApp' do
   use_frameworks!
-  pod 'Fabric', '~> 1.8.2'
-  pod 'Crashlytics', '~> 3.11.1'
+  pod 'Fabric', '~> 1.9.0'
+  pod 'Crashlytics', '~> 3.12'
   pod "TexDriveSDK", :path => "./TexDriveSDK.podspec"
   shared_pods
 
