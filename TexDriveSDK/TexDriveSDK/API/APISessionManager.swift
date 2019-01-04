@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 
 struct APIError: Error {
     var message: String
@@ -42,6 +43,8 @@ class APISessionManager: NSObject, APISessionManagerProtocol, URLSessionDelegate
         config.httpAdditionalHeaders = self.configuration.httpHeaders()
         return URLSession(configuration: config, delegate: self, delegateQueue: nil)
     }()
+    
+    let tripIdFinished = PublishSubject<TripId>()
     
     //Recreate the Session If the App Was Terminated
     /*
@@ -187,7 +190,9 @@ class APISessionManager: NSObject, APISessionManagerProtocol, URLSessionDelegate
             Log.print(location.absoluteString)
             Log.print("HTTP response \(httpResponse)")
             if (200...299).contains(httpResponse.statusCode) {
-                
+                if let tripId = APISessionManager.getTripId(task: downloadTask), APISessionManager.isTripStoppedSend(task:downloadTask) {
+                   tripIdFinished.onNext(tripId)
+                }
             } else {
                 Log.print("HTTP Error \(httpResponse.statusCode)", type: .Error)
             }
