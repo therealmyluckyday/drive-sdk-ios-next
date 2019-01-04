@@ -90,6 +90,11 @@ class ViewController: UIViewController {
         do {
             if let configuration = try Config(applicationId: "youdrive_france_prospect", applicationLocale: Locale.current, currentUser: user) {
                 texServices = TexServices(configuration:configuration)
+                texServices!.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
+                    if let tripId = event.element {
+                        self.appendText(string: "\nTRIPIDFINISHED:\n \(tripId.uuidString)")
+                    }
+                    }.disposed(by: rxDisposeBag)
                 tripRecorder = texServices!.tripRecorder
                 configureLog(configuration.rxLog)
                 do {
@@ -108,7 +113,7 @@ class ViewController: UIViewController {
         }
         tripRecorder?.rxTripId.asObserver().subscribe({event in
             if let tripId = event.element {
-                self.appendText(string: "\(tripId.uuidString) \n")
+                self.appendText(string: "\n Current Trip:\n \(tripId.uuidString) \n")
                 self.currentTripId = tripId
             }
         }).disposed(by: self.rxDisposeBag)
