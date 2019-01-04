@@ -12,6 +12,7 @@ import RxSwift
 public class TexServices {
     public let tripRecorder: TripRecorder // Add Lazy
     public let scoringClient: ScoringClientProtocol // Add Lazy
+    public let tripIdFinished: PublishSubject<TripId>
     var configuration: ConfigurationProtocol {
         get {
             return _configuration
@@ -30,9 +31,11 @@ public class TexServices {
     
     private var _configuration: ConfigurationProtocol
     
+    
     public init(configuration: ConfigurationProtocol) {
         _configuration = configuration
         let sessionManager = APISessionManager(configuration: configuration.tripInfos)
+        tripIdFinished = sessionManager.tripIdFinished
         tripRecorder = TripRecorder(configuration: configuration, sessionManager: sessionManager)
         scoringClient = ScoringClient(sessionManager: sessionManager, locale: configuration.locale)
         

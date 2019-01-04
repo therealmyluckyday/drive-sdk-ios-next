@@ -29,7 +29,7 @@ class PersistantQueueTests: XCTestCase {
         var isTripIdCalled = false
         rxTripId.asObserver().subscribe { (event) in
             isTripIdCalled = event.element != nil
-        }
+        }.disposed(by: disposeBag)
         
         eventType.onNext(EventType.start)
         for i in 0...100 {

@@ -56,7 +56,7 @@ class MotionBufferTests: XCTestCase {
         let motionBuffer = MotionBuffer(futureBufferSizeInSecond: 5)
         
         var isSend = false
-        let realtimestamp = Date(timeInterval: timestamp, since: Date.init(timeIntervalSinceNow: -1 * ProcessInfo.processInfo.systemUptime)).timeIntervalSince1970
+
         let subscribe = motionBuffer.rxCrashMotionFix.asObservable().subscribe({ (event) in
             isSend = true
         })

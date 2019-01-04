@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 
 struct APIError: Error {
     var message: String
@@ -43,6 +44,8 @@ class APISessionManager: NSObject, APISessionManagerProtocol, URLSessionDelegate
         return URLSession(configuration: config, delegate: self, delegateQueue: nil)
     }()
     
+    let tripIdFinished = PublishSubject<TripId>()
+    
     //Recreate the Session If the App Was Terminated
     /*
      If the system terminated the app while it was suspended, the system relaunches the app in the background. As part of your launch time setup, recreate the background session (see Listing 1), using the same session identifier as before, to allow the system to reassociate the background download task with your session. You do this so your background session is ready to go whether the app was launched by the user or by the system. Once the app relaunches, the series of events is the same as if the app had been suspended and resumed, as discussed earlier in
@@ -58,7 +61,6 @@ class APISessionManager: NSObject, APISessionManagerProtocol, URLSessionDelegate
         if let url = URL(string: "\(configuration.baseUrl())/data") {
             if let request = URLRequest.createUrlRequest(url: url, body: dictionaryBody, httpMethod: HttpMethod.PUT) {
                 let backgroundTask = self.urlBackgroundTaskSession.downloadTask(with: request)
-//                backgroundTask.earliestBeginDate = Date().addingTimeInterval(250)
                 backgroundTask.resume()
             }
         }
@@ -188,7 +190,9 @@ class APISessionManager: NSObject, APISessionManagerProtocol, URLSessionDelegate
             Log.print(location.absoluteString)
             Log.print("HTTP response \(httpResponse)")
             if (200...299).contains(httpResponse.statusCode) {
-                
+                if let tripId = APISessionManager.getTripId(task: downloadTask), APISessionManager.isTripStoppedSend(task:downloadTask) {
+                   tripIdFinished.onNext(tripId)
+                }
             } else {
                 Log.print("HTTP Error \(httpResponse.statusCode)", type: .Error)
             }
@@ -271,6 +275,43 @@ class APISessionManager: NSObject, APISessionManagerProtocol, URLSessionDelegate
     
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, willCacheResponse proposedResponse: CachedURLResponse, completionHandler: @escaping (CachedURLResponse?) -> Swift.Void) {
         Log.print("HTTP urlsession")
+    }
+    
+    // MARK : func isTripStopedSend(on: downloadTask) -> Bool
+    class func isTripStoppedSend(task: URLSessionDownloadTask) -> Bool {
+        if let body = task.currentRequest?.httpBody {
+            do {
+                if let json = try (JSONSerialization.jsonObject(with: body, options: JSONSerialization.ReadingOptions.allowFragments)) as? [String: Any] {
+                    if let fixes = json["fixes"] as? [[String: Any]] {
+                        for fix in fixes {
+                            if let events = fix["event"] as? [String], events.contains(EventType.stop.rawValue) {
+                                return true
+                            }
+                        }
+                    }
+                }
+            } catch {
+                return false
+            }
+        }
+        return false
+    }
+    
+    class func getTripId(task: URLSessionDownloadTask) -> TripId? {
+        if let body = task.currentRequest?.httpBody {
+            do {
+                if let json = try (JSONSerialization.jsonObject(with: body, options: JSONSerialization.ReadingOptions.allowFragments)) as? [String: Any] {
+                    print(json)
+                    if let tripIdString = json["trip_id"] as? String, let tripId = TripId(uuidString: tripIdString) {
+                        return tripId
+                    }
+                }
+            } catch {
+                return nil
+            }
+        }
+        return nil
+
     }
 }
 
