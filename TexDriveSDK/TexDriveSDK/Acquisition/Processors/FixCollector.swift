@@ -19,7 +19,6 @@ class FixCollector {
     
     // MARK: LifeCycle
     init(eventsType: PublishSubject<EventType>, fixes: PublishSubject<Fix>, scheduler: SerialDispatchQueueScheduler) {
-        print(fixes)
         rxFix = fixes
         rxEventType = eventsType
         rxScheduler = scheduler

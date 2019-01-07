@@ -147,13 +147,10 @@ class APISessionManagerTests: XCTestCase {
     // MARK : func getTripId(task: URLSessionDownloadTask) -> TripId
     func testGetTripId() {
         let tripChunk = TripChunk(tripInfos: TripInfos(appId: "TEST", user: User.Anonymous, domain: Domain.Preproduction))
-        print(tripChunk.serialize())
         if let request = URLRequest.createUrlRequest(url: URL(string: "http://google.com")!, body: tripChunk.serialize(), httpMethod: HttpMethod.PUT) {
             let backgroundTask = urlBackgroundTaskSession!.downloadTask(with: request)
             let tripIdResult = APISessionManager.getTripId(task: backgroundTask)
             XCTAssertNotNil(tripIdResult)
-            print(tripChunk.tripId.uuidString)
-            print(tripIdResult!.uuidString)
             XCTAssertEqual(tripIdResult!.uuidString, tripChunk.tripId.uuidString)
         }
         else {

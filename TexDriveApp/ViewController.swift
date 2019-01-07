@@ -93,6 +93,7 @@ class ViewController: UIViewController {
                 texServices!.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
                     if let tripId = event.element {
                         self.appendText(string: "\nTRIPIDFINISHED:\n \(tripId.uuidString)")
+                        self.texServices!.scoringClient.getScore(tripId: tripId, rxScore: self.rxScore)
                     }
                     }.disposed(by: rxDisposeBag)
                 tripRecorder = texServices!.tripRecorder
