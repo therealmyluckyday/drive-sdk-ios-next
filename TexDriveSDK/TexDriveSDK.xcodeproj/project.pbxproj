@@ -27,6 +27,7 @@
 		C15B9FC721942E720072439F /* LogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15B9FC621942E720072439F /* LogTests.swift */; };
 		C15B9FC92194441F0072439F /* LogDetailTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15B9FC82194441F0072439F /* LogDetailTests.swift */; };
 		C15B9FCB219449270072439F /* LogRxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15B9FCA219449270072439F /* LogRxTests.swift */; };
+		C168630221E33CAF003FF6F0 /* ScoreErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C168630121E33CAF003FF6F0 /* ScoreErrorTests.swift */; };
 		C17E9A74216F828400FCF93E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A73216F828400FCF93E /* User.swift */; };
 		C17E9A76216F82F100FCF93E /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A75216F82F100FCF93E /* Config.swift */; };
 		C17E9A78216F85BD00FCF93E /* TexServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A77216F85BD00FCF93E /* TexServices.swift */; };
@@ -37,6 +38,8 @@
 		C18AE989216E31E30065F0BB /* BatteryTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18AE988216E31E30065F0BB /* BatteryTrackerTests.swift */; };
 		C18AE98B216E44D60065F0BB /* LocationTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18AE98A216E44D60065F0BB /* LocationTrackerTests.swift */; };
 		C1C83BD7219042F500D8E4B3 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C83BD6219042F500D8E4B3 /* Log.swift */; };
+		C1CC41E721DFBEC4004CB5C2 /* ScoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CC41E621DFBEC4004CB5C2 /* ScoreError.swift */; };
+		C1CC41E921DFBF20004CB5C2 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CC41E821DFBF20004CB5C2 /* APIError.swift */; };
 		C1D0BD9C2192FB4000365428 /* LogMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D0BD9B2192FB4000365428 /* LogMessage.swift */; };
 		C1D13437218728600099B650 /* SecTrustExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D13436218728600099B650 /* SecTrustExtension.swift */; };
 		C1D13439218729900099B650 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D13438218729900099B650 /* UIDeviceExtension.swift */; };
@@ -114,6 +117,7 @@
 		C15B9FC621942E720072439F /* LogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogTests.swift; sourceTree = "<group>"; };
 		C15B9FC82194441F0072439F /* LogDetailTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogDetailTests.swift; sourceTree = "<group>"; };
 		C15B9FCA219449270072439F /* LogRxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogRxTests.swift; sourceTree = "<group>"; };
+		C168630121E33CAF003FF6F0 /* ScoreErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreErrorTests.swift; sourceTree = "<group>"; };
 		C17E9A73216F828400FCF93E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C17E9A75216F82F100FCF93E /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		C17E9A77216F85BD00FCF93E /* TexServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexServices.swift; sourceTree = "<group>"; };
@@ -124,6 +128,8 @@
 		C18AE988216E31E30065F0BB /* BatteryTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryTrackerTests.swift; sourceTree = "<group>"; };
 		C18AE98A216E44D60065F0BB /* LocationTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTrackerTests.swift; sourceTree = "<group>"; };
 		C1C83BD6219042F500D8E4B3 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		C1CC41E621DFBEC4004CB5C2 /* ScoreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreError.swift; sourceTree = "<group>"; };
+		C1CC41E821DFBF20004CB5C2 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		C1D0BD9B2192FB4000365428 /* LogMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogMessage.swift; sourceTree = "<group>"; };
 		C1D13436218728600099B650 /* SecTrustExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecTrustExtension.swift; sourceTree = "<group>"; };
 		C1D13438218729900099B650 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
@@ -233,6 +239,7 @@
 				C124ABFA217F4F070038A0B1 /* APITrip.swift */,
 				C1DD032C21886B77000BBBBF /* APIConfiguration.swift */,
 				C1DD033021887EE6000BBBBF /* APISessionManager.swift */,
+				C1CC41E821DFBF20004CB5C2 /* APIError.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -241,6 +248,7 @@
 			isa = PBXGroup;
 			children = (
 				C14CA50921BED0C000158BA0 /* ScoringClientTest.swift */,
+				C168630121E33CAF003FF6F0 /* ScoreErrorTests.swift */,
 			);
 			path = Score;
 			sourceTree = "<group>";
@@ -372,6 +380,7 @@
 			children = (
 				C1F7E45221B5365C00EA0445 /* ScoringClient.swift */,
 				C1F7E45521B53B6000EA0445 /* Score.swift */,
+				C1CC41E621DFBEC4004CB5C2 /* ScoreError.swift */,
 			);
 			path = Score;
 			sourceTree = "<group>";
@@ -670,11 +679,13 @@
 				C1FAAA3A2163C7B700FD3C1D /* Tracker.swift in Sources */,
 				C17E9A7C216F944500FCF93E /* TripRecorderFeature.swift in Sources */,
 				C17E9A74216F828400FCF93E /* User.swift in Sources */,
+				C1CC41E921DFBF20004CB5C2 /* APIError.swift in Sources */,
 				C1DD032D21886B77000BBBBF /* APIConfiguration.swift in Sources */,
 				C107606F217E2C8000FB28AA /* PersistantQueue.swift in Sources */,
 				C1E521B22170ECBE00B80C64 /* CallTracker.swift in Sources */,
 				C124ABFB217F4F070038A0B1 /* APITrip.swift in Sources */,
 				C1273E9F2175EE800006E6E0 /* MotionFix.swift in Sources */,
+				C1CC41E721DFBEC4004CB5C2 /* ScoreError.swift in Sources */,
 				C1F7E45E21B55E5200EA0445 /* APIScore.swift in Sources */,
 				C1076071217E2E9400FB28AA /* Event.swift in Sources */,
 				E2798EDD215A5D65006228A3 /* LocationFix.swift in Sources */,
@@ -712,6 +723,7 @@
 				C1E93DFA2187635D0082B2B3 /* TripChunkTests.swift in Sources */,
 				C1F7E45B21B53DC500EA0445 /* APIScoreTest.swift in Sources */,
 				C15B9FCB219449270072439F /* LogRxTests.swift in Sources */,
+				C168630221E33CAF003FF6F0 /* ScoreErrorTests.swift in Sources */,
 				C1E521B821749A9400B80C64 /* CallTrackerTests.swift in Sources */,
 				C18AE984216E21A00065F0BB /* BatteryFixTests.swift in Sources */,
 				C1DD0325218861F4000BBBBF /* DateFormatterExtensionTests.swift in Sources */,

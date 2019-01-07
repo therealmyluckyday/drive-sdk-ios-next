@@ -9,18 +9,7 @@
 import Foundation
 import RxSwift
 
-struct APIError: Error {
-    var message: String
-    var statusCode: Int
-    lazy var localizedDescription: String =  {
-        "Error on request \(self.statusCode) message: \(self.message)"
-    }()
-    
-    init(message: String, statusCode: Int) {
-        self.message = message
-        self.statusCode = statusCode
-    }
-}
+
 
 public protocol APISessionManagerProtocol {
     func put(dictionaryBody: [String: Any])
@@ -301,7 +290,6 @@ class APISessionManager: NSObject, APISessionManagerProtocol, URLSessionDelegate
         if let body = task.currentRequest?.httpBody {
             do {
                 if let json = try (JSONSerialization.jsonObject(with: body, options: JSONSerialization.ReadingOptions.allowFragments)) as? [String: Any] {
-                    print(json)
                     if let tripIdString = json["trip_id"] as? String, let tripId = TripId(uuidString: tripIdString) {
                         return tripId
                     }
