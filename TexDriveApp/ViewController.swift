@@ -62,7 +62,7 @@ class ViewController: UIViewController {
     
     func stopTrip() {
         tripRecorder?.stop()
-        UIView.animate(withDuration: 0.3, delay: 26, options: UIViewAnimationOptions.curveEaseInOut, animations: {
+        UIView.animate(withDuration: 0.3, delay: 26, options: UIView.AnimationOptions.curveEaseInOut, animations: {
             self.scoreButton.alpha = 1
         }) { (finished) in
         
@@ -70,7 +70,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func getScore(_ sender: Any) {
-        UIView.animate(withDuration: 0.6, delay: 0, options: UIViewAnimationOptions.curveEaseInOut, animations: {
+        UIView.animate(withDuration: 0.6, delay: 0, options: UIView.AnimationOptions.curveEaseInOut, animations: {
             self.scoreButton.alpha = 0
         }) { (finished) in
             
@@ -195,7 +195,8 @@ class ViewController: UIViewController {
             return "error"
         }
         
-        let mbinuse = taskInfo.resident_size / 1000000
+        let mbinuse =
+            taskInfo.resident_size / 1000000
         
         return String(mbinuse) + " MB"
     }

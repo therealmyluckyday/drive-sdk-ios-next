@@ -12,7 +12,7 @@ import RxCocoa
 class BatteryTracker: Tracker {
     // MARK: Property
     typealias T = BatteryFix
-    private var deviceBatteryState: UIDeviceBatteryState {
+    private var deviceBatteryState: UIDevice.BatteryState {
         return device.batteryState
     }
     private var deviceBatteryLevel : Float {
@@ -25,12 +25,12 @@ class BatteryTracker: Tracker {
     
     // MARK: Tracker Protocol
     func enableTracking() {
-        rxSubscriptionBatteryState = NotificationCenter.default.rx.notification(NSNotification.Name.UIDeviceBatteryStateDidChange).subscribe({ [weak self](event) in
+        rxSubscriptionBatteryState = NotificationCenter.default.rx.notification(UIDevice.batteryStateDidChangeNotification).subscribe({ [weak self](event) in
             if event.element != nil, let batteryFix = self?.generateBatteryFix() {
                 self?.rxBatteryFix.onNext(Result.Success(batteryFix))
             }
         })
-        rxSubscriptionBatteryLevel = NotificationCenter.default.rx.notification(NSNotification.Name.UIDeviceBatteryLevelDidChange).subscribe({ [weak self](event) in
+        rxSubscriptionBatteryLevel = NotificationCenter.default.rx.notification(UIDevice.batteryLevelDidChangeNotification).subscribe({ [weak self](event) in
             if event.element != nil, let batteryFix = self?.generateBatteryFix()  {
                 self?.rxBatteryFix.onNext(Result.Success(batteryFix))
             }

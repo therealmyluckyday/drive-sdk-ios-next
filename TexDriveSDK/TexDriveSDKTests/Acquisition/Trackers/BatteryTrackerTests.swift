@@ -15,7 +15,7 @@ class MockUIDevice: UIDevice {
     }
     var mockBatteryLevel = UIDevice.current.batteryLevel
     
-    override var batteryState: UIDeviceBatteryState {
+    override var batteryState: UIDevice.BatteryState {
         return mockBatteryState
     }
     var mockBatteryState = UIDevice.current.batteryState
@@ -51,7 +51,7 @@ class BatteryTrackerTests: XCTestCase {
     // MARK: func generateBatteryFix() -> BatteryFix
     func test_generateBatteryFix_batteryState_unplugged() {
         let level = Float(-1.0)
-        let state = UIDeviceBatteryState.unplugged
+        let state = UIDevice.BatteryState.unplugged
         
         let device = MockUIDevice()
         device.mockBatteryLevel = level
@@ -65,7 +65,7 @@ class BatteryTrackerTests: XCTestCase {
     
     func test_generateBatteryFix_batteryState_charging() {
         let level = Float(-1.0)
-        let state = UIDeviceBatteryState.charging
+        let state = UIDevice.BatteryState.charging
         
         let device = MockUIDevice()
         device.mockBatteryLevel = level
@@ -79,7 +79,7 @@ class BatteryTrackerTests: XCTestCase {
     
     func test_generateBatteryFix_batteryState_full() {
         let level = Float(-1.0)
-        let state = UIDeviceBatteryState.charging
+        let state = UIDevice.BatteryState.charging
         
         let device = MockUIDevice()
         device.mockBatteryLevel = level
@@ -93,7 +93,7 @@ class BatteryTrackerTests: XCTestCase {
     
     func test_generateBatteryFix_batteryState_unknown() {
         let level = Float(-1.0)
-        let state = UIDeviceBatteryState.unknown
+        let state = UIDevice.BatteryState.unknown
         
         let device = MockUIDevice()
         device.mockBatteryLevel = level
@@ -107,7 +107,7 @@ class BatteryTrackerTests: XCTestCase {
     
     func test_generateBatteryFix_batteryLevel_min() {
         let level = Float(0.0)
-        let state = UIDeviceBatteryState.unknown
+        let state = UIDevice.BatteryState.unknown
         
         let device = MockUIDevice()
         device.mockBatteryLevel = level
@@ -121,7 +121,7 @@ class BatteryTrackerTests: XCTestCase {
     
     func test_generateBatteryFix_batteryLevel_max() {
         let level = Float(1.0)
-        let state = UIDeviceBatteryState.unknown
+        let state = UIDevice.BatteryState.unknown
         
         let device = MockUIDevice()
         device.mockBatteryLevel = level
@@ -135,7 +135,7 @@ class BatteryTrackerTests: XCTestCase {
     
     func test_generateBatteryFix_batteryLevel_unknown() {
         let level = Float(-1.0)
-        let state = UIDeviceBatteryState.unknown
+        let state = UIDevice.BatteryState.unknown
         
         let device = MockUIDevice()
         device.mockBatteryLevel = level
@@ -158,12 +158,12 @@ class BatteryTrackerTests: XCTestCase {
     
     func testEnableTracking_UIDeviceBatteryStateDidChange() {
         device!.mockBatteryLevel = Float(0.00)
-        device!.mockBatteryState = UIDeviceBatteryState.charging
+        device!.mockBatteryState = UIDevice.BatteryState.charging
         
         tracker!.enableTracking()
         
         let level = Float(0.75)
-        let state = UIDeviceBatteryState.unplugged
+        let state = UIDevice.BatteryState.unplugged
         device!.mockBatteryLevel = level
         device!.mockBatteryState = state
         var isSubscritionCalled = false
@@ -180,7 +180,7 @@ class BatteryTrackerTests: XCTestCase {
             }
         }
         
-        NotificationCenter.default.post(name: NSNotification.Name.UIDeviceBatteryStateDidChange, object: nil)
+        NotificationCenter.default.post(name: UIDevice.batteryStateDidChangeNotification, object: nil)
         
         subscription.dispose()
         XCTAssertTrue(isSubscritionCalled)
@@ -188,12 +188,12 @@ class BatteryTrackerTests: XCTestCase {
     
     func testEnableTracking_UIDeviceBatteryLevelDidChange() {
         device!.mockBatteryLevel = Float(0.00)
-        device!.mockBatteryState = UIDeviceBatteryState.charging
+        device!.mockBatteryState = UIDevice.BatteryState.charging
         
         tracker!.enableTracking()
         
         let level = Float(0.75)
-        let state = UIDeviceBatteryState.unplugged
+        let state = UIDevice.BatteryState.unplugged
         device!.mockBatteryLevel = level
         device!.mockBatteryState = state
         var isSubscritionCalled = false
@@ -210,7 +210,7 @@ class BatteryTrackerTests: XCTestCase {
             }
         }
         
-        NotificationCenter.default.post(name: NSNotification.Name.UIDeviceBatteryLevelDidChange, object: nil)
+        NotificationCenter.default.post(name: UIDevice.batteryLevelDidChangeNotification, object: nil)
 
         subscription.dispose()
         XCTAssertTrue(isSubscritionCalled)
@@ -227,10 +227,10 @@ class BatteryTrackerTests: XCTestCase {
         XCTAssertFalse(device!.mockIsBatteryMonitoringEnabled)
         
         device!.mockBatteryLevel = Float(0.00)
-        device!.mockBatteryState = UIDeviceBatteryState.charging
+        device!.mockBatteryState = UIDevice.BatteryState.charging
         
         let level = Float(0.75)
-        let state = UIDeviceBatteryState.unplugged
+        let state = UIDevice.BatteryState.unplugged
         device!.mockBatteryLevel = level
         device!.mockBatteryState = state
         var isSubscritionCalled = false
@@ -239,7 +239,7 @@ class BatteryTrackerTests: XCTestCase {
         }
     
         
-        NotificationCenter.default.post(name: NSNotification.Name.UIDeviceBatteryLevelDidChange, object: nil)
+        NotificationCenter.default.post(name: UIDevice.batteryLevelDidChangeNotification, object: nil)
         
         subscription.dispose()
         XCTAssertFalse(isSubscritionCalled)
@@ -251,7 +251,7 @@ class BatteryTrackerTests: XCTestCase {
             
         }
         
-        NotificationCenter.default.post(name: NSNotification.Name.UIDeviceBatteryStateDidChange, object: nil)
+        NotificationCenter.default.post(name: UIDevice.batteryStateDidChangeNotification, object: nil)
         
         subscriptionState.dispose()
         XCTAssertFalse(isSubscritionStateCalled)

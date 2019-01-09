@@ -182,6 +182,7 @@
 				TargetAttributes = {
 					E2798E7C2147EE80006228A3 = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1010;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -190,6 +191,7 @@
 					};
 					E2798E902147EE81006228A3 = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1010;
 						TestTargetID = E2798E7C2147EE80006228A3;
 					};
 				};
@@ -484,7 +486,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = axa.dil.TEXDrive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -504,7 +506,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = axa.dil.TEXDrive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -525,7 +527,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = axa.tex.TexDriveAppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TexDriveApp.app/TexDriveApp";
 			};
@@ -547,7 +549,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = axa.tex.TexDriveAppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TexDriveApp.app/TexDriveApp";
 			};

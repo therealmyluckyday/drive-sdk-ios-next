@@ -94,7 +94,7 @@ class MotionFixTests: XCTestCase {
         
         let result = MotionFix.normL2Acceleration(motion: motion)
         
-        XCTAssertEqual(String(result), String(12.4498995979887))
+        XCTAssertEqual(String(result), String(12.449899597988733))
     }
     
     // MARK: func normL2Acceleration() -> Float
@@ -117,7 +117,7 @@ class MotionFixTests: XCTestCase {
         
         let result = motion.normL2Acceleration()
         
-        XCTAssertEqual(String(result), String(12.4498995979887))
+        XCTAssertEqual(String(result), String(12.449899597988733))
     }
     
     // MARK: class func convert(acceleration: CMAcceleration) -> XYZAxisValues
