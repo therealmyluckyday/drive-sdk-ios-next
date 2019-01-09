@@ -24,6 +24,7 @@ class APISessionManager: NSObject, APISessionManagerProtocol, URLSessionDelegate
         let config = URLSessionConfiguration.background(withIdentifier: "TexSession")
         config.isDiscretionary = true
         config.sessionSendsLaunchEvents = true
+        config.timeoutIntervalForResource = 15 * 60 * 60
         config.httpAdditionalHeaders = self.configuration.httpHeaders()
         return URLSession(configuration: config, delegate: self, delegateQueue: nil)
     }()
