@@ -31,6 +31,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        let memoryinuse = report_memory()
+        let message = "MemoryWarning. Memory in use: \(memoryinuse)"
+        Crashlytics.sharedInstance().recordError(NSError(domain: "AppDelegate", code: 9999, userInfo: ["filename" : "AppDelegate", "functionName": "applicationDidEnterBackground", "description": message]))
+            print("Memory in use: \(memoryinuse)")
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -43,6 +47,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        let memoryinuse = report_memory()
+        let message = "MemoryWarning. Memory in use: \(memoryinuse)"
+        Crashlytics.sharedInstance().recordError(NSError(domain: "AppDelegate", code: 9999, userInfo: ["filename" : "AppDelegate", "functionName": "applicationWillTerminate", "description": message]))
+        print("MemoryWarning. Memory in use: \(memoryinuse)")
     }
     
     // MARK: Background mode for URLSession
@@ -54,9 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
     
     // MARK: Memory management
     func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
-        
         let memoryinuse = report_memory()
-        
         let message = "MemoryWarning. Memory in use: \(memoryinuse)"
         
         Crashlytics.sharedInstance().recordError(NSError(domain: "AppDelegate", code: 9999, userInfo: ["filename" : "AppDelegate", "functionName": "applicationDidReceiveMemoryWarning", "description": message]))
@@ -85,7 +91,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
         
         return String(mbinuse) + " MB"
     }
-    
-
 }
 
