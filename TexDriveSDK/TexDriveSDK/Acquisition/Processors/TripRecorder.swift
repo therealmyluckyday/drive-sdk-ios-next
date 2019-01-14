@@ -38,8 +38,8 @@ public class TripRecorder: TripRecorderProtocol {
     
     // MARK: Lifecycle
     public init(configuration: TripRecorderConfiguration, sessionManager: APITripSessionManagerProtocol) {
-        persistantQueue = PersistantQueue(eventType: rxEventType, fixes: rxFix, scheduler: configuration.rxScheduler, rxTripId: rxTripId, tripInfos: configuration.tripInfos)
         apiTrip = APITrip(apiSessionManager: sessionManager)
+        persistantQueue = PersistantQueue(eventType: rxEventType, fixes: rxFix, scheduler: configuration.rxScheduler, rxTripId: rxTripId, tripInfos: configuration.tripInfos, rxTripChunkSent: sessionManager.tripChunkSent)
         collector = FixCollector(eventsType: rxEventType, fixes: rxFix, scheduler: configuration.rxScheduler)
         
         configuration.tripRecorderFeatures.forEach { (feature) in

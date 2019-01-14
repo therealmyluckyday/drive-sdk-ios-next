@@ -14,6 +14,8 @@ import RxTest
 
 @testable import TexDriveSDK
 class APITripSessionManagerMock: APITripSessionManagerProtocol {
+    var tripChunkSent = PublishSubject<Result<TripId>>()
+    
     func get(parameters: [String : Any], completionHandler: @escaping (Result<[String : Any]>) -> ()) {
     }
     

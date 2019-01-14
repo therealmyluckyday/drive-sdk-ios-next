@@ -51,6 +51,18 @@ class APISessionManager: NSObject, URLSessionDelegate {
     func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
         Log.print("urlsession urlSessionDidFinishEvents :\(String(describing: session))", type: .Info)
     }
+    
+    class func manageError(data: Data?, httpResponse: HTTPURLResponse) -> APIError {
+        let statusCode = httpResponse.statusCode
+        var message = "Unkown error on API"
+        if let data = data,
+            let string = String(data: data, encoding: .utf8) {
+            message = string
+            Log.print(string, type: LogType.Error)
+        }
+        Log.print("Error On API", type: LogType.Error)
+        return APIError(message: message, statusCode: statusCode)
+    }
 }
 
 

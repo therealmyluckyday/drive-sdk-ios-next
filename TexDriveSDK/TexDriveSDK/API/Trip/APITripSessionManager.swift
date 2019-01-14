@@ -11,6 +11,7 @@ import RxSwift
 
 public protocol APITripSessionManagerProtocol {
     func put(dictionaryBody: [String: Any])
+    var tripChunkSent: PublishSubject<Result<TripId>> { get }
 }
 class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, URLSessionDownloadDelegate, URLSessionTaskDelegate {
     // MARK: Property
@@ -23,6 +24,7 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
         return URLSession(configuration: config, delegate: self, delegateQueue: nil)
     }()
     let tripIdFinished = PublishSubject<TripId>()
+    let tripChunkSent = PublishSubject<Result<TripId>>()
     
     //Recreate the Session If the App Was Terminated
     /*
@@ -50,6 +52,7 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
         Log.print(location.absoluteString)
         Log.print("HTTP response \(httpResponse)")
         if (200...299).contains(httpResponse.statusCode), let tripId = APITripSessionManager.getTripId(task: downloadTask) {
+            tripChunkSent.onNext(Result.Success(tripId))
             if let tripId = APITripSessionManager.getTripId(task: downloadTask), APITripSessionManager.isTripStoppedSend(task:downloadTask) {
                 tripIdFinished.onNext(tripId)
             }
@@ -69,9 +72,11 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
                     Log.print("HTTP Body \(body)")
                 }
                 let apiError = APISessionManager.manageError(data: data, httpResponse: httpResponse)
+                tripChunkSent.onNext(Result.Failure(apiError))
             } catch {
                 Log.print("HTTP File Error \(error)", type: .Error)
                 let apiError = APIError(message: "Unable to Parse API response File", statusCode: 400)
+                tripChunkSent.onNext(Result.Failure(apiError))
             }
         }
     }
