@@ -22,8 +22,6 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
         config.httpAdditionalHeaders = self.configuration.httpHeaders()
         return URLSession(configuration: config, delegate: self, delegateQueue: nil)
     }()
-    
-    
     let tripIdFinished = PublishSubject<TripId>()
     
     //Recreate the Session If the App Was Terminated
@@ -31,7 +29,6 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
      If the system terminated the app while it was suspended, the system relaunches the app in the background. As part of your launch time setup, recreate the background session (see Listing 1), using the same session identifier as before, to allow the system to reassociate the background download task with your session. You do this so your background session is ready to go whether the app was launched by the user or by the system. Once the app relaunches, the series of events is the same as if the app had been suspended and resumed, as discussed earlier in
      */
     
-
     
     // MARK: PUT HTTP
     func put(dictionaryBody: [String: Any]) {
@@ -50,30 +47,32 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
         guard let httpResponse = downloadTask.response as? HTTPURLResponse else {
             return
         }
-        do {
-            let documentsURL = try
-                FileManager.default.url(for: .documentDirectory,
-                                        in: .userDomainMask,
-                                        appropriateFor: nil,
-                                        create: false)
-            let savedURL = documentsURL.appendingPathComponent(
-                location.lastPathComponent)
-            try FileManager.default.moveItem(at: location, to: savedURL)
-            Log.print(location.absoluteString)
-            Log.print("HTTP response \(httpResponse)")
-            if (200...299).contains(httpResponse.statusCode) {
-                if let tripId = APITripSessionManager.getTripId(task: downloadTask), APITripSessionManager.isTripStoppedSend(task:downloadTask) {
-                    tripIdFinished.onNext(tripId)
+        Log.print(location.absoluteString)
+        Log.print("HTTP response \(httpResponse)")
+        if (200...299).contains(httpResponse.statusCode), let tripId = APITripSessionManager.getTripId(task: downloadTask) {
+            if let tripId = APITripSessionManager.getTripId(task: downloadTask), APITripSessionManager.isTripStoppedSend(task:downloadTask) {
+                tripIdFinished.onNext(tripId)
+            }
+        } else {
+            Log.print("HTTP Error \(httpResponse.statusCode)", type: .Error)
+            do {
+                let documentsURL = try
+                    FileManager.default.url(for: .documentDirectory,
+                                            in: .userDomainMask,
+                                            appropriateFor: nil,
+                                            create: false)
+                let savedURL = documentsURL.appendingPathComponent(
+                    location.lastPathComponent)
+                try FileManager.default.moveItem(at: location, to: savedURL)
+                let data = try Data(contentsOf: savedURL)
+                if let body = String(bytes: data, encoding: String.Encoding.utf8) {
+                    Log.print("HTTP Body \(body)")
                 }
-            } else {
-                Log.print("HTTP Error \(httpResponse.statusCode)", type: .Error)
+                let apiError = APISessionManager.manageError(data: data, httpResponse: httpResponse)
+            } catch {
+                Log.print("HTTP File Error \(error)", type: .Error)
+                let apiError = APIError(message: "Unable to Parse API response File", statusCode: 400)
             }
-            let data = try Data(contentsOf: savedURL)
-            if let body = String(bytes: data, encoding: String.Encoding.utf8) {
-                Log.print("HTTP Body \(body)")
-            }
-        } catch {
-            Log.print("HTTP File Error \(error)", type: .Error)
         }
     }
     

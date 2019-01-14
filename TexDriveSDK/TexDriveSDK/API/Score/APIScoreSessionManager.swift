@@ -38,26 +38,20 @@ class APIScoreSessionManager: APISessionManager, APIScoreSessionManagerProtocol 
                 let task = self.urlDataTaskSession.dataTask(with: request) { (data, response, error) in
                     guard let httpResponse = response as? HTTPURLResponse,
                         (200...299).contains(httpResponse.statusCode) else {
-                            var statusCode = 400
-                            if let httpResponse = response as? HTTPURLResponse {
-                                statusCode = httpResponse.statusCode
-                            }
-                            var message = "Unkown error on API"
-                            if let data = data,
-                                let string = String(data: data, encoding: .utf8) {
-                                message = string
-                                Log.print(string, type: LogType.Error)
-                            }
-                            
                             if let error = error {
                                 Log.print("Error On API \(error)", type: LogType.Error)
                                 print(error)
                                 completionHandler(Result.Failure(error))
                             }
                             else {
-                                Log.print("Error On API", type: LogType.Error)
-                                let apiError = APIError(message: message, statusCode: statusCode)
-                                completionHandler(Result.Failure(apiError))
+                                if let httpResponse = response as? HTTPURLResponse {
+                                    let apiError = APISessionManager.manageError(data: data, httpResponse: httpResponse)
+                                    completionHandler(Result.Failure(apiError))
+                                }
+                                else {
+                                    let apiError = APIError(message: "Unknown API Error", statusCode: 400)
+                                    completionHandler(Result.Failure(apiError))
+                                }
                             }
                             return
                     }
