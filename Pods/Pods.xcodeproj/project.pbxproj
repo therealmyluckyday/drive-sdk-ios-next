@@ -3679,106 +3679,7 @@
 			};
 			name = Release;
 		};
-		0F487440293CA8D3B019A14EC77BED12 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 01E5F4C0589912DA4FCD740F67227759 /* RxBlocking-framework.xcconfig */;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/RxBlocking-framework/RxBlocking-framework-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/RxBlocking-framework/RxBlocking-framework-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULEMAP_FILE = "Target Support Files/RxBlocking-framework/RxBlocking-framework.modulemap";
-				PRODUCT_MODULE_NAME = RxBlocking;
-				PRODUCT_NAME = RxBlocking;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		17AE74EAE5A21934CDBB634C5EDA03BF /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4E540F5EB68AAA8C71BE0101AB5B9507 /* RxSwift-framework.xcconfig */;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/RxSwift-framework/RxSwift-framework-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/RxSwift-framework/RxSwift-framework-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULEMAP_FILE = "Target Support Files/RxSwift-framework/RxSwift-framework.modulemap";
-				PRODUCT_MODULE_NAME = RxSwift;
-				PRODUCT_NAME = RxSwift;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		216D3E9A775CBC161AC188D5302B8A15 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = FFE93CCE7371CE232BAEFABB35F4ADE7 /* Pods-TexDriveSDKTests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-TexDriveSDKTests/Pods-TexDriveSDKTests.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		2607B3D12180B405B2A798A2761F71FD /* Debug */ = {
+		1F43F7329EBF13D46D264D989B476A70 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4257C2DB81FE3498E3CEFDFE253A47BA /* RxCocoa-framework.xcconfig */;
 			buildSettings = {
@@ -3807,10 +3708,61 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		216D3E9A775CBC161AC188D5302B8A15 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FFE93CCE7371CE232BAEFABB35F4ADE7 /* Pods-TexDriveSDKTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-TexDriveSDKTests/Pods-TexDriveSDKTests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		231C902C45FC9A3F2AA692FE24D8076E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F3C462BE70E78AB7CCC4AD282504DC54 /* RxCocoa-library.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/RxCocoa-library/RxCocoa-library-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MODULEMAP_FILE = "Headers/Public/RxCocoa/RxCocoa-library.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = RxCocoa;
+				PRODUCT_NAME = "RxCocoa-library";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -3831,6 +3783,79 @@
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
+		};
+		447A5C909A0EAA5C45A3C525511C5F7B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4E540F5EB68AAA8C71BE0101AB5B9507 /* RxSwift-framework.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/RxSwift-framework/RxSwift-framework-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/RxSwift-framework/RxSwift-framework-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/RxSwift-framework/RxSwift-framework.modulemap";
+				PRODUCT_MODULE_NAME = RxSwift;
+				PRODUCT_NAME = RxSwift;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		466E18D6DF719DE698D6A76274F3D142 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 01E5F4C0589912DA4FCD740F67227759 /* RxBlocking-framework.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/RxBlocking-framework/RxBlocking-framework-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/RxBlocking-framework/RxBlocking-framework-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/RxBlocking-framework/RxBlocking-framework.modulemap";
+				PRODUCT_MODULE_NAME = RxBlocking;
+				PRODUCT_NAME = RxBlocking;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
 		};
 		53F99F6B1862E780A72A99B751670C43 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -3973,7 +3998,61 @@
 			};
 			name = Release;
 		};
-		66C93E0FFB7FB51B98C1453A6D9C44DF /* Debug */ = {
+		68C55F2D5BFC6B3A80C8D5631BD526B0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3A9F9699515D9F7ABCEC26FBF45A4D4F /* Crashlytics.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		70760336EB9800B9A1F5AEBC8A41B355 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4257C2DB81FE3498E3CEFDFE253A47BA /* RxCocoa-framework.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/RxCocoa-framework/RxCocoa-framework-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/RxCocoa-framework/RxCocoa-framework-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/RxCocoa-framework/RxCocoa-framework.modulemap";
+				PRODUCT_MODULE_NAME = RxCocoa;
+				PRODUCT_NAME = RxCocoa;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		78071F0E21A01289E2F927D61E8282E1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0EDFA88B7F10AED7965CAE93195351C5 /* RxBlocking-library.xcconfig */;
 			buildSettings = {
@@ -3994,50 +4073,33 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		68C55F2D5BFC6B3A80C8D5631BD526B0 /* Debug */ = {
+		7830A1BABE58659112E61EC463D6042F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3A9F9699515D9F7ABCEC26FBF45A4D4F /* Crashlytics.xcconfig */;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		78794F848D4A89A644CCE4D91DA41CED /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = D3B0AB4F38483715F789C83D740E9641 /* RxTest.xcconfig */;
+			baseConfigurationReference = D958BC829200B64F41088D3677D23E29 /* RxSwift-library.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/RxTest/RxTest-prefix.pch";
+				GCC_PREFIX_HEADER = "Target Support Files/RxSwift-library/RxSwift-library-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MODULEMAP_FILE = Headers/Public/RxTest/RxTest.modulemap;
+				MODULEMAP_FILE = "Headers/Public/RxSwift/RxSwift-library.modulemap";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_MODULE_NAME = RxTest;
-				PRODUCT_NAME = RxTest;
+				PRODUCT_MODULE_NAME = RxSwift;
+				PRODUCT_NAME = "RxSwift-library";
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -4102,9 +4164,36 @@
 			};
 			name = Release;
 		};
-		8024C2728972C607DC4E78B2734FEE57 /* Release */ = {
+		863E28D22217DBAAC0C1BA3F06FD1C62 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4257C2DB81FE3498E3CEFDFE253A47BA /* RxCocoa-framework.xcconfig */;
+			baseConfigurationReference = F3C462BE70E78AB7CCC4AD282504DC54 /* RxCocoa-library.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/RxCocoa-library/RxCocoa-library-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MODULEMAP_FILE = "Headers/Public/RxCocoa/RxCocoa-library.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = RxCocoa;
+				PRODUCT_NAME = "RxCocoa-library";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8B7611E83986BE53C954F0D65B1D192B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 01E5F4C0589912DA4FCD740F67227759 /* RxBlocking-framework.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_IDENTITY = "";
@@ -4116,8 +4205,8 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/RxCocoa-framework/RxCocoa-framework-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/RxCocoa-framework/RxCocoa-framework-Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/RxBlocking-framework/RxBlocking-framework-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/RxBlocking-framework/RxBlocking-framework-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4125,13 +4214,13 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MODULEMAP_FILE = "Target Support Files/RxCocoa-framework/RxCocoa-framework.modulemap";
-				PRODUCT_MODULE_NAME = RxCocoa;
-				PRODUCT_NAME = RxCocoa;
+				MODULEMAP_FILE = "Target Support Files/RxBlocking-framework/RxBlocking-framework.modulemap";
+				PRODUCT_MODULE_NAME = RxBlocking;
+				PRODUCT_NAME = RxBlocking;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -4178,7 +4267,7 @@
 			};
 			name = Debug;
 		};
-		9B728D0B2EE7EF7BC4FA21CF1EADAAF7 /* Debug */ = {
+		A3F88E7A3158CDE69E0935AD6C3BFABE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4E540F5EB68AAA8C71BE0101AB5B9507 /* RxSwift-framework.xcconfig */;
 			buildSettings = {
@@ -4207,36 +4296,10 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		9BCC7F4A2F2291D8C8BC4CF3A5993E58 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = D958BC829200B64F41088D3677D23E29 /* RxSwift-library.xcconfig */;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/RxSwift-library/RxSwift-library-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MODULEMAP_FILE = "Headers/Public/RxSwift/RxSwift-library.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_MODULE_NAME = RxSwift;
-				PRODUCT_NAME = "RxSwift-library";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -4258,7 +4321,7 @@
 			};
 			name = Release;
 		};
-		BE615E84D355D7A6694B5D5487E88F07 /* Release */ = {
+		BBDEBFDB0DAC0121E81885A4DE65F48A /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D958BC829200B64F41088D3677D23E29 /* RxSwift-library.xcconfig */;
 			buildSettings = {
@@ -4279,37 +4342,11 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
-		};
-		C8432117680D916DC449E5428C8DF479 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F3C462BE70E78AB7CCC4AD282504DC54 /* RxCocoa-library.xcconfig */;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/RxCocoa-library/RxCocoa-library-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MODULEMAP_FILE = "Headers/Public/RxCocoa/RxCocoa-library.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_MODULE_NAME = RxCocoa;
-				PRODUCT_NAME = "RxCocoa-library";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
 		};
 		C885E65C3F551A398AE9C1A123D77746 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -4367,64 +4404,54 @@
 			};
 			name = Debug;
 		};
-		DDCF001358FEF1ECB14EE9F28D72299E /* Debug */ = {
+		E005528529A0388A0B0B26B265E343B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 01E5F4C0589912DA4FCD740F67227759 /* RxBlocking-framework.xcconfig */;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/RxBlocking-framework/RxBlocking-framework-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/RxBlocking-framework/RxBlocking-framework-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULEMAP_FILE = "Target Support Files/RxBlocking-framework/RxBlocking-framework.modulemap";
-				PRODUCT_MODULE_NAME = RxBlocking;
-				PRODUCT_NAME = RxBlocking;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		E63EAB101A410FB726DA7386F949946F /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0EDFA88B7F10AED7965CAE93195351C5 /* RxBlocking-library.xcconfig */;
+			baseConfigurationReference = D3B0AB4F38483715F789C83D740E9641 /* RxTest.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/RxBlocking-library/RxBlocking-library-prefix.pch";
+				GCC_PREFIX_HEADER = "Target Support Files/RxTest/RxTest-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MODULEMAP_FILE = "Headers/Public/RxBlocking/RxBlocking-library.modulemap";
+				MODULEMAP_FILE = Headers/Public/RxTest/RxTest.modulemap;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_MODULE_NAME = RxBlocking;
-				PRODUCT_NAME = "RxBlocking-library";
+				PRODUCT_MODULE_NAME = RxTest;
+				PRODUCT_NAME = RxTest;
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E65E4541C3B83E957377CB571B261234 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D3B0AB4F38483715F789C83D740E9641 /* RxTest.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/RxTest/RxTest-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MODULEMAP_FILE = Headers/Public/RxTest/RxTest.modulemap;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = RxTest;
+				PRODUCT_NAME = RxTest;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -4468,55 +4495,28 @@
 			};
 			name = Release;
 		};
-		F2F1F1C87A1FE999FA32C8166D3F50B9 /* Release */ = {
+		F3AE0539452339EE6C9A245ABE11C5CE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D3B0AB4F38483715F789C83D740E9641 /* RxTest.xcconfig */;
+			baseConfigurationReference = 0EDFA88B7F10AED7965CAE93195351C5 /* RxBlocking-library.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/RxTest/RxTest-prefix.pch";
+				GCC_PREFIX_HEADER = "Target Support Files/RxBlocking-library/RxBlocking-library-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MODULEMAP_FILE = Headers/Public/RxTest/RxTest.modulemap;
+				MODULEMAP_FILE = "Headers/Public/RxBlocking/RxBlocking-library.modulemap";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_MODULE_NAME = RxTest;
-				PRODUCT_NAME = RxTest;
+				PRODUCT_MODULE_NAME = RxBlocking;
+				PRODUCT_NAME = "RxBlocking-library";
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		F3EE8F4B8A2B20510B06742541BB8805 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F3C462BE70E78AB7CCC4AD282504DC54 /* RxCocoa-library.xcconfig */;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/RxCocoa-library/RxCocoa-library-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MODULEMAP_FILE = "Headers/Public/RxCocoa/RxCocoa-library.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_MODULE_NAME = RxCocoa;
-				PRODUCT_NAME = "RxCocoa-library";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -4588,8 +4588,8 @@
 		542F2C009AD40386B4A4C3F044927B71 /* Build configuration list for PBXNativeTarget "RxCocoa-framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2607B3D12180B405B2A798A2761F71FD /* Debug */,
-				8024C2728972C607DC4E78B2734FEE57 /* Release */,
+				1F43F7329EBF13D46D264D989B476A70 /* Debug */,
+				70760336EB9800B9A1F5AEBC8A41B355 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -4606,8 +4606,8 @@
 		8EDE3430699F1259759037442A50A13F /* Build configuration list for PBXNativeTarget "RxTest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				78794F848D4A89A644CCE4D91DA41CED /* Debug */,
-				F2F1F1C87A1FE999FA32C8166D3F50B9 /* Release */,
+				E005528529A0388A0B0B26B265E343B3 /* Debug */,
+				E65E4541C3B83E957377CB571B261234 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -4624,8 +4624,8 @@
 		B6FB1C7998307E8631DCBCB0C08B7CE3 /* Build configuration list for PBXNativeTarget "RxBlocking-framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DDCF001358FEF1ECB14EE9F28D72299E /* Debug */,
-				0F487440293CA8D3B019A14EC77BED12 /* Release */,
+				466E18D6DF719DE698D6A76274F3D142 /* Debug */,
+				8B7611E83986BE53C954F0D65B1D192B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -4642,8 +4642,8 @@
 		CEE6C006EEBC950E5F700C685028D380 /* Build configuration list for PBXNativeTarget "RxBlocking-library" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				66C93E0FFB7FB51B98C1453A6D9C44DF /* Debug */,
-				E63EAB101A410FB726DA7386F949946F /* Release */,
+				78071F0E21A01289E2F927D61E8282E1 /* Debug */,
+				F3AE0539452339EE6C9A245ABE11C5CE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -4660,8 +4660,8 @@
 		DF1A210C948797252EF74D29027DA41C /* Build configuration list for PBXNativeTarget "RxSwift-framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9B728D0B2EE7EF7BC4FA21CF1EADAAF7 /* Debug */,
-				17AE74EAE5A21934CDBB634C5EDA03BF /* Release */,
+				A3F88E7A3158CDE69E0935AD6C3BFABE /* Debug */,
+				447A5C909A0EAA5C45A3C525511C5F7B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -4669,8 +4669,8 @@
 		F1B8CFF286F366309055C2AE0E293900 /* Build configuration list for PBXNativeTarget "RxCocoa-library" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C8432117680D916DC449E5428C8DF479 /* Debug */,
-				F3EE8F4B8A2B20510B06742541BB8805 /* Release */,
+				231C902C45FC9A3F2AA692FE24D8076E /* Debug */,
+				863E28D22217DBAAC0C1BA3F06FD1C62 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -4678,8 +4678,8 @@
 		F78BD76379594723C99C995BA89E8C08 /* Build configuration list for PBXNativeTarget "RxSwift-library" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9BCC7F4A2F2291D8C8BC4CF3A5993E58 /* Debug */,
-				BE615E84D355D7A6694B5D5487E88F07 /* Release */,
+				7830A1BABE58659112E61EC463D6042F /* Debug */,
+				BBDEBFDB0DAC0121E81885A4DE65F48A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
