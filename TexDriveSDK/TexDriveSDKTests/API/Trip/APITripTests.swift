@@ -13,11 +13,23 @@ import RxTest
 
 
 @testable import TexDriveSDK
+class APITripSessionManagerMock: APITripSessionManagerProtocol {
+    func get(parameters: [String : Any], completionHandler: @escaping (Result<[String : Any]>) -> ()) {
+    }
+    
+    var isPutCalled = false
+    var dictionaryPut : [String: Any]?
+    func put(dictionaryBody: [String: Any]) {
+        isPutCalled = true
+        dictionaryPut = dictionaryBody
+    }
+}
 
 class APITripTests: XCTestCase {
     // MARK: func subscribe(providerTrip: PublishSubject<Trip>)
     func testSubscribe() {
-        let mock = APISessionManagerMock()
+        let mock = APITripSessionManagerMock()
+        
         let apiTrip = APITrip(apiSessionManager: mock)
         let trip = TripChunk(tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
         

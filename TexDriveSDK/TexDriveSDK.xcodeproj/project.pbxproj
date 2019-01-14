@@ -15,7 +15,6 @@
 		C121003121C1632500A126E6 /* TripInfosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C121003021C1632500A126E6 /* TripInfosTests.swift */; };
 		C12373992166468100A95A2A /* TripRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12373982166468100A95A2A /* TripRecorder.swift */; };
 		C124ABF7217F45D80038A0B1 /* TripChunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = C124ABF6217F45D80038A0B1 /* TripChunk.swift */; };
-		C124ABFB217F4F070038A0B1 /* APITrip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C124ABFA217F4F070038A0B1 /* APITrip.swift */; };
 		C1273E9F2175EE800006E6E0 /* MotionFix.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1273E9E2175EE800006E6E0 /* MotionFix.swift */; };
 		C1273EA12175F59C0006E6E0 /* MotionTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1273EA02175F59C0006E6E0 /* MotionTracker.swift */; };
 		C1273EA32176314F0006E6E0 /* MotionBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1273EA22176314F0006E6E0 /* MotionBuffer.swift */; };
@@ -24,6 +23,10 @@
 		C1273EA92178C1670006E6E0 /* MotionTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1273EA82178C1670006E6E0 /* MotionTrackerTests.swift */; };
 		C12E34C421C174B600696B03 /* LogRx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12E34C321C174B600696B03 /* LogRx.swift */; };
 		C14CA50A21BED0C000158BA0 /* ScoringClientTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CA50921BED0C000158BA0 /* ScoringClientTest.swift */; };
+		C151989821EC74A20058DC95 /* APIScoreSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C151989721EC74A20058DC95 /* APIScoreSessionManager.swift */; };
+		C15198A121EC76CB0058DC95 /* APITrip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C151989F21EC76CB0058DC95 /* APITrip.swift */; };
+		C15198A221EC76CB0058DC95 /* APITripSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15198A021EC76CB0058DC95 /* APITripSessionManager.swift */; };
+		C15198A521EC81C30058DC95 /* APITripSessionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15198A421EC81C30058DC95 /* APITripSessionManagerTests.swift */; };
 		C15B9FC721942E720072439F /* LogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15B9FC621942E720072439F /* LogTests.swift */; };
 		C15B9FC92194441F0072439F /* LogDetailTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15B9FC82194441F0072439F /* LogDetailTests.swift */; };
 		C15B9FCB219449270072439F /* LogRxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15B9FCA219449270072439F /* LogRxTests.swift */; };
@@ -66,7 +69,7 @@
 		C1FDE33D219C5A4C00F15AF3 /* TexServicesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE33C219C5A4C00F15AF3 /* TexServicesTests.swift */; };
 		C1FDE340219C5B1300F15AF3 /* TripRecorderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE33F219C5B1300F15AF3 /* TripRecorderTests.swift */; };
 		C1FDE342219C5B4300F15AF3 /* FixCollectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE341219C5B4300F15AF3 /* FixCollectorTests.swift */; };
-		C1FDE344219C5B7E00F15AF3 /* APISessionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE343219C5B7E00F15AF3 /* APISessionManagerTests.swift */; };
+		C1FDE344219C5B7E00F15AF3 /* APIScoreSessionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE343219C5B7E00F15AF3 /* APIScoreSessionManagerTests.swift */; };
 		C1FDE346219C5BA700F15AF3 /* APITripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE345219C5BA700F15AF3 /* APITripTests.swift */; };
 		C1FDE34A219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE349219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift */; };
 		C1FDE34C219C72C400F15AF3 /* FixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE34B219C72C400F15AF3 /* FixTests.swift */; };
@@ -104,7 +107,6 @@
 		C121003021C1632500A126E6 /* TripInfosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripInfosTests.swift; sourceTree = "<group>"; };
 		C12373982166468100A95A2A /* TripRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecorder.swift; sourceTree = "<group>"; };
 		C124ABF6217F45D80038A0B1 /* TripChunk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripChunk.swift; sourceTree = "<group>"; };
-		C124ABFA217F4F070038A0B1 /* APITrip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITrip.swift; sourceTree = "<group>"; };
 		C1273E9E2175EE800006E6E0 /* MotionFix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionFix.swift; sourceTree = "<group>"; };
 		C1273EA02175F59C0006E6E0 /* MotionTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionTracker.swift; sourceTree = "<group>"; };
 		C1273EA22176314F0006E6E0 /* MotionBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MotionBuffer.swift; path = TexDriveSDK/Acquisition/Processors/MotionBuffer.swift; sourceTree = SOURCE_ROOT; };
@@ -114,6 +116,10 @@
 		C12E34C321C174B600696B03 /* LogRx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LogRx.swift; path = TexDriveSDK/Core/LogRx.swift; sourceTree = SOURCE_ROOT; };
 		C148D7152181F34C00F1088B /* TEX-elb-ssl.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TEX-elb-ssl.der"; sourceTree = "<group>"; };
 		C14CA50921BED0C000158BA0 /* ScoringClientTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoringClientTest.swift; sourceTree = "<group>"; };
+		C151989721EC74A20058DC95 /* APIScoreSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIScoreSessionManager.swift; sourceTree = "<group>"; };
+		C151989F21EC76CB0058DC95 /* APITrip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APITrip.swift; sourceTree = "<group>"; };
+		C15198A021EC76CB0058DC95 /* APITripSessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APITripSessionManager.swift; sourceTree = "<group>"; };
+		C15198A421EC81C30058DC95 /* APITripSessionManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITripSessionManagerTests.swift; sourceTree = "<group>"; };
 		C15B9FC621942E720072439F /* LogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogTests.swift; sourceTree = "<group>"; };
 		C15B9FC82194441F0072439F /* LogDetailTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogDetailTests.swift; sourceTree = "<group>"; };
 		C15B9FCA219449270072439F /* LogRxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogRxTests.swift; sourceTree = "<group>"; };
@@ -155,7 +161,7 @@
 		C1FDE33C219C5A4C00F15AF3 /* TexServicesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexServicesTests.swift; sourceTree = "<group>"; };
 		C1FDE33F219C5B1300F15AF3 /* TripRecorderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecorderTests.swift; sourceTree = "<group>"; };
 		C1FDE341219C5B4300F15AF3 /* FixCollectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixCollectorTests.swift; sourceTree = "<group>"; };
-		C1FDE343219C5B7E00F15AF3 /* APISessionManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APISessionManagerTests.swift; sourceTree = "<group>"; };
+		C1FDE343219C5B7E00F15AF3 /* APIScoreSessionManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIScoreSessionManagerTests.swift; sourceTree = "<group>"; };
 		C1FDE345219C5BA700F15AF3 /* APITripTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITripTests.swift; sourceTree = "<group>"; };
 		C1FDE349219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecorderFeatureTests.swift; sourceTree = "<group>"; };
 		C1FDE34B219C72C400F15AF3 /* FixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixTests.swift; sourceTree = "<group>"; };
@@ -234,9 +240,9 @@
 		C124ABF8217F4EEB0038A0B1 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				C151989E21EC76CB0058DC95 /* Trip */,
 				C1F7E45C21B55E3800EA0445 /* Score */,
 				C1D13434218728300099B650 /* Extension */,
-				C124ABFA217F4F070038A0B1 /* APITrip.swift */,
 				C1DD032C21886B77000BBBBF /* APIConfiguration.swift */,
 				C1DD033021887EE6000BBBBF /* APISessionManager.swift */,
 				C1CC41E821DFBF20004CB5C2 /* APIError.swift */,
@@ -251,6 +257,24 @@
 				C168630121E33CAF003FF6F0 /* ScoreErrorTests.swift */,
 			);
 			path = Score;
+			sourceTree = "<group>";
+		};
+		C151989E21EC76CB0058DC95 /* Trip */ = {
+			isa = PBXGroup;
+			children = (
+				C151989F21EC76CB0058DC95 /* APITrip.swift */,
+				C15198A021EC76CB0058DC95 /* APITripSessionManager.swift */,
+			);
+			path = Trip;
+			sourceTree = "<group>";
+		};
+		C15198A321EC81840058DC95 /* Trip */ = {
+			isa = PBXGroup;
+			children = (
+				C1FDE345219C5BA700F15AF3 /* APITripTests.swift */,
+				C15198A421EC81C30058DC95 /* APITripSessionManagerTests.swift */,
+			);
+			path = Trip;
 			sourceTree = "<group>";
 		};
 		C17E9A71216F824100FCF93E /* Core */ = {
@@ -349,11 +373,10 @@
 		C1E93DF521875F2D0082B2B3 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				C15198A321EC81840058DC95 /* Trip */,
 				C1F7E45721B53D8B00EA0445 /* Score */,
 				C1E93DF621875F460082B2B3 /* Extension */,
 				C1DD032E21886BD5000BBBBF /* APIConfigurationTests.swift */,
-				C1FDE343219C5B7E00F15AF3 /* APISessionManagerTests.swift */,
-				C1FDE345219C5BA700F15AF3 /* APITripTests.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -388,6 +411,7 @@
 		C1F7E45721B53D8B00EA0445 /* Score */ = {
 			isa = PBXGroup;
 			children = (
+				C1FDE343219C5B7E00F15AF3 /* APIScoreSessionManagerTests.swift */,
 				C1F7E45A21B53DC500EA0445 /* APIScoreTest.swift */,
 			);
 			path = Score;
@@ -396,6 +420,7 @@
 		C1F7E45C21B55E3800EA0445 /* Score */ = {
 			isa = PBXGroup;
 			children = (
+				C151989721EC74A20058DC95 /* APIScoreSessionManager.swift */,
 				C1F7E45D21B55E5200EA0445 /* APIScore.swift */,
 			);
 			path = Score;
@@ -676,6 +701,7 @@
 				C1E521B42170ED5300B80C64 /* CallFix.swift in Sources */,
 				C1DD033121887EE6000BBBBF /* APISessionManager.swift in Sources */,
 				C12373992166468100A95A2A /* TripRecorder.swift in Sources */,
+				C15198A121EC76CB0058DC95 /* APITrip.swift in Sources */,
 				C1FAAA3A2163C7B700FD3C1D /* Tracker.swift in Sources */,
 				C17E9A7C216F944500FCF93E /* TripRecorderFeature.swift in Sources */,
 				C17E9A74216F828400FCF93E /* User.swift in Sources */,
@@ -683,7 +709,7 @@
 				C1DD032D21886B77000BBBBF /* APIConfiguration.swift in Sources */,
 				C107606F217E2C8000FB28AA /* PersistantQueue.swift in Sources */,
 				C1E521B22170ECBE00B80C64 /* CallTracker.swift in Sources */,
-				C124ABFB217F4F070038A0B1 /* APITrip.swift in Sources */,
+				C151989821EC74A20058DC95 /* APIScoreSessionManager.swift in Sources */,
 				C1273E9F2175EE800006E6E0 /* MotionFix.swift in Sources */,
 				C1CC41E721DFBEC4004CB5C2 /* ScoreError.swift in Sources */,
 				C1F7E45E21B55E5200EA0445 /* APIScore.swift in Sources */,
@@ -691,6 +717,7 @@
 				E2798EDD215A5D65006228A3 /* LocationFix.swift in Sources */,
 				C17E9A76216F82F100FCF93E /* Config.swift in Sources */,
 				C1D13437218728600099B650 /* SecTrustExtension.swift in Sources */,
+				C15198A221EC76CB0058DC95 /* APITripSessionManager.swift in Sources */,
 				C17E9A78216F85BD00FCF93E /* TexServices.swift in Sources */,
 				C1D13439218729900099B650 /* UIDeviceExtension.swift in Sources */,
 				E2798EC921481570006228A3 /* BatteryFix.swift in Sources */,
@@ -717,6 +744,7 @@
 				E2798EB92147F0DC006228A3 /* TexDriveSDKTests.swift in Sources */,
 				C1FDE346219C5BA700F15AF3 /* APITripTests.swift in Sources */,
 				C1FDE340219C5B1300F15AF3 /* TripRecorderTests.swift in Sources */,
+				C15198A521EC81C30058DC95 /* APITripSessionManagerTests.swift in Sources */,
 				C1273EA92178C1670006E6E0 /* MotionTrackerTests.swift in Sources */,
 				C1FDE34C219C72C400F15AF3 /* FixTests.swift in Sources */,
 				C1273EA5217790C50006E6E0 /* MotionBufferTests.swift in Sources */,
@@ -734,7 +762,7 @@
 				C18AE989216E31E30065F0BB /* BatteryTrackerTests.swift in Sources */,
 				C18AE986216E2E2A0065F0BB /* LocationFixTests.swift in Sources */,
 				C1FDE33B219C58E500F15AF3 /* PersistantQueueTests.swift in Sources */,
-				C1FDE344219C5B7E00F15AF3 /* APISessionManagerTests.swift in Sources */,
+				C1FDE344219C5B7E00F15AF3 /* APIScoreSessionManagerTests.swift in Sources */,
 				C1DD032F21886BD5000BBBBF /* APIConfigurationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

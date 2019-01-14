@@ -10,16 +10,16 @@ import Foundation
 import RxSwift
 
 protocol APITripProtocol {
-    init(apiSessionManager: APISessionManagerProtocol)
+    init(apiSessionManager: APITripSessionManagerProtocol)
 }
 
 class APITrip: APITripProtocol {
     // MARK: Property
-    private let sessionManager : APISessionManagerProtocol
+    private let sessionManager : APITripSessionManagerProtocol
 
     
     // MARK: APITripProtocol Protocol Method
-    required init(apiSessionManager: APISessionManagerProtocol) {
+    required init(apiSessionManager: APITripSessionManagerProtocol) {
         self.sessionManager = apiSessionManager
     }
     

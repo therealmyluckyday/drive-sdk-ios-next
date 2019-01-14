@@ -1,29 +1,17 @@
 //
-//  APISessionManagerTests.swift
+//  APITripSessionManagerTests.swift
 //  TexDriveSDKTests
 //
-//  Created by Erwan Masson on 14/11/2018.
-//  Copyright © 2018 Axa. All rights reserved.
+//  Created by Erwan Masson on 14/01/2019.
+//  Copyright © 2019 Axa. All rights reserved.
 //
 
 import XCTest
 import RxSwift
 @testable import TexDriveSDK
 
-class APISessionManagerMock: APISessionManagerProtocol {
-    func get(parameters: [String : Any], completionHandler: @escaping (Result<[String : Any]>) -> ()) {
-    }
-    
-    var isPutCalled = false
-    var dictionaryPut : [String: Any]?
-    func put(dictionaryBody: [String: Any]) {
-        isPutCalled = true
-        dictionaryPut = dictionaryBody
-    }
-}
-
-class APISessionManagerTests: XCTestCase {
-    var apiSessionManager: APISessionManager?
+class APITripSessionManagerTests: XCTestCase {
+    var apiSessionManager: APITripSessionManager?
     var rxDisposeBag: DisposeBag?
     let logFactory = LogRx()
     var urlBackgroundTaskSession: URLSession?
@@ -33,7 +21,7 @@ class APISessionManagerTests: XCTestCase {
         rxDisposeBag = DisposeBag()
         let user = User.Authentified("Erwan-ios12")
         let appId = "youdrive_france_prospect"
-        apiSessionManager = APISessionManager(configuration: TripInfos(appId: appId, user: user, domain: Domain.Preproduction))
+        apiSessionManager = APITripSessionManager(configuration: TripInfos(appId: appId, user: user, domain: Domain.Preproduction))
         let config = URLSessionConfiguration.background(withIdentifier: "TexSession")
         config.isDiscretionary = true
         config.sessionSendsLaunchEvents = true
@@ -41,52 +29,8 @@ class APISessionManagerTests: XCTestCase {
     }
     
     override func tearDown() {
-        
+        rxDisposeBag = nil
         super.tearDown()
-    }
-    // func get(parameters: [String: Any], completionHandler: @escaping (Result<[String: Any]>) -> ())
-    func testGetSuccess() {
-        var isCompleted = false
-        let tripId = "73B1C1B6-8DD8-4DEA-ACAF-4B1E05F6EF09"
-        let getSuccessExpected = self.expectation(description: "testGetSuccessExpectation")
-        let dictionary = ["trip_id":tripId, "lang": Locale.current.identifier]
-        apiSessionManager!.get(parameters: dictionary) { (result) in
-            switch result {
-            case Result.Success(let response):
-                let score = Score(dictionary: response)
-                XCTAssertNotNil(score)
-                break
-            default:
-                XCTAssert(false)
-            }
-            isCompleted = true
-            getSuccessExpected.fulfill()
-            
-        }
-        wait(for: [getSuccessExpected], timeout: 5)
-        XCTAssertTrue(isCompleted)
-    }
-    
-    func testGetError() {
-        var isCompleted = false
-        let getSuccessExpected = self.expectation(description: "testGetFailureExpectation")
-        let dictionary = [String: Any]()
-        apiSessionManager!.get(parameters: dictionary) { (result) in
-            switch result {
-            case Result.Success(_):
-                XCTAssert(false)
-                break
-            case Result.Failure(let error as APIError):
-                XCTAssertEqual(error.statusCode, 400)
-            case .Failure(_):
-                XCTAssert(false)
-            }
-            isCompleted = true
-            getSuccessExpected.fulfill()
-            
-        }
-        wait(for: [getSuccessExpected], timeout: 5)
-        XCTAssertTrue(isCompleted)
     }
     
     // MARK : func isTripStoppedSend(task: URLSessionDownloadTask) -> Bool
@@ -96,7 +40,7 @@ class APISessionManagerTests: XCTestCase {
         tripChunk.append(eventType: eventType)
         if let request = URLRequest.createUrlRequest(url: URL(string: "http://google.com")!, body: tripChunk.serialize(), httpMethod: HttpMethod.PUT) {
             let backgroundTask = urlBackgroundTaskSession!.downloadTask(with: request)
-            XCTAssertTrue(APISessionManager.isTripStoppedSend(task: backgroundTask))
+            XCTAssertTrue(APITripSessionManager.isTripStoppedSend(task: backgroundTask))
         }
         else {
             XCTAssertTrue(false)
@@ -108,7 +52,7 @@ class APISessionManagerTests: XCTestCase {
         tripChunk.append(eventType: eventType)
         if let request = URLRequest.createUrlRequest(url: URL(string: "http://google.com")!, body: tripChunk.serialize(), httpMethod: HttpMethod.PUT) {
             let backgroundTask = urlBackgroundTaskSession!.downloadTask(with: request)
-            XCTAssertFalse(APISessionManager.isTripStoppedSend(task: backgroundTask))
+            XCTAssertFalse(APITripSessionManager.isTripStoppedSend(task: backgroundTask))
         }
         else {
             XCTAssertTrue(false)
@@ -120,7 +64,7 @@ class APISessionManagerTests: XCTestCase {
         tripChunk.append(fix: LocationFix(timestamp: 0, latitude: 0, longitude: 0, precision: 0, speed: 0, bearing: 0, altitude: 0))
         if let request = URLRequest.createUrlRequest(url: URL(string: "http://google.com")!, body: tripChunk.serialize(), httpMethod: HttpMethod.PUT) {
             let backgroundTask = urlBackgroundTaskSession!.downloadTask(with: request)
-            XCTAssertFalse(APISessionManager.isTripStoppedSend(task: backgroundTask))
+            XCTAssertFalse(APITripSessionManager.isTripStoppedSend(task: backgroundTask))
         }
         else {
             XCTAssertTrue(false)
@@ -130,7 +74,7 @@ class APISessionManagerTests: XCTestCase {
     func testIsTripStopped_false_emptyBody() {
         if let request = URLRequest.createUrlRequest(url: URL(string: "http://google.com")!, body: [String: Any](), httpMethod: HttpMethod.PUT) {
             let backgroundTask = urlBackgroundTaskSession!.downloadTask(with: request)
-            XCTAssertFalse(APISessionManager.isTripStoppedSend(task: backgroundTask))
+            XCTAssertFalse(APITripSessionManager.isTripStoppedSend(task: backgroundTask))
         }
         else {
             XCTAssertTrue(false)
@@ -141,7 +85,7 @@ class APISessionManagerTests: XCTestCase {
         var request = URLRequest(url: URL(string: "http://google.com")!)
         request.httpBody = Data(bytes: [15])
         let backgroundTask = urlBackgroundTaskSession!.downloadTask(with: request)
-        XCTAssertFalse(APISessionManager.isTripStoppedSend(task: backgroundTask))
+        XCTAssertFalse(APITripSessionManager.isTripStoppedSend(task: backgroundTask))
     }
     
     // MARK : func getTripId(task: URLSessionDownloadTask) -> TripId
@@ -149,7 +93,7 @@ class APISessionManagerTests: XCTestCase {
         let tripChunk = TripChunk(tripInfos: TripInfos(appId: "TEST", user: User.Anonymous, domain: Domain.Preproduction))
         if let request = URLRequest.createUrlRequest(url: URL(string: "http://google.com")!, body: tripChunk.serialize(), httpMethod: HttpMethod.PUT) {
             let backgroundTask = urlBackgroundTaskSession!.downloadTask(with: request)
-            let tripIdResult = APISessionManager.getTripId(task: backgroundTask)
+            let tripIdResult = APITripSessionManager.getTripId(task: backgroundTask)
             XCTAssertNotNil(tripIdResult)
             XCTAssertEqual(tripIdResult!.uuidString, tripChunk.tripId.uuidString)
         }
@@ -157,6 +101,5 @@ class APISessionManagerTests: XCTestCase {
             XCTAssertTrue(false)
         }
     }
+
 }
-
-

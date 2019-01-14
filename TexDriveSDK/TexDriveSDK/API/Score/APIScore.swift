@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 
 protocol APIScoreProtocol {
-    init(apiSessionManager: APISessionManagerProtocol, locale: Locale)
+    init(apiSessionManager: APIScoreSessionManagerProtocol, locale: Locale)
     func getScore(tripId: TripId, rxScore: PublishSubject<Score>)
     func getScore(tripId: TripId, completionHandler: @escaping (Result<Score>) -> ())
 }
@@ -19,12 +19,12 @@ protocol APIScoreProtocol {
 class APIScore: APIScoreProtocol {
     // MARK: Property
     private let rxDisposeBag = DisposeBag()
-    private let sessionManager : APISessionManagerProtocol
+    private let sessionManager : APIScoreSessionManagerProtocol
     private let locale: Locale
     
     
     // MARK: APITripProtocol Protocol Method
-    required init(apiSessionManager: APISessionManagerProtocol, locale: Locale) {
+    required init(apiSessionManager: APIScoreSessionManagerProtocol, locale: Locale) {
         self.sessionManager = apiSessionManager
         self.locale = locale
     }
