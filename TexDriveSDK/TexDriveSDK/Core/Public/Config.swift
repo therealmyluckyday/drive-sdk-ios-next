@@ -107,9 +107,5 @@ public class Config: ConfigurationProtocol, ScoringClientConfiguration, APISessi
     public func log(regex: NSRegularExpression, logType: LogType) {
         Log.configure(regex: regex, logType: logType)
     }
-    
-    public func generateAPISessionManager() -> APISessionManagerProtocol {
-        return APISessionManager(configuration: tripInfos)
-    }
 }
 

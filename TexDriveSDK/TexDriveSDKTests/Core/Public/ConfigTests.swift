@@ -25,15 +25,11 @@ class MockConfiguration : ConfigurationProtocol {
     }
     
     var tripRecorderFeatures: [TripRecorderFeature]
-    let mockApiSessionManager = APISessionManagerMock()
+
     
     init(features: [TripRecorderFeature]) {
         tripRecorderFeatures = features
         tripInfos = TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction)
-    }
-    
-    func generateAPISessionManager() -> APISessionManagerProtocol {
-        return mockApiSessionManager
     }
 }
 
@@ -80,21 +76,4 @@ class ConfigTests: XCTestCase {
             XCTAssert(false)
         }
     }
-    
-    // MARK: func generateAPISessionManager() -> APISessionManagerProtocol
-    func testgenerateAPISessionManager() {
-        let appId = "MyAppId"
-        let locale = Locale.current
-        let user = User.Anonymous
-        let feature = TripRecorderFeature.Battery(UIDevice.current)
-        let features = [feature]
-        do {
-            let configuration = try Config(applicationId: appId, applicationLocale: locale, currentUser: user, currentTripRecorderFeatures: features)
-            XCTAssertNotNil(configuration?.generateAPISessionManager() as? APISessionManager)
-        } catch {
-            XCTAssert(false)
-        }
-
-    }
-    
 }

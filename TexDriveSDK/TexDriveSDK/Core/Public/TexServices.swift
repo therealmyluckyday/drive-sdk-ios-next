@@ -34,10 +34,12 @@ public class TexServices {
     
     public init(configuration: ConfigurationProtocol) {
         _configuration = configuration
-        let sessionManager = APISessionManager(configuration: configuration.tripInfos)
-        tripIdFinished = sessionManager.tripIdFinished
-        tripRecorder = TripRecorder(configuration: configuration, sessionManager: sessionManager)
-        scoringClient = ScoringClient(sessionManager: sessionManager, locale: configuration.locale)
+        let tripSessionManager = APITripSessionManager(configuration: configuration.tripInfos)
+        tripIdFinished = tripSessionManager.tripIdFinished
+        tripRecorder = TripRecorder(configuration: configuration, sessionManager: tripSessionManager)
+        
+        let scoreSessionManager = APIScoreSessionManager(configuration: configuration.tripInfos)
+        scoringClient = ScoringClient(sessionManager: scoreSessionManager, locale: configuration.locale)
         
         tripRecorder.rxTripId.asObservable().observeOn(MainScheduler.instance).subscribe {[weak self] (event) in
             if let tripId = event.element {

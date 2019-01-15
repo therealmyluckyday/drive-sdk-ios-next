@@ -2,12 +2,12 @@ PODS:
   - Crashlytics (3.12.0):
     - Fabric (~> 1.9.0)
   - Fabric (1.9.0)
-  - RxBlocking (4.3.0):
+  - RxBlocking (4.3.1):
     - RxSwift (~> 4.0)
-  - RxCocoa (4.3.0):
+  - RxCocoa (4.3.1):
     - RxSwift (~> 4.0)
-  - RxSwift (4.3.0)
-  - RxTest (4.3.0):
+  - RxSwift (4.3.1)
+  - RxTest (4.3.1):
     - RxSwift (~> 4.0)
   - TexDriveSDK (3.0.0):
     - RxBlocking
@@ -17,10 +17,10 @@ PODS:
 DEPENDENCIES:
   - Crashlytics (~> 3.12)
   - Fabric (~> 1.9.0)
-  - RxBlocking (= 4.3)
-  - RxCocoa (= 4.3)
-  - RxSwift (= 4.3)
-  - RxTest (= 4.3)
+  - RxBlocking (= 4.3.1)
+  - RxCocoa (= 4.3.1)
+  - RxSwift (= 4.3.1)
+  - RxTest (= 4.3.1)
   - TexDriveSDK (from `./TexDriveSDK.podspec`)
 
 SPEC REPOS:
@@ -39,12 +39,12 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
   Fabric: f988e33c97f08930a413e08123064d2e5f68d655
-  RxBlocking: ab8b3ac2aa5d030146fe3a3e7916d8efa202beae
-  RxCocoa: 71b9cce833fbcb89a8eec11816dd225830c2bd3c
-  RxSwift: a9717a34df3179fe63563f76e046ad345078dd3a
-  RxTest: 831444848ac3c5efdd7d80ff5dc4b50ba08877a9
-  TexDriveSDK: 0c2b4382244119187d385e4dc8560d9a7dfff090
+  RxBlocking: 64c051285261ca2339481e91b5f70eb06b03660a
+  RxCocoa: 78763c7b07d02455598d9fc3c1ad091a28b73635
+  RxSwift: fe0fd770a43acdb7d0a53da411c9b892e69bb6e4
+  RxTest: ea97a208826906f3904c0debdd09575ebcbfe216
+  TexDriveSDK: cca6e8b6787afc829289331e7d158da82f14157d
 
-PODFILE CHECKSUM: 6e2cd21bf5ae4aa87ccf068f13e0f40f5314c640
+PODFILE CHECKSUM: 343660446fb23c297681f185d4cb1f652f213c57
 
 COCOAPODS: 1.6.0.beta.2
