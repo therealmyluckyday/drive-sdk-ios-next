@@ -151,8 +151,6 @@ class TripRecorderTests: XCTestCase {
         let mockSessionManager = APITripSessionManagerMock()
         let tripRecorder = TripRecorder(configuration: configuration, sessionManager: mockSessionManager)
         
-        var locations = [CLLocation]()
-        
         do{
             if let _ = try tripRecorder.rxTripId.toBlocking(timeout: 0.1).first() {
                 XCTAssertFalse(true)

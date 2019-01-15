@@ -22,13 +22,17 @@ struct Queue <T> {
     mutating func push(element: T) {
         elements.append(element)
     }
+    
+    func isEmpty() -> Bool {
+        return elements.isEmpty
+    }
 }
 
 class PersistantQueue {
     // MARK: Property
-    private var trip: TripChunk?
-    private var tripChunkSent: TripChunk?
+    var tripChunkSent: TripChunk?
     private var tripChunkWaitingQueue = Queue<TripChunk>()
+    private var currentTripChunk: TripChunk?
     private let rxDisposeBag = DisposeBag()
     var providerTrip = PublishSubject<TripChunk>()
     let tripInfos: TripInfos
@@ -40,41 +44,37 @@ class PersistantQueue {
             if let eventType = event.element {
                 if let tripInfos = self?.tripInfos, eventType == EventType.start {
                     let aTrip = TripChunk(tripInfos: tripInfos)
-                    self?.trip = aTrip
+                    self?.currentTripChunk = aTrip
                     rxTripId.onNext(aTrip.tripId)
                 }
-                if let trip = self?.trip {
+                if let trip = self?.currentTripChunk {
                     trip.append(eventType: eventType)
                     if eventType == EventType.stop {
-                        self?.tripChunkSent = trip
-                        self?.providerTrip.onNext(trip)
-                        self?.trip = nil
+                        self?.sendTripChunk(tripChunk: trip)
+                        self?.currentTripChunk = nil
                     }
                 }
-
             }
-        }.disposed(by: rxDisposeBag)
+            }.disposed(by: rxDisposeBag)
         
         fixes.asObservable().observeOn(scheduler).subscribe { [weak self](event) in
-            if let fix = event.element, let trip = self?.trip {
+            if let fix = event.element, let trip = self?.currentTripChunk {
                 trip.append(fix: fix)
                 if let tripInfos = self?.tripInfos, trip.canUpload() {
-                    self?.tripChunkSent = trip
-                    self?.providerTrip.onNext(trip)
-                    self?.trip = TripChunk(tripId: trip.tripId, tripInfos: tripInfos)
+                    let tripChunk = TripChunk(tripId: trip.tripId, tripInfos: tripInfos)
+                    self?.currentTripChunk = tripChunk
+                    self?.sendTripChunk(tripChunk: trip)
                 }
             }
-        }.disposed(by: rxDisposeBag)
+            }.disposed(by: rxDisposeBag)
         
         rxTripChunkSent.asObservable().observeOn(scheduler).subscribe { [weak self](event) in
             if let result = event.element {
                 switch result {
                 case .Success(let tripId):
-                    print("SUCCESS")
                     self?.sendNextTripChunk()
                     break
                 case .Failure(let error):
-                    print("ERROR")
                     self?.sendNextTripChunk()
                     break
                 }
@@ -89,6 +89,13 @@ class PersistantQueue {
         }
         else {
             self.tripChunkSent = nil
+        }
+    }
+    
+    func sendTripChunk(tripChunk: TripChunk) {
+        self.tripChunkWaitingQueue.push(element: tripChunk)
+        if self.tripChunkSent == nil {
+            self.sendNextTripChunk()
         }
     }
 }
