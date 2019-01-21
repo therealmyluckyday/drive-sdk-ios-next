@@ -42,6 +42,7 @@
 		C17E9A78216F85BD00FCF93E /* TexServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A77216F85BD00FCF93E /* TexServices.swift */; };
 		C17E9A7C216F944500FCF93E /* TripRecorderFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A7B216F944500FCF93E /* TripRecorderFeature.swift */; };
 		C17E9A7E216FA53900FCF93E /* ConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A7D216FA53900FCF93E /* ConfigTests.swift */; };
+		C183873121F5BBC9000482B7 /* PersistantApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C183873021F5BBC9000482B7 /* PersistantApp.swift */; };
 		C18AE984216E21A00065F0BB /* BatteryFixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18AE983216E21A00065F0BB /* BatteryFixTests.swift */; };
 		C18AE986216E2E2A0065F0BB /* LocationFixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18AE985216E2E2A0065F0BB /* LocationFixTests.swift */; };
 		C18AE989216E31E30065F0BB /* BatteryTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18AE988216E31E30065F0BB /* BatteryTrackerTests.swift */; };
@@ -142,6 +143,7 @@
 		C17E9A77216F85BD00FCF93E /* TexServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexServices.swift; sourceTree = "<group>"; };
 		C17E9A7B216F944500FCF93E /* TripRecorderFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecorderFeature.swift; sourceTree = "<group>"; };
 		C17E9A7D216FA53900FCF93E /* ConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigTests.swift; sourceTree = "<group>"; };
+		C183873021F5BBC9000482B7 /* PersistantApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistantApp.swift; sourceTree = "<group>"; };
 		C18AE983216E21A00065F0BB /* BatteryFixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryFixTests.swift; sourceTree = "<group>"; };
 		C18AE985216E2E2A0065F0BB /* LocationFixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFixTests.swift; sourceTree = "<group>"; };
 		C18AE988216E31E30065F0BB /* BatteryTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryTrackerTests.swift; sourceTree = "<group>"; };
@@ -402,6 +404,7 @@
 			children = (
 				C140073821F0820200F90D29 /* State */,
 				C1E0DFAD21EF993E0057097B /* AutoMode.swift */,
+				C183873021F5BBC9000482B7 /* PersistantApp.swift */,
 			);
 			path = "Auto-Mode";
 			sourceTree = "<group>";
@@ -762,6 +765,7 @@
 				C1D13439218729900099B650 /* UIDeviceExtension.swift in Sources */,
 				E2798EC921481570006228A3 /* BatteryFix.swift in Sources */,
 				C140073E21F083DC00F90D29 /* StandbyState.swift in Sources */,
+				C183873121F5BBC9000482B7 /* PersistantApp.swift in Sources */,
 				E2798ED62158DFC4006228A3 /* LocationTracker.swift in Sources */,
 				C1F7E45621B53B6000EA0445 /* Score.swift in Sources */,
 				C140073A21F0821A00F90D29 /* AutoModeDetectionState.swift in Sources */,
