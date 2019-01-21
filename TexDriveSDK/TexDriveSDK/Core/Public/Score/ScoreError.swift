@@ -16,6 +16,7 @@ enum ScoreType: String {
 enum ScoreStatus: String {
     case ok = "ok"
     case pending = "pending"
+    case tripNotFound = "trip_not_found"
     case tooShort = "trip_too_short"
     case invalid = "trip_invalid"
     case tooLong = "trip_too_long"
