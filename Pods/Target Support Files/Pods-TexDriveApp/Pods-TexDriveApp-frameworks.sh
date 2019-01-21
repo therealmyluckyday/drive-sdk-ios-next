@@ -156,12 +156,14 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/RxBlocking-framework/RxBlocking.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/RxCocoa-framework/RxCocoa.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/RxSwift-framework/RxSwift.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/RxSwiftExt-framework/RxSwiftExt.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/TexDriveSDK/TexDriveSDK.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/RxBlocking-framework/RxBlocking.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/RxCocoa-framework/RxCocoa.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/RxSwift-framework/RxSwift.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/RxSwiftExt-framework/RxSwiftExt.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/TexDriveSDK/TexDriveSDK.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then

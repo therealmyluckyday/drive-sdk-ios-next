@@ -7,12 +7,21 @@ PODS:
   - RxCocoa (4.3.1):
     - RxSwift (~> 4.0)
   - RxSwift (4.3.1)
+  - RxSwiftExt (3.4.0):
+    - RxSwiftExt/Core (= 3.4.0)
+    - RxSwiftExt/RxCocoa (= 3.4.0)
+  - RxSwiftExt/Core (3.4.0):
+    - RxSwift (~> 4.0)
+  - RxSwiftExt/RxCocoa (3.4.0):
+    - RxCocoa (~> 4.0)
+    - RxSwiftExt/Core
   - RxTest (4.3.1):
     - RxSwift (~> 4.0)
   - TexDriveSDK (3.0.0):
     - RxBlocking
     - RxCocoa
     - RxSwift
+    - RxSwiftExt
 
 DEPENDENCIES:
   - Crashlytics (~> 3.12)
@@ -20,6 +29,7 @@ DEPENDENCIES:
   - RxBlocking (= 4.3.1)
   - RxCocoa (= 4.3.1)
   - RxSwift (= 4.3.1)
+  - RxSwiftExt (= 3.4.0)
   - RxTest (= 4.3.1)
   - TexDriveSDK (from `./TexDriveSDK.podspec`)
 
@@ -30,6 +40,7 @@ SPEC REPOS:
     - RxBlocking
     - RxCocoa
     - RxSwift
+    - RxSwiftExt
     - RxTest
 
 EXTERNAL SOURCES:
@@ -42,9 +53,10 @@ SPEC CHECKSUMS:
   RxBlocking: 64c051285261ca2339481e91b5f70eb06b03660a
   RxCocoa: 78763c7b07d02455598d9fc3c1ad091a28b73635
   RxSwift: fe0fd770a43acdb7d0a53da411c9b892e69bb6e4
+  RxSwiftExt: 01f8ecbeeb355698e9c75365ebe908b00dacf45d
   RxTest: ea97a208826906f3904c0debdd09575ebcbfe216
-  TexDriveSDK: cca6e8b6787afc829289331e7d158da82f14157d
+  TexDriveSDK: a0272fee1034ba67d51ab555417a864c1e3b4756
 
-PODFILE CHECKSUM: 343660446fb23c297681f185d4cb1f652f213c57
+PODFILE CHECKSUM: 82512991e0c17584c231a7ec5b3259f03f4dc76e
 
 COCOAPODS: 1.6.0.beta.2

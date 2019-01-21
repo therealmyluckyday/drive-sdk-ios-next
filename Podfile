@@ -25,6 +25,7 @@ end
 
 target 'TexDriveSDK' do
     pod 'RxSwift', '4.3.1'
+    pod 'RxSwiftExt', '3.4.0'
     pod 'RxCocoa', '4.3.1'
     project 'TexDriveSDK/TexDriveSDK.xcodeproj'
     
