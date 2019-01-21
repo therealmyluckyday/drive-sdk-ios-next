@@ -9,6 +9,7 @@
 import Foundation
 import CoreLocation
 import RxSwift
+import RxSwiftExt
 
 public protocol TripRecorderProtocol {
     var rxTripId: PublishSubject<TripId> { get }
@@ -23,6 +24,7 @@ public class TripRecorder: TripRecorderProtocol {
     private var rxEventType = PublishSubject<EventType>()
     private var rxFix = PublishSubject<Fix>()
     private let rxDisposeBag = DisposeBag()
+    private let autoMode = AutoMode()
     private let apiTrip: APITrip
     internal let persistantQueue: PersistantQueue
     public let rxTripId = PublishSubject<TripId>()
@@ -34,6 +36,22 @@ public class TripRecorder: TripRecorderProtocol {
     
     public func stop() {
         collector.stopCollect()
+    }
+    public func activateAutoMode() {
+        Log.print("activateAutoMode")
+        autoMode.rxState.asObserver().observeOn(MainScheduler.asyncInstance).pairwise().subscribe {[weak self] event in
+            if let (state1, state2) = event.element {
+                if state1 is DetectionOfStartState, state2 is DrivingState {
+                    Log.print("START DETECTED")
+                    self?.collector.startCollect()
+                }
+                if state1 is DetectionOfStopState, state2 is StandbyState {
+                    Log.print("STOP DETECTED )")
+                    self?.collector.stopCollect()
+                }
+            }
+        }.disposed(by: rxDisposeBag)
+        autoMode.enable()
     }
     
     // MARK: Lifecycle
