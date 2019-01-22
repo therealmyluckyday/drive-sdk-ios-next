@@ -62,19 +62,4 @@ public class DetectionOfStopState: AutoModeDetectionState {
     func stopUpdating() {
         motionManager.stopActivityUpdates()
     }
-//    
-//    // MARK : CLLocationManagerDelegate
-//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        Log.print("didUpdateLocations")
-//        self.drive()
-//    }
-//    
-//    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-//        Log.print("didFailWithError", type: .Error)
-//    }
-//    
-//    func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) {
-//        Log.print("locationManagerDidPauseLocationUpdates")
-//        self.stop()
-//    }
 }

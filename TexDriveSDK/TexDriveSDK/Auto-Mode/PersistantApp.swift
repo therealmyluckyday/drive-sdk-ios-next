@@ -15,6 +15,7 @@ class PersistantApp: NSObject, CLLocationManagerDelegate {
     override init() {
         super.init()
         locationManager.requestAlwaysAuthorization()
+        locationManager.stopMonitoringSignificantLocationChanges()
         locationManager.delegate = self
         locationManager.distanceFilter = kCLDistanceFilterNone
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
@@ -25,11 +26,11 @@ class PersistantApp: NSObject, CLLocationManagerDelegate {
         
     }
     // MARK : CLLocationManagerDelegate
-    private func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         Log.print("didUpdateLocations")
     }
     
-    private func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        Log.print("didFailWithError", type: .Error)
+    public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        Log.print("didFailWithError")
     }
 }

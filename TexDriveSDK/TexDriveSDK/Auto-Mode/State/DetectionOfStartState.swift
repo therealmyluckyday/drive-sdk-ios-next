@@ -13,17 +13,34 @@ import CoreMotion
 public class DetectionOfStartState: AutoModeDetectionState {
     let motionManager = CMMotionActivityManager()
 
+    override func configure() {
+        if CMMotionActivityManager.isActivityAvailable() {
+            Log.print("CMMotionActivityManager isActivityAvailable")
+        }
+        else {
+            Log.print("CMMotionActivityManager ERROR isActivity NOT Available",type: .Error)
+        }
+        
+        switch CMMotionActivityManager.authorizationStatus() {
+        case .notDetermined:
+            Log.print("CMMotionActivityManager authorizationStatus() == .notDetermined", type: .Error)
+            break
+        case .restricted:
+            Log.print("CMMotionActivityManager authorizationStatus() == .restricted", type: .Error)
+            break
+        case .denied:
+            Log.print("CMMotionActivityManager authorizationStatus() == .denied", type: .Error)
+            break
+        case .authorized:
+            Log.print("CMMotionActivityManager authorizationStatus() == .authorized")
+            break
+        }
+    }
+    
     override func enable() {
         Log.print("enable")
         motionManager.startActivityUpdates(to: OperationQueue.main) {[weak self] (activity) in
-            if let activity = activity {
-                print("automotive : \(activity.automotive)")
-                print("walking : \(activity.walking)")
-                print("running : \(activity.running)")
-                print("cycling : \(activity.cycling)")
-            }
             if let activity = activity, activity.automotive == true {
-                //Log.print("automotive : \(activity.automotive)")
                 self?.drive()
             }
         }
@@ -60,19 +77,4 @@ public class DetectionOfStartState: AutoModeDetectionState {
     func stopUpdating() {
         motionManager.stopActivityUpdates()
     }
-//    
-//    // MARK : CLLocationManagerDelegate
-//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        Log.print("didUpdateLocations")
-//        self.drive()
-//    }
-//    
-//    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-//        Log.print("didFailWithError", type: .Error)
-//    }
-//    
-//    func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) {
-//        Log.print("locationManagerDidPauseLocationUpdates")
-//        self.stop()
-//    }
 }
