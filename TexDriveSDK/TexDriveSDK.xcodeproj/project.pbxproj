@@ -37,6 +37,7 @@
 		C15B9FC92194441F0072439F /* LogDetailTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15B9FC82194441F0072439F /* LogDetailTests.swift */; };
 		C15B9FCB219449270072439F /* LogRxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15B9FCA219449270072439F /* LogRxTests.swift */; };
 		C168630221E33CAF003FF6F0 /* ScoreErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C168630121E33CAF003FF6F0 /* ScoreErrorTests.swift */; };
+		C16D6DBE21FF652500978BFE /* AutoModeGherkinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C16D6DBD21FF652500978BFE /* AutoModeGherkinTests.swift */; };
 		C17E9A74216F828400FCF93E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A73216F828400FCF93E /* User.swift */; };
 		C17E9A76216F82F100FCF93E /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A75216F82F100FCF93E /* Config.swift */; };
 		C17E9A78216F85BD00FCF93E /* TexServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A77216F85BD00FCF93E /* TexServices.swift */; };
@@ -138,6 +139,7 @@
 		C15B9FC82194441F0072439F /* LogDetailTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogDetailTests.swift; sourceTree = "<group>"; };
 		C15B9FCA219449270072439F /* LogRxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogRxTests.swift; sourceTree = "<group>"; };
 		C168630121E33CAF003FF6F0 /* ScoreErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreErrorTests.swift; sourceTree = "<group>"; };
+		C16D6DBD21FF652500978BFE /* AutoModeGherkinTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoModeGherkinTests.swift; sourceTree = "<group>"; };
 		C17E9A73216F828400FCF93E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C17E9A75216F82F100FCF93E /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		C17E9A77216F85BD00FCF93E /* TexServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexServices.swift; sourceTree = "<group>"; };
@@ -304,6 +306,14 @@
 				C15198A421EC81C30058DC95 /* APITripSessionManagerTests.swift */,
 			);
 			path = Trip;
+			sourceTree = "<group>";
+		};
+		C16D6DBC21FF650C00978BFE /* Auto-Mode */ = {
+			isa = PBXGroup;
+			children = (
+				C16D6DBD21FF652500978BFE /* AutoModeGherkinTests.swift */,
+			);
+			path = "Auto-Mode";
 			sourceTree = "<group>";
 		};
 		C17E9A71216F824100FCF93E /* Core */ = {
@@ -520,6 +530,7 @@
 		E2798EB72147F0DC006228A3 /* TexDriveSDKTests */ = {
 			isa = PBXGroup;
 			children = (
+				C16D6DBC21FF650C00978BFE /* Auto-Mode */,
 				C1FDE339219C58CE00F15AF3 /* PersistantQueue */,
 				C1E93DF521875F2D0082B2B3 /* API */,
 				C17E9A79216F8F5400FCF93E /* Core */,
@@ -790,6 +801,7 @@
 				C15B9FC721942E720072439F /* LogTests.swift in Sources */,
 				C1E521B621748CE800B80C64 /* CallFixTests.swift in Sources */,
 				E2798EB92147F0DC006228A3 /* TexDriveSDKTests.swift in Sources */,
+				C16D6DBE21FF652500978BFE /* AutoModeGherkinTests.swift in Sources */,
 				C1FDE346219C5BA700F15AF3 /* APITripTests.swift in Sources */,
 				C1FDE340219C5B1300F15AF3 /* TripRecorderTests.swift in Sources */,
 				C15198A521EC81C30058DC95 /* APITripSessionManagerTests.swift in Sources */,

@@ -20,6 +20,7 @@ s.dependency 'RxSwift'
 s.dependency 'RxCocoa'
 s.dependency 'RxBlocking'
 s.dependency 'RxSwiftExt'
+s.dependency 'GzipSwift'
 
 
 end
