@@ -27,26 +27,80 @@ public class TripRecorder: TripRecorderProtocol {
     private let autoMode = AutoMode()
     private let apiTrip: APITrip
     internal let persistantQueue: PersistantQueue
+    internal let persistantApp = PersistantApp()
     public let rxTripId = PublishSubject<TripId>()
+    public var rxState: PublishSubject<AutoModeDetectionState> {
+        get {
+            return self.autoMode.rxState
+        }
+    }
     
     // MARK: TripRecorder Protocol    
     public func start() {
+        persistantApp.enable()
         collector.startCollect()
     }
     
     public func stop() {
         collector.stopCollect()
+        persistantApp.disable()
     }
+    
     public func activateAutoMode() {
-        Log.print("activateAutoMode")
         autoMode.rxState.asObserver().observeOn(MainScheduler.asyncInstance).pairwise().subscribe {[weak self] event in
+            
             if let (state1, state2) = event.element {
+                var oldState = ""
+                var newState = ""
+                switch state1 {
+                case is DetectionOfStartState:
+                    oldState = "DetectionOfStartState"
+                    break
+                case is DrivingState:
+                    oldState = "DrivingState"
+                    break
+                case is DetectionOfStopState:
+                    oldState = "DetectionOfStopState"
+                    break
+                case is StandbyState:
+                    oldState = "StandbyState"
+                    break
+                case is DisabledState:
+                    oldState = "DisabledState"
+                    break
+                default:
+                    oldState = "\(state1)"
+                }
+                switch state2 {
+                case is DetectionOfStartState:
+                    newState = "DetectionOfStartState"
+                    break
+                case is DrivingState:
+                    newState = "DrivingState"
+                    break
+                case is DetectionOfStopState:
+                    newState = "DetectionOfStopState"
+                    break
+                case is StandbyState:
+                    newState = "StandbyState"
+                    break
+                case is DisabledState:
+                    newState = "DisabledState"
+                    break
+                default:
+                    newState = "\(state2)"
+                }
+                Log.print("State 1 : \(oldState) , State 2: \(newState)")
                 if state1 is DetectionOfStartState, state2 is DrivingState {
                     Log.print("START DETECTED")
                     self?.collector.startCollect()
                 }
                 if state1 is DetectionOfStopState, state2 is StandbyState {
                     Log.print("STOP DETECTED )")
+                    self?.collector.stopCollect()
+                }
+                if state2 is DisabledState {
+                    Log.print("DISABLE DETECTED )")
                     self?.collector.stopCollect()
                 }
             }
