@@ -16,19 +16,16 @@ public class DetectionOfStopState: AutoModeDetectionState {
     override func enable() {
         Log.print("enable")
         
-//        motionManager.startActivityUpdates(to: OperationQueue.current) {[weak self] (activity) in
-//            //if let activity = activity {
-////                Log.print("automotive : \(activity.automotive)")
-////                Log.print("walking : \(activity.walking)")
-////                Log.print("running : \(activity.running)")
-////                Log.print("cycling : \(activity.cycling)")
-//            //}
-//            if let activity = activity, activity.automotive == false {
-////                Log.print("automotive : \(activity.automotive)")
-//                self?.stop()
-//            }
-//        }
-        self.stop()
+        print("DetectionOfStopState enable")
+        motionManager.startActivityUpdates(to: OperationQueue.main) {[weak self] (activity) in
+            if let activity = activity, activity.automotive == false {
+                self?.stop()
+            }
+            
+            if let activity = activity, activity.automotive == true {
+                self?.drive()
+            }
+        }
     }
     
     override func stop() {

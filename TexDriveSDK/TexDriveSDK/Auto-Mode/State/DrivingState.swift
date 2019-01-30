@@ -15,15 +15,9 @@ public class DrivingState: AutoModeDetectionState {
     
     override func enable() {
         Log.print("enable")
+        print("Driving enable")
         motionManager.startActivityUpdates(to: OperationQueue.main) {[weak self] (activity) in
-            //            if let activity = activity {
-            //                Log.print("automotive : \(activity.automotive)")
-            //                Log.print("walking : \(activity.walking)")
-            //                Log.print("running : \(activity.running)")
-            //                Log.print("cycling : \(activity.cycling)")
-            //            }
-            if let activity = activity, activity.automotive == false {
-                //Log.print("automotive : \(activity.automotive)")
+            if let activity = activity, activity.automotive == false, activity.stationary == true {
                 self?.stop()
             }
         }
@@ -50,18 +44,4 @@ public class DrivingState: AutoModeDetectionState {
     func stopUpdating() {
         motionManager.stopActivityUpdates()
     }
-    
-//    // MARK : CLLocationManagerDelegate
-//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-////        Log.print("didUpdateLocations")
-//    }
-//    
-//    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-//        Log.print("didFailWithError", type:.Error)
-//    }
-//    
-//    func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) {
-//        Log.print("locationManagerDidPauseLocationUpdates")
-//        self.stop()
-//    }
 }

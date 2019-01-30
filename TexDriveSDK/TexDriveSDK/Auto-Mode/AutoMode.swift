@@ -8,10 +8,7 @@
 
 import RxSwift
 import CoreLocation
-
-class MoveTracker: CLLocationManager {
-    
-}
+import CoreMotion
 
 protocol AutoModeContextProtocol: class {
     var rxState: PublishSubject<AutoModeDetectionState> { get }
@@ -19,18 +16,36 @@ protocol AutoModeContextProtocol: class {
 }
 
 class AutoMode: AutoModeContextProtocol {
-    var rxState = PublishSubject<AutoModeDetectionState>()
+    // MARK: - Property
+    var rxState = PublishSubject<AutoModeDetectionState>() // see to refactor and manage complete stream
     let rxDisposeBag = DisposeBag()
     var state: AutoModeDetectionState?
-    let persistantApp = PersistantApp()
+    let motionManagerTest: CMMotionActivityManager
     
+    // MARK: - Lifecycle
+    init() {
+        let motionManager = CMMotionActivityManager()
+        motionManager.startActivityUpdates(to: OperationQueue.main) { (activity) in
+            if let activity = activity, activity.automotive == true {
+                Log.print("automotive : \(activity.automotive)")
+            }
+        }
+        motionManagerTest = motionManager
+    }
+    
+    // MARK: - Public method
     func enable() {
+        Log.print("Enable")
         self.disable()
-        //self.rxState = PublishSubject<AutoModeDetectionState>()
         let state = StandbyState(context: self)
         self.state = state
         self.rxState.asObserver().observeOn(MainScheduler.asyncInstance).subscribe {[weak self] (event) in
             if let newState = event.element {
+                if let state = self?.state {
+                    Log.print("PREVIOUS STATE \(state)")
+                }
+                
+                Log.print("NEW STATE \(newState)")
                 self?.state = newState
             }
         }.disposed(by: rxDisposeBag)
@@ -40,13 +55,25 @@ class AutoMode: AutoModeContextProtocol {
     }
     
     func disable() {
-        rxState.takeLast(0).subscribe {[weak self](event) in
-            if let state = event.element{
-                state.disable()
-                //self?.rxState.onCompleted()
-                //self?.rxState = PublishSubject<AutoModeDetectionState>()
-                self?.state = nil
-            }
-        }.disposed(by: rxDisposeBag)
+        Log.print("Disable")
+        if let state = self.state {
+            Log.print("LAST STATE \(state)")
+        }
+        else {
+            Log.print("NO STATE")
+        }
+        self.state?.disable()
+        self.state = nil
+    }
+    
+    func stop() {
+        Log.print("stop")
+        if let state = self.state {
+            Log.print("LAST STATE \(state)")
+        }
+        else {
+            Log.print("NO STATE")
+        }
+        self.state?.stop()
     }
 }

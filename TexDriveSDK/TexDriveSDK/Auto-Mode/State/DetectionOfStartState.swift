@@ -14,10 +14,7 @@ public class DetectionOfStartState: AutoModeDetectionState {
     let motionManager = CMMotionActivityManager()
 
     override func configure() {
-        if CMMotionActivityManager.isActivityAvailable() {
-            Log.print("CMMotionActivityManager isActivityAvailable")
-        }
-        else {
+        if !CMMotionActivityManager.isActivityAvailable() {
             Log.print("CMMotionActivityManager ERROR isActivity NOT Available",type: .Error)
         }
         
@@ -32,18 +29,17 @@ public class DetectionOfStartState: AutoModeDetectionState {
             Log.print("CMMotionActivityManager authorizationStatus() == .denied", type: .Error)
             break
         case .authorized:
-            Log.print("CMMotionActivityManager authorizationStatus() == .authorized")
             break
         }
     }
     
     override func enable() {
         Log.print("enable")
-        motionManager.startActivityUpdates(to: OperationQueue.main) {[weak self] (activity) in
-            if let activity = activity, activity.automotive == true {
-                self?.drive()
-            }
-        }
+        #if targetEnvironment(simulator)
+        self.drive()
+        #else
+        self.detectionOfStart()
+        #endif
     }
 
     override func stop() {
@@ -76,5 +72,17 @@ public class DetectionOfStartState: AutoModeDetectionState {
     
     func stopUpdating() {
         motionManager.stopActivityUpdates()
+    }
+    
+    func detectionOfStart() {
+        motionManager.startActivityUpdates(to: OperationQueue.main) {[weak self] (activity) in
+            Log.print("startActivityUpdates")
+            if let activity = activity, activity.walking == true {
+                self?.drive()
+            }
+            if let activity = activity, activity.automotive == true {
+                self?.drive()
+            }
+        }
     }
 }

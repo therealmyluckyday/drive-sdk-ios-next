@@ -14,18 +14,31 @@ class PersistantApp: NSObject, CLLocationManagerDelegate {
     
     override init() {
         super.init()
+    }
+    
+    public func enable() {
         locationManager.requestAlwaysAuthorization()
         locationManager.stopMonitoringSignificantLocationChanges()
         locationManager.delegate = self
         locationManager.distanceFilter = kCLDistanceFilterNone
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        locationManager.pausesLocationUpdatesAutomatically = false
-        locationManager.activityType = .automotiveNavigation
-        locationManager.allowsBackgroundLocationUpdates = true
-        locationManager.startMonitoringSignificantLocationChanges()
         
+        locationManager.activityType = .automotiveNavigation
+        #if targetEnvironment(simulator)
+        #else
+        locationManager.allowsBackgroundLocationUpdates = true
+        locationManager.pausesLocationUpdatesAutomatically = false
+        #endif
+        locationManager.startMonitoringSignificantLocationChanges()
     }
-    // MARK : CLLocationManagerDelegate
+    
+    public func disable() {
+        locationManager.requestAlwaysAuthorization()
+        locationManager.stopMonitoringSignificantLocationChanges()
+        locationManager.delegate = nil
+    }
+    
+    // MARK: - CLLocationManagerDelegate
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         Log.print("didUpdateLocations")
     }

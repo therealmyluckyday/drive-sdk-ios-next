@@ -18,21 +18,51 @@ protocol AutoModeDetectionStateProtocol {
 
 
 public class AutoModeDetectionState: NSObject, AutoModeDetectionStateProtocol {
-    // MARK : Property
+    // MARK: - Property
     weak var context: AutoModeContextProtocol?
     
-    // MARK : LifeCycle
+    // MARK: - LifeCycle
     init(context: AutoModeContextProtocol) {
         self.context = context
         super.init()
         self.configure()
     }
     
-    // MARK : AutoModeDetectionStateProtocol
+    // MARK: - AutoModeDetectionStateProtocol
     func configure() {}
     func start() {}
     func stop() {}
     func drive() {}
     func enable() {}
     func disable() {}
+    
+    // MARK: Protocol CustomStringConvertible
+    public override var description: String {
+        get {
+            var state = "AutoModeDetectionState"
+            switch self {
+            case is DetectionOfStartState:
+                state = "DetectionOfStartState"
+                break
+            case is DrivingState:
+                state = "DrivingState"
+                break
+            case is DetectionOfStopState:
+                state = "DetectionOfStopState"
+                break
+            case is StandbyState:
+                state = "StandbyState"
+                break
+            case is DisabledState:
+                state = "DisabledState"
+                break
+            default:
+                state = "\(self)"
+            }
+            return state
+        }
+        set {
+            
+        }
+    }
 }

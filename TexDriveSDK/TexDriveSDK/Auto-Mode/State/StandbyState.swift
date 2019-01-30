@@ -12,6 +12,7 @@ import CoreMotion
 
 public class StandbyState: AutoModeDetectionState, CLLocationManagerDelegate {
     var locationManager = CLLocationManager()
+    let motionManager = CMMotionActivityManager()
     
     override func configure() {
         
@@ -26,7 +27,6 @@ public class StandbyState: AutoModeDetectionState, CLLocationManagerDelegate {
             Log.print("CLLocationManager authorizationStatus() == .denied", type: .Error)
             break
         case .authorizedAlways:
-            Log.print("CLLocationManager authorizationStatus() == .authorizedAlways")
             break
         case .authorizedWhenInUse:
             Log.print("CLLocationManager authorizationStatus() == .authorizedWhenInUse")
@@ -51,6 +51,12 @@ public class StandbyState: AutoModeDetectionState, CLLocationManagerDelegate {
         Log.print("enable")
         print("StandbyState enable")
         self.configure(locationManager: self.locationManager)
+        motionManager.startActivityUpdates(to: OperationQueue.main) {[weak self] (activity) in
+            Log.print("startActivityUpdates")
+            if let activity = activity, activity.automotive == true {
+                self?.drive()
+            }
+        }
         super.enable()
     }
     
@@ -85,16 +91,43 @@ public class StandbyState: AutoModeDetectionState, CLLocationManagerDelegate {
     func stopUpdating() {
         locationManager.delegate = nil
         locationManager.stopMonitoringSignificantLocationChanges()
-        locationManager.delegate = nil
+        motionManager.stopActivityUpdates()
     }
     
-    // MARK : CLLocationManagerDelegate
+    // MARK: - CLLocationManagerDelegate
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         Log.print("didUpdateLocations")
+        
+        #if targetEnvironment(simulator)
         self.start()
+        #else
+        self.checkAutomotiveActivity()
+        #endif
     }
     
     public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        self.checkAutomotiveActivity()
         Log.print("didFailWithError")
-    }	
+    }
+    
+    func checkAutomotiveActivity() {
+        Log.print("checkAutomotiveActivity")
+        let motionManager = CMMotionActivityManager()
+        motionManager.queryActivityStarting(from: Date.init().addingTimeInterval(-60.0*10),
+            to: Date.init(),
+        to: OperationQueue.main) {[weak self](activityList, error) in
+            var activityString = ""
+            for (activity) in activityList! {
+                if (activity.automotive) {
+                    activityString = "Automotive"
+                    let dateFormatter = ISO8601DateFormatter()
+                    let dateString:String! = dateFormatter.string(from: activity.startDate)
+                    if activityString != "" {
+                        Log.print(dateString + ": " + activityString)
+                    }
+                    self?.start()
+                }
+            }
+        }
+    }
 }
