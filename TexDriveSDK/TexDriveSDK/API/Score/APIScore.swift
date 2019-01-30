@@ -29,7 +29,7 @@ class APIScore: APIScoreProtocol {
         self.locale = locale
     }
     
-    // MARK : APIScoreProtocol
+    // MARK: - APIScoreProtocol
     func getScore(tripId: TripId, rxScore: PublishSubject<Score>) {
         self.getScore(tripId: tripId, completionHandler: { (result) in
             switch result {

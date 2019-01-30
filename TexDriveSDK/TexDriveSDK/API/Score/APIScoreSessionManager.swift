@@ -23,8 +23,6 @@ class APIScoreSessionManager: APISessionManager, APIScoreSessionManagerProtocol 
     // MARK: GET HTTP
     func get(parameters: [String: Any], completionHandler: @escaping (Result<[String: Any]>) -> ()) {
         if let url = URL(string: "\(configuration.baseUrl())/score") {
-            Log.print(url.absoluteString)
-            
             var urlComponent = URLComponents(string: "\(configuration.baseUrl())/score")
             var queryItems = [URLQueryItem]()
             for (key, value) in parameters {
@@ -40,7 +38,6 @@ class APIScoreSessionManager: APISessionManager, APIScoreSessionManagerProtocol 
                         (200...299).contains(httpResponse.statusCode) else {
                             if let error = error {
                                 Log.print("Error On API \(error)", type: LogType.Error)
-                                print(error)
                                 completionHandler(Result.Failure(error))
                             }
                             else {
