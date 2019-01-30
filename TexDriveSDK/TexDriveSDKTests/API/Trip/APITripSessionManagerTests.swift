@@ -93,7 +93,7 @@ class APITripSessionManagerTests: XCTestCase {
         let tripChunk = TripChunk(tripInfos: TripInfos(appId: "TEST", user: User.Anonymous, domain: Domain.Preproduction))
         if let request = URLRequest.createUrlRequest(url: URL(string: "http://google.com")!, body: tripChunk.serialize(), httpMethod: HttpMethod.PUT) {
             let backgroundTask = urlBackgroundTaskSession!.downloadTask(with: request)
-            let tripIdResult = APITripSessionManager.getTripId(task: backgroundTask)
+            let tripIdResult = APITripSessionManager.getTripId(task: backgroundTask, compressed: false)
             XCTAssertNotNil(tripIdResult)
             XCTAssertEqual(tripIdResult!.uuidString, tripChunk.tripId.uuidString)
         }

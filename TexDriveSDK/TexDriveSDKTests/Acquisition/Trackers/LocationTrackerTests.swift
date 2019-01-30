@@ -71,16 +71,6 @@ class LocationTrackerTests: XCTestCase {
         super.tearDown()
     }
     
-    /* TODO
-     guard CLLocationManager.authorizationStatus() != .notDetermined else {
-     let error = CLError(_nsError: NSError(domain: "CLLocationManagerNotDetermined", code: CLError.denied.rawValue, userInfo: nil))
-     rxLocationFix.onNext(Result.Failure(error))
-     //            locationManager.requestAlwaysAuthorization() -> REsponsability to user
-     return
-     }
- */
-
-    
     // MARK: func enableTracking()
     func testEnableTracking_general() {
         mockLocationManager!.delegate = nil
@@ -100,7 +90,6 @@ class LocationTrackerTests: XCTestCase {
         XCTAssertEqual(mockLocationManager!.activityType, .automotiveNavigation)
         XCTAssertTrue(mockLocationManager!.allowsBackgroundLocationUpdates)
         XCTAssertTrue(mockLocationManager!.isStartUpdatingLocationCalled)
-        XCTAssertFalse(mockLocationManager!.isStopUpdatingLocationCalled)
     }
     
     func testEnableTracking_authorizationStatus_NotDetermined() {
