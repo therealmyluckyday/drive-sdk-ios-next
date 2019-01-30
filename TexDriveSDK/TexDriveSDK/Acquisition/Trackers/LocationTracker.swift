@@ -33,12 +33,20 @@ class LocationTracker: NSObject, Tracker, CLLocationManagerDelegate {
         }
         
         locationManager.delegate = self
+        locationManager.disallowDeferredLocationUpdates()
+        locationManager.stopUpdatingLocation()
+        locationManager.stopMonitoringSignificantLocationChanges()
         locationManager.distanceFilter = kCLDistanceFilterNone
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locationManager.pausesLocationUpdatesAutomatically = false
         locationManager.activityType = .automotiveNavigation
         locationManager.allowsBackgroundLocationUpdates = true
         
+        if CLLocationManager.deferredLocationUpdatesAvailable() {
+            let distance: CLLocationDistance = 4000
+            let time: TimeInterval = 100
+            self.locationManager.allowDeferredLocationUpdates(untilTraveled: distance, timeout: time)
+        }
 
         locationManager.startUpdatingLocation()
     }
@@ -57,9 +65,12 @@ class LocationTracker: NSObject, Tracker, CLLocationManagerDelegate {
         guard let _ = locations.last else {
             return
         }
-        
-        let locationFix = LocationFix(timestamp: location.timestamp.timeIntervalSince1970, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, precision: location.horizontalAccuracy, speed: location.speed, bearing: location.course, altitude: location.altitude)
-        rxLocationFix.onNext(Result.Success(locationFix))
+        let fixes = locations.map { (location) -> Result<LocationFix> in
+            return Result.Success(LocationFix(timestamp: location.timestamp.timeIntervalSince1970, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, precision: location.horizontalAccuracy, speed: location.speed, bearing: location.course, altitude: location.altitude))
+        }
+        fixes.forEach { (result) in
+             rxLocationFix.onNext(result)
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
