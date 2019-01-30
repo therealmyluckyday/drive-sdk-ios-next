@@ -10,7 +10,7 @@ import XCTest
 @testable import TexDriveSDK
 
 class MotionBufferTests: XCTestCase {
-    // MARK : func append(fix: MotionFix)
+    // MARK: - func append(fix: MotionFix)
     func testAppend_Trigger_Crash_0SecondsAfter() {
         let timestamp = Date().timeIntervalSinceNow
         let accelerationMotion = XYZAxisValues(x: 1, y: 1, z: 1)

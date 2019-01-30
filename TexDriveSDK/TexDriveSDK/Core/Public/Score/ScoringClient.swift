@@ -21,7 +21,7 @@ public class ScoringClient: ScoringClientProtocol {
         apiScore = APIScore(apiSessionManager: sessionManager, locale: locale)
     }
     
-    // MARK : SoringClientProtocol
+    // MARK: - ScoringClientProtocol
     @available(*, deprecated, message: "Please use getScore(tripId: String, rxScore: PublishSubject<Score>)")
     public func getScore(tripId: TripId, completionHandler: @escaping (Result<Score>) -> ()) {
         apiScore.getScore(tripId: tripId, completionHandler: completionHandler)

@@ -84,7 +84,7 @@ class APIScoreTest: XCTestCase {
         XCTAssertTrue(isCompletionCalled)
     }
     
-    // MARK : func getScore(tripId: TripId, completionHandler: @escaping (Result<Score>) -> ())
+    // MARK: - func getScore(tripId: TripId, completionHandler: @escaping (Result<Score>) -> ())
     func testGetScore_Error_not_enough_locations() {
         let tripId = TripId(uuidString: "3FECE4EA-CBBE-4463-AA24-2F6657D09962")!
         var isCompletionCalled = false

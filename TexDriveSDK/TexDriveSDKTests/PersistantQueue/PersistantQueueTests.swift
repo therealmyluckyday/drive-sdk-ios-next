@@ -195,7 +195,7 @@ class PersistantQueueTests: XCTestCase {
         XCTAssertFalse(isproviderTripCalled)
     }
     
-    // MARK : test rxTripChunkSent
+    // MARK: - test rxTripChunkSent
     func testRxTripChunkSent_Success() {
         let eventType = PublishSubject<EventType>()
         let fixes = PublishSubject<Fix>()
@@ -221,7 +221,7 @@ class PersistantQueueTests: XCTestCase {
         XCTAssertTrue(persistantQueue.isSendNextTripChunk)
     }
     
-    // MARK : func sendNextTripChunk()
+    // MARK: - func sendNextTripChunk()
     func testSendNextTrip_POP() {
         let eventType = PublishSubject<EventType>()
         let fixes = PublishSubject<Fix>()
@@ -246,7 +246,7 @@ class PersistantQueueTests: XCTestCase {
         XCTAssertNil(persistantQueue.tripChunkSent)
     }
     
-    // MARK : func sendTripChunk(tripChunk: TripChunk)
+    // MARK: - func sendTripChunk(tripChunk: TripChunk)
     func testSendTripChunk_tripChunkSent_NOT_NIL() {
         let eventType = PublishSubject<EventType>()
         let fixes = PublishSubject<Fix>()

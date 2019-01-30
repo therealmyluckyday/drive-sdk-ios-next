@@ -33,7 +33,7 @@ class APITripSessionManagerTests: XCTestCase {
         super.tearDown()
     }
     
-    // MARK : func isTripStoppedSend(task: URLSessionDownloadTask) -> Bool
+    // MARK: - func isTripStoppedSend(task: URLSessionDownloadTask) -> Bool
     func testIsTripStopped_true() {
         let eventType = EventType.stop
         let tripChunk = TripChunk(tripInfos: TripInfos(appId: "TEST", user: User.Anonymous, domain: Domain.Preproduction))
@@ -88,7 +88,7 @@ class APITripSessionManagerTests: XCTestCase {
         XCTAssertFalse(APITripSessionManager.isTripStoppedSend(task: backgroundTask))
     }
     
-    // MARK : func getTripId(task: URLSessionDownloadTask) -> TripId
+    // MARK: - func getTripId(task: URLSessionDownloadTask) -> TripId
     func testGetTripId() {
         let tripChunk = TripChunk(tripInfos: TripInfos(appId: "TEST", user: User.Anonymous, domain: Domain.Preproduction))
         if let request = URLRequest.createUrlRequest(url: URL(string: "http://google.com")!, body: tripChunk.serialize(), httpMethod: HttpMethod.PUT) {

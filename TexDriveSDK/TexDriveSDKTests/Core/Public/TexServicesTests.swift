@@ -35,7 +35,7 @@ class TexServicesTests: XCTestCase {
         XCTAssertEqual(service.configuration.tripRecorderFeatures.count, configuration.tripRecorderFeatures.count)
     }
     
-    // MARK : func getScoringClient() -> (ScoringClient)
+    // MARK: - func getScoringClient() -> (ScoringClient)
     func testGetScoringClient() {
         MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
         let mockLocationManager = MockLocationManager()
@@ -47,7 +47,7 @@ class TexServicesTests: XCTestCase {
         let _ = service.getScoringClient()
     }
     
-    // MARK : currentTripId
+    // MARK: - currentTripId
     func testCurrentTripIdNull() {
         MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
         let mockLocationManager = MockLocationManager()

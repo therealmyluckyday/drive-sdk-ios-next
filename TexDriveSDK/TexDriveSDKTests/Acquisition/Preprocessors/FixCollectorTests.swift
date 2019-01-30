@@ -34,7 +34,7 @@ class MockTracker: Tracker {
 }
 
 class FixCollectorTests: XCTestCase {
-    // MARK : func collect<T>(tracker: T) where T: Tracker
+    // MARK: - func collect<T>(tracker: T) where T: Tracker
     func testCollectTrackerTestSuccess() {
         let mockTracker = MockTracker()
         let eventType = PublishSubject<EventType>()
@@ -86,7 +86,7 @@ class FixCollectorTests: XCTestCase {
         disposableRxError.dispose()
     }
     
-    // MARK : func startCollect()
+    // MARK: - func startCollect()
     func testStartCollect() {
         let mockTracker = MockTracker()
         let eventType = PublishSubject<EventType>()
@@ -108,7 +108,7 @@ class FixCollectorTests: XCTestCase {
         disposable.dispose()
     }
     
-    // MARK : func stopCollect()
+    // MARK: - func stopCollect()
     func testStopCollect() {
         let mockTracker = MockTracker()
         let eventType = PublishSubject<EventType>()

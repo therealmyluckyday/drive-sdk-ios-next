@@ -25,7 +25,7 @@ class TripRecorderTests: XCTestCase {
         super.tearDown()
     }
     
-    // MARK : init
+    // MARK: - init
     func testInit_LocationFeatureStart() {
         MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
         let mockLocationManager = MockLocationManager()
@@ -140,7 +140,7 @@ class TripRecorderTests: XCTestCase {
     }
     
     
-    // MARK : currentTripId
+    // MARK: - currentTripId
     func testTripIdNull() {
         
         MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
