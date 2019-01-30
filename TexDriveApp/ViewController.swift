@@ -15,14 +15,11 @@ import Crashlytics
 import RxSwift
 import os
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var TripSegmentedControl: UISegmentedControl!
-    
     @IBOutlet weak var scoreButton: UIButton!
     @IBOutlet weak var logTextField: UITextView!
     @IBOutlet weak var textfield: UITextField!
-    
-    
     
     var tripRecorder : TripRecorder?
     var locationManager = CLLocationManager()
@@ -36,15 +33,17 @@ class ViewController: UIViewController {
         scoreButton.alpha = 0
         TripSegmentedControl.selectedSegmentIndex = 1
         locationManager.requestAlwaysAuthorization()
-        textfield.text = "Erwan-ios12"
+        textfield.text = "Erwan-"+UIDevice.current.systemName + UIDevice.current.systemVersion
         rxScore.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
             let score = event.event
             self.appendText(string: "SCORE: \(score)")
             
         }.disposed(by: rxDisposeBag)
+        logTextField.isEditable = false
     }
     
     @IBAction func tripSegmentedControlValueChanged(_ sender: UISegmentedControl) {
+        textfield.resignFirstResponder()
         switch sender.selectedSegmentIndex {
         case 0:
             startTrip()
@@ -81,7 +80,6 @@ class ViewController: UIViewController {
     
     func launchTracking()  {
         var user = User.Anonymous
-        
         if let userName = textfield.text {
             user = User.Authentified(userName)
             self.logUser(userName: userName)
@@ -90,13 +88,17 @@ class ViewController: UIViewController {
         do {
             if let configuration = try Config(applicationId: "youdrive_france_prospect", applicationLocale: Locale.current, currentUser: user) {
                 texServices = TexServices(configuration:configuration)
-                texServices!.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
+                texServices!.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { [weak self] (event) in
                     if let tripId = event.element {
-                        self.appendText(string: "\nTRIPIDFINISHED:\n \(tripId.uuidString)")
-                        self.texServices!.scoringClient.getScore(tripId: tripId, rxScore: self.rxScore)
+                        self?.appendText(string: "\n Trip finished: \n \(tripId.uuidString)")
                     }
                     }.disposed(by: rxDisposeBag)
                 tripRecorder = texServices!.tripRecorder
+                tripRecorder?.rxState.asObserver().observeOn(MainScheduler.asyncInstance).subscribe({ [weak self] (event) in
+                    if let state = event.element {
+                        self?.appendText(string: "STATE CHANGE \(state)")
+                    }
+                }).disposed(by: rxDisposeBag)
                 configureLog(configuration.rxLog)
                 do {
                     let regex = try NSRegularExpression(pattern: ".*.*", options: NSRegularExpression.Options.caseInsensitive)
@@ -105,7 +107,6 @@ class ViewController: UIViewController {
                     let customLog = OSLog(subsystem: "fr.axa.tex", category: #file)
                     os_log("[ViewController][launchTracking] regex error %@", log: customLog, type: .error, error.localizedDescription)
                 }
-                
             }
         } catch ConfigurationError.LocationNotDetermined(let description) {
             print(description)
@@ -120,6 +121,7 @@ class ViewController: UIViewController {
         }).disposed(by: self.rxDisposeBag)
     }
     
+    // MARK: - Log Management
     func configureLog(_ log: PublishSubject<LogMessage>) {
         log.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
             if let logDetail = event.element {
@@ -163,18 +165,20 @@ class ViewController: UIViewController {
         self.logTextField.text = text
     }
     
+    // MARK: - Crashlytics setup
     func logUser(userName: String) {
         Crashlytics.sharedInstance().setUserIdentifier(userName)
         Crashlytics.sharedInstance().setUserName(userName)
     }
     
-    // MARK: Memory management
+    // MARK: - Memory management
     override func didReceiveMemoryWarning() {
         let memoryinuse = report_memory()
         let message = "MemoryWarning. Memory in use: \(memoryinuse)"
         
         Crashlytics.sharedInstance().recordError(NSError(domain: "ViewController", code: 9999, userInfo: ["filename" : "AppDelegate", "functionName": "ViewController", "description": message]))
         print("[ViewController] MemoryWarning. Memory in use: \(memoryinuse)")
+        super.didReceiveMemoryWarning()
     }
     
     func report_memory() -> String {
@@ -200,6 +204,10 @@ class ViewController: UIViewController {
         
         return String(mbinuse) + " MB"
     }
+    
+    // MARK: - UITextfield delegate
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true;
+    }
 }
-
-
