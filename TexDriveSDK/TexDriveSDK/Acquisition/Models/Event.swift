@@ -18,17 +18,17 @@ enum EventType: String {
 }
 
 class Event: Fix {
-    // MARK: Property
+    // MARK: - Property
     let eventType: EventType
     let timestamp: TimeInterval
     
-    // Lifecycle
+    // MARK: - Lifecycle
     init(eventType: EventType, timestamp: TimeInterval) {
         self.eventType = eventType
         self.timestamp = timestamp
     }
     
-    // MARK: Protocol CustomStringConvertible
+    // MARK: - CustomStringConvertible
     var description: String {
         get {
             var description = "Events: \(self.timestamp) \n"
@@ -40,7 +40,7 @@ class Event: Fix {
         }
     }
     
-    // MARK: Serialize
+    // MARK: - Serialize
     func serialize() -> [String : Any] {
         let (key, value) = self.serializeTimestamp()
         let dictionary = ["event": self.serializeEvents(), key: value] as [String : Any]
