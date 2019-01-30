@@ -9,10 +9,10 @@
 /* Begin PBXBuildFile section */
 		526F8BB1E5C56E1291D09BF4 /* Pods_TexDriveAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A281DA094D603552790F39A /* Pods_TexDriveAppTests.framework */; };
 		950BDCCD5C61D31223205EBF /* Pods_TexDriveApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D4CA8346ECEE2C3BA5E3F8 /* Pods_TexDriveApp.framework */; };
+		C19D42A82201A20800E9855D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C19D42A72201A20800E9855D /* Assets.xcassets */; };
 		E2798E812147EE80006228A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2798E802147EE80006228A3 /* AppDelegate.swift */; };
 		E2798E832147EE80006228A3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2798E822147EE80006228A3 /* ViewController.swift */; };
 		E2798E862147EE80006228A3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2798E842147EE80006228A3 /* Main.storyboard */; };
-		E2798E882147EE81006228A3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2798E872147EE81006228A3 /* Assets.xcassets */; };
 		E2798E8B2147EE81006228A3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2798E892147EE81006228A3 /* LaunchScreen.storyboard */; };
 		E2798E962147EE81006228A3 /* TexDriveAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2798E952147EE81006228A3 /* TexDriveAppTests.swift */; };
 /* End PBXBuildFile section */
@@ -33,12 +33,12 @@
 		8A281DA094D603552790F39A /* Pods_TexDriveAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TexDriveAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		98DFE0A21F1C20270057BCC5 /* Pods-TexDriveAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TexDriveAppTests/Pods-TexDriveAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		BC049353FB34A04720AEFDB9 /* Pods-TexDriveAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TexDriveAppTests/Pods-TexDriveAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		C19D42A72201A20800E9855D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C6D4CA8346ECEE2C3BA5E3F8 /* Pods_TexDriveApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TexDriveApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2798E7D2147EE80006228A3 /* TexDriveApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TexDriveApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2798E802147EE80006228A3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E2798E822147EE80006228A3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E2798E852147EE80006228A3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		E2798E872147EE81006228A3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E2798E8A2147EE81006228A3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E2798E8C2147EE81006228A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E2798E912147EE81006228A3 /* TexDriveAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TexDriveAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,10 +109,10 @@
 		E2798E7F2147EE80006228A3 /* TexDriveApp */ = {
 			isa = PBXGroup;
 			children = (
+				C19D42A72201A20800E9855D /* Assets.xcassets */,
 				E2798E802147EE80006228A3 /* AppDelegate.swift */,
 				E2798E822147EE80006228A3 /* ViewController.swift */,
 				E2798E842147EE80006228A3 /* Main.storyboard */,
-				E2798E872147EE81006228A3 /* Assets.xcassets */,
 				E2798E892147EE81006228A3 /* LaunchScreen.storyboard */,
 				E2798E8C2147EE81006228A3 /* Info.plist */,
 			);
@@ -221,7 +221,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2798E8B2147EE81006228A3 /* LaunchScreen.storyboard in Resources */,
-				E2798E882147EE81006228A3 /* Assets.xcassets in Resources */,
+				C19D42A82201A20800E9855D /* Assets.xcassets in Resources */,
 				E2798E862147EE80006228A3 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
