@@ -13,10 +13,15 @@ public class TexServices {
     // MARK: - Property
     // MARK: - Public
     public let tripIdFinished: PublishSubject<TripId>
-    
-    // MARK: - Private
     public let tripRecorder: TripRecorder
     public let scoreRetriever: ScoreRetrieverProtocol
+    public var rxLog : PublishSubject<LogMessage> {
+        get {
+            return configuration.rxLog
+        }
+    }
+    
+    // MARK: - Private
     internal var configuration: ConfigurationProtocol
     private let disposeBag = DisposeBag()
     private var _currentTripId : TripId?
