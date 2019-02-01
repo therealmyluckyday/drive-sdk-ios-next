@@ -64,15 +64,15 @@ public class Config: ConfigurationProtocol, ScoringClientConfiguration, APISessi
     
     public convenience init?(applicationId: String, applicationLocale: Locale = Locale.current, currentUser: User = User.Anonymous) throws {
         let locationfeature : TripRecorderFeature = TripRecorderFeature.Location(CLLocationManager())
-        let batteryfeature : TripRecorderFeature = TripRecorderFeature.Battery(UIDevice.current)
-        let phoneCallFeature : TripRecorderFeature = TripRecorderFeature.PhoneCall(CXCallObserver())
-        let sensor = CMMotionManager()
-        let motionFeature = TripRecorderFeature.Motion(sensor)
 
         #if targetEnvironment(simulator)
+        let batteryfeature : TripRecorderFeature = TripRecorderFeature.Battery(UIDevice.current)
+        let phoneCallFeature : TripRecorderFeature = TripRecorderFeature.PhoneCall(CXCallObserver())
         let tripRecorderFeatures = [locationfeature, batteryfeature, phoneCallFeature]
         #else
-        let tripRecorderFeatures = [locationfeature, batteryfeature, phoneCallFeature, motionFeature]
+//        let motionFeature = TripRecorderFeature.Motion(CMMotionManager())
+//        let tripRecorderFeatures = [locationfeature, batteryfeature, phoneCallFeature, motionFeature]
+        let tripRecorderFeatures = [locationfeature]
         #endif
         try self.init(applicationId: applicationId, applicationLocale: applicationLocale, currentUser: currentUser, currentTripRecorderFeatures: tripRecorderFeatures)
     }
