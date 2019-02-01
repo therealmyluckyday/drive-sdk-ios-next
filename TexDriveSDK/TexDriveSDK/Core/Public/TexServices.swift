@@ -22,10 +22,11 @@ public class TexServices {
     }
     
     // MARK: - Private
-    internal var configuration: ConfigurationProtocol
     private let disposeBag = DisposeBag()
     private var _currentTripId : TripId?
     
+    // MARK: - Internal
+    internal var configuration: ConfigurationProtocol
     @available(*, deprecated, message: "Please used triprecorder rxTripId property")
     internal var currentTripId: TripId? {
         get {
@@ -33,6 +34,7 @@ public class TexServices {
         }
     }
     
+    // MARK: - Internal Method
     internal init(configuration: ConfigurationProtocol) {
         self.configuration = configuration
         let tripSessionManager = APITripSessionManager(configuration: configuration.tripInfos)
@@ -49,13 +51,13 @@ public class TexServices {
         }.disposed(by: disposeBag)
     }
     
-    
+    // MARK: - Public Method
     public class func service(withConfiguration configuration: ConfigurationProtocol) -> TexServices {
         return TexServices(configuration: configuration)
     }
     
     @available(*, deprecated, message: "Please used scoreRetriever property")
-    func getscoreRetriever() -> (ScoreRetrieverProtocol) {
+    internal func getscoreRetriever() -> (ScoreRetrieverProtocol) {
         return scoreRetriever
     }
 }
