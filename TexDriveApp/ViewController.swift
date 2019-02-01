@@ -109,7 +109,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             
         }
 
-        texServices?.scoringClient.getScore(tripId: currentTripId!, rxScore: rxScore)
+        texServices?.scoreRetriever.getScore(tripId: currentTripId!, rxScore: rxScore)
     }
     
     // MARK: - Log Management

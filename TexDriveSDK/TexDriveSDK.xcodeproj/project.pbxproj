@@ -28,7 +28,7 @@
 		C140074021F083F400F90D29 /* DetectionOfStartState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C140073F21F083F400F90D29 /* DetectionOfStartState.swift */; };
 		C140074221F0840800F90D29 /* DrivingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C140074121F0840800F90D29 /* DrivingState.swift */; };
 		C140074421F0843800F90D29 /* DetectionOfStopState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C140074321F0843800F90D29 /* DetectionOfStopState.swift */; };
-		C14CA50A21BED0C000158BA0 /* ScoringClientTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CA50921BED0C000158BA0 /* ScoringClientTest.swift */; };
+		C14CA50A21BED0C000158BA0 /* ScoreRetrieverTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CA50921BED0C000158BA0 /* ScoreRetrieverTest.swift */; };
 		C151989821EC74A20058DC95 /* APIScoreSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C151989721EC74A20058DC95 /* APIScoreSessionManager.swift */; };
 		C15198A121EC76CB0058DC95 /* APITrip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C151989F21EC76CB0058DC95 /* APITrip.swift */; };
 		C15198A221EC76CB0058DC95 /* APITripSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15198A021EC76CB0058DC95 /* APITripSessionManager.swift */; };
@@ -69,7 +69,7 @@
 		C1E521B821749A9400B80C64 /* CallTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E521B721749A9400B80C64 /* CallTrackerTests.swift */; };
 		C1E93DFA2187635D0082B2B3 /* TripChunkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E93DF92187635D0082B2B3 /* TripChunkTests.swift */; };
 		C1F2A0D72183129900765D08 /* TEX-elb-ssl.der in Resources */ = {isa = PBXBuildFile; fileRef = C148D7152181F34C00F1088B /* TEX-elb-ssl.der */; };
-		C1F7E45321B5365C00EA0445 /* ScoringClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F7E45221B5365C00EA0445 /* ScoringClient.swift */; };
+		C1F7E45321B5365C00EA0445 /* ScoreRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F7E45221B5365C00EA0445 /* ScoreRetriever.swift */; };
 		C1F7E45621B53B6000EA0445 /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F7E45521B53B6000EA0445 /* Score.swift */; };
 		C1F7E45B21B53DC500EA0445 /* APIScoreTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F7E45A21B53DC500EA0445 /* APIScoreTest.swift */; };
 		C1F7E45E21B55E5200EA0445 /* APIScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F7E45D21B55E5200EA0445 /* APIScore.swift */; };
@@ -130,7 +130,7 @@
 		C140074121F0840800F90D29 /* DrivingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingState.swift; sourceTree = "<group>"; };
 		C140074321F0843800F90D29 /* DetectionOfStopState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectionOfStopState.swift; sourceTree = "<group>"; };
 		C148D7152181F34C00F1088B /* TEX-elb-ssl.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TEX-elb-ssl.der"; sourceTree = "<group>"; };
-		C14CA50921BED0C000158BA0 /* ScoringClientTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoringClientTest.swift; sourceTree = "<group>"; };
+		C14CA50921BED0C000158BA0 /* ScoreRetrieverTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreRetrieverTest.swift; sourceTree = "<group>"; };
 		C151989721EC74A20058DC95 /* APIScoreSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIScoreSessionManager.swift; sourceTree = "<group>"; };
 		C151989F21EC76CB0058DC95 /* APITrip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APITrip.swift; sourceTree = "<group>"; };
 		C15198A021EC76CB0058DC95 /* APITripSessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APITripSessionManager.swift; sourceTree = "<group>"; };
@@ -170,7 +170,7 @@
 		C1E521B521748CE800B80C64 /* CallFixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallFixTests.swift; sourceTree = "<group>"; };
 		C1E521B721749A9400B80C64 /* CallTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallTrackerTests.swift; sourceTree = "<group>"; };
 		C1E93DF92187635D0082B2B3 /* TripChunkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripChunkTests.swift; sourceTree = "<group>"; };
-		C1F7E45221B5365C00EA0445 /* ScoringClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoringClient.swift; sourceTree = "<group>"; };
+		C1F7E45221B5365C00EA0445 /* ScoreRetriever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreRetriever.swift; sourceTree = "<group>"; };
 		C1F7E45521B53B6000EA0445 /* Score.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Score.swift; sourceTree = "<group>"; };
 		C1F7E45A21B53DC500EA0445 /* APIScoreTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIScoreTest.swift; sourceTree = "<group>"; };
 		C1F7E45D21B55E5200EA0445 /* APIScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIScore.swift; sourceTree = "<group>"; };
@@ -284,7 +284,7 @@
 		C14CA50821BED09400158BA0 /* Score */ = {
 			isa = PBXGroup;
 			children = (
-				C14CA50921BED0C000158BA0 /* ScoringClientTest.swift */,
+				C14CA50921BED0C000158BA0 /* ScoreRetrieverTest.swift */,
 				C168630121E33CAF003FF6F0 /* ScoreErrorTests.swift */,
 			);
 			path = Score;
@@ -450,7 +450,7 @@
 		C1F7E45421B53B5000EA0445 /* Score */ = {
 			isa = PBXGroup;
 			children = (
-				C1F7E45221B5365C00EA0445 /* ScoringClient.swift */,
+				C1F7E45221B5365C00EA0445 /* ScoreRetriever.swift */,
 				C1F7E45521B53B6000EA0445 /* Score.swift */,
 				C1CC41E621DFBEC4004CB5C2 /* ScoreError.swift */,
 			);
@@ -746,7 +746,7 @@
 				C12E34C421C174B600696B03 /* LogRx.swift in Sources */,
 				E2798ED1214AB6F3006228A3 /* FixCollector.swift in Sources */,
 				E2798EC721480E3B006228A3 /* Fix.swift in Sources */,
-				C1F7E45321B5365C00EA0445 /* ScoringClient.swift in Sources */,
+				C1F7E45321B5365C00EA0445 /* ScoreRetriever.swift in Sources */,
 				C1D1343F218740290099B650 /* URLRequestExtension.swift in Sources */,
 				E2798ECE214AB4BA006228A3 /* BatteryTracker.swift in Sources */,
 				C1E521B42170ED5300B80C64 /* CallFix.swift in Sources */,
@@ -797,7 +797,7 @@
 				C15B9FC92194441F0072439F /* LogDetailTests.swift in Sources */,
 				C17E9A7E216FA53900FCF93E /* ConfigTests.swift in Sources */,
 				C1FDE342219C5B4300F15AF3 /* FixCollectorTests.swift in Sources */,
-				C14CA50A21BED0C000158BA0 /* ScoringClientTest.swift in Sources */,
+				C14CA50A21BED0C000158BA0 /* ScoreRetrieverTest.swift in Sources */,
 				C15B9FC721942E720072439F /* LogTests.swift in Sources */,
 				C1E521B621748CE800B80C64 /* CallFixTests.swift in Sources */,
 				E2798EB92147F0DC006228A3 /* TexDriveSDKTests.swift in Sources */,
