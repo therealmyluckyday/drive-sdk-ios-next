@@ -25,7 +25,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
     var locationManager = CLLocationManager()
     let rxDisposeBag = DisposeBag()
     let rxScore = PublishSubject<Score>()
-    var currentTripId = TripId(uuidString: "461105AE-A712-41A7-939C-4982413BE30F")
+    lazy var currentTripId = { () -> TripId in
+        if let tripId = tripRecorder?.currentTripId {
+            return tripId
+        }
+        return TripId(uuidString: "461105AE-A712-41A7-939C-4982413BE30F")!
+    }()
     var texServices: TexServices?
     
     override func viewDidLoad() {
@@ -45,11 +50,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     func configureTexSDK(withUserId: String) {
         let user = User.Authentified(withUserId)
-        self.logUser(userName: userName)
+        self.logUser(userName: withUserId)
         do {
             if let configuration = try Config(applicationId: "youdrive_france_prospect", applicationLocale: Locale.current, currentUser: user) {
                 texServices = TexServices.service(withConfiguration: configuration)
-                texServices!.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { [weak self] (event) in
+                texServices!.tripRecorder.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { [weak self] (event) in
                     if let tripId = event.element {
                         self?.appendText(string: "\n Trip finished: \n \(tripId.uuidString)")
                     }
@@ -60,7 +65,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         self?.appendText(string: "STATE CHANGE \(state)")
                     }
                 }).disposed(by: rxDisposeBag)
-                self.configureLog(configuration.rxLog)
+                self.configureLog(texServices!.rxLog)
                 
             }
         } catch ConfigurationError.LocationNotDetermined(let description) {
@@ -68,12 +73,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         } catch {
             print("\(error)")
         }
-        tripRecorder?.rxTripId.asObserver().subscribe({event in
-            if let tripId = event.element {
-                self.appendText(string: "\n Current Trip:\n \(tripId.uuidString) \n")
-                self.currentTripId = tripId
-            }
-        }).disposed(by: self.rxDisposeBag)
     }
     
     @IBAction func tripSegmentedControlValueChanged(_ sender: UISegmentedControl) {
@@ -88,8 +87,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     func startTrip() {
-        tripRecorder?.stop()
-        launchTracking()
         tripRecorder?.start()
     }
     
@@ -109,7 +106,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             
         }
 
-        texServices?.scoreRetriever.getScore(tripId: currentTripId!, rxScore: rxScore)
+        texServices?.scoreRetriever.getScore(tripId: currentTripId, rxScore: rxScore)
     }
     
     // MARK: - Log Management
@@ -122,7 +119,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         do {
             let regex = try NSRegularExpression(pattern: ".*.*", options: NSRegularExpression.Options.caseInsensitive)
-            configuration.log(regex: regex, logType: LogType.Error)
+            texServices?.logManager.log(regex: regex, logType: LogType.Error)
         } catch {
             let customLog = OSLog(subsystem: "fr.axa.tex", category: #file)
             os_log("[ViewController][configureLog] regex error %@", log: customLog, type: .error, error.localizedDescription)

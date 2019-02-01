@@ -12,44 +12,32 @@ import RxSwift
 public class TexServices {
     // MARK: - Property
     // MARK: - Public
-    public let tripIdFinished: PublishSubject<TripId>
+    public let logManager = LogManager()
     public let tripRecorder: TripRecorder
     public let scoreRetriever: ScoreRetrieverProtocol
     public var rxLog : PublishSubject<LogMessage> {
         get {
-            return configuration.rxLog
+            return logManager.rxLog
         }
     }
     
     // MARK: - Private
     private let disposeBag = DisposeBag()
-    private var _currentTripId : TripId?
     
     // MARK: - Internal
     internal var configuration: ConfigurationProtocol
-    @available(*, deprecated, message: "Please used triprecorder rxTripId property")
-    internal var currentTripId: TripId? {
-        get {
-            return _currentTripId
-        }
-    }
     
     // MARK: - Internal Method
     internal init(configuration: ConfigurationProtocol) {
         self.configuration = configuration
         let tripSessionManager = APITripSessionManager(configuration: configuration.tripInfos)
-        tripIdFinished = tripSessionManager.tripIdFinished
+        
         tripRecorder = TripRecorder(configuration: configuration, sessionManager: tripSessionManager)
         
         let scoreSessionManager = APIScoreSessionManager(configuration: configuration.tripInfos)
         scoreRetriever = ScoreRetriever(sessionManager: scoreSessionManager, locale: configuration.locale)
         
-        tripRecorder.rxTripId.asObservable().observeOn(MainScheduler.instance).subscribe {[weak self] (event) in
-            if let tripId = event.element {
-                self?._currentTripId = tripId
             }
-        }.disposed(by: disposeBag)
-    }
     
     // MARK: - Public Method
     public class func service(withConfiguration configuration: ConfigurationProtocol) -> TexServices {

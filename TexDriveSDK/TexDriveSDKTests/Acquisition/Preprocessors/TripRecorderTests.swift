@@ -193,6 +193,19 @@ class TripRecorderTests: XCTestCase {
         }
         XCTAssertTrue(isRxTripIdCalled)
     }
+    
+    // MARK: - currentTripId
+    func testCurrentTripIdNull() {
+        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
+        let mockLocationManager = MockLocationManager()
+        let locationFeature = TripRecorderFeature.Location(mockLocationManager)
+        let features = [locationFeature]
+        let configuration = MockConfiguration(features: features)
+        
+        let service = TexServices.service(withConfiguration: configuration)
+        
+        XCTAssertNil(service.tripRecorder.currentTripId)
+    }
 }
 
 

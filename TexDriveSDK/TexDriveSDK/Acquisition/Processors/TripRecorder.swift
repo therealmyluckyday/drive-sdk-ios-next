@@ -12,14 +12,15 @@ import RxSwift
 import RxSwiftExt
 
 public protocol TripRecorderProtocol {
-    var rxTripId: PublishSubject<TripId> { get }
+    var currentTripId: TripId? { get }
+    var tripIdFinished: PublishSubject<TripId> { get }
     func start()
     func stop()
 }
 
 
 public class TripRecorder: TripRecorderProtocol {
-    // MARK: Property
+    // MARK: - Property
     private let collector: FixCollector
     private var rxEventType = PublishSubject<EventType>()
     private var rxFix = PublishSubject<Fix>()
@@ -28,14 +29,20 @@ public class TripRecorder: TripRecorderProtocol {
     private let apiTrip: APITrip
     internal let persistantQueue: PersistantQueue
     internal let persistantApp = PersistantApp()
-    public let rxTripId = PublishSubject<TripId>()
+    internal let rxTripId = PublishSubject<TripId>()
+    
+    // MARK: Public
+    public var currentTripId: TripId?
+    public let tripIdFinished: PublishSubject<TripId>
+    
     public var rxState: PublishSubject<AutoModeDetectionState> {
         get {
             return self.autoMode.rxState
         }
     }
+
     
-    // MARK: TripRecorder Protocol    
+    // MARK: - TripRecorder Protocol
     public func start() {
         persistantApp.enable()
         collector.startCollect()
@@ -108,9 +115,10 @@ public class TripRecorder: TripRecorderProtocol {
         autoMode.enable()
     }
     
-    // MARK: Lifecycle
+    // MARK: - Lifecycle
     public init(configuration: TripRecorderConfiguration, sessionManager: APITripSessionManagerProtocol) {
         apiTrip = APITrip(apiSessionManager: sessionManager)
+        tripIdFinished = sessionManager.tripIdFinished
         persistantQueue = PersistantQueue(eventType: rxEventType, fixes: rxFix, scheduler: configuration.rxScheduler, rxTripId: rxTripId, tripInfos: configuration.tripInfos, rxTripChunkSent: sessionManager.tripChunkSent)
         collector = FixCollector(eventsType: rxEventType, fixes: rxFix, scheduler: configuration.rxScheduler)
         
@@ -135,6 +143,12 @@ public class TripRecorder: TripRecorderProtocol {
             }
         }
         self.subscribe(providerTrip: persistantQueue.providerTrip, scheduler: configuration.rxScheduler)
+
+        self.rxTripId.asObservable().observeOn(MainScheduler.instance).subscribe {[weak self] (event) in
+            if let tripId = event.element {
+                self?.currentTripId = tripId
+            }
+            }.disposed(by: rxDisposeBag)
     }
     
     func subscribe(providerTrip: PublishSubject<TripChunk>, scheduler: ImmediateSchedulerType) {

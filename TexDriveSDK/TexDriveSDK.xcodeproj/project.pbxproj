@@ -51,6 +51,7 @@
 		C1C83BD7219042F500D8E4B3 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C83BD6219042F500D8E4B3 /* Log.swift */; };
 		C1CC41E721DFBEC4004CB5C2 /* ScoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CC41E621DFBEC4004CB5C2 /* ScoreError.swift */; };
 		C1CC41E921DFBF20004CB5C2 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CC41E821DFBF20004CB5C2 /* APIError.swift */; };
+		C1CCD6ED2204A3C600F4B312 /* LogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CCD6EC2204A3C600F4B312 /* LogManager.swift */; };
 		C1D0BD9C2192FB4000365428 /* LogMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D0BD9B2192FB4000365428 /* LogMessage.swift */; };
 		C1D13437218728600099B650 /* SecTrustExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D13436218728600099B650 /* SecTrustExtension.swift */; };
 		C1D13439218729900099B650 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D13438218729900099B650 /* UIDeviceExtension.swift */; };
@@ -153,6 +154,7 @@
 		C1C83BD6219042F500D8E4B3 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		C1CC41E621DFBEC4004CB5C2 /* ScoreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreError.swift; sourceTree = "<group>"; };
 		C1CC41E821DFBF20004CB5C2 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		C1CCD6EC2204A3C600F4B312 /* LogManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogManager.swift; sourceTree = "<group>"; };
 		C1D0BD9B2192FB4000365428 /* LogMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogMessage.swift; sourceTree = "<group>"; };
 		C1D13436218728600099B650 /* SecTrustExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecTrustExtension.swift; sourceTree = "<group>"; };
 		C1D13438218729900099B650 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 			children = (
 				C1C83BD6219042F500D8E4B3 /* Log.swift */,
 				C1D0BD9B2192FB4000365428 /* LogMessage.swift */,
+				C1CCD6EC2204A3C600F4B312 /* LogManager.swift */,
 			);
 			path = Log;
 			sourceTree = "<group>";
@@ -747,6 +750,7 @@
 				E2798ED1214AB6F3006228A3 /* FixCollector.swift in Sources */,
 				E2798EC721480E3B006228A3 /* Fix.swift in Sources */,
 				C1F7E45321B5365C00EA0445 /* ScoreRetriever.swift in Sources */,
+				C1CCD6ED2204A3C600F4B312 /* LogManager.swift in Sources */,
 				C1D1343F218740290099B650 /* URLRequestExtension.swift in Sources */,
 				E2798ECE214AB4BA006228A3 /* BatteryTracker.swift in Sources */,
 				C1E521B42170ED5300B80C64 /* CallFix.swift in Sources */,

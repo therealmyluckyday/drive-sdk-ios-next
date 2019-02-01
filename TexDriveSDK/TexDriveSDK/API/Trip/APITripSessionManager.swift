@@ -13,7 +13,9 @@ import Gzip
 public protocol APITripSessionManagerProtocol {
     func put(dictionaryBody: [String: Any])
     var tripChunkSent: PublishSubject<Result<TripId>> { get }
+    var tripIdFinished: PublishSubject<TripId> { get }
 }
+
 class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, URLSessionDownloadDelegate, URLSessionTaskDelegate {
     // MARK: Property
     private lazy var urlBackgroundTaskSession: URLSession = {
