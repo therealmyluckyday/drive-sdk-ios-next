@@ -54,7 +54,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         self.logUser(userName: withUserId)
         do {
             if let configuration = try Config(applicationId: "youdrive_france_prospect", applicationLocale: Locale.current, currentUser: user) {
-                texServices = TexServices.service(withConfiguration: configuration)
+                texServices = TexServices.service(reconfigureWith: configuration)
                 texServices!.tripRecorder.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { [weak self] (event) in
                     if let tripId = event.element {
                         self?.appendText(string: "\n Trip finished: \n \(tripId.uuidString)")

@@ -18,9 +18,9 @@ class TexServicesTests: XCTestCase {
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)
         
-        let service = TexServices(configuration: configuration)
+        let service = TexServices.service(reconfigureWith: configuration)
         
-        XCTAssertEqual(service.configuration.tripRecorderFeatures.count, configuration.tripRecorderFeatures.count)
+        XCTAssertEqual(service.configuration!.tripRecorderFeatures.count, configuration.tripRecorderFeatures.count)
     }
     
     func testService() {
@@ -30,20 +30,8 @@ class TexServicesTests: XCTestCase {
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)
         
-        let service = TexServices.service(withConfiguration: configuration)
+        let service = TexServices.service(reconfigureWith: configuration)
         
-        XCTAssertEqual(service.configuration.tripRecorderFeatures.count, configuration.tripRecorderFeatures.count)
-    }
-    
-    // MARK: - func getscoreRetriever() -> (scoreRetriever)
-    func testGetscoreRetriever() {
-        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
-        let mockLocationManager = MockLocationManager()
-        let locationFeature = TripRecorderFeature.Location(mockLocationManager)
-        let features = [locationFeature]
-        let configuration = MockConfiguration(features: features)
-        let service = TexServices.service(withConfiguration: configuration)
-        
-        let _ = service.getscoreRetriever()
+        XCTAssertEqual(service.configuration!.tripRecorderFeatures.count, configuration.tripRecorderFeatures.count)
     }
 }

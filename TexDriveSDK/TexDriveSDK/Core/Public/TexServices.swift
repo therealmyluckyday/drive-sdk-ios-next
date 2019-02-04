@@ -13,8 +13,16 @@ public class TexServices {
     // MARK: - Property
     // MARK: - Public
     public let logManager = LogManager()
-    public let tripRecorder: TripRecorder
-    public let scoreRetriever: ScoreRetrieverProtocol
+    public var tripRecorder: TripRecorder {
+        get {
+            return _tripRecorder!
+        }
+    }
+    public var scoreRetriever: ScoreRetrieverProtocol {
+        get {
+            return _scoreRetriever!
+        }
+    }
     public var rxLog : PublishSubject<LogMessage> {
         get {
             return logManager.rxLog
@@ -23,29 +31,35 @@ public class TexServices {
     
     // MARK: - Private
     private let disposeBag = DisposeBag()
+    private var _tripRecorder: TripRecorder?
+    private var _tripSessionManager: APITripSessionManager?
+    private var _scoreRetriever: ScoreRetrieverProtocol?
+    private static let sharedInstance = TexServices()
     
     // MARK: - Internal
-    internal var configuration: ConfigurationProtocol
+    internal var configuration: ConfigurationProtocol?
     
     // MARK: - Internal Method
-    internal init(configuration: ConfigurationProtocol) {
-        self.configuration = configuration
-        let tripSessionManager = APITripSessionManager(configuration: configuration.tripInfos)
-        
-        tripRecorder = TripRecorder(configuration: configuration, sessionManager: tripSessionManager)
-        
-        let scoreSessionManager = APIScoreSessionManager(configuration: configuration.tripInfos)
-        scoreRetriever = ScoreRetriever(sessionManager: scoreSessionManager, locale: configuration.locale)
-        
-            }
-    
-    // MARK: - Public Method
-    public class func service(withConfiguration configuration: ConfigurationProtocol) -> TexServices {
-        return TexServices(configuration: configuration)
+    internal init() {
     }
     
-    @available(*, deprecated, message: "Please used scoreRetriever property")
-    internal func getscoreRetriever() -> (ScoreRetrieverProtocol) {
-        return scoreRetriever
+    private func reconfigure(_ configure: ConfigurationProtocol) {
+        self.configuration = configure
+        let tripSessionManager = APITripSessionManager(configuration: configure.tripInfos)
+        
+        _tripRecorder = TripRecorder(configuration: configure, sessionManager: tripSessionManager)
+        
+        let scoreSessionManager = APIScoreSessionManager(configuration: configure.tripInfos)
+        _scoreRetriever = ScoreRetriever(sessionManager: scoreSessionManager, locale: configure.locale)
+    }
+    
+    // MARK: - Public Method
+    public class func service(reconfigureWith configuration: ConfigurationProtocol) -> TexServices {
+        if let triprecorder = sharedInstance._tripRecorder {
+            triprecorder.stop()
+        }
+        sharedInstance.reconfigure(configuration)
+        
+        return sharedInstance
     }
 }
