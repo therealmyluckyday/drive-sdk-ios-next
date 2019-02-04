@@ -45,6 +45,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             self.appendText(string: "SCORE: \(score)")
         }.disposed(by: rxDisposeBag)
         logTextField.isEditable = false
+        CLLocationManager().requestAlwaysAuthorization()
         self.configureTexSDK(withUserId: userId)
     }
     
