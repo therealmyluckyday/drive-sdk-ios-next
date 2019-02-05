@@ -60,30 +60,6 @@ class APIScoreTest: XCTestCase {
         XCTAssertTrue(isCompletionCalled)
     }
     
-    func testGetScore_Rx_Error_not_enough_locations() {
-        let tripId = TripId(uuidString: "3FECE4EA-CBBE-4463-AA24-2F6657D09962")!
-        var isCompletionCalled = false
-        let expectation = self.expectation(description: "APIGetScoreCalled")
-        let rxScore = PublishSubject<Score>()
-        
-        rxScore.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
-            isCompletionCalled = true
-            if let _ = event.element {
-                XCTAssertTrue(false)
-            } else if let scoreError = event.error as? ScoreError {
-                XCTAssertEqual(scoreError.status, ScoreStatus.tooShort)
-                XCTAssertEqual(scoreError.tripId, tripId)
-                XCTAssertEqual(scoreError.details.first, ExceptionScoreStatus.lowPrecisionTrip)
-            }
-            expectation.fulfill()
-            }.disposed(by: rxDisposeBag!)
-        
-        apiScore!.getScore(tripId: tripId, rxScore: rxScore)
-        wait(for: [expectation], timeout: 1)
-        
-        XCTAssertTrue(isCompletionCalled)
-    }
-    
     // MARK: - func getScore(tripId: TripId, completionHandler: @escaping (Result<Score>) -> ())
     func testGetScore_Error_not_enough_locations() {
         let tripId = TripId(uuidString: "3FECE4EA-CBBE-4463-AA24-2F6657D09962")!
