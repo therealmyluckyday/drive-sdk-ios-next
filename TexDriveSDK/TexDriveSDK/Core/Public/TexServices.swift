@@ -23,14 +23,10 @@ public class TexServices {
             return _scoreRetriever!
         }
     }
-    public var rxLog : PublishSubject<LogMessage> {
-        get {
-            return logManager.rxLog
-        }
-    }
+    public let rxScore = PublishSubject<Score>()
     
     // MARK: - Private
-    private let disposeBag = DisposeBag()
+    private var disposeBag: DisposeBag?
     private var _tripRecorder: TripRecorder?
     private var _tripSessionManager: APITripSessionManager?
     private var _scoreRetriever: ScoreRetrieverProtocol?
@@ -43,14 +39,20 @@ public class TexServices {
     internal init() {
     }
     
-    private func reconfigure(_ configure: ConfigurationProtocol) {
+    internal func reconfigure(_ configure: ConfigurationProtocol) {
+        disposeBag = DisposeBag()
         self.configuration = configure
+        let scoreSessionManager = APIScoreSessionManager(configuration: configure.tripInfos)
+        _scoreRetriever = ScoreRetriever(sessionManager: scoreSessionManager, locale: configure.locale)
         let tripSessionManager = APITripSessionManager(configuration: configure.tripInfos)
         
         _tripRecorder = TripRecorder(configuration: configure, sessionManager: tripSessionManager)
         
-        let scoreSessionManager = APIScoreSessionManager(configuration: configure.tripInfos)
-        _scoreRetriever = ScoreRetriever(sessionManager: scoreSessionManager, locale: configure.locale)
+        _tripRecorder?.tripIdFinished.asObserver().observeOn(configure.rxScheduler).subscribe { [weak self](event) in
+            if let tripId = event.element, let rxScore = self?.rxScore {
+                self?._scoreRetriever?.getScore(tripId: tripId, rxScore: rxScore)
+            }
+        }.disposed(by: disposeBag!)
     }
     
     // MARK: - Public Method

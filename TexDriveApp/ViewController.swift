@@ -29,7 +29,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if let tripId = tripRecorder?.currentTripId {
             return tripId
         }
-        return TripId(uuidString: "461105AE-A712-41A7-939C-4982413BE30F")!
+        return TripId(uuidString: "165D217D-8339-4D73-9683-9C1AD3BF1B71")!
     }()
     var texServices: TexServices?
     
@@ -66,8 +66,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         self?.appendText(string: "STATE CHANGE \(state)")
                     }
                 }).disposed(by: rxDisposeBag)
-                self.configureLog(texServices!.rxLog)
                 
+                texServices?.rxScore.asObserver().observeOn(MainScheduler.asyncInstance).retry().subscribe({ [weak self] (event) in
+                    if let score = event.element {
+                        self?.appendText(string: "NEW SCORE \(score)")
+                    }
+                }).disposed(by: rxDisposeBag)
+                self.configureLog(texServices!.logManager.rxLog)
             }
         } catch ConfigurationError.LocationNotDetermined(let description) {
             print(description)
