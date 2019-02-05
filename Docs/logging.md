@@ -6,7 +6,7 @@ It will be up to client library to choose using or not the logging system
 ## Public Usage
 
 ### Using RX
-When you initialize your configuration you can after retrieve the `rxLog` property a `PublishSubject<LogMessage>` class.
+When you initialize your configuration you can after retrieve the `rxLog` property a `PublishSubject<LogMessage>` class on the LogManager contains in the TexService class. 
 
 Then you can create a function like that :
     
