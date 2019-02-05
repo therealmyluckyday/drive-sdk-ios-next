@@ -6,13 +6,12 @@
 //  Copyright © 2018 Axa. All rights reserved.
 //
 
-class Fix {
-    
-    var fixId: String
-    var timestamp: Date
-    
-    init (fixId: String, timestamp: Date) {
-        self.fixId = fixId
-        self.timestamp = timestamp
+protocol Fix: CustomStringConvertible {
+    var timestamp: TimeInterval { get } //location.timestamp.timeIntervalSince1970 * 1000
+    func serialize() -> [String: Any]
+}
+extension Fix {
+    func serializeTimestamp() -> (String, Int) {
+        return ("timestamp",Int(timestamp*1000))
     }
 }

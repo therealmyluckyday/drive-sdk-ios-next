@@ -1,26 +1,36 @@
 {
   "name": "TexDriveSDK",
   "platforms": {
-    "ios": null
+    "ios": "11.0"
   },
   "summary": "TexDriveSDK",
   "requires_arc": true,
-  "version": "1.0.0",
+  "version": "3.0.0",
   "homepage": "http://www.axa.com",
+  "swift_version": "4.2",
   "authors": {
     "vhiribarren": "vhiribarren@users.noreply.github.com"
   },
   "source": {
     "git": "https://github.com/axadil/tex-drive-sdk.git",
-    "tag": "1.0.0"
+    "tag": "3.0.0"
   },
   "source_files": "TexDriveSDK/TexDriveSDK/**/*.{h,m,c,swift}",
-  "resources": "TexDriveSDK/**/*.{png,jpeg,jpg,storyboard,xib,xcassets}",
+  "resources": "TEXDriveSDK/TEXDriveSDK/Resources/*",
   "dependencies": {
     "RxSwift": [
 
     ],
     "RxCocoa": [
+
+    ],
+    "RxBlocking": [
+
+    ],
+    "RxSwiftExt": [
+
+    ],
+    "GzipSwift": [
 
     ]
   }

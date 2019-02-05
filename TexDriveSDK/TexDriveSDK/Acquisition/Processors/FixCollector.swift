@@ -8,43 +8,61 @@
 
 import RxSwift
 
-protocol Tracker {
+class FixCollector {
+    // MARK: Property
+    private let rxDisposeBag = DisposeBag()
+    var rxErrorCollecting = PublishSubject<Error>() // @VHI currently do nothin
+    private var trackers = [GenericTracker]()
+    private var rxEventType: PublishSubject<EventType>
+    private var rxFix: PublishSubject<Fix>
+    private let rxScheduler: SerialDispatchQueueScheduler
     
-    func enableTracking()
-    func disableTracking()
-    func provideFix()
-}
-
-public class FixCollector {
-    
-    private let locationTracker = LocationTracker()
-    private let batteryTracker = BatteryTracker()
-    private let disposeBag = DisposeBag()
-    
-    public init() {
-        collectGPS()
-        //collectBatteryState()
+    // MARK: LifeCycle
+    init(eventsType: PublishSubject<EventType>, fixes: PublishSubject<Fix>, scheduler: SerialDispatchQueueScheduler) {
+        rxFix = fixes
+        rxEventType = eventsType
+        rxScheduler = scheduler
     }
     
-    public func collectGPS() {
-        
-        locationTracker.enableTracking()
-        
-        locationTracker.locationFix.asObservable().subscribe(onNext: { locationFix in
-            print("longitude : \(locationFix.longitude) latitude : \(locationFix.latitude)")
-        })
-        .disposed(by: disposeBag)
-        
+    // MARK: Public Method
+    func collect<T>(tracker: T) where T: Tracker {
+        self.subscribe(fromProviderFix: tracker.provideFix()) { [weak self](fix) in
+            Log.print("fix datetime \(fix.description)")
+            self?.rxFix.onNext(fix)
+        }
+        trackers.append(tracker)
     }
     
-//    public func collectBatteryState() {
-//
-//        batteryTracker.enableTracking()
-//
-//        batteryTracker.rx_batteryFix.asObservable().subscribe(onNext: { batteryFix in
-//            print("level : \(batteryFix.level) state : \(batteryFix.batteryState)")
-//        })
-//            .disposed(by: disposeBag)
-//
-//    }
+    func startCollect() {
+        self.rxEventType.onNext(EventType.start)
+        for tracker in trackers {
+            tracker.enableTracking()
+        }
+    }
+    
+    func stopCollect() {
+        self.rxEventType.onNext(EventType.stop)
+        for tracker in trackers {
+            tracker.disableTracking()
+        }
+    }
+    
+    // MARK: private Method
+    private func subscribe<T> (fromProviderFix: PublishSubject<Result<T>>?, resultClosure: @escaping ((T)->())) where T: Fix {
+        if let proviveFix = fromProviderFix {
+            proviveFix.asObservable().observeOn(rxScheduler).subscribe({ [weak self](event) in
+                switch (event.element) {
+                case .Success(let fix)?:
+                    resultClosure(fix)
+                    break
+                case .Failure(let Error)?:
+                    self?.rxErrorCollecting.onNext(Error)
+                    break
+                default:
+                    break
+                }
+            })
+                .disposed(by: rxDisposeBag)
+        }
+    }
 }

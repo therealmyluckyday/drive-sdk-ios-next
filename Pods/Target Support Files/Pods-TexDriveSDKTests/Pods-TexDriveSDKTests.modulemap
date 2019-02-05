@@ -1,0 +1,6 @@
+module Pods_TexDriveSDKTests {
+  umbrella header "Pods-TexDriveSDKTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

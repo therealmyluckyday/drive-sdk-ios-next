@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" systemVersion="17A277" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -9,16 +13,71 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="TexDriveApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="yQJ-CE-t6p">
+                                <rect key="frame" x="0.0" y="119" width="375" height="548"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Erwan-test" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZNo-wx-BGK">
+                                <rect key="frame" x="16" y="32" width="150" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="yHX-At-h4E"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="PRB-fP-xN2">
+                                <rect key="frame" x="270" y="33" width="89" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="89" id="F3z-J3-1jX"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="Start"/>
+                                    <segment title="Stop"/>
+                                </segments>
+                                <connections>
+                                    <action selector="tripSegmentedControlValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="zd4-8E-zJL"/>
+                                </connections>
+                            </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Q2-Ft-CYJ">
+                                <rect key="frame" x="16" y="57" width="246" height="54"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="get score"/>
+                                <connections>
+                                    <action selector="getScore:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HMQ-Za-MNv"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="yQJ-CE-t6p" firstAttribute="top" secondItem="ZNo-wx-BGK" secondAttribute="bottom" constant="70" id="7rN-5r-qVg"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="PRB-fP-xN2" secondAttribute="trailing" constant="16" id="IPu-kP-rnP"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="yQJ-CE-t6p" secondAttribute="bottom" id="Jvf-eu-kxE"/>
+                            <constraint firstItem="ZNo-wx-BGK" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="SfR-fT-rkh"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="yQJ-CE-t6p" secondAttribute="trailing" id="e27-dg-OpH"/>
+                            <constraint firstItem="ZNo-wx-BGK" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="12" id="gcW-qO-4fK"/>
+                            <constraint firstItem="yQJ-CE-t6p" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="iK5-Iv-nHc"/>
+                            <constraint firstItem="PRB-fP-xN2" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="13" id="okT-Z3-cHc"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="TripSegmentedControl" destination="PRB-fP-xN2" id="iTY-xD-cMQ"/>
+                        <outlet property="logTextField" destination="yQJ-CE-t6p" id="KEr-p3-QH0"/>
+                        <outlet property="scoreButton" destination="0Q2-Ft-CYJ" id="l8V-hl-JYg"/>
+                        <outlet property="textfield" destination="ZNo-wx-BGK" id="i8B-PQ-7C9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="127.28635682158921"/>
         </scene>
     </scenes>
 </document>
