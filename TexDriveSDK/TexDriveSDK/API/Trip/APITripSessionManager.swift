@@ -8,11 +8,14 @@
 
 import UIKit
 import RxSwift
+import Gzip
 
 public protocol APITripSessionManagerProtocol {
     func put(dictionaryBody: [String: Any])
     var tripChunkSent: PublishSubject<Result<TripId>> { get }
+    var tripIdFinished: PublishSubject<TripId> { get }
 }
+
 class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, URLSessionDownloadDelegate, URLSessionTaskDelegate {
     // MARK: Property
     private lazy var urlBackgroundTaskSession: URLSession = {
@@ -35,7 +38,7 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
     // MARK: PUT HTTP
     func put(dictionaryBody: [String: Any]) {
         if let url = URL(string: "\(configuration.baseUrl())/data") {
-            if let request = URLRequest.createUrlRequest(url: url, body: dictionaryBody, httpMethod: HttpMethod.PUT) {
+            if let request = URLRequest.createUrlRequest(url: url, body: dictionaryBody, httpMethod: HttpMethod.PUT, withCompression: false) {
                 let backgroundTask = self.urlBackgroundTaskSession.downloadTask(with: request)
                 backgroundTask.resume()
             }
@@ -52,8 +55,11 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
         Log.print(location.absoluteString)
         Log.print("HTTP response \(httpResponse)")
         if (200...299).contains(httpResponse.statusCode), let tripId = APITripSessionManager.getTripId(task: downloadTask) {
+            Log.print("TripId: \(tripId)")
+            
             tripChunkSent.onNext(Result.Success(tripId))
             if let tripId = APITripSessionManager.getTripId(task: downloadTask), APITripSessionManager.isTripStoppedSend(task:downloadTask) {
+                Log.print("Trip FINISHED!!!!")
                 tripIdFinished.onNext(tripId)
             }
         } else {
@@ -153,7 +159,7 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
         Log.print("HTTP urlsession")
     }
     
-    // MARK : func isTripStopedSend(on: downloadTask) -> Bool
+    // MARK: - func isTripStopedSend(on: downloadTask) -> Bool
     class func isTripStoppedSend(task: URLSessionDownloadTask) -> Bool {
         if let body = task.currentRequest?.httpBody {
             do {
@@ -176,17 +182,24 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
     class func getTripId(task: URLSessionDownloadTask) -> TripId? {
         if let body = task.currentRequest?.httpBody {
             do {
-                if let json = try (JSONSerialization.jsonObject(with: body, options: JSONSerialization.ReadingOptions.allowFragments)) as? [String: Any] {
+                var data = body
+                if body.isGzipped  {
+                    data = try body.gunzipped()
+                }
+                if let json = try (JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)) as? [String: Any] {
                     if let tripIdString = json["trip_id"] as? String, let tripId = TripId(uuidString: tripIdString) {
                         return tripId
                     }
                 }
-            } catch {
+            } catch let error as GzipError {
+                Log.print("GzipError \(error)", type: .Error)
+                return nil
+            } catch  {
+                Log.print("Error \(error)", type: .Error)
                 return nil
             }
         }
         return nil
-        
     }
 }
 

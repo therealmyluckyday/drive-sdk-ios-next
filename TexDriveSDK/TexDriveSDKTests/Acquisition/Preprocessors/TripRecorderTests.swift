@@ -25,7 +25,7 @@ class TripRecorderTests: XCTestCase {
         super.tearDown()
     }
     
-    // MARK : init
+    // MARK: - init
     func testInit_LocationFeatureStart() {
         MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
         let mockLocationManager = MockLocationManager()
@@ -140,7 +140,7 @@ class TripRecorderTests: XCTestCase {
     }
     
     
-    // MARK : currentTripId
+    // MARK: - currentTripId
     func testTripIdNull() {
         
         MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
@@ -192,6 +192,19 @@ class TripRecorderTests: XCTestCase {
         } catch {
         }
         XCTAssertTrue(isRxTripIdCalled)
+    }
+    
+    // MARK: - currentTripId
+    func testCurrentTripIdNull() {
+        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
+        let mockLocationManager = MockLocationManager()
+        let locationFeature = TripRecorderFeature.Location(mockLocationManager)
+        let features = [locationFeature]
+        let configuration = MockConfiguration(features: features)
+        
+        let service = TexServices.service(reconfigureWith: configuration)
+        
+        XCTAssertNil(service.tripRecorder.currentTripId)
     }
 }
 

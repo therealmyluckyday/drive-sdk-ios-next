@@ -309,7 +309,7 @@ class TripChunkTests: XCTestCase {
         XCTAssertNil(event)
     }
     
-    // MARK : static func generateTripId() -> String
+    // MARK: - static func generateTripId() -> String
     func testGenerateTripId() {
         let tripId1 = TripChunk.generateTripId()
         let tripId2 = TripChunk.generateTripId()

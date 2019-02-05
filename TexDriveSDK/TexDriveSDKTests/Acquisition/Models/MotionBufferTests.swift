@@ -10,7 +10,7 @@ import XCTest
 @testable import TexDriveSDK
 
 class MotionBufferTests: XCTestCase {
-    // MARK : func append(fix: MotionFix)
+    // MARK: - func append(fix: MotionFix)
     func testAppend_Trigger_Crash_0SecondsAfter() {
         let timestamp = Date().timeIntervalSinceNow
         let accelerationMotion = XYZAxisValues(x: 1, y: 1, z: 1)
@@ -184,7 +184,7 @@ class MotionBufferTests: XCTestCase {
                 XCTAssert(motionsFix.count < 1501)
                 XCTAssert(motionsFix.first!.timestamp < motionCrashHighest.timestamp - 9)
                 XCTAssert(motionsFix.first!.timestamp > motionCrashHighest.timestamp - 11)
-                XCTAssert(motionsFix.last!.timestamp > motionCrashHighest.timestamp + 4.6)
+                XCTAssert(motionsFix.last!.timestamp > motionCrashHighest.timestamp + 4.4, ": \(motionsFix.last!.timestamp - motionCrashHighest.timestamp) < 4.4")
                 XCTAssert(motionsFix.last!.timestamp < motionCrashHighest.timestamp + 5.1)
             }
         })

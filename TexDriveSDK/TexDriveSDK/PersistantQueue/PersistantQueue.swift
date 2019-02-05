@@ -71,10 +71,10 @@ class PersistantQueue {
         rxTripChunkSent.asObservable().observeOn(scheduler).subscribe { [weak self](event) in
             if let result = event.element {
                 switch result {
-                case .Success(let tripId):
+                case .Success(_):
                     self?.sendNextTripChunk()
                     break
-                case .Failure(let error):
+                case .Failure(_):
                     self?.sendNextTripChunk()
                     break
                 }

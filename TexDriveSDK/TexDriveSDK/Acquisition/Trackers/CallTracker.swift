@@ -12,18 +12,18 @@ import RxSwift
 
 @available(iOS 10.0, *)
 class CallTracker: NSObject, Tracker, CXCallObserverDelegate {
-    // MARK: Property
+    // MARK: - Property
     private var rxCallProviderFix = PublishSubject<Result<CallFix>>()
     private let callObserver: CXCallObserver
     private var lastState: CallFixState
     
-    // MARK: Lifecycle Method
+    // MARK: - Lifecycle Method
     init(sensor : CXCallObserver) {
         callObserver = sensor
         lastState = CallFixState.idle
     }
     
-    // MARK: Tracker Protocol
+    // MARK: - Tracker Protocol
     typealias T = CallFix
     func enableTracking() {
         callObserver.setDelegate(self, queue: nil)
@@ -37,7 +37,7 @@ class CallTracker: NSObject, Tracker, CXCallObserverDelegate {
         return rxCallProviderFix
     }
     
-    // MARK: CXCallObserverDelegate
+    // MARK: - CXCallObserverDelegate
     func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
         let callFix = self.generate(call: call)
         self.newCallfFix(callFix: callFix)
@@ -51,8 +51,7 @@ class CallTracker: NSObject, Tracker, CXCallObserverDelegate {
         }
     }
 
-    // MARK Internal Method to check call
-    // @vhiribarren You prefer convert in Tracker or in Fix ?
+    // MARK: -inte Internal Method to check call
     func generate(call : CXCall) -> CallFix {
         var state = CallFixState.idle
         if call.isOnHold {

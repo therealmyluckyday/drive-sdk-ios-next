@@ -21,7 +21,7 @@ class APISessionManager: NSObject, URLSessionDelegate {
         self.configuration = configuration
     }
    
-    // MARK : URLSessionDelegate
+    // MARK: - URLSessionDelegate
     func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
         Log.print("urlsession didBecomeInvalidWithError :\(String(describing: error))", type: .Error)
     }

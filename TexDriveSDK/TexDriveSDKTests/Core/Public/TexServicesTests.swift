@@ -18,9 +18,9 @@ class TexServicesTests: XCTestCase {
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)
         
-        let service = TexServices(configuration: configuration)
+        let service = TexServices.service(reconfigureWith: configuration)
         
-        XCTAssertEqual(service.configuration.tripRecorderFeatures.count, configuration.tripRecorderFeatures.count)
+        XCTAssertEqual(service.configuration!.tripRecorderFeatures.count, configuration.tripRecorderFeatures.count)
     }
     
     func testService() {
@@ -30,50 +30,8 @@ class TexServicesTests: XCTestCase {
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)
         
-        let service = TexServices.service(withConfiguration: configuration)
+        let service = TexServices.service(reconfigureWith: configuration)
         
-        XCTAssertEqual(service.configuration.tripRecorderFeatures.count, configuration.tripRecorderFeatures.count)
-    }
-    
-    // MARK : func getScoringClient() -> (ScoringClient)
-    func testGetScoringClient() {
-        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
-        let mockLocationManager = MockLocationManager()
-        let locationFeature = TripRecorderFeature.Location(mockLocationManager)
-        let features = [locationFeature]
-        let configuration = MockConfiguration(features: features)
-        let service = TexServices.service(withConfiguration: configuration)
-        
-        let _ = service.getScoringClient()
-    }
-    
-    // MARK : currentTripId
-    func testCurrentTripIdNull() {
-        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
-        let mockLocationManager = MockLocationManager()
-        let locationFeature = TripRecorderFeature.Location(mockLocationManager)
-        let features = [locationFeature]
-        let configuration = MockConfiguration(features: features)
-        
-        let service = TexServices.service(withConfiguration: configuration)
-        
-        XCTAssertNil(service.currentTripId)
-    }
-    
-    func testCurrentTripIdNotNull() {
-        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
-        let mockLocationManager = MockLocationManager()
-        let locationFeature = TripRecorderFeature.Location(mockLocationManager)
-        let features = [locationFeature]
-        let configuration = MockConfiguration(features: features)
-        
-        let service = TexServices.service(withConfiguration: configuration)
-        service.tripRecorder.start()
-        do{
-            if let _ = try service.tripRecorder.rxTripId.toBlocking(timeout: 0.1).first() {
-            }
-        } catch {
-        }
-        XCTAssertNotNil(service.currentTripId)
+        XCTAssertEqual(service.configuration!.tripRecorderFeatures.count, configuration.tripRecorderFeatures.count)
     }
 }

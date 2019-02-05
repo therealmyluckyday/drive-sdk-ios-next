@@ -10,7 +10,7 @@ import XCTest
 @testable import TexDriveSDK
 
 class ScoreErrorTests: XCTestCase {
-    // Mark : init?(dictionary: [String: Any])
+    // MARK: - init?(dictionary: [String: Any])
     func testInit_trip_too_short() {
         let tripId = TripId(uuidString: "6AC26AD5-6D67-483F-835D-44B4F040418C")
         let dictionary = ["status": "trip_too_short", "trip_id": tripId!.uuidString, "score_type": "temporary", "status_details": ["not_enough_locations"]

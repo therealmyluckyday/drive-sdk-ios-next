@@ -1,5 +1,5 @@
 //
-//  ScoringClientTest.swift
+//  ScoreRetrieverTest.swift
 //  TexDriveSDKTests
 //
 //  Created by Erwan Masson on 10/12/2018.
@@ -11,9 +11,9 @@ import RxSwift
 
 @testable import TexDriveSDK
 
-class ScoringClientTest: XCTestCase {
+class ScoreRetrieverTest: XCTestCase {
     var rxDisposeBag: DisposeBag?
-    var scoringClient: ScoringClient?
+    var scoreRetriever: ScoreRetriever?
     
     override func setUp() {
         super.setUp()
@@ -24,7 +24,7 @@ class ScoringClientTest: XCTestCase {
         do {
             let configuration = try Config(applicationId: appId, applicationLocale: Locale.current, currentUser: user, currentTripRecorderFeatures: [TripRecorderFeature]())
             let scoreSessionManager = APIScoreSessionManager(configuration: configuration!.tripInfos)
-            scoringClient = ScoringClient(sessionManager: scoreSessionManager, locale: Locale.current)
+            scoreRetriever = ScoreRetriever(sessionManager: scoreSessionManager, locale: Locale.current)
         } catch {
             XCTAssert(false)
         }
@@ -54,7 +54,7 @@ class ScoringClientTest: XCTestCase {
             expectation.fulfill()
             }.disposed(by: rxDisposeBag!)
         
-        scoringClient!.getScore(tripId: tripId, rxScore: rxScore)
+        scoreRetriever!.getScore(tripId: tripId, rxScore: rxScore)
         wait(for: [expectation], timeout: 50)
         
         XCTAssertTrue(isCompletionCalled)

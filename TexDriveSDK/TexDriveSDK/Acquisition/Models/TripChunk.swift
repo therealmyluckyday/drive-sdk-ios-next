@@ -45,13 +45,18 @@ class TripChunk: Collection {
     }
     
     func append(eventType: EventType) {
+        Log.print("appendEventType \(eventType)")
         self.event = Event(eventType: eventType, timestamp:Date().timeIntervalSince1970)
     }
     
     func canUpload() -> Bool {
-        if let _ = fixes.last as? MotionFix, let eventCurrent = self.event, eventCurrent.eventType == EventType.crash {
+        if let _ = fixes.last as? MotionFix {
             return false
         }
+        if let event = self.event, event.eventType == EventType.stop {
+            return true
+        }
+        Log.print("Count Fixes : \(fixes.count)")
         return fixes.count > TripConstant.MinFixesToSend
     }
     

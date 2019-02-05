@@ -15,36 +15,74 @@ import Crashlytics
 import RxSwift
 import os
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var TripSegmentedControl: UISegmentedControl!
-    
     @IBOutlet weak var scoreButton: UIButton!
     @IBOutlet weak var logTextField: UITextView!
     @IBOutlet weak var textfield: UITextField!
-    
-    
     
     var tripRecorder : TripRecorder?
     var locationManager = CLLocationManager()
     let rxDisposeBag = DisposeBag()
     let rxScore = PublishSubject<Score>()
-    var currentTripId = NSUUID(uuidString: "461105AE-A712-41A7-939C-4982413BE30F")
+    lazy var currentTripId = { () -> TripId in
+        if let tripId = tripRecorder?.currentTripId {
+            return tripId
+        }
+        return TripId(uuidString: "165D217D-8339-4D73-9683-9C1AD3BF1B71")!
+    }()
     var texServices: TexServices?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        scoreButton.alpha = 0
+        scoreButton.alpha = 1
         TripSegmentedControl.selectedSegmentIndex = 1
         locationManager.requestAlwaysAuthorization()
-        textfield.text = "Erwan-ios12"
+        let userId = "Erwan-"+UIDevice.current.systemName + UIDevice.current.systemVersion
+        textfield.text = userId
         rxScore.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
             let score = event.event
             self.appendText(string: "SCORE: \(score)")
-            
         }.disposed(by: rxDisposeBag)
+        logTextField.isEditable = false
+        CLLocationManager().requestAlwaysAuthorization()
+        self.configureTexSDK(withUserId: userId)
+    }
+    
+    func configureTexSDK(withUserId: String) {
+        let user = User.Authentified(withUserId)
+        self.logUser(userName: withUserId)
+        do {
+            if let configuration = try Config(applicationId: "youdrive_france_prospect", applicationLocale: Locale.current, currentUser: user) {
+                texServices = TexServices.service(reconfigureWith: configuration)
+                texServices!.tripRecorder.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { [weak self] (event) in
+                    if let tripId = event.element {
+                        self?.appendText(string: "\n Trip finished: \n \(tripId.uuidString)")
+                    }
+                    }.disposed(by: rxDisposeBag)
+                tripRecorder = texServices!.tripRecorder
+                tripRecorder?.rxState.asObserver().observeOn(MainScheduler.asyncInstance).subscribe({ [weak self] (event) in
+                    if let state = event.element {
+                        self?.appendText(string: "STATE CHANGE \(state)")
+                    }
+                }).disposed(by: rxDisposeBag)
+                
+                texServices?.rxScore.asObserver().observeOn(MainScheduler.asyncInstance).retry().subscribe({ [weak self] (event) in
+                    if let score = event.element {
+                        self?.appendText(string: "NEW SCORE \(score)")
+                    }
+                }).disposed(by: rxDisposeBag)
+                self.configureLog(texServices!.logManager.rxLog)
+            }
+        } catch ConfigurationError.LocationNotDetermined(let description) {
+            print(description)
+        } catch {
+            print("\(error)")
+        }
     }
     
     @IBAction func tripSegmentedControlValueChanged(_ sender: UISegmentedControl) {
+        textfield.resignFirstResponder()
         switch sender.selectedSegmentIndex {
         case 0:
             startTrip()
@@ -55,8 +93,6 @@ class ViewController: UIViewController {
     }
     
     func startTrip() {
-        tripRecorder?.stop()
-        launchTracking()
         tripRecorder?.start()
     }
     
@@ -76,50 +112,10 @@ class ViewController: UIViewController {
             
         }
 
-        texServices!.scoringClient.getScore(tripId: currentTripId!, rxScore: rxScore)
+        texServices?.scoreRetriever.getScore(tripId: currentTripId, rxScore: rxScore)
     }
     
-    func launchTracking()  {
-        var user = User.Anonymous
-        
-        if let userName = textfield.text {
-            user = User.Authentified(userName)
-            self.logUser(userName: userName)
-        }
-        
-        do {
-            if let configuration = try Config(applicationId: "youdrive_france_prospect", applicationLocale: Locale.current, currentUser: user) {
-                texServices = TexServices(configuration:configuration)
-                texServices!.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
-                    if let tripId = event.element {
-                        self.appendText(string: "\nTRIPIDFINISHED:\n \(tripId.uuidString)")
-                        self.texServices!.scoringClient.getScore(tripId: tripId, rxScore: self.rxScore)
-                    }
-                    }.disposed(by: rxDisposeBag)
-                tripRecorder = texServices!.tripRecorder
-                configureLog(configuration.rxLog)
-                do {
-                    let regex = try NSRegularExpression(pattern: ".*.*", options: NSRegularExpression.Options.caseInsensitive)
-                    configuration.log(regex: regex, logType: LogType.Error)
-                } catch {
-                    let customLog = OSLog(subsystem: "fr.axa.tex", category: #file)
-                    os_log("[ViewController][launchTracking] regex error %@", log: customLog, type: .error, error.localizedDescription)
-                }
-                
-            }
-        } catch ConfigurationError.LocationNotDetermined(let description) {
-            print(description)
-        } catch {
-            print("\(error)")
-        }
-        tripRecorder?.rxTripId.asObserver().subscribe({event in
-            if let tripId = event.element {
-                self.appendText(string: "\n Current Trip:\n \(tripId.uuidString) \n")
-                self.currentTripId = tripId
-            }
-        }).disposed(by: self.rxDisposeBag)
-    }
-    
+    // MARK: - Log Management
     func configureLog(_ log: PublishSubject<LogMessage>) {
         log.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
             if let logDetail = event.element {
@@ -127,6 +123,13 @@ class ViewController: UIViewController {
             }
             }.disposed(by: self.rxDisposeBag)
         
+        do {
+            let regex = try NSRegularExpression(pattern: ".*.*", options: NSRegularExpression.Options.caseInsensitive)
+            texServices?.logManager.log(regex: regex, logType: LogType.Error)
+        } catch {
+            let customLog = OSLog(subsystem: "fr.axa.tex", category: #file)
+            os_log("[ViewController][configureLog] regex error %@", log: customLog, type: .error, error.localizedDescription)
+        }
     }
     
     func report(logDetail: LogMessage) {
@@ -163,18 +166,20 @@ class ViewController: UIViewController {
         self.logTextField.text = text
     }
     
+    // MARK: - Crashlytics setup
     func logUser(userName: String) {
         Crashlytics.sharedInstance().setUserIdentifier(userName)
         Crashlytics.sharedInstance().setUserName(userName)
     }
     
-    // MARK: Memory management
+    // MARK: - Memory management
     override func didReceiveMemoryWarning() {
         let memoryinuse = report_memory()
         let message = "MemoryWarning. Memory in use: \(memoryinuse)"
         
         Crashlytics.sharedInstance().recordError(NSError(domain: "ViewController", code: 9999, userInfo: ["filename" : "AppDelegate", "functionName": "ViewController", "description": message]))
         print("[ViewController] MemoryWarning. Memory in use: \(memoryinuse)")
+        super.didReceiveMemoryWarning()
     }
     
     func report_memory() -> String {
@@ -200,6 +205,10 @@ class ViewController: UIViewController {
         
         return String(mbinuse) + " MB"
     }
+    
+    // MARK: - UITextfield delegate
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true;
+    }
 }
-
-

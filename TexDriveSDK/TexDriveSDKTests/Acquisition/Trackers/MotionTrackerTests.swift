@@ -56,7 +56,7 @@ class MotionTrackerTests: XCTestCase {
         XCTAssertFalse(isSubscribeCalled)
         dispose.dispose()
     }
-    // MARK : func enableTracking()
+    // MARK: - func enableTracking()
     func testEnableTracking_FunctionCalled() {
         let mock = StubMotionSensor()
         let tracker = MotionTracker(sensor: mock, scheduler: MainScheduler.instance)

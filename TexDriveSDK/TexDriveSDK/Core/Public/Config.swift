@@ -23,7 +23,7 @@ public enum ConfigurationError: Error {
     case MotionNotAvailable(String)
 }
 
-public protocol ConfigurationProtocol: LogConfiguration, TripRecorderConfiguration , ScoringClientConfiguration {
+public protocol ConfigurationProtocol: TripRecorderConfiguration , ScoringClientConfiguration {
 }
 
 public protocol TripRecorderConfiguration: APISessionManagerConfiguration {
@@ -31,10 +31,6 @@ public protocol TripRecorderConfiguration: APISessionManagerConfiguration {
     var rxScheduler: SerialDispatchQueueScheduler { get }
 }
 
-public protocol LogConfiguration {
-    var rxLog: PublishSubject<LogMessage> { get }
-    func log(regex: NSRegularExpression, logType: LogType)
-}
 
 public protocol APISessionManagerConfiguration {
     var tripInfos: TripInfos { get }
@@ -45,14 +41,6 @@ public protocol ScoringClientConfiguration {
 }
 
 public class Config: ConfigurationProtocol, ScoringClientConfiguration, APISessionManagerConfiguration {
-    // LogConfiguration
-    public var rxLog: PublishSubject<LogMessage> {
-        get {
-            return logFactory.rxLogOutput
-        }
-    }
-    let logFactory = LogRx()
-    
     public let tripRecorderFeatures: [TripRecorderFeature]
     public let rxScheduler = MainScheduler.asyncInstance
     
@@ -64,15 +52,15 @@ public class Config: ConfigurationProtocol, ScoringClientConfiguration, APISessi
     
     public convenience init?(applicationId: String, applicationLocale: Locale = Locale.current, currentUser: User = User.Anonymous) throws {
         let locationfeature : TripRecorderFeature = TripRecorderFeature.Location(CLLocationManager())
-        let batteryfeature : TripRecorderFeature = TripRecorderFeature.Battery(UIDevice.current)
-        let phoneCallFeature : TripRecorderFeature = TripRecorderFeature.PhoneCall(CXCallObserver())
-        let sensor = CMMotionManager()
-        let motionFeature = TripRecorderFeature.Motion(sensor)
 
         #if targetEnvironment(simulator)
+        let batteryfeature : TripRecorderFeature = TripRecorderFeature.Battery(UIDevice.current)
+        let phoneCallFeature : TripRecorderFeature = TripRecorderFeature.PhoneCall(CXCallObserver())
         let tripRecorderFeatures = [locationfeature, batteryfeature, phoneCallFeature]
         #else
-        let tripRecorderFeatures = [locationfeature, batteryfeature, phoneCallFeature, motionFeature]
+//        let motionFeature = TripRecorderFeature.Motion(CMMotionManager())
+//        let tripRecorderFeatures = [locationfeature, batteryfeature, phoneCallFeature, motionFeature]
+        let tripRecorderFeatures = [locationfeature]
         #endif
         try self.init(applicationId: applicationId, applicationLocale: applicationLocale, currentUser: currentUser, currentTripRecorderFeatures: tripRecorderFeatures)
     }
@@ -82,7 +70,7 @@ public class Config: ConfigurationProtocol, ScoringClientConfiguration, APISessi
         tripInfos = TripInfos(appId: applicationId, user: currentUser, domain: Domain.Preproduction)
         locale = applicationLocale
         tripRecorderFeatures = currentTripRecorderFeatures
-        Log.configure(logger: logFactory)
+        
     }
     
     static func activable(features: [TripRecorderFeature]) throws {
@@ -101,11 +89,6 @@ public class Config: ConfigurationProtocol, ScoringClientConfiguration, APISessi
                 break
             }
         }
-    }
-    
-    // LogConfiguration
-    public func log(regex: NSRegularExpression, logType: LogType) {
-        Log.configure(regex: regex, logType: logType)
     }
 }
 

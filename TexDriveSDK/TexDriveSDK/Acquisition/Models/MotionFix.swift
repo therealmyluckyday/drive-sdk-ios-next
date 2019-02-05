@@ -103,7 +103,7 @@ extension MotionFix {
     }
 }
 extension MotionFix: Equatable {
-    // MARK : Equatable
+    // MARK: - Equatable
     static func == (lhs: MotionFix, rhs: MotionFix) -> Bool {
         return (lhs.acceleration == rhs.acceleration) && (lhs.magnetometer == rhs.magnetometer) && (lhs.gravity == rhs.gravity) && (lhs.timestamp == rhs.timestamp) && (lhs.isCrashDetected == rhs.isCrashDetected)
     }

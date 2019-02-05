@@ -10,50 +10,58 @@ import Foundation
 import RxSwift
 
 public class TexServices {
-    public let tripRecorder: TripRecorder // Add Lazy
-    public let scoringClient: ScoringClientProtocol // Add Lazy
-    public let tripIdFinished: PublishSubject<TripId>
-    var configuration: ConfigurationProtocol {
+    // MARK: - Property
+    // MARK: - Public
+    public let logManager = LogManager()
+    public var tripRecorder: TripRecorder {
         get {
-            return _configuration
+            return _tripRecorder!
         }
     }
-    
-    private var _currentTripId : TripId?
-    private let disposeBag = DisposeBag()
-    
-    @available(*, deprecated, message: "Please used triprecorder rxTripId property")
-    public var currentTripId: TripId? {
+    public var scoreRetriever: ScoreRetrieverProtocol {
         get {
-            return _currentTripId
+            return _scoreRetriever!
         }
     }
+    public let rxScore = PublishSubject<Score>()
     
-    private var _configuration: ConfigurationProtocol
+    // MARK: - Private
+    private var disposeBag: DisposeBag?
+    private var _tripRecorder: TripRecorder?
+    private var _tripSessionManager: APITripSessionManager?
+    private var _scoreRetriever: ScoreRetrieverProtocol?
+    private static let sharedInstance = TexServices()
     
+    // MARK: - Internal
+    internal var configuration: ConfigurationProtocol?
     
-    public init(configuration: ConfigurationProtocol) {
-        _configuration = configuration
-        let tripSessionManager = APITripSessionManager(configuration: configuration.tripInfos)
-        tripIdFinished = tripSessionManager.tripIdFinished
-        tripRecorder = TripRecorder(configuration: configuration, sessionManager: tripSessionManager)
+    // MARK: - Internal Method
+    internal init() {
+    }
+    
+    internal func reconfigure(_ configure: ConfigurationProtocol) {
+        disposeBag = DisposeBag()
+        self.configuration = configure
+        let scoreSessionManager = APIScoreSessionManager(configuration: configure.tripInfos)
+        _scoreRetriever = ScoreRetriever(sessionManager: scoreSessionManager, locale: configure.locale)
+        let tripSessionManager = APITripSessionManager(configuration: configure.tripInfos)
         
-        let scoreSessionManager = APIScoreSessionManager(configuration: configuration.tripInfos)
-        scoringClient = ScoringClient(sessionManager: scoreSessionManager, locale: configuration.locale)
+        _tripRecorder = TripRecorder(configuration: configure, sessionManager: tripSessionManager)
         
-        tripRecorder.rxTripId.asObservable().observeOn(MainScheduler.instance).subscribe {[weak self] (event) in
-            if let tripId = event.element {
-                self?._currentTripId = tripId
+        _tripRecorder?.tripIdFinished.asObserver().observeOn(configure.rxScheduler).subscribe { [weak self](event) in
+            if let tripId = event.element, let rxScore = self?.rxScore {
+                self?._scoreRetriever?.getScore(tripId: tripId, rxScore: rxScore)
             }
-        }.disposed(by: disposeBag)
+        }.disposed(by: disposeBag!)
     }
     
-    class func service(withConfiguration configuration: ConfigurationProtocol) -> TexServices {
-        return TexServices(configuration: configuration)
-    }
-    
-    @available(*, deprecated, message: "Please used scoringClient property")
-    func getScoringClient() -> (ScoringClientProtocol) {
-        return scoringClient
+    // MARK: - Public Method
+    public class func service(reconfigureWith configuration: ConfigurationProtocol) -> TexServices {
+        if let triprecorder = sharedInstance._tripRecorder {
+            triprecorder.stop()
+        }
+        sharedInstance.reconfigure(configuration)
+        
+        return sharedInstance
     }
 }

@@ -20,6 +20,8 @@ public class LogMessage: CustomStringConvertible {
     public let message: String
     public let fileName: String
     public let functionName: String
+    public let date = Date()
+    private static let dateFormatter = ISO8601DateFormatter()
     
     // MARK: Lifecycle
     init(type currentType: LogType, detail description: String, fileName fileWithPath: String, functionName currentFunction: String) {
@@ -44,7 +46,8 @@ public class LogMessage: CustomStringConvertible {
     
     // MARK: CustomStringConvertible protocol
     public var description: String {
-        return "[\(fileName)][\(functionName)]\(message)"
+        let dateString = LogMessage.dateFormatter.string(from: date)
+        return "[\(dateString)][\(fileName)][\(functionName)]\(message)"
     }
 }
 

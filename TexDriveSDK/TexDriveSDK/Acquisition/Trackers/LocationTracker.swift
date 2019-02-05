@@ -24,7 +24,7 @@ class LocationTracker: NSObject, Tracker, CLLocationManagerDelegate {
         disableTracking()
     }
     
-    // MARK: Tracker Protocol
+    // MARK: - Tracker Protocol
     func enableTracking() {
         guard type(of: locationManager).authorizationStatus() != .notDetermined else {
             let error = CLError(_nsError: NSError(domain: "CLLocationManagerNotDetermined requestAlwaysAuthorization()", code: CLError.denied.rawValue, userInfo: nil))
@@ -33,12 +33,20 @@ class LocationTracker: NSObject, Tracker, CLLocationManagerDelegate {
         }
         
         locationManager.delegate = self
+        locationManager.disallowDeferredLocationUpdates()
+        locationManager.stopUpdatingLocation()
+        locationManager.stopMonitoringSignificantLocationChanges()
         locationManager.distanceFilter = kCLDistanceFilterNone
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locationManager.pausesLocationUpdatesAutomatically = false
         locationManager.activityType = .automotiveNavigation
         locationManager.allowsBackgroundLocationUpdates = true
         
+        if CLLocationManager.deferredLocationUpdatesAvailable() {
+            let distance: CLLocationDistance = 4000
+            let time: TimeInterval = 100
+            self.locationManager.allowDeferredLocationUpdates(untilTraveled: distance, timeout: time)
+        }
 
         locationManager.startUpdatingLocation()
     }
@@ -51,14 +59,18 @@ class LocationTracker: NSObject, Tracker, CLLocationManagerDelegate {
         return rxLocationFix
     }
     
-    // MARK: Tracker method for Location Fix
+    // MARK: - CLLocationManagerDelegate
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last else {
+        Log.print("didUpdateLocations")
+        guard let _ = locations.last else {
             return
         }
-        
-        let locationFix = LocationFix(timestamp: location.timestamp.timeIntervalSince1970, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, precision: location.horizontalAccuracy, speed: location.speed, bearing: location.course, altitude: location.altitude)
-        rxLocationFix.onNext(Result.Success(locationFix))
+        let fixes = locations.map { (location) -> Result<LocationFix> in
+            return Result.Success(LocationFix(timestamp: location.timestamp.timeIntervalSince1970, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, precision: location.horizontalAccuracy, speed: location.speed, bearing: location.course, altitude: location.altitude))
+        }
+        fixes.forEach { (result) in
+             rxLocationFix.onNext(result)
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

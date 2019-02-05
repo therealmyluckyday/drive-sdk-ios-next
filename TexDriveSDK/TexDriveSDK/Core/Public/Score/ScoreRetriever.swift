@@ -1,5 +1,5 @@
 //
-//  ScoringClient.swift
+//  scoreRetriever.swift
 //  TexDriveSDK
 //
 //  Created by Erwan Masson on 03/12/2018.
@@ -9,19 +9,19 @@
 import Foundation
 import RxSwift
 
-public protocol ScoringClientProtocol {
+public protocol ScoreRetrieverProtocol {
     func getScore(tripId: TripId, completionHandler: @escaping (Result<Score>) -> ())
     func getScore(tripId: TripId, rxScore: PublishSubject<Score>)
 }
 
-public class ScoringClient: ScoringClientProtocol {
+public class ScoreRetriever: ScoreRetrieverProtocol {
     let apiScore: APIScoreProtocol
     
     init(sessionManager: APIScoreSessionManagerProtocol, locale: Locale) {
         apiScore = APIScore(apiSessionManager: sessionManager, locale: locale)
     }
     
-    // MARK : SoringClientProtocol
+    // MARK: - scoreRetrieverProtocol
     @available(*, deprecated, message: "Please use getScore(tripId: String, rxScore: PublishSubject<Score>)")
     public func getScore(tripId: TripId, completionHandler: @escaping (Result<Score>) -> ()) {
         apiScore.getScore(tripId: tripId, completionHandler: completionHandler)
