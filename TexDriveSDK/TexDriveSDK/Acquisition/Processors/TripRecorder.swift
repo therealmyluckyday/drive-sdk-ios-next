@@ -44,13 +44,11 @@ public class TripRecorder: TripRecorderProtocol {
     
     // MARK: - TripRecorder Protocol
     public func start() {
-        persistantApp.enable()
         collector.startCollect()
     }
     
     public func stop() {
         collector.stopCollect()
-        persistantApp.disable()
     }
     
     public func activateAutoMode() {
