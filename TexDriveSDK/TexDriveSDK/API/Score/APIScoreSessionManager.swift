@@ -42,10 +42,12 @@ class APIScoreSessionManager: APISessionManager, APIScoreSessionManagerProtocol 
                         else {
                             if let httpResponse = response as? HTTPURLResponse {
                                 let apiError = APISessionManager.manageError(data: data, httpResponse: httpResponse)
+                                Log.print("API Error: \(apiError)", type: LogType.Error)
                                 completionHandler(Result.Failure(apiError))
                             }
                             else {
                                 let apiError = APIError(message: "Unknown API Error", statusCode: 400)
+                                Log.print("Unknown API Error: \(apiError)", type: LogType.Error)
                                 completionHandler(Result.Failure(apiError))
                             }
                         }
