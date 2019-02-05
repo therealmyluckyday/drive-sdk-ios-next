@@ -54,11 +54,12 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
         }
         Log.print(location.absoluteString)
         Log.print("HTTP response \(httpResponse)")
-        if (200...299).contains(httpResponse.statusCode), let tripId = APITripSessionManager.getTripId(task: downloadTask, compressed: true) {
+        if (200...299).contains(httpResponse.statusCode), let tripId = APITripSessionManager.getTripId(task: downloadTask) {
             Log.print("TripId: \(tripId)")
             
             tripChunkSent.onNext(Result.Success(tripId))
-            if let tripId = APITripSessionManager.getTripId(task: downloadTask, compressed: true), APITripSessionManager.isTripStoppedSend(task:downloadTask) {
+            if let tripId = APITripSessionManager.getTripId(task: downloadTask), APITripSessionManager.isTripStoppedSend(task:downloadTask) {
+                Log.print("Trip FINISHED!!!!")
                 tripIdFinished.onNext(tripId)
             }
         } else {
@@ -178,11 +179,11 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
         return false
     }
     
-    class func getTripId(task: URLSessionDownloadTask, compressed: Bool) -> TripId? {
+    class func getTripId(task: URLSessionDownloadTask) -> TripId? {
         if let body = task.currentRequest?.httpBody {
             do {
                 var data = body
-                if compressed  {
+                if body.isGzipped  {
                     data = try body.gunzipped()
                 }
                 if let json = try (JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)) as? [String: Any] {
