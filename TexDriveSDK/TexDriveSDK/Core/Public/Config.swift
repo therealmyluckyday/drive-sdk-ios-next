@@ -65,7 +65,7 @@ public class Config: ConfigurationProtocol, ScoringClientConfiguration, APISessi
     
     init?(applicationId: String, applicationLocale: Locale, currentUser: User, currentTripRecorderFeatures: [TripRecorderFeature]) throws {
         try Config.activable(features: currentTripRecorderFeatures)
-        tripInfos = TripInfos(appId: applicationId, user: currentUser, domain: Domain.Preproduction)
+        tripInfos = TripInfos(appId: applicationId, user: currentUser, domain: Domain.Production)
         locale = applicationLocale
         tripRecorderFeatures = currentTripRecorderFeatures
         
