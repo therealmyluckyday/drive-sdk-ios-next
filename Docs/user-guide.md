@@ -45,7 +45,7 @@ func configureTexSDK(withUserId: String) {
     let user = User.Authentified(withUserId)
 
     do {
-        if let configuration = try Config(applicationId: "youdrive_france_prospect", applicationLocale: Locale.current, currentUser: user) {
+        if let configuration = try Config(applicationId: "APP-TEST", applicationLocale: Locale.current, currentUser: user) {
             texServices = TexServices.service(reconfigureWith: configuration)
         }
     } catch ConfigurationError.LocationNotDetermined(let description) {
