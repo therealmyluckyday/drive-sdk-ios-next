@@ -58,6 +58,8 @@ public class Config: ConfigurationProtocol, ScoringClientConfiguration, APISessi
         let phoneCallFeature : TripRecorderFeature = TripRecorderFeature.PhoneCall(CXCallObserver())
         let tripRecorderFeatures = [locationfeature, batteryfeature, phoneCallFeature]
         #else
+//        let motionFeature = TripRecorderFeature.Motion(CMMotionManager())
+//        let tripRecorderFeatures = [locationfeature, batteryfeature, phoneCallFeature, motionFeature]
         let tripRecorderFeatures = [locationfeature]
         #endif
         try self.init(applicationId: applicationId, applicationLocale: applicationLocale, currentUser: currentUser, currentTripRecorderFeatures: tripRecorderFeatures)
@@ -76,12 +78,12 @@ public class Config: ConfigurationProtocol, ScoringClientConfiguration, APISessi
             switch (feature, feature.canActivate()) {
             case (TripRecorderFeature.Location, false):
                 Log.print("Feature \(feature) Can not activate", type: .Error)
-                throw ConfigurationError.LocationNotDetermined("[TexDriveSDK] Need to ask user permission: requestAlwaysAuthorization() on a CLLocationManager")
+                throw ConfigurationError.LocationNotDetermined("Need to ask user permission: requestAlwaysAuthorization() on a CLLocationManager")
             case (TripRecorderFeature.Motion, false):
                 Log.print("Feature \(feature) Can not activate", type: .Error)
-                throw ConfigurationError.MotionNotAvailable("[TexDriveSDK] Need to configure the UIRequiredDeviceCapabilities key of its Info.plist file with the accelerometer and gyroscope values. And add NSMotionUsageDescription in Info.plist. This feature is not availaible on simulator")
+                throw ConfigurationError.MotionNotAvailable("Need to configure the UIRequiredDeviceCapabilities key of its Info.plist file with the accelerometer and gyroscope values. And add NSMotionUsageDescription in Info.plist. This feature is not availaible on simulator")
             case (_, false):
-                Log.print("[TexDriveSDK] Feature \(feature) Can not activate", type: .Error)
+                Log.print("Feature \(feature) Can not activate", type: .Error)
             default:
                 Log.print("Feature can activate")
                 break

@@ -12,11 +12,11 @@
     "vhiribarren": "vhiribarren@users.noreply.github.com"
   },
   "source": {
-    "git": "https://github.com/axadil/tex-drive-sdk.git",
-    "tag": "3.0.0"
+    "git": "https://github.com/axadil/drive-sdk-ios-next.git",
+    "tag": "v3.0.0"
   },
   "source_files": "TexDriveSDK/TexDriveSDK/**/*.{h,m,c,swift}",
-  "resources": "TEXDriveSDK/TEXDriveSDK/Resources/*",
+  "resources": "TexDriveSDK/TexDriveSDK/Resources/*",
   "dependencies": {
     "RxSwift": [
 

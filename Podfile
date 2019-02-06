@@ -14,6 +14,7 @@ target 'TexDriveApp' do
   pod 'Fabric', '~> 1.9.0'
   pod 'Crashlytics', '~> 3.12'
   pod "TexDriveSDK", :path => "./TexDriveSDK.podspec"
+#  pod 'TexDriveSDK', :git => 'git@github.com:axadil/drive-sdk-ios-next.git', :tag => 'v3.0.0'
   shared_pods
 
   target 'TexDriveAppTests' do

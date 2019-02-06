@@ -24,7 +24,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     var tripRecorder : TripRecorder?
     var locationManager = CLLocationManager()
     let rxDisposeBag = DisposeBag()
-    let rxScore = PublishSubject<Score>()
     lazy var currentTripId = { () -> TripId in
         if let tripId = tripRecorder?.currentTripId {
             return tripId
@@ -40,10 +39,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         locationManager.requestAlwaysAuthorization()
         let userId = "Erwan-"+UIDevice.current.systemName + UIDevice.current.systemVersion
         textfield.text = userId
-        rxScore.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
-            let score = event.event
-            self.appendText(string: "SCORE: \(score)")
-        }.disposed(by: rxDisposeBag)
+        
         logTextField.isEditable = false
         CLLocationManager().requestAlwaysAuthorization()
         self.configureTexSDK(withUserId: userId)
