@@ -28,7 +28,6 @@ public class TripRecorder: TripRecorderProtocol {
     private let autoMode = AutoMode()
     private let apiTrip: APITrip
     internal let persistantQueue: PersistantQueue
-    internal let persistantApp = PersistantApp()
     internal let rxTripId = PublishSubject<TripId>()
     
     // MARK: Public

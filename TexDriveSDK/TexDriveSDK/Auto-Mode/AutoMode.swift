@@ -20,18 +20,6 @@ class AutoMode: AutoModeContextProtocol {
     var rxState = PublishSubject<AutoModeDetectionState>() // see to refactor and manage complete stream
     let rxDisposeBag = DisposeBag()
     var state: AutoModeDetectionState?
-    let motionManagerTest: CMMotionActivityManager
-    
-    // MARK: - Lifecycle
-    init() {
-        let motionManager = CMMotionActivityManager()
-        motionManager.startActivityUpdates(to: OperationQueue.main) { (activity) in
-            if let activity = activity, activity.automotive == true {
-                Log.print("automotive : \(activity.automotive)")
-            }
-        }
-        motionManagerTest = motionManager
-    }
     
     // MARK: - Public method
     func enable() {
