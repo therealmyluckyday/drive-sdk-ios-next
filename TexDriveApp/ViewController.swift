@@ -107,8 +107,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }) { (finished) in
             
         }
-
-        texServices?.scoreRetriever.getScore(tripId: currentTripId, rxScore: rxScore)
+        if let rxScore = texServices?.rxScore {
+            texServices?.scoreRetriever.getScore(tripId: currentTripId, rxScore: rxScore)
+        }
     }
     
     // MARK: - Log Management
