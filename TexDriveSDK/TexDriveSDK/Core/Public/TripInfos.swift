@@ -24,7 +24,7 @@ extension TripInfos: SerializeAPIGeneralInformation {
         let timeZone = DateFormatter.formattedTimeZone()
         let os = UIDevice.current.os()
         let model = UIDevice.current.hardwareString()
-        let sdkVersion = Bundle(for: APITrip.self).infoDictionary!["CFBundleShortVersionString"] as! String
+        let sdkVersion = "3.0.0"
         let firstVia = "TEX_iOS_SDK/\(os)/\(sdkVersion)"
         //        token _texConfig.texUser.authToken
 

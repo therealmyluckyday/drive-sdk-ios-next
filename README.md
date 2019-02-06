@@ -10,8 +10,9 @@ There is two ways to use the library.
 ### Using CocoaPod
 
 If you have SSH read access to the TEX library, you can simply add this line to your Pod file:
-
-    pod 'TEXDriveSDK', :git => 'git@github.com:axadil/drive-sdk-ios-next.git', :tag => 'v3.0.0'
+    
+    use_modular_headers!
+    pod 'TexDriveSDK', :git => 'git@github.com:axadil/drive-sdk-ios-next.git', :tag => 'v3.0.0'
 
 The tag depends on the version you want to use. There is no need to add other
 CocoaPod dependencies since they will be automatically fetched.
@@ -70,8 +71,18 @@ pod 'RxCocoa', '4.3'
 2. In the Capabilities or your project configuration, the following background(`UIBackgroundModes`) modes must be enabled:
     - `Background Fetch`
     - `Location Updates`
+    3. Before using the SDK you need to add on your AppDelegate:
+    
+        ``` var backgroundCompletionHandler: (() -> ())?
+        
+        // MARK: Background mode for URLSession TexServicesSDK identifier: "TexSession"
+        func application(_ application: UIApplication,
+            handleEventsForBackgroundURLSession identifier: String,
+            completionHandler: @escaping () -> Void) {
+            backgroundCompletionHandler = completionHandler
+        }
 
-3. You can then include the header file by using:
+4. You can then include the header file by using:
 
     - In Objective-c
     ```
@@ -85,4 +96,3 @@ You will find more detailed information in the documentation regrouped in the `D
 
 - [User Guide](./Docs/user-guide.md): how to develop with the library TODO
 - [Logging](./Docs/logging.md): information on logging TODO
-- [OBD MetaSystem](./Docs/obd-metasystem.md): how to use the MetaSystem OBD device TODO
