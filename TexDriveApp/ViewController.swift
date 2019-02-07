@@ -49,7 +49,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let user = User.Authentified(withUserId)
         self.logUser(userName: withUserId)
         do {
-            if let configuration = try Config(applicationId: "youdrive_france_prospect", applicationLocale: Locale.current, currentUser: user) {
+            if let configuration = try Config(applicationId: "APP-TEST", applicationLocale: Locale.current, currentUser: user) {
                 texServices = TexServices.service(reconfigureWith: configuration)
                 texServices!.tripRecorder.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { [weak self] (event) in
                     if let tripId = event.element {
@@ -59,7 +59,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 tripRecorder = texServices!.tripRecorder
                 tripRecorder?.rxState.asObserver().observeOn(MainScheduler.asyncInstance).subscribe({ [weak self] (event) in
                     if let state = event.element {
-                        self?.appendText(string: "STATE CHANGE \(state)")
+                        self?.appendText(string: "State change \(state)")
                     }
                 }).disposed(by: rxDisposeBag)
                 

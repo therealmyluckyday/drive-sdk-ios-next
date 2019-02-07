@@ -36,18 +36,13 @@ public class TexServices {
     internal var configuration: ConfigurationProtocol?
     
     // MARK: - Internal Method
-    internal init() {
-    }
-    
     internal func reconfigure(_ configure: ConfigurationProtocol) {
         disposeBag = DisposeBag()
         self.configuration = configure
         let scoreSessionManager = APIScoreSessionManager(configuration: configure.tripInfos)
         _scoreRetriever = ScoreRetriever(sessionManager: scoreSessionManager, locale: configure.locale)
         let tripSessionManager = APITripSessionManager(configuration: configure.tripInfos)
-        
         _tripRecorder = TripRecorder(configuration: configure, sessionManager: tripSessionManager)
-        
         _tripRecorder?.tripIdFinished.asObserver().observeOn(configure.rxScheduler).subscribe { [weak self](event) in
             if let tripId = event.element, let rxScore = self?.rxScore {
                 self?._scoreRetriever?.getScore(tripId: tripId, rxScore: rxScore)
@@ -61,7 +56,6 @@ public class TexServices {
             triprecorder.stop()
         }
         sharedInstance.reconfigure(configuration)
-        
         return sharedInstance
     }
 }

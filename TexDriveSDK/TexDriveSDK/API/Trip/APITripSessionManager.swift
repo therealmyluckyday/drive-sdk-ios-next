@@ -58,8 +58,8 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
             Log.print("TripId: \(tripId)")
             
             tripChunkSent.onNext(Result.Success(tripId))
-            if let tripId = APITripSessionManager.getTripId(task: downloadTask), APITripSessionManager.isTripStoppedSend(task:downloadTask) {
-                Log.print("Trip FINISHED!!!!")
+            if APITripSessionManager.isTripStoppedSend(task:downloadTask) {
+                Log.print("Trip Finished!!!!")
                 tripIdFinished.onNext(tripId)
             }
         } else {
