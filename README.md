@@ -1,4 +1,4 @@
-# AXA DIL TEX Library Usage
+# AXA TEX Library Usage
 
 The AXA TEX Drive library is used by the Telematics Exchange Platform project to
 collect data from mobile phones.
@@ -94,5 +94,5 @@ pod 'RxCocoa', '4.3'
    ```
 You will find more detailed information in the documentation regrouped in the `Docs` directory:
 
-- [User Guide](./Docs/user-guide.md): how to develop with the library TODO
-- [Logging](./Docs/logging.md): information on logging TODO
+- [User Guide](./Docs/user-guide.md): how to develop with the library
+- [Logging](./Docs/logging.md): information on logging
