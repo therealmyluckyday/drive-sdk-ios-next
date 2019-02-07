@@ -73,7 +73,9 @@ pod 'RxCocoa', '4.3'
     - `Location Updates`
     3. Before using the SDK you need to add on your AppDelegate:
     
-        ``` var backgroundCompletionHandler: (() -> ())?
+        ```Swift
+        
+        var backgroundCompletionHandler: (() -> ())?
         
         // MARK: Background mode for URLSession TexServicesSDK identifier: "TexSession"
         func application(_ application: UIApplication,
@@ -86,11 +88,11 @@ pod 'RxCocoa', '4.3'
 
     - In Objective-c
     ```
-        #import <TEXDriveSDK/TEXDriveSDK.h>
+        #import <TexDriveSDK/TexDriveSDK.h>
     ```
     - In Swift
     ```
-        #import TEXDriveSDK
+        #import TexDriveSDK
    ```
 You will find more detailed information in the documentation regrouped in the `Docs` directory:
 
