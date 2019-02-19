@@ -63,9 +63,9 @@ public class Config: ConfigurationProtocol, ScoringClientConfiguration, APISessi
         try self.init(applicationId: applicationId, applicationLocale: applicationLocale, currentUser: currentUser, currentTripRecorderFeatures: tripRecorderFeatures)
     }
     
-    init?(applicationId: String, applicationLocale: Locale, currentUser: User, currentTripRecorderFeatures: [TripRecorderFeature]) throws {
+    init?(applicationId: String, applicationLocale: Locale, currentUser: User, currentTripRecorderFeatures: [TripRecorderFeature], domain: Domain = Domain.Production) throws {
         try Config.activable(features: currentTripRecorderFeatures)
-        tripInfos = TripInfos(appId: applicationId, user: currentUser, domain: Domain.Production)
+        tripInfos = TripInfos(appId: applicationId, user: currentUser, domain: domain)
         locale = applicationLocale
         tripRecorderFeatures = currentTripRecorderFeatures
         
