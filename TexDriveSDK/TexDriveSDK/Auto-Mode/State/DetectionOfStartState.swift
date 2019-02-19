@@ -35,11 +35,7 @@ public class DetectionOfStartState: AutoModeDetectionState {
     
     override func enable() {
         Log.print("enable")
-        #if targetEnvironment(simulator)
-        self.drive()
-        #else
         self.detectionOfStart()
-        #endif
     }
 
     override func stop() {
@@ -75,6 +71,7 @@ public class DetectionOfStartState: AutoModeDetectionState {
     }
     
     func detectionOfStart() {
+        #if targetEnvironment(simulator)
         motionManager.startActivityUpdates(to: OperationQueue.main) {[weak self] (activity) in
             Log.print("startActivityUpdates")
             if let activity = activity, activity.walking == true {
@@ -84,5 +81,6 @@ public class DetectionOfStartState: AutoModeDetectionState {
                 self?.drive()
             }
         }
+        #endif
     }
 }

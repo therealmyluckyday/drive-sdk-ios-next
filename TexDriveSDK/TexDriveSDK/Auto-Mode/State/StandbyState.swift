@@ -34,15 +34,15 @@ public class StandbyState: AutoModeDetectionState, CLLocationManagerDelegate {
         }
     }
     
-    func configure(locationManager: CLLocationManager) {
+    func configureLocationManager() {
         locationManager.requestAlwaysAuthorization()
-        locationManager.disallowDeferredLocationUpdates()
-        locationManager.stopMonitoringSignificantLocationChanges()
         locationManager.distanceFilter = kCLDistanceFilterNone
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        locationManager.pausesLocationUpdatesAutomatically = false
         locationManager.activityType = .automotiveNavigation
+        #if targetEnvironment(simulator)
+        #else
         locationManager.allowsBackgroundLocationUpdates = true
+        #endif
         locationManager.delegate = self
         locationManager.startMonitoringSignificantLocationChanges()
     }
@@ -50,7 +50,7 @@ public class StandbyState: AutoModeDetectionState, CLLocationManagerDelegate {
     override func enable() {
         Log.print("enable")
         print("StandbyState enable")
-        self.configure(locationManager: self.locationManager)
+        self.configureLocationManager()
         motionManager.startActivityUpdates(to: OperationQueue.main) {[weak self] (activity) in
             Log.print("startActivityUpdates")
             if let activity = activity, activity.automotive == true {
