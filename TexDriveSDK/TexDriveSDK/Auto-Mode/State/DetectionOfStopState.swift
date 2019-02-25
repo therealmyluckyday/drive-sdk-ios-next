@@ -8,29 +8,27 @@
 
 import RxSwift
 import CoreLocation
-import CoreMotion
 
-public class DetectionOfStopState: AutoModeDetectionState {
-    let motionManager = CMMotionActivityManager()
+public class DetectionOfStopState: SensorAutoModeDetectionState {
+    var firstLocation: CLLocation?
+    let thresholdSpeed = CLLocationSpeed(exactly: 10)!
+    let timeLowSpeedThreshold = TimeInterval(exactly: 180)!
+
+    override func enableLocationSensor() {
+        super.enableLocationSensor()
+        locationManager.startUpdatingLocation()
+    }
     
-    override func enable() {
-        Log.print("enable")
-        
-        print("DetectionOfStopState enable")
+    override func enableMotionSensor() {
         motionManager.startActivityUpdates(to: OperationQueue.main) {[weak self] (activity) in
-            if let activity = activity, activity.automotive == false {
-                self?.stop()
-            }
-            
             if let activity = activity, activity.automotive == true {
                 self?.drive()
             }
         }
     }
-    
     override func stop() {
         Log.print("stop")
-        self.stopUpdating()
+        disableSensor()
         if let context = self.context {
             let state = StandbyState(context: context)
             context.rxState.onNext(state)
@@ -40,7 +38,7 @@ public class DetectionOfStopState: AutoModeDetectionState {
     
     override func drive() {
         Log.print("drive")
-        self.stopUpdating()
+        disableSensor()
         if let context = self.context {
             let state = DrivingState(context: context)
             context.rxState.onNext(state)
@@ -48,15 +46,20 @@ public class DetectionOfStopState: AutoModeDetectionState {
         }
     }
     
-    override func disable() {
-        Log.print("disable")
-        self.stopUpdating()
-        if let context = self.context {
-            context.rxState.onNext(DisabledState(context: context))
+    // MARK: - SensorAutoModeDetectionState
+    override func didUpdateLocations(location: CLLocation) {
+        Log.print("didUpdateLocation")
+        if location.speed > thresholdSpeed {
+            self.stop()
         }
-    }
-    
-    func stopUpdating() {
-        motionManager.stopActivityUpdates()
+        
+        if firstLocation == nil {
+            firstLocation = location
+        }
+        else {
+            if let firstLocation = firstLocation, location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970 > timeLowSpeedThreshold {
+                self.stop()
+            }
+        }
     }
 }

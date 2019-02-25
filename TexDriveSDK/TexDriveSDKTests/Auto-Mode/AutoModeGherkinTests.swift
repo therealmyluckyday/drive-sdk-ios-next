@@ -89,7 +89,7 @@ class AutoModeGherkinTests: XCTestCase {
     /*
     Scenario: From ScanningActivity to WaitingScanTrigger state
     Given the automode is in the ScanningActivity
-     TOTEST in DetectionOfStart When for at least 1 minute GPS points have a speed less than 20 km/h
+     * TOTEST in DetectionOfStart When for at least 1 minute GPS points have a speed less than 20 km/h
      When stop called in DetectionOfStartState
     Then the state machine goes to WaitingScanTrigger state*/
     func testDetectionOfStartStateToStandByStopCalled() {
@@ -238,18 +238,4 @@ class AutoModeGherkinTests: XCTestCase {
         state.stop()
         wait(for: [expectation], timeout: 1)
     }
-   
-    /*
-    Scenario: From Diving or Stopped state to WaitingScanTrigger state
-    Given the automode in the Stopped or Driving state
-    When any GPS is received for longer than 4 minutes
-    Then the state machine goes to the WaitingScanTrigger state
-    Then the trip is closed
- */
-    func testDrivingOfStopToDetectionOfStartStopCalled4minNoGPS() {
-    }
-    
-    func testDrivingToDetectionOfStartStopCalled4minNoGPS() {
-    }
-
 }

@@ -39,76 +39,17 @@ public class TripRecorder: TripRecorderProtocol {
             return self.autoMode.rxState
         }
     }
-
     
     // MARK: - TripRecorder Protocol
     public func start() {
-        collector.startCollect()
+        activateAutoMode()
     }
     
     public func stop() {
-        collector.stopCollect()
+        autoMode.disable()
     }
     
     public func activateAutoMode() {
-        autoMode.rxState.asObserver().observeOn(MainScheduler.asyncInstance).pairwise().subscribe {[weak self] event in
-            
-            if let (state1, state2) = event.element {
-                var oldState = ""
-                var newState = ""
-                switch state1 {
-                case is DetectionOfStartState:
-                    oldState = "DetectionOfStartState"
-                    break
-                case is DrivingState:
-                    oldState = "DrivingState"
-                    break
-                case is DetectionOfStopState:
-                    oldState = "DetectionOfStopState"
-                    break
-                case is StandbyState:
-                    oldState = "StandbyState"
-                    break
-                case is DisabledState:
-                    oldState = "DisabledState"
-                    break
-                default:
-                    oldState = "\(state1)"
-                }
-                switch state2 {
-                case is DetectionOfStartState:
-                    newState = "DetectionOfStartState"
-                    break
-                case is DrivingState:
-                    newState = "DrivingState"
-                    break
-                case is DetectionOfStopState:
-                    newState = "DetectionOfStopState"
-                    break
-                case is StandbyState:
-                    newState = "StandbyState"
-                    break
-                case is DisabledState:
-                    newState = "DisabledState"
-                    break
-                default:
-                    newState = "\(state2)"
-                }
-                Log.print("State 1 : \(oldState) , State 2: \(newState)")
-                if state1 is DetectionOfStartState, state2 is DrivingState {
-                    Log.print("START DETECTED")
-                    self?.collector.startCollect()
-                }
-                if state1 is DetectionOfStopState, state2 is StandbyState {
-                    Log.print("STOP DETECTED )")
-                    self?.collector.stopCollect()
-                }
-                if state2 is DisabledState {
-                    Log.print("DISABLE DETECTED )")
-                    self?.collector.stopCollect()
-                }
-            }
-        }.disposed(by: rxDisposeBag)
         autoMode.enable()
     }
     
@@ -146,12 +87,25 @@ public class TripRecorder: TripRecorderProtocol {
                 self?.currentTripId = tripId
             }
             }.disposed(by: rxDisposeBag)
+        self.configureAutoMode(configuration.rxScheduler)
     }
     
     func subscribe(providerTrip: PublishSubject<TripChunk>, scheduler: ImmediateSchedulerType) {
         providerTrip.asObservable().observeOn(scheduler).subscribe { [weak self](event) in
             if let trip = event.element {
                 self?.apiTrip.sendTrip(trip: trip)
+            }
+            }.disposed(by: rxDisposeBag)
+    }
+    
+    func configureAutoMode(_ scheduler: SerialDispatchQueueScheduler) {
+        autoMode.rxIsDriving.asObserver().observeOn(MainScheduler.instance).subscribe { [weak self](event) in
+            if let isDriving = event.element {
+                if isDriving {
+                    self?.collector.startCollect()
+                } else {
+                    self?.collector.stopCollect()
+                }
             }
             }.disposed(by: rxDisposeBag)
     }

@@ -17,12 +17,12 @@ public class DisabledState: AutoModeDetectionState {
             state.enable()
         }
     }
+    
     override func start() {
         Log.print("start")
         if let context = self.context {
             let state = StandbyState(context: context)
             context.rxState.onNext(state)
-            context.state = state
             state.enable()
         }
     }

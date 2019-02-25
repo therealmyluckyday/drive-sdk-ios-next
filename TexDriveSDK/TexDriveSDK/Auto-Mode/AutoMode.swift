@@ -17,17 +17,18 @@ protocol AutoModeContextProtocol: class {
 
 class AutoMode: AutoModeContextProtocol {
     // MARK: - Property
-    var rxState = PublishSubject<AutoModeDetectionState>() // see to refactor and manage complete stream
+    var rxState = PublishSubject<AutoModeDetectionState>()
+    var rxIsDriving = PublishSubject<Bool>()
     let rxDisposeBag = DisposeBag()
     var state: AutoModeDetectionState?
     
     // MARK: - Public method
     func enable() {
         Log.print("Enable")
-        self.disable()
-        let state = StandbyState(context: self)
-        self.state = state
-        self.rxState.asObserver().observeOn(MainScheduler.asyncInstance).subscribe {[weak self] (event) in
+        disable()
+        let standbyState = StandbyState(context: self)
+        
+        rxState.asObserver().observeOn(MainScheduler.asyncInstance).subscribe {[weak self] (event) in
             if let newState = event.element {
                 if let state = self?.state {
                     Log.print("PREVIOUS STATE \(state)")
@@ -38,8 +39,38 @@ class AutoMode: AutoModeContextProtocol {
             }
         }.disposed(by: rxDisposeBag)
         
-        self.rxState.onNext(state)
-        state.enable()
+        rxState.asObserver().observeOn(MainScheduler.asyncInstance).pairwise().subscribe {[weak self] event in
+            if let (state1, state2) = event.element {
+                Log.print("State 1 : \(state1) , State 2: \(state2)")
+                if state1 is DetectionOfStartState, state2 is DrivingState {
+                    Log.print("START DETECTED")
+                    self?.rxIsDriving.onNext(true)
+                }
+                if state1 is StandbyState, state2 is DrivingState {
+                    Log.print("START DETECTED")
+                    self?.rxIsDriving.onNext(true)
+                }
+                if state1 is DisabledState, state2 is DrivingState {
+                    Log.print("START DETECTED")
+                    self?.rxIsDriving.onNext(true)
+                }
+                if state1 is DetectionOfStopState, state2 is StandbyState {
+                    Log.print("STOP DETECTED )")
+                    self?.rxIsDriving.onNext(false)
+                }
+                if state1 is DrivingState, state2 is DisabledState {
+                    Log.print("STOP DETECTED )")
+                    self?.rxIsDriving.onNext(false)
+                }
+                if state1 is DetectionOfStopState, state2 is DisabledState {
+                    Log.print("STOP DETECTED )")
+                    self?.rxIsDriving.onNext(false)
+                }
+            }
+            }.disposed(by: rxDisposeBag)
+        
+        rxState.onNext(standbyState)
+        standbyState.enable()
     }
     
     func disable() {

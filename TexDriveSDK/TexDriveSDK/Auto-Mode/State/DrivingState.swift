@@ -8,24 +8,26 @@
 
 import RxSwift
 import CoreLocation
-import CoreMotion
 
-public class DrivingState: AutoModeDetectionState {
-    let motionManager = CMMotionActivityManager()
+public class DrivingState: SensorAutoModeDetectionState {
+    let thresholdSpeed = CLLocationSpeed(exactly: 10)!
     
-    override func enable() {
-        Log.print("enable")
-        print("Driving enable")
+    override func enableMotionSensor() {
         motionManager.startActivityUpdates(to: OperationQueue.main) {[weak self] (activity) in
-            if let activity = activity, activity.automotive == false, activity.stationary == true {
+            if let activity = activity, activity.automotive == false {
                 self?.stop()
             }
         }
     }
-
+    
+    override func enableLocationSensor() {
+        super.enableLocationSensor()
+        locationManager.startUpdatingLocation()
+    }
+    
     override func stop() {
         Log.print("stop")
-        self.stopUpdating()
+        disableSensor()
         if let context = self.context {
             let state = DetectionOfStopState(context: context)
             context.rxState.onNext(state)
@@ -35,7 +37,7 @@ public class DrivingState: AutoModeDetectionState {
     
     override func disable() {
         Log.print("disable")
-        self.stopUpdating()
+        disableSensor()
         if let context = self.context {
             context.rxState.onNext(DisabledState(context: context))
         }
@@ -43,5 +45,23 @@ public class DrivingState: AutoModeDetectionState {
     
     func stopUpdating() {
         motionManager.stopActivityUpdates()
+    }
+    
+    func forceStop() {
+        Log.print("forceStop")
+        disableSensor()
+        if let context = self.context {
+            let state = DetectionOfStopState(context: context)
+            context.rxState.onNext(state)
+            state.stop()
+        }
+    }
+    
+    // MARK: - SensorAutoModeDetectionState
+    override func didUpdateLocations(location: CLLocation) {
+        Log.print("didUpdateLocation")
+        if location.speed < thresholdSpeed {
+            self.stop()
+        }
     }
 }

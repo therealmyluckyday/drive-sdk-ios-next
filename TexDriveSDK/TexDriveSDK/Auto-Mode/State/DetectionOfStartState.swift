@@ -8,39 +8,28 @@
 
 import RxSwift
 import CoreLocation
-import CoreMotion
 
-public class DetectionOfStartState: AutoModeDetectionState {
-    let motionManager = CMMotionActivityManager()
-
-    override func configure() {
-        if !CMMotionActivityManager.isActivityAvailable() {
-            Log.print("CMMotionActivityManager ERROR isActivity NOT Available",type: .Error)
-        }
-        
-        switch CMMotionActivityManager.authorizationStatus() {
-        case .notDetermined:
-            Log.print("CMMotionActivityManager authorizationStatus() == .notDetermined", type: .Error)
-            break
-        case .restricted:
-            Log.print("CMMotionActivityManager authorizationStatus() == .restricted", type: .Error)
-            break
-        case .denied:
-            Log.print("CMMotionActivityManager authorizationStatus() == .denied", type: .Error)
-            break
-        case .authorized:
-            break
+public class DetectionOfStartState: SensorAutoModeDetectionState {
+    var firstLocation: CLLocation?
+    let thresholdSpeed = CLLocationSpeed(exactly: 20)!
+    let timeLowSpeedThreshold = TimeInterval(exactly: 120)!
+    
+    override func enableMotionSensor() {
+        motionManager.startActivityUpdates(to: OperationQueue.main) {[weak self] (activity) in
+            if let activity = activity, activity.automotive == true {
+                self?.drive()
+            }
         }
     }
     
-    override func enable() {
-        Log.print("enable")
-        self.detectionOfStart()
+    override func enableLocationSensor() {
+        super.enableLocationSensor()
+        locationManager.startUpdatingLocation()
     }
-
+    
     override func stop() {
         Log.print("stop")
-        self.stopUpdating()
+        disableSensor()
         if let context = self.context {
             let state = StandbyState(context: context)
             context.rxState.onNext(state)
@@ -50,7 +39,7 @@ public class DetectionOfStartState: AutoModeDetectionState {
     
     override func drive() {
         Log.print("drive")
-        self.stopUpdating()
+        disableSensor()
         if let context = self.context {
             let state = DrivingState(context: context)
             context.rxState.onNext(state)
@@ -58,29 +47,22 @@ public class DetectionOfStartState: AutoModeDetectionState {
         }
     }
     
-    override func disable() {
-        Log.print("disable")
-        self.stopUpdating()
-        if let context = self.context {
-            context.rxState.onNext(DisabledState(context: context))
+    
+    // MARK: - SensorAutoModeDetectionState
+    override func didUpdateLocations(location: CLLocation) {
+        Log.print("didUpdateLocation")
+        if location.speed > thresholdSpeed {
+            self.drive()
+            return
         }
-    }
-    
-    func stopUpdating() {
-        motionManager.stopActivityUpdates()
-    }
-    
-    func detectionOfStart() {
-        #if targetEnvironment(simulator)
-        motionManager.startActivityUpdates(to: OperationQueue.main) {[weak self] (activity) in
-            Log.print("startActivityUpdates")
-            if let activity = activity, activity.walking == true {
-                self?.drive()
-            }
-            if let activity = activity, activity.automotive == true {
-                self?.drive()
+        
+        if firstLocation == nil {
+            firstLocation = location
+        }
+        else {
+            if let firstLocation = firstLocation, location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970 > timeLowSpeedThreshold {
+                self.stop()
             }
         }
-        #endif
     }
 }
