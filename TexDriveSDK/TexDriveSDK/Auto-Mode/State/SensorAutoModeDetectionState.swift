@@ -88,10 +88,14 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
         locationManager.activityType = .automotiveNavigation
         #if targetEnvironment(simulator)
         #else
-        locationManager.disallowDeferredLocationUpdates()
         locationManager.stopUpdatingLocation()
         locationManager.stopMonitoringSignificantLocationChanges()
         locationManager.allowsBackgroundLocationUpdates = true
+        if CLLocationManager.deferredLocationUpdatesAvailable() {
+            let distance: CLLocationDistance = 6000
+            let time: TimeInterval = 180
+            self.locationManager.allowDeferredLocationUpdates(untilTraveled: distance, timeout: time)
+        }
         #endif
     }
     

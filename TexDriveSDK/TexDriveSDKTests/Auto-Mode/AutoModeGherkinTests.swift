@@ -62,28 +62,20 @@ class AutoModeGherkinTests: XCTestCase {
     * TOTEST IN DetectionOfStartState Then the location manager continues listening for GPS points
     But the trip is not started yet*/
     func testStandByToDetectionOfStartStateStartCalled() {
-        var isCalled = false
-        automode?.enable()
-        if let state = automode?.state {
-            XCTAssert(state is StandbyState)
-            automode?.rxState.asObservable().observeOn(MainScheduler.instance).subscribe({ (event) in
-                isCalled = true
-                if let state = event.element {
-                    print(state)
-                    switch state {
-                    case is DetectionOfStartState:
-                        XCTAssert(true)
-                        break
-                    default:
-                        XCTAssert(false)
-                    }
-                } else {
-                    XCTAssert(false)
-                }
-            }).disposed(by: disposeBag!)
-            state.start()
-        }
-        XCTAssert(isCalled)
+        let expectation = XCTestExpectation(description: #function)
+        let context = StubAutoModeContextProtocol ()
+        let state = StandbyState(context: context)
+        context.state = state
+        context.rxState.asObservable().observeOn(MainScheduler.instance).subscribe({ (event) in
+            XCTAssertNotNil(event.element)
+            if let state = event.element {
+                print(state)
+                XCTAssertTrue(state is DetectionOfStartState)
+            }
+            expectation.fulfill()
+        }).disposed(by: disposeBag!)
+        state.start()
+        wait(for: [expectation], timeout: 1 )
     }
     
     /*

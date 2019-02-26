@@ -50,7 +50,7 @@ public class Config: ConfigurationProtocol, ScoringClientConfiguration, APISessi
     // APISessionManagerConfiguration
     public let tripInfos: TripInfos
     
-    public convenience init?(applicationId: String, applicationLocale: Locale = Locale.current, currentUser: User = User.Anonymous) throws {
+    public convenience init?(applicationId: String, applicationLocale: Locale = Locale.current, currentUser: User = User.Anonymous, domain: Domain = Domain.Production) throws {
         let locationfeature : TripRecorderFeature = TripRecorderFeature.Location(CLLocationManager())
 
         #if targetEnvironment(simulator)
@@ -60,7 +60,7 @@ public class Config: ConfigurationProtocol, ScoringClientConfiguration, APISessi
         #else
         let tripRecorderFeatures = [locationfeature]
         #endif
-        try self.init(applicationId: applicationId, applicationLocale: applicationLocale, currentUser: currentUser, currentTripRecorderFeatures: tripRecorderFeatures)
+        try self.init(applicationId: applicationId, applicationLocale: applicationLocale, currentUser: currentUser, currentTripRecorderFeatures: tripRecorderFeatures, domain: domain)
     }
     
     init?(applicationId: String, applicationLocale: Locale, currentUser: User, currentTripRecorderFeatures: [TripRecorderFeature], domain: Domain = Domain.Production) throws {

@@ -34,23 +34,28 @@ public class TripRecorder: TripRecorderProtocol {
     public var currentTripId: TripId?
     public let tripIdFinished: PublishSubject<TripId>
     
-    public var rxState: PublishSubject<AutoModeDetectionState> {
+    public var rxIsDriving: PublishSubject<Bool> {
         get {
-            return self.autoMode.rxState
+            return self.autoMode.rxIsDriving
         }
     }
     
     // MARK: - TripRecorder Protocol
     public func start() {
-        activateAutoMode()
+        collector.startCollect()
     }
     
     public func stop() {
+        collector.stopCollect()
         autoMode.disable()
     }
     
     public func activateAutoMode() {
         autoMode.enable()
+    }
+    
+    public func disableAutoMode() {
+        autoMode.disable()
     }
     
     // MARK: - Lifecycle

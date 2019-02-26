@@ -9,8 +9,10 @@
 import XCTest
 
 @testable import TexDriveSDK
+@testable import RxSwift
 
 class AutoModeTests: XCTestCase {
+    var disposeBag = DisposeBag()
     
     func testInit() {
         let autoMode = AutoMode()
@@ -19,22 +21,21 @@ class AutoModeTests: XCTestCase {
 
     func testEnable() {
         let autoMode = AutoMode()
+        
+        let expectation = XCTestExpectation(description: #function)
+        autoMode.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+            if let state = event.element {
+                XCTAssert(state is StandbyState)
+                expectation.fulfill()
+            }
+            }.disposed(by: disposeBag)
         autoMode.enable()
-        XCTAssertNotNil(autoMode.state)
-        XCTAssert(autoMode.state! is StandbyState)
+        wait(for: [expectation], timeout: 1)
     }
 
     func testDisable() {
         let autoMode = AutoMode()
         autoMode.disable()
         XCTAssertNil(autoMode.state)
-    }
-    
-    func testStop() {
-        let autoMode = AutoMode()
-        autoMode.enable()
-        autoMode.stop()
-        XCTAssertNotNil(autoMode.state)
-        XCTAssertFalse(autoMode.state! is DetectionOfStartState)
     }
 }
