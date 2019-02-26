@@ -57,9 +57,18 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     }
                     }.disposed(by: rxDisposeBag)
                 tripRecorder = texServices!.tripRecorder
-                tripRecorder?.rxState.asObserver().observeOn(MainScheduler.asyncInstance).subscribe({ [weak self] (event) in
-                    if let state = event.element {
-                        self?.appendText(string: "State change \(state)")
+                tripRecorder?.rxIsDriving.asObserver().observeOn(MainScheduler.asyncInstance).subscribe({ [weak self] (event) in
+                    if let isDriving = event.element {
+                        self?.appendText(string: "\n isDriving: \n \(isDriving)")
+                        if isDriving {
+                            self?.appendText(string: "\n SHOULD BE START: \n \(isDriving)")
+                            self?.TripSegmentedControl.selectedSegmentIndex = 0
+                        } else {
+                            self?.appendText(string: "\n SHOULD BE STOP: \n \(isDriving)")
+                            self?.TripSegmentedControl.selectedSegmentIndex = 1
+                        }
+                        self?.scoreButton.alpha = CGFloat((!isDriving).hashValue)
+                        
                     }
                 }).disposed(by: rxDisposeBag)
                 
@@ -69,6 +78,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     }
                 }).disposed(by: rxDisposeBag)
                 self.configureLog(texServices!.logManager.rxLog)
+                tripRecorder?.activateAutoMode()
             }
         } catch ConfigurationError.LocationNotDetermined(let description) {
             print(description)
@@ -89,15 +99,29 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     func startTrip() {
-        tripRecorder?.start()
+        tripRecorder?.activateAutoMode()
+//        tripRecorder?.start()
     }
     
     func stopTrip() {
-        tripRecorder?.stop()
+        tripRecorder?.disableAutoMode()
+//        tripRecorder?.stop()
+        showGetScoreButton()
+    }
+    
+    func showGetScoreButton() {
         UIView.animate(withDuration: 0.3, delay: 26, options: UIView.AnimationOptions.curveEaseInOut, animations: {
             self.scoreButton.alpha = 1
         }) { (finished) in
-        
+            
+        }
+    }
+    
+    func hideGetScoreButton() {
+        UIView.animate(withDuration: 0.3, delay: 26, options: UIView.AnimationOptions.curveEaseInOut, animations: {
+            self.scoreButton.alpha = 0
+        }) { (finished) in
+            
         }
     }
     
