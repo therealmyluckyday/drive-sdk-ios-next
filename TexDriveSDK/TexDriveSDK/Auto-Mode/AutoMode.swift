@@ -21,12 +21,17 @@ class AutoMode: AutoModeContextProtocol {
     var rxIsDriving = PublishSubject<Bool>()
     let rxDisposeBag = DisposeBag()
     var state: AutoModeDetectionState?
+    let locationManager: LocationManager
+    
+    init(locationManager clLocationManager: LocationManager) {
+        locationManager = clLocationManager
+    }
     
     // MARK: - Public method
     func enable() {
         Log.print("Enable")
         disable()
-        let standbyState = StandbyState(context: self)
+        let standbyState = StandbyState(context: self, locationManager: locationManager)
         
         rxState.asObserver().observeOn(MainScheduler.asyncInstance).subscribe {[weak self] (event) in
             if let newState = event.element {

@@ -17,19 +17,20 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
     let thresholdSpeed = CLLocationSpeed(exactly: 10)!
     let timeLowSpeedThreshold = TimeInterval(exactly: 180)!
 
-    init(context: AutoModeContextProtocol, locationManager clLocationManager: CLLocationManager = CLLocationManager(), motionActivityManager: CMMotionActivityManager = CMMotionActivityManager(), interval: TimeInterval = TimeInterval(600)) {
+    init(context: AutoModeContextProtocol, locationManager clLocationManager: LocationManager, motionActivityManager: CMMotionActivityManager = CMMotionActivityManager(), interval: TimeInterval = TimeInterval(600)) {
         intervalDelay = interval
         super.init(context: context, locationManager: clLocationManager, motionActivityManager: motionActivityManager)
     }
 
     override func enableLocationSensor() {
         super.enableLocationSensor()
-        locationManager.startUpdatingLocation()
+        locationManager.change(state: .locationChanges)
     }
     
     override func enableMotionSensor() {
         motionManager.startActivityUpdates(to: OperationQueue.main) {[weak self] (activity) in
             if let activity = activity, activity.automotive == true {
+                Log.print("let activity = activity, activity.automotive == true")
                 self?.drive()
             }
         }
@@ -44,7 +45,7 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
         disableTimer()
         disableSensor()
         if let context = self.context {
-            let state = StandbyState(context: context)
+            let state = StandbyState(context: context, locationManager: locationManager)
             context.rxState.onNext(state)
             state.enable()
         }
@@ -55,7 +56,7 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
         disableTimer()
         disableSensor()
         if let context = self.context {
-            let state = DrivingState(context: context)
+            let state = DrivingState(context: context, locationManager: locationManager)
             context.rxState.onNext(state)
             state.enable()
         }
@@ -63,9 +64,13 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
     
     // MARK: - SensorAutoModeDetectionState
     override func didUpdateLocations(location: CLLocation) {
-        Log.print("didUpdateLocation")
+//        Log.print("- \(location.speed) \(thresholdSpeed)")
+        guard sensorState == .enable else {
+            return
+        }
         resetTimer(timeInterval: intervalDelay)
         if location.speed > thresholdSpeed {
+            Log.print("location.speed > thresholdSpeed")
             self.drive()
         }
         
@@ -74,6 +79,8 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
         }
         else {
             if let firstLocation = firstLocation, location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970 > timeLowSpeedThreshold {
+                Log.print("firstLocation = firstLocation, location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970 > timeLowSpeedThreshold")
+                Log.print("\(location.timestamp.timeIntervalSince1970) - \(firstLocation.timestamp.timeIntervalSince1970) > \(timeLowSpeedThreshold)")
                 self.stop()
             }
         }

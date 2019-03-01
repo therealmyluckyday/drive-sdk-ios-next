@@ -27,6 +27,7 @@
 		C1273EA5217790C50006E6E0 /* MotionBufferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1273EA4217790C50006E6E0 /* MotionBufferTests.swift */; };
 		C1273EA72178B3640006E6E0 /* MotionFixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1273EA62178B3640006E6E0 /* MotionFixTests.swift */; };
 		C1273EA92178C1670006E6E0 /* MotionTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1273EA82178C1670006E6E0 /* MotionTrackerTests.swift */; };
+		C12C8B482227E6C700317B1E /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12C8B472227E6C700317B1E /* LocationManager.swift */; };
 		C12E34C421C174B600696B03 /* LogRx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12E34C321C174B600696B03 /* LogRx.swift */; };
 		C12F67762223F9EF00CB21E1 /* SensorAutoModeDetectionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12F67752223F9EF00CB21E1 /* SensorAutoModeDetectionState.swift */; };
 		C12F67782224182000CB21E1 /* SensorAutoModeDetectionStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12F67772224182000CB21E1 /* SensorAutoModeDetectionStateTests.swift */; };
@@ -138,6 +139,7 @@
 		C1273EA4217790C50006E6E0 /* MotionBufferTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionBufferTests.swift; sourceTree = "<group>"; };
 		C1273EA62178B3640006E6E0 /* MotionFixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionFixTests.swift; sourceTree = "<group>"; };
 		C1273EA82178C1670006E6E0 /* MotionTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionTrackerTests.swift; sourceTree = "<group>"; };
+		C12C8B472227E6C700317B1E /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		C12E34C321C174B600696B03 /* LogRx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LogRx.swift; path = TexDriveSDK/Core/LogRx.swift; sourceTree = SOURCE_ROOT; };
 		C12F67752223F9EF00CB21E1 /* SensorAutoModeDetectionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorAutoModeDetectionState.swift; sourceTree = "<group>"; };
 		C12F67772224182000CB21E1 /* SensorAutoModeDetectionStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorAutoModeDetectionStateTests.swift; sourceTree = "<group>"; };
@@ -365,6 +367,7 @@
 				C17E9A77216F85BD00FCF93E /* TexServices.swift */,
 				C17E9A7B216F944500FCF93E /* TripRecorderFeature.swift */,
 				C121002E21C14C9100A126E6 /* TripInfos.swift */,
+				C12C8B472227E6C700317B1E /* LocationManager.swift */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -799,6 +802,7 @@
 				C1273E9F2175EE800006E6E0 /* MotionFix.swift in Sources */,
 				C1CC41E721DFBEC4004CB5C2 /* ScoreError.swift in Sources */,
 				C1F7E45E21B55E5200EA0445 /* APIScore.swift in Sources */,
+				C12C8B482227E6C700317B1E /* LocationManager.swift in Sources */,
 				C1076071217E2E9400FB28AA /* Event.swift in Sources */,
 				E2798EDD215A5D65006228A3 /* LocationFix.swift in Sources */,
 				C17E9A76216F82F100FCF93E /* Config.swift in Sources */,

@@ -25,7 +25,7 @@ public class TripRecorder: TripRecorderProtocol {
     private var rxEventType = PublishSubject<EventType>()
     private var rxFix = PublishSubject<Fix>()
     private let rxDisposeBag = DisposeBag()
-    private let autoMode = AutoMode()
+    private var autoMode: AutoMode?
     private let apiTrip: APITrip
     internal let persistantQueue: PersistantQueue
     internal let rxTripId = PublishSubject<TripId>()
@@ -36,7 +36,7 @@ public class TripRecorder: TripRecorderProtocol {
     
     public var rxIsDriving: PublishSubject<Bool> {
         get {
-            return self.autoMode.rxIsDriving
+            return self.autoMode!.rxIsDriving
         }
     }
     
@@ -47,15 +47,15 @@ public class TripRecorder: TripRecorderProtocol {
     
     public func stop() {
         collector.stopCollect()
-        autoMode.disable()
+        autoMode?.disable()
     }
     
     public func activateAutoMode() {
-        autoMode.enable()
+        autoMode?.enable()
     }
     
     public func disableAutoMode() {
-        autoMode.disable()
+        autoMode?.disable()
     }
     
     // MARK: - Lifecycle
@@ -70,6 +70,7 @@ public class TripRecorder: TripRecorderProtocol {
             case .Location(let locationManager):
                 let locationTracker = LocationTracker(sensor: locationManager)
                 collector.collect(tracker: locationTracker)
+                self.autoMode = AutoMode(locationManager: locationManager)
                 break
             case .Battery:
                 let batteryTracker = BatteryTracker(sensor: UIDevice.current)
@@ -104,7 +105,7 @@ public class TripRecorder: TripRecorderProtocol {
     }
     
     func configureAutoMode(_ scheduler: SerialDispatchQueueScheduler) {
-        autoMode.rxIsDriving.asObserver().observeOn(MainScheduler.instance).subscribe { [weak self](event) in
+        autoMode!.rxIsDriving.asObserver().observeOn(MainScheduler.instance).subscribe { [weak self](event) in
             if let isDriving = event.element {
                 if isDriving {
                     self?.collector.startCollect()

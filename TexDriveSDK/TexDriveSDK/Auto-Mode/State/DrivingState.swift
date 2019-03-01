@@ -24,7 +24,7 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
     var timer: Timer?
     var lastActivity: CMMotionActivity?
     
-    init(context: AutoModeContextProtocol, locationManager clLocationManager: CLLocationManager = CLLocationManager(), motionActivityManager: CMMotionActivityManager = CMMotionActivityManager(), interval: TimeInterval = TimeInterval(600)) {
+    init(context: AutoModeContextProtocol, locationManager clLocationManager: LocationManager, motionActivityManager: CMMotionActivityManager = CMMotionActivityManager(), interval: TimeInterval = TimeInterval(600)) {
         intervalDelay = interval
         super.init(context: context, locationManager: clLocationManager, motionActivityManager: motionActivityManager)
     }
@@ -39,7 +39,7 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
     
     override func enableLocationSensor() {
         super.enableLocationSensor()
-        locationManager.startUpdatingLocation()
+        locationManager.change(state: .locationChanges)
     }
     
     override func enable() {
@@ -52,7 +52,7 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
         disableTimer()
         disableSensor()
         if let context = self.context {
-            let state = DetectionOfStopState(context: context)
+            let state = DetectionOfStopState(context: context, locationManager: locationManager)
             context.rxState.onNext(state)
             state.enable()
         }
@@ -72,14 +72,18 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
         disableTimer()
         disableSensor()
         if let context = self.context {
-            let state = DetectionOfStopState(context: context)
+            let state = DetectionOfStopState(context: context, locationManager: locationManager)
             context.rxState.onNext(state)
             state.stop()
         }
     }
     
     // MARK: - SensorAutoModeDetectionState
-    override func didUpdateLocations(location: CLLocation) {
+    override func didUpdateLocations(location: CLLocation) {        
+        Log.print("- \(location.speed) \(thresholdSpeed)")
+        guard sensorState == .enable else {
+            return
+        }
         resetTimer(timeInterval: intervalDelay)
         if location.speed < thresholdSpeed {
             Log.print("location.speed < thresholdSpeed")

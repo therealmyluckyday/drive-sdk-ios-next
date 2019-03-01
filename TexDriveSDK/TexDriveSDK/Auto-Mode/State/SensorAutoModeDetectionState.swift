@@ -9,12 +9,20 @@
 import UIKit
 import CoreLocation
 import CoreMotion
+import RxSwift
+enum SensorState {
+    case disable
+    case enable
+}
+
 
 public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationManagerDelegate {
     let motionManager: CMMotionActivityManager
-    let locationManager: CLLocationManager
+    let locationManager: LocationManager
+    var rxDisposeBag: DisposeBag? = DisposeBag()
+    var sensorState: SensorState = .disable
     
-    init(context: AutoModeContextProtocol, locationManager clLocationManager: CLLocationManager = CLLocationManager(), motionActivityManager: CMMotionActivityManager = CMMotionActivityManager()) {
+    init(context: AutoModeContextProtocol, locationManager clLocationManager: LocationManager, motionActivityManager: CMMotionActivityManager = CMMotionActivityManager()) {
         motionManager = motionActivityManager
         locationManager = clLocationManager
         super.init(context: context)
@@ -82,29 +90,21 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
     }
     
     func enableLocationSensor() {
-        locationManager.delegate = self
-        locationManager.distanceFilter = kCLDistanceFilterNone
-        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        locationManager.activityType = .automotiveNavigation
-        #if targetEnvironment(simulator)
-        #else
-        locationManager.stopUpdatingLocation()
-        locationManager.stopMonitoringSignificantLocationChanges()
-        locationManager.allowsBackgroundLocationUpdates = true
-        if CLLocationManager.deferredLocationUpdatesAvailable() {
-            let distance: CLLocationDistance = 6000
-            let time: TimeInterval = 180
-            self.locationManager.allowDeferredLocationUpdates(untilTraveled: distance, timeout: time)
-        }
-        #endif
+        locationManager.rxLocation.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
+            if let location = event.element {
+                self?.didUpdateLocations(location: location)
+            }
+        }.disposed(by: rxDisposeBag!)
     }
     
     func enableSensor() {
         enableMotionSensor()
         enableLocationSensor()
+        sensorState = .enable
     }
     
     func disableSensor() {
+        sensorState = SensorState.disable
         disableMotionSensor()
         disableLocationSensor()
     }
@@ -114,25 +114,11 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
     }
     
     func disableLocationSensor() {
-        locationManager.delegate = nil
-        locationManager.stopUpdatingLocation()
-        locationManager.stopMonitoringSignificantLocationChanges()
-    }
-    
-    // MARK: - CLLocationManagerDelegate
-    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last else {
-            return
-        }
-        self.didUpdateLocations(location: location)
-    }
-    
-    public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        Log.print("\(error)", type: LogType.Error)
-        self.stop()
+        rxDisposeBag = nil
     }
     
     // MARK: - didUpdateLocations
     func didUpdateLocations(location: CLLocation) {
+        Log.print("-")
     }
 }

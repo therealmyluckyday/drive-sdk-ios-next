@@ -10,16 +10,17 @@ import RxSwift
 import CoreLocation
 
 public class StandbyState: SensorAutoModeDetectionState {
-    let thresholdSpeed = CLLocationSpeed(exactly: 10)!
+    let thresholdSpeed: CLLocationSpeed = CLLocationSpeed(exactly: 10)!
     
     override func enableLocationSensor() {
         super.enableLocationSensor()
-        locationManager.startMonitoringSignificantLocationChanges()
+        locationManager.change(state: .significantLocationChanges)
     }
     
     override func enableMotionSensor() {
         motionManager.startActivityUpdates(to: OperationQueue.main) {[weak self] (activity) in
             if let activity = activity, activity.automotive == true {
+                Log.print("activity = activity, activity.automotive == true")
                 self?.start()
             }
         }
@@ -29,7 +30,7 @@ public class StandbyState: SensorAutoModeDetectionState {
         Log.print("start")
         disableSensor()
         if let context = self.context {
-            let state = DetectionOfStartState(context: context)
+            let state = DetectionOfStartState(context: context, locationManager: locationManager)
             context.rxState.onNext(state)
             state.enable()
         }
@@ -39,7 +40,7 @@ public class StandbyState: SensorAutoModeDetectionState {
         Log.print("drive")
         disableSensor()
         if let context = self.context {
-            let state = DrivingState(context: context)
+            let state = DrivingState(context: context, locationManager: locationManager)
             context.rxState.onNext(state)
             state.enable()
         }
@@ -47,8 +48,12 @@ public class StandbyState: SensorAutoModeDetectionState {
     
     // MARK: - SensorAutoModeDetectionState
     override func didUpdateLocations(location: CLLocation) {
-        Log.print("didUpdateLocation")
+        Log.print("- \(location.speed) \(thresholdSpeed)")
+        guard sensorState == .enable else {
+            return
+        }
         if location.speed > thresholdSpeed {
+            Log.print("location.speed > thresholdSpeed")
             self.start()
         }
     }

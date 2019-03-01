@@ -9,14 +9,15 @@
 import CoreLocation
 import RxSwift
 
-class LocationTracker: NSObject, Tracker, CLLocationManagerDelegate {
+class LocationTracker: NSObject, Tracker {
     // MARK: Property
     typealias T = LocationFix
-    private let locationManager: CLLocationManager
+    private let locationManager: LocationManager
     private var rxLocationFix = PublishSubject<Result<LocationFix>>()
+    private var rxDisposeBag = DisposeBag()
     
     // MARK: Lifecycle method
-    init(sensor: CLLocationManager) {
+    init(sensor: LocationManager) {
         locationManager = sensor
     }
     
@@ -26,54 +27,38 @@ class LocationTracker: NSObject, Tracker, CLLocationManagerDelegate {
     
     // MARK: - Tracker Protocol
     func enableTracking() {
-        guard type(of: locationManager).authorizationStatus() != .notDetermined else {
+        guard type(of: locationManager.locationManager).authorizationStatus() != .notDetermined else {
             let error = CLError(_nsError: NSError(domain: "CLLocationManagerNotDetermined requestAlwaysAuthorization()", code: CLError.denied.rawValue, userInfo: nil))
             rxLocationFix.onNext(Result.Failure(error))
             return
         }
         
-        locationManager.delegate = self
-        locationManager.disallowDeferredLocationUpdates()
-        locationManager.stopUpdatingLocation()
-        locationManager.stopMonitoringSignificantLocationChanges()
-        locationManager.distanceFilter = kCLDistanceFilterNone
-        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        locationManager.pausesLocationUpdatesAutomatically = false
-        locationManager.activityType = .automotiveNavigation
-        locationManager.allowsBackgroundLocationUpdates = true
-        
-        if CLLocationManager.deferredLocationUpdatesAvailable() {
-            let distance: CLLocationDistance = 4000
-            let time: TimeInterval = 100
-            self.locationManager.allowDeferredLocationUpdates(untilTraveled: distance, timeout: time)
-        }
-
-        locationManager.startUpdatingLocation()
+        locationManager.rxLocation.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
+            if let location = event.element {
+                self?.didUpdateLocations(location: location)
+            }
+        }.disposed(by: rxDisposeBag)
+        Log.print("change")
+        locationManager.change(state: .locationChanges)
     }
     
     func disableTracking() {
-        locationManager.stopUpdatingLocation()
+        locationManager.change(state: .disabled)
     }
     
     func provideFix() -> PublishSubject<Result<LocationFix>> {
         return rxLocationFix
     }
     
-    // MARK: - CLLocationManagerDelegate
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        Log.print("didUpdateLocations")
-        guard let _ = locations.last else {
-            return
-        }
-        let fixes = locations.map { (location) -> Result<LocationFix> in
-            return Result.Success(LocationFix(timestamp: location.timestamp.timeIntervalSince1970, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, precision: location.horizontalAccuracy, speed: location.speed, bearing: location.course, altitude: location.altitude))
-        }
-        fixes.forEach { (result) in
-             rxLocationFix.onNext(result)
-        }
-    }
+//    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+//        rxLocationFix.onNext(Result.Failure(error))
+//    }
     
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        rxLocationFix.onNext(Result.Failure(error))
+    // MARK: - didUpdateLocations
+    func didUpdateLocations(location: CLLocation) {
+        Log.print("-")
+        let result = Result.Success(LocationFix(timestamp: location.timestamp.timeIntervalSince1970, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, precision: location.horizontalAccuracy, speed: location.speed, bearing: location.course, altitude: location.altitude))
+        
+        rxLocationFix.onNext(result)
     }
 }

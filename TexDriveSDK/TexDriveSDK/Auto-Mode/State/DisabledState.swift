@@ -12,7 +12,7 @@ public class DisabledState: AutoModeDetectionState {
     override func enable() {
         Log.print("enable")
         if let context = self.context {
-            let state = StandbyState(context: context)
+            let state = StandbyState(context: context, locationManager: LocationManager())
             context.rxState.onNext(state)
             state.enable()
         }
@@ -21,7 +21,7 @@ public class DisabledState: AutoModeDetectionState {
     override func start() {
         Log.print("start")
         if let context = self.context {
-            let state = StandbyState(context: context)
+            let state = StandbyState(context: context, locationManager: LocationManager())
             context.rxState.onNext(state)
             state.enable()
         }
@@ -30,7 +30,7 @@ public class DisabledState: AutoModeDetectionState {
     override func drive() {
         Log.print("drive")
         if let context = self.context {
-            let state = DrivingState(context: context)
+            let state = DrivingState(context: context, locationManager: LocationManager())
             context.rxState.onNext(state)
             state.enable()
         }

@@ -51,7 +51,8 @@ public class Config: ConfigurationProtocol, ScoringClientConfiguration, APISessi
     public let tripInfos: TripInfos
     
     public convenience init?(applicationId: String, applicationLocale: Locale = Locale.current, currentUser: User = User.Anonymous, domain: Domain = Domain.Production) throws {
-        let locationfeature : TripRecorderFeature = TripRecorderFeature.Location(CLLocationManager())
+        
+        let locationfeature : TripRecorderFeature = TripRecorderFeature.Location(LocationManager())
 
         #if targetEnvironment(simulator)
         let batteryfeature : TripRecorderFeature = TripRecorderFeature.Battery(UIDevice.current)

@@ -17,6 +17,7 @@ public class DetectionOfStartState: SensorAutoModeDetectionState {
     override func enableMotionSensor() {
         motionManager.startActivityUpdates(to: OperationQueue.main) {[weak self] (activity) in
             if let activity = activity, activity.automotive == true {
+                Log.print("activity = activity, activity.automotive == true")
                 self?.drive()
             }
         }
@@ -24,14 +25,14 @@ public class DetectionOfStartState: SensorAutoModeDetectionState {
     
     override func enableLocationSensor() {
         super.enableLocationSensor()
-        locationManager.startUpdatingLocation()
+        locationManager.change(state: .locationChanges)
     }
     
     override func stop() {
         Log.print("stop")
         disableSensor()
         if let context = self.context {
-            let state = StandbyState(context: context)
+            let state = StandbyState(context: context, locationManager: locationManager)
             context.rxState.onNext(state)
             state.enable()
         }
@@ -41,7 +42,7 @@ public class DetectionOfStartState: SensorAutoModeDetectionState {
         Log.print("drive")
         disableSensor()
         if let context = self.context {
-            let state = DrivingState(context: context)
+            let state = DrivingState(context: context, locationManager: locationManager)
             context.rxState.onNext(state)
             state.enable()
         }
@@ -50,8 +51,12 @@ public class DetectionOfStartState: SensorAutoModeDetectionState {
     
     // MARK: - SensorAutoModeDetectionState
     override func didUpdateLocations(location: CLLocation) {
-        Log.print("didUpdateLocation")
+        Log.print("- \(location.speed) \(thresholdSpeed)")
+        guard sensorState == .enable else {
+            return
+        }
         if location.speed > thresholdSpeed {
+            Log.print("location.speed > thresholdSpeed")
             self.drive()
             return
         }
@@ -61,6 +66,7 @@ public class DetectionOfStartState: SensorAutoModeDetectionState {
         }
         else {
             if let firstLocation = firstLocation, location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970 > timeLowSpeedThreshold {
+                Log.print("firstLocation = firstLocation, location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970 > timeLowSpeedThreshold")
                 self.stop()
             }
         }
