@@ -121,7 +121,6 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
     
     // MARK: - CLLocationManagerDelegate
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        Log.print("didUpdateLocations")
         guard let location = locations.last else {
             return
         }

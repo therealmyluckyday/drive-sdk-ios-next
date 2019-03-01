@@ -66,7 +66,7 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
         Log.print("didUpdateLocation")
         resetTimer(timeInterval: intervalDelay)
         if location.speed > thresholdSpeed {
-            self.stop()
+            self.drive()
         }
         
         if firstLocation == nil {
