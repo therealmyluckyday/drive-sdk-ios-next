@@ -62,9 +62,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         self?.appendText(string: "\n isDriving: \n \(isDriving)")
                         if isDriving {
                             self?.appendText(string: "\n SHOULD BE START: \n \(isDriving)")
+                            self?.sendNotification("Start")
                             self?.TripSegmentedControl.selectedSegmentIndex = 0
+                            
                         } else {
                             self?.appendText(string: "\n SHOULD BE STOP: \n \(isDriving)")
+                            self?.sendNotification("Stop")
                             self?.TripSegmentedControl.selectedSegmentIndex = 1
                         }
                         self?.scoreButton.alpha = CGFloat((!isDriving).hashValue)
@@ -231,5 +234,60 @@ class ViewController: UIViewController, UITextFieldDelegate {
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true;
+    }
+    
+    func sendNotification(_ text: String) {
+        // Configure the notification's payload.
+        let content = UNMutableNotificationContent()
+        content.title = "AutoMode"
+        content.body = text
+        content.sound = UNNotificationSound.default
+        
+        // Deliver the notification in x seconds.
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(10), repeats: false)
+        let request = UNNotificationRequest(identifier: "AutoMode"+text, content: content, trigger: trigger) // Schedule the notification.
+        let center = UNUserNotificationCenter.current()
+        center.delegate = self
+        center.add(request) { (error : Error?) in
+        }
+    }
+    
+    // MARK: - UNUserNotificationCenterDelegate
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler:
+        @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        Answers.logCustomEvent(withName: #function,
+                               customAttributes: [
+                                "detail" : "Notification received \(notification.request.content.categoryIdentifier) ",
+                                "filename" : #file,
+                                "systemVersion": UIDevice.current.systemVersion
+            ])
+//        if notification.request.content.categoryIdentifier ==
+//            "SevenDay" {
+            completionHandler(.sound)
+//            return
+//        }
+//        else {
+//            // Handle other notification types...
+//        }
+//
+//        // Don't alert the user for other types.
+//        completionHandler(UNNotificationPresentationOptions(rawValue: 0))
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler:
+        @escaping () -> Void) {
+        Answers.logCustomEvent(withName: #function,
+                               customAttributes: [
+                                "detail" : "Notification received \(response.notification.request.content.categoryIdentifier)",
+                                "filename" : #file,
+                                "systemVersion": UIDevice.current.systemVersion
+            ])
+
+        completionHandler()
     }
 }

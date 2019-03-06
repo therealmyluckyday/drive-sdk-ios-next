@@ -10,6 +10,7 @@ import UIKit
 import TexDriveSDK
 import Fabric
 import Crashlytics
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
@@ -19,6 +20,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         Fabric.with([Crashlytics.self])
+        let options: UNAuthorizationOptions = [.alert, .badge, .sound];
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: options) {
+            (granted, error) in
+        }
         return true
     }
     
