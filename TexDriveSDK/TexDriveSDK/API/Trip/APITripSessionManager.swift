@@ -78,11 +78,33 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
                     Log.print("HTTP Body \(body)")
                 }
                 let apiError = APISessionManager.manageError(data: data, httpResponse: httpResponse)
-                tripChunkSent.onNext(Result.Failure(apiError))
+                if apiError.statusCode >= 400 && apiError.statusCode < 500 {
+                    tripChunkSent.onNext(Result.Failure(apiError))
+                } else {
+                    retry(task:downloadTask)
+                }
+                
             } catch {
                 Log.print("HTTP File Error \(error)", type: .Error)
-                let apiError = APIError(message: "Unable to Parse API response File", statusCode: 400)
-                tripChunkSent.onNext(Result.Failure(apiError))
+                let apiError = APIError(message: "Unable to Parse API response File", statusCode: httpResponse.statusCode)
+                
+                if apiError.statusCode >= 400 && apiError.statusCode < 500 {
+                    tripChunkSent.onNext(Result.Failure(apiError))
+                } else {
+                    retry(task:downloadTask)
+                }
+            }
+        }
+    }
+    
+    func retry(task: URLSessionDownloadTask) {
+        Log.print("-")
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.seconds(60)) {
+            
+            if let request = task.currentRequest {
+                let backgroundTask = self.urlBackgroundTaskSession.downloadTask(with: request)
+                Log.print("Retry")
+                backgroundTask.resume()
             }
         }
     }
