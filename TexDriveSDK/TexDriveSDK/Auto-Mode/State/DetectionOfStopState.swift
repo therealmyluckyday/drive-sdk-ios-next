@@ -17,7 +17,7 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
     let thresholdSpeed = CLLocationSpeed(exactly: 10)!
     let timeLowSpeedThreshold = TimeInterval(exactly: 180)!
 
-    init(context: AutoModeContextProtocol, locationManager clLocationManager: LocationManager, motionActivityManager: CMMotionActivityManager = CMMotionActivityManager(), interval: TimeInterval = TimeInterval(600)) {
+    init(context: AutoModeContextProtocol, locationManager clLocationManager: LocationManager, motionActivityManager: CMMotionActivityManager = CMMotionActivityManager(), interval: TimeInterval = TimeInterval(4*60)) {
         intervalDelay = interval
         super.init(context: context, locationManager: clLocationManager, motionActivityManager: motionActivityManager)
     }
@@ -44,6 +44,7 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
         Log.print("stop")
         disableTimer()
         disableSensor()
+        locationManager.disable()
         if let context = self.context {
             let state = StandbyState(context: context, locationManager: locationManager)
             context.rxState.onNext(state)
@@ -72,6 +73,7 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
         if location.speed > thresholdSpeed {
             Log.print("location.speed > thresholdSpeed")
             self.drive()
+            return
         }
         
         if firstLocation == nil {

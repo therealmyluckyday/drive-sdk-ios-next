@@ -24,7 +24,7 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
     var timer: Timer?
     var lastActivity: CMMotionActivity?
     
-    init(context: AutoModeContextProtocol, locationManager clLocationManager: LocationManager, motionActivityManager: CMMotionActivityManager = CMMotionActivityManager(), interval: TimeInterval = TimeInterval(600)) {
+    init(context: AutoModeContextProtocol, locationManager clLocationManager: LocationManager, motionActivityManager: CMMotionActivityManager = CMMotionActivityManager(), interval: TimeInterval = TimeInterval(4*60)) {
         intervalDelay = interval
         super.init(context: context, locationManager: clLocationManager, motionActivityManager: motionActivityManager)
     }
@@ -87,12 +87,21 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
         resetTimer(timeInterval: intervalDelay)
         if location.speed < thresholdSpeed {
             Log.print("location.speed < thresholdSpeed")
-            if let activity = lastActivity, -activity.startDate.timeIntervalSinceNow < 300, activity.automotive {
+            if let activity = lastActivity, -activity.startDate.timeIntervalSinceNow < 60*4, activity.automotive {
                 Log.print("activity = lastActivity, -activity.startDate.timeIntervalSinceNow < 300, activity.automotive")
             }
             else {
-                Log.print("location.speed < thresholdSpeed")
-                self.stop()
+                motionManager.queryActivityStarting(from: Date.init().addingTimeInterval(-60.0*4), to: Date(), to: OperationQueue.main) { [weak self](motions, error) in
+                    if let motions = motions {
+                        for activity in motions {
+                            if activity.automotive {
+                                return
+                            }
+                        }
+                    }
+                    Log.print("location.speed < thresholdSpeed")
+                    self?.stop()
+                }
             }
         }
     }
@@ -100,7 +109,7 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
     // MARK: - TimerProtocol
     func enableTimer(timeInterval: TimeInterval){
         timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false, block: { [weak self](timer) in
-            self?.stop()
+            self?.forceStop()
         })
     }
     
