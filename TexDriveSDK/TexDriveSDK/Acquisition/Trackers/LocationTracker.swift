@@ -12,9 +12,9 @@ import RxSwift
 class LocationTracker: NSObject, Tracker {
     // MARK: Property
     typealias T = LocationFix
-    private let locationManager: LocationManager
+    let locationManager: LocationManager
     private var rxLocationFix = PublishSubject<Result<LocationFix>>()
-    private var rxDisposeBag = DisposeBag()
+    var rxDisposeBag: DisposeBag?
     
     // MARK: Lifecycle method
     init(sensor: LocationManager) {
@@ -27,6 +27,7 @@ class LocationTracker: NSObject, Tracker {
     
     // MARK: - Tracker Protocol
     func enableTracking() {
+        rxDisposeBag = DisposeBag()
         guard type(of: locationManager.locationManager).authorizationStatus() != .notDetermined else {
             let error = CLError(_nsError: NSError(domain: "CLLocationManagerNotDetermined requestAlwaysAuthorization()", code: CLError.denied.rawValue, userInfo: nil))
             rxLocationFix.onNext(Result.Failure(error))
@@ -37,7 +38,7 @@ class LocationTracker: NSObject, Tracker {
             if let location = event.element {
                 self?.didUpdateLocations(location: location)
             }
-        }.disposed(by: rxDisposeBag)
+        }.disposed(by: rxDisposeBag!)
         Log.print("change")
         locationManager.change(state: .locationChanges)
     }
@@ -49,10 +50,6 @@ class LocationTracker: NSObject, Tracker {
     func provideFix() -> PublishSubject<Result<LocationFix>> {
         return rxLocationFix
     }
-    
-//    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-//        rxLocationFix.onNext(Result.Failure(error))
-//    }
     
     // MARK: - didUpdateLocations
     func didUpdateLocations(location: CLLocation) {
