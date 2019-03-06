@@ -54,7 +54,6 @@ extension SecTrust: SecurityPolicy {
                 let serverCertificates = self.certificateTrustChainData()
                 for certificateData in serverCertificates.reversed() {
                     if pinnedCertData.isEqual(to: certificateData) {
-                        Log.print("Certificate data matches")
                         return true
                     }
                     else {

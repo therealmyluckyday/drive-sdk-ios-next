@@ -14,8 +14,9 @@ import CoreMotion
 import Crashlytics
 import RxSwift
 import os
+import UserNotifications
 
-class ViewController: UIViewController, UITextFieldDelegate {
+class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationCenterDelegate {
     @IBOutlet weak var TripSegmentedControl: UISegmentedControl!
     @IBOutlet weak var scoreButton: UIButton!
     @IBOutlet weak var logTextField: UITextView!
