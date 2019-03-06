@@ -15,12 +15,12 @@ class AutoModeTests: XCTestCase {
     var disposeBag = DisposeBag()
     
     func testInit() {
-        let autoMode = AutoMode()
+        let autoMode = AutoMode(locationManager: LocationManager())
         XCTAssertNil(autoMode.state)
     }
 
     func testEnable() {
-        let autoMode = AutoMode()
+        let autoMode = AutoMode(locationManager: LocationManager())
         
         let expectation = XCTestExpectation(description: #function)
         autoMode.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
@@ -34,7 +34,7 @@ class AutoModeTests: XCTestCase {
     }
 
     func testDisable() {
-        let autoMode = AutoMode()
+        let autoMode = AutoMode(locationManager: LocationManager())
         autoMode.disable()
         XCTAssertNil(autoMode.state)
     }

@@ -58,6 +58,7 @@
 		C18AE989216E31E30065F0BB /* BatteryTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18AE988216E31E30065F0BB /* BatteryTrackerTests.swift */; };
 		C18AE98B216E44D60065F0BB /* LocationTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18AE98A216E44D60065F0BB /* LocationTrackerTests.swift */; };
 		C191208D221C62F4006E0429 /* AutoModeContextProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C191208C221C62F4006E0429 /* AutoModeContextProtocol.swift */; };
+		C1A4F3E622298FE3006AADCF /* LocationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A4F3E522298FE3006AADCF /* LocationManagerTests.swift */; };
 		C1C83BD7219042F500D8E4B3 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C83BD6219042F500D8E4B3 /* Log.swift */; };
 		C1CC41E721DFBEC4004CB5C2 /* ScoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CC41E621DFBEC4004CB5C2 /* ScoreError.swift */; };
 		C1CC41E921DFBF20004CB5C2 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CC41E821DFBF20004CB5C2 /* APIError.swift */; };
@@ -171,6 +172,7 @@
 		C18AE988216E31E30065F0BB /* BatteryTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryTrackerTests.swift; sourceTree = "<group>"; };
 		C18AE98A216E44D60065F0BB /* LocationTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTrackerTests.swift; sourceTree = "<group>"; };
 		C191208C221C62F4006E0429 /* AutoModeContextProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoModeContextProtocol.swift; sourceTree = "<group>"; };
+		C1A4F3E522298FE3006AADCF /* LocationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerTests.swift; sourceTree = "<group>"; };
 		C1C83BD6219042F500D8E4B3 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		C1CC41E621DFBEC4004CB5C2 /* ScoreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreError.swift; sourceTree = "<group>"; };
 		C1CC41E821DFBF20004CB5C2 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
@@ -391,6 +393,7 @@
 				C1FDE33C219C5A4C00F15AF3 /* TexServicesTests.swift */,
 				C1FDE349219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift */,
 				C121003021C1632500A126E6 /* TripInfosTests.swift */,
+				C1A4F3E522298FE3006AADCF /* LocationManagerTests.swift */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -845,6 +848,7 @@
 				C1FDE346219C5BA700F15AF3 /* APITripTests.swift in Sources */,
 				C114C38C221D979200B74DD8 /* StandbyStateTests.swift in Sources */,
 				C1FDE340219C5B1300F15AF3 /* TripRecorderTests.swift in Sources */,
+				C1A4F3E622298FE3006AADCF /* LocationManagerTests.swift in Sources */,
 				C15198A521EC81C30058DC95 /* APITripSessionManagerTests.swift in Sources */,
 				C1273EA92178C1670006E6E0 /* MotionTrackerTests.swift in Sources */,
 				C1FDE34C219C72C400F15AF3 /* FixTests.swift in Sources */,

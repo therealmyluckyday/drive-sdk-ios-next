@@ -17,7 +17,7 @@ class DetectionOfStopStateTests: XCTestCase {
     let context = StubAutoModeContextProtocol()
     
     func testStop() {
-        let state = DetectionOfStopState(context: context)
+        let state = DetectionOfStopState(context: context, locationManager: LocationManager())
         let expectation = XCTestExpectation(description: #function)
         context.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
             if let state = event.element {
@@ -30,7 +30,7 @@ class DetectionOfStopStateTests: XCTestCase {
     }
     
     func testDrive() {
-        let state = DetectionOfStopState(context: context)
+        let state = DetectionOfStopState(context: context, locationManager: LocationManager())
         let expectation = XCTestExpectation(description: #function)
         context.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
             if let state = event.element {
@@ -43,7 +43,7 @@ class DetectionOfStopStateTests: XCTestCase {
     }
     
     func testDisable() {
-        let state = DetectionOfStopState(context: context)
+        let state = DetectionOfStopState(context: context, locationManager: LocationManager())
         let expectation = XCTestExpectation(description: #function)
         context.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
             if let state = event.element {
@@ -68,8 +68,8 @@ class DetectionOfStopStateTests: XCTestCase {
             expectation.fulfill()
             }.disposed(by: disposeBag)
 
-        let state = DetectionOfStopState(context: context, locationManager: CLLocationManager(), motionActivityManager: CMMotionActivityManager())
-
+        let state = DetectionOfStopState(context: context, locationManager: LocationManager(), motionActivityManager: CMMotionActivityManager())
+        state.sensorState = .enable
         let location = CLLocation(coordinate: CLLocationCoordinate2D(latitude: 14, longitude: 15), altitude: 1000, horizontalAccuracy: 1, verticalAccuracy: 1, course: 1, speed: 9, timestamp: Date())
         state.didUpdateLocations(location: location)
         
@@ -95,8 +95,8 @@ class DetectionOfStopStateTests: XCTestCase {
             }
             }.disposed(by: disposeBag)
         
-        let state = DetectionOfStopState(context: context, locationManager: CLLocationManager(), motionActivityManager: CMMotionActivityManager())
-        
+        let state = DetectionOfStopState(context: context, locationManager: LocationManager(), motionActivityManager: CMMotionActivityManager())
+        state.sensorState = .enable
         let location = CLLocation(coordinate: CLLocationCoordinate2D(latitude: 14, longitude: 15), altitude: 1000, horizontalAccuracy: 1, verticalAccuracy: 1, course: 1, speed: 1, timestamp: Date())
         state.didUpdateLocations(location: location)
         
@@ -119,6 +119,25 @@ class DetectionOfStopStateTests: XCTestCase {
     }
     
     func testDrivingToDetectionOfStartStopCalled4minNoGPS() {
+    }
+    
+    
+    func testDoNothing() {
+        let expectation = XCTestExpectation(description: #function)
+        expectation.isInverted = true
+        context.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+            expectation.fulfill()
+            }.disposed(by: disposeBag)
+        
+        let state = DetectionOfStopState(context: context, locationManager: LocationManager(), motionActivityManager: CMMotionActivityManager())
+        
+        let location = CLLocation(coordinate: CLLocationCoordinate2D(latitude: 14, longitude: 15), altitude: 1000, horizontalAccuracy: 1, verticalAccuracy: 1, course: 1, speed: 9, timestamp: Date())
+        state.didUpdateLocations(location: location)
+        
+        let locationTime178SecondAfter = CLLocation(coordinate: CLLocationCoordinate2D(latitude: 14, longitude: 15), altitude: 1000, horizontalAccuracy: 1, verticalAccuracy: 1, course: 1, speed: 11, timestamp: Date().addingTimeInterval(178))
+        state.didUpdateLocations(location: locationTime178SecondAfter)
+        
+        wait(for: [expectation], timeout: 0.2)
     }
 
 }

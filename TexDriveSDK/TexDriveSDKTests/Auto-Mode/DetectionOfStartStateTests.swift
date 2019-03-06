@@ -19,7 +19,7 @@ class DetectionOfStartStateTests: XCTestCase {
     let context = StubAutoModeContextProtocol()
     
     func testStop() {
-        let state = DetectionOfStartState(context: context)
+        let state = DetectionOfStartState(context: context, locationManager: LocationManager())
         let expectation = XCTestExpectation(description: #function)
         context.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
             if let state = event.element {
@@ -32,7 +32,7 @@ class DetectionOfStartStateTests: XCTestCase {
     }
     
     func testDrive() {
-        let state = DetectionOfStartState(context: context)
+        let state = DetectionOfStartState(context: context, locationManager: LocationManager())
         let expectation = XCTestExpectation(description: #function)
         context.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
             if let state = event.element {
@@ -45,7 +45,7 @@ class DetectionOfStartStateTests: XCTestCase {
     }
     
     func testDisable() {
-        let state = DetectionOfStartState(context: context)
+        let state = DetectionOfStartState(context: context, locationManager: LocationManager())
         let expectation = XCTestExpectation(description: #function)
         context.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
             if let state = event.element {
@@ -73,7 +73,8 @@ class DetectionOfStartStateTests: XCTestCase {
             }.disposed(by: disposeBag)
         
         //Given the automode is in the ScanningActivity
-        let state = DetectionOfStartState(context: context, locationManager: CLLocationManager(), motionActivityManager: CMMotionActivityManager())
+        let state = DetectionOfStartState(context: context, locationManager: LocationManager(), motionActivityManager: CMMotionActivityManager())
+        state.sensorState = .enable
         //When for at least 1 minute GPS points have a speed less than 20 km/h
         let location = CLLocation(coordinate: CLLocationCoordinate2D(latitude: 14, longitude: 15), altitude: 1000, horizontalAccuracy: 1, verticalAccuracy: 1, course: 1, speed: 1, timestamp: Date())
         state.didUpdateLocations(location: location)
@@ -101,14 +102,37 @@ class DetectionOfStartStateTests: XCTestCase {
             }.disposed(by: disposeBag)
         
         //Given the automode is in the ScanningActivity
-        let state = DetectionOfStartState(context: context, locationManager: CLLocationManager(), motionActivityManager: CMMotionActivityManager())
+        let state = DetectionOfStartState(context: context, locationManager: LocationManager(), motionActivityManager: CMMotionActivityManager())
+        state.sensorState = .enable
         //When for at least 1 minute GPS points have a speed less than 20 km/h
         let location = CLLocation(coordinate: CLLocationCoordinate2D(latitude: 14, longitude: 15), altitude: 1000, horizontalAccuracy: 1, verticalAccuracy: 1, course: 1, speed: 1, timestamp: Date())
         state.didUpdateLocations(location: location)
-
+        
         let locationTime118SecondAfter = CLLocation(coordinate: CLLocationCoordinate2D(latitude: 14, longitude: 15), altitude: 1000, horizontalAccuracy: 1, verticalAccuracy: 1, course: 1, speed: 21, timestamp: Date().addingTimeInterval(118))
         state.didUpdateLocations(location: locationTime118SecondAfter)
         //Then the state machine goes to WaitingScanTrigger state
         wait(for: [expectation], timeout: 1)
+    }
+    
+    func testHighSpeedDoNothing() {
+        let expectation = XCTestExpectation(description: #function)
+        expectation.isInverted = true
+        context.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+            if let state = event.element {
+                XCTAssert(state is DrivingState)
+                expectation.fulfill()
+            }
+            }.disposed(by: disposeBag)
+        
+        //Given the automode is in the ScanningActivity
+        let state = DetectionOfStartState(context: context, locationManager: LocationManager(), motionActivityManager: CMMotionActivityManager())
+        //When for at least 1 minute GPS points have a speed less than 20 km/h
+        let location = CLLocation(coordinate: CLLocationCoordinate2D(latitude: 14, longitude: 15), altitude: 1000, horizontalAccuracy: 1, verticalAccuracy: 1, course: 1, speed: 1, timestamp: Date())
+        state.didUpdateLocations(location: location)
+        
+        let locationTime118SecondAfter = CLLocation(coordinate: CLLocationCoordinate2D(latitude: 14, longitude: 15), altitude: 1000, horizontalAccuracy: 1, verticalAccuracy: 1, course: 1, speed: 21, timestamp: Date().addingTimeInterval(118))
+        state.didUpdateLocations(location: locationTime118SecondAfter)
+        //Then the state machine goes to WaitingScanTrigger state
+        wait(for: [expectation], timeout: 0.3)
     }
 }

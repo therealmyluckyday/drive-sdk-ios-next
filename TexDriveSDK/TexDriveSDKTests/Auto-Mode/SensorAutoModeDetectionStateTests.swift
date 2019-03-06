@@ -50,12 +50,6 @@ class MockSensorAutoModeDetectionState: SensorAutoModeDetectionState {
         super.didUpdateLocations(location: location)
         isDidUpdateLocationCalled = true
     }
-    
-    var isDidFailWithErrorCalled = false
-    override func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        super.locationManager(manager, didFailWithError: error)
-        isDidFailWithErrorCalled = true
-    }
 }
 
 class SensorAutoModeDetectionStateTests: XCTestCase {
@@ -63,44 +57,28 @@ class SensorAutoModeDetectionStateTests: XCTestCase {
     let context = StubAutoModeContextProtocol()
     
     func testEnable() {
-        let state = MockSensorAutoModeDetectionState(context: context)
+        let state = MockSensorAutoModeDetectionState(context: context, locationManager: LocationManager())
         state.enable()
         XCTAssertTrue(state.isEnableSensorCalled)
     }
     
     func testEnableSensor() {
-        let state = MockSensorAutoModeDetectionState(context: context)
+        let state = MockSensorAutoModeDetectionState(context: context, locationManager: LocationManager())
         state.enableSensor()
         XCTAssertTrue(state.isEnableLocationSensorCalled)
         XCTAssertTrue(state.isEnableMotionSensorCalled)
     }
     
     func testDisable() {
-        let state = MockSensorAutoModeDetectionState(context: context)
+        let state = MockSensorAutoModeDetectionState(context: context, locationManager: LocationManager())
         state.disable()
         XCTAssert(state.isDisableSensorCalled)
     }
     
     func testDisableSensor() {
-        let state = MockSensorAutoModeDetectionState(context: context)
+        let state = MockSensorAutoModeDetectionState(context: context, locationManager: LocationManager())
         state.disableSensor()
         XCTAssert(state.isDisableLocationSensorCalled)
         XCTAssert(state.isDisableMotionSensorCalled)
-    }
-    
-    // MARK - public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
-    func testLocationManagerDidUpdateLocation() {
-        let state = MockSensorAutoModeDetectionState(context: context)
-        state.locationManager(CLLocationManager(), didUpdateLocations: [CLLocation()])
-        XCTAssert(state.isDidUpdateLocationCalled)
-    }
-    
-    // MARK - public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error)
-    func testDidFailWithError() {
-        let state = MockSensorAutoModeDetectionState(context: context)
-        let locationManager = state.locationManager
-        let error = NSError(domain: #file, code: 11, userInfo: nil)
-        state.locationManager(locationManager, didFailWithError: error)
-        XCTAssert(state.isDidFailWithErrorCalled)
     }
 }

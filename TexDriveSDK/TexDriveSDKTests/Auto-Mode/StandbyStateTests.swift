@@ -17,7 +17,7 @@ class StandbyStateTests: XCTestCase {
     let context = StubAutoModeContextProtocol()
     
     func testStart() {
-        let state = StandbyState(context: context)
+        let state = StandbyState(context: context, locationManager: LocationManager())
         let expectation = XCTestExpectation(description: #function)
         context.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
             if let state = event.element {
@@ -30,7 +30,7 @@ class StandbyStateTests: XCTestCase {
     }
     
     func testDrive() {
-        let state = StandbyState(context: context)
+        let state = StandbyState(context: context, locationManager: LocationManager())
         let expectation = XCTestExpectation(description: #function)
         context.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
             if let state = event.element {
@@ -43,7 +43,7 @@ class StandbyStateTests: XCTestCase {
     }
     
     func testDisable() {
-        let state = StandbyState(context: context)
+        let state = StandbyState(context: context, locationManager: LocationManager())
         let expectation = XCTestExpectation(description: #function)
         context.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
             if let state = event.element {
@@ -72,7 +72,7 @@ class StandbyStateTests: XCTestCase {
             }.disposed(by: disposeBag)
         
         //Given the automode is in the ScanningActivity
-        let state = StandbyState(context: context, locationManager: CLLocationManager(), motionActivityManager: CMMotionActivityManager())
+        let state = StandbyState(context: context, locationManager: LocationManager(), motionActivityManager: CMMotionActivityManager())
         //When for at least 1 minute GPS points have a speed less than 20 km/h
         let location = CLLocation(coordinate: CLLocationCoordinate2D(latitude: 14, longitude: 15), altitude: 1000, horizontalAccuracy: 1, verticalAccuracy: 1, course: 1, speed: 1, timestamp: Date())
         state.didUpdateLocations(location: location)
@@ -100,7 +100,8 @@ class StandbyStateTests: XCTestCase {
             }.disposed(by: disposeBag)
         
         //Given the automode is in the ScanningActivity
-        let state = StandbyState(context: context, locationManager: CLLocationManager(), motionActivityManager: CMMotionActivityManager())
+        let state = StandbyState(context: context, locationManager: LocationManager(), motionActivityManager: CMMotionActivityManager())
+        state.sensorState = .enable
         //When for at least 1 minute GPS points have a speed less than 20 km/h
         let location = CLLocation(coordinate: CLLocationCoordinate2D(latitude: 14, longitude: 15), altitude: 1000, horizontalAccuracy: 1, verticalAccuracy: 1, course: 1, speed: 1, timestamp: Date())
         state.didUpdateLocations(location: location)
@@ -109,5 +110,26 @@ class StandbyStateTests: XCTestCase {
         state.didUpdateLocations(location: locationTime118SecondAfter)
         //Then the state machine goes to WaitingScanTrigger state
         wait(for: [expectation], timeout: 1)
+    }
+    
+    func testDoNothing() {
+        let expectation = XCTestExpectation(description: #function)
+        context.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+            if let state = event.element {
+                XCTAssert(state is DetectionOfStartState)
+                expectation.fulfill()
+            }
+            }.disposed(by: disposeBag)
+        
+        //Given the automode is in the ScanningActivity
+        let state = StandbyState(context: context, locationManager: LocationManager(), motionActivityManager: CMMotionActivityManager())
+        //When for at least 1 minute GPS points have a speed less than 20 km/h
+        let location = CLLocation(coordinate: CLLocationCoordinate2D(latitude: 14, longitude: 15), altitude: 1000, horizontalAccuracy: 1, verticalAccuracy: 1, course: 1, speed: 1, timestamp: Date())
+        state.didUpdateLocations(location: location)
+        
+        let locationTime118SecondAfter = CLLocation(coordinate: CLLocationCoordinate2D(latitude: 14, longitude: 15), altitude: 1000, horizontalAccuracy: 1, verticalAccuracy: 1, course: 1, speed: 11, timestamp: Date().addingTimeInterval(118))
+        state.didUpdateLocations(location: locationTime118SecondAfter)
+        //Then the state machine goes to WaitingScanTrigger state
+        wait(for: [expectation], timeout: 0.2)
     }
 }

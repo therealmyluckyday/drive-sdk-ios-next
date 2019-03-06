@@ -11,6 +11,8 @@
 @testable import RxSwift
 
 class StubAutoModeContextProtocol: AutoModeContextProtocol {
+    var locationManager =  LocationManager()
+    
     var rxState = PublishSubject<AutoModeDetectionState>()
     
     var state: AutoModeDetectionState?

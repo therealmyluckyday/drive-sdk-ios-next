@@ -18,7 +18,7 @@ class DrivingStateTests: XCTestCase {
     let context = StubAutoModeContextProtocol()
     
     func testStop() {
-        let state = DrivingState(context: context)
+        let state = DrivingState(context: context, locationManager: LocationManager())
         let expectation = XCTestExpectation(description: #function)
         context.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
             if let state = event.element {
@@ -37,7 +37,7 @@ class DrivingStateTests: XCTestCase {
      Then the trip is closed
      */
     func testForceStop() {
-        let state = DrivingState(context: context)
+        let state = DrivingState(context: context, locationManager: LocationManager())
         let expectation1 = XCTestExpectation(description: #function + "DetectionOfStopState")
         let expectation2 = XCTestExpectation(description: #function + "StandbyState")
         context.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
@@ -59,7 +59,7 @@ class DrivingStateTests: XCTestCase {
     }
     
     func testDisable() {
-        let state = DrivingState(context: context)
+        let state = DrivingState(context: context, locationManager: LocationManager())
         let expectation = XCTestExpectation(description: #function)
         context.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
             if let state = event.element {
@@ -89,16 +89,37 @@ class DrivingStateTests: XCTestCase {
             }
             }.disposed(by: disposeBag)
         
-
-        let state = DrivingState(context: context, locationManager: CLLocationManager(), motionActivityManager: CMMotionActivityManager())
-
+        
+        let state = DrivingState(context: context, locationManager: LocationManager(), motionActivityManager: CMMotionActivityManager())
+        state.sensorState = .enable
         let location = CLLocation(coordinate: CLLocationCoordinate2D(latitude: 14, longitude: 15), altitude: 1000, horizontalAccuracy: 1, verticalAccuracy: 1, course: 1, speed: 1, timestamp: Date())
         state.didUpdateLocations(location: location)
         
         let locationTime21SecondAfter = CLLocation(coordinate: CLLocationCoordinate2D(latitude: 14, longitude: 15), altitude: 1000, horizontalAccuracy: 1, verticalAccuracy: 1, course: 1, speed: 1, timestamp: Date().addingTimeInterval(21))
         state.didUpdateLocations(location: locationTime21SecondAfter)
-
+        
         wait(for: [expectation], timeout: 1)
+    }
+    
+    func testDoNothing() {
+        let expectation = XCTestExpectation(description: #function)
+        expectation.isInverted = true
+        context.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+            if let state = event.element {
+                XCTAssert(state is DetectionOfStopState)
+                expectation.fulfill()
+            }
+            }.disposed(by: disposeBag)
+        
+        
+        let state = DrivingState(context: context, locationManager: LocationManager(), motionActivityManager: CMMotionActivityManager())
+        let location = CLLocation(coordinate: CLLocationCoordinate2D(latitude: 14, longitude: 15), altitude: 1000, horizontalAccuracy: 1, verticalAccuracy: 1, course: 1, speed: 1, timestamp: Date())
+        state.didUpdateLocations(location: location)
+        
+        let locationTime21SecondAfter = CLLocation(coordinate: CLLocationCoordinate2D(latitude: 14, longitude: 15), altitude: 1000, horizontalAccuracy: 1, verticalAccuracy: 1, course: 1, speed: 1, timestamp: Date().addingTimeInterval(21))
+        state.didUpdateLocations(location: locationTime21SecondAfter)
+        
+        wait(for: [expectation], timeout: 0.2)
     }
     
     func testHighSpeed() {
@@ -109,7 +130,7 @@ class DrivingStateTests: XCTestCase {
             }.disposed(by: disposeBag)
         
         //Given the automode is in the ScanningActivity
-        let state = DrivingState(context: context, locationManager: CLLocationManager(), motionActivityManager: CMMotionActivityManager())
+        let state = DrivingState(context: context, locationManager: LocationManager(), motionActivityManager: CMMotionActivityManager())
         //When for at least 1 minute GPS points have a speed less than 20 km/h
         let location = CLLocation(coordinate: CLLocationCoordinate2D(latitude: 14, longitude: 15), altitude: 1000, horizontalAccuracy: 1, verticalAccuracy: 1, course: 1, speed: 11, timestamp: Date())
         state.didUpdateLocations(location: location)

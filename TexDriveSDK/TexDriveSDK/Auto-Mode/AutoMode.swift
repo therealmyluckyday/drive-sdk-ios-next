@@ -13,6 +13,7 @@ import CoreMotion
 protocol AutoModeContextProtocol: class {
     var rxState: PublishSubject<AutoModeDetectionState> { get }
     var state: AutoModeDetectionState? { get set }
+    var locationManager: LocationManager { get }
 }
 
 class AutoMode: AutoModeContextProtocol {
@@ -99,5 +100,11 @@ class AutoMode: AutoModeContextProtocol {
             Log.print("NO STATE")
         }
         self.state?.stop()
+    }
+    
+    func detectionOfStart(){
+        if let state = self.state, state is StandbyState {
+            state.start()
+        }
     }
 }

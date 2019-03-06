@@ -12,8 +12,8 @@ import CoreLocation
 
 class TexServicesTests: XCTestCase {
     func testInit() {
-        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
-        let mockLocationManager = MockLocationManager()
+        MockCLLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
+        let mockLocationManager = LocationManager()
         let locationFeature = TripRecorderFeature.Location(mockLocationManager)
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)
@@ -24,8 +24,8 @@ class TexServicesTests: XCTestCase {
     }
     
     func testService() {
-        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
-        let mockLocationManager = MockLocationManager()
+        MockCLLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
+        let mockLocationManager = LocationManager()
         let locationFeature = TripRecorderFeature.Location(mockLocationManager)
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)

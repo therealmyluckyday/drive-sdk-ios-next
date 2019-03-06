@@ -16,7 +16,7 @@ class AutoModeGherkinTests: XCTestCase {
     var disposeBag: DisposeBag?
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        automode = AutoMode()
+        automode = AutoMode(locationManager: LocationManager())
         disposeBag = DisposeBag()
     }
 
@@ -64,7 +64,7 @@ class AutoModeGherkinTests: XCTestCase {
     func testStandByToDetectionOfStartStateStartCalled() {
         let expectation = XCTestExpectation(description: #function)
         let context = StubAutoModeContextProtocol ()
-        let state = StandbyState(context: context)
+        let state = StandbyState(context: context, locationManager: LocationManager())
         context.state = state
         context.rxState.asObservable().observeOn(MainScheduler.instance).subscribe({ (event) in
             XCTAssertNotNil(event.element)
@@ -87,7 +87,7 @@ class AutoModeGherkinTests: XCTestCase {
     func testDetectionOfStartStateToStandByStopCalled() {
         let expectation = self.expectation(description: "testDetectionOfStartStateToStandByStopCalled")
         let stubAutoMode = StubAutoModeContextProtocol ()
-        let state = DetectionOfStartState(context: stubAutoMode)
+        let state = DetectionOfStartState(context: stubAutoMode, locationManager: LocationManager())
         stubAutoMode.state = state
         stubAutoMode.rxState.asObservable().observeOn(MainScheduler.instance).subscribe({(event) in
             if let state = event.element {
@@ -118,7 +118,7 @@ class AutoModeGherkinTests: XCTestCase {
     func testDetectionOfStartToDrivingDriveCalled() {
         let expectation = self.expectation(description: "testDetectionOfStartToDrivingDriveCalled")
         let stubAutoMode = StubAutoModeContextProtocol ()
-        let state = DetectionOfStartState(context: stubAutoMode)
+        let state = DetectionOfStartState(context: stubAutoMode, locationManager: LocationManager())
         stubAutoMode.state = state
         stubAutoMode.rxState.asObservable().observeOn(MainScheduler.instance).subscribe({(event) in
             if let state = event.element {
@@ -149,7 +149,7 @@ class AutoModeGherkinTests: XCTestCase {
     func testDrivingToDetectionOfStopStopCalled() {
         let expectation = self.expectation(description: "testDetectionOfStartToDrivingDriveCalled")
         let stubAutoMode = StubAutoModeContextProtocol ()
-        let state = DrivingState(context: stubAutoMode)
+        let state = DrivingState(context: stubAutoMode, locationManager: LocationManager())
         stubAutoMode.state = state
         stubAutoMode.rxState.asObservable().observeOn(MainScheduler.instance).subscribe({(event) in
             if let state = event.element {
@@ -179,7 +179,7 @@ class AutoModeGherkinTests: XCTestCase {
     func testDetectionOfStopToDrivingOfDriveCalled() {
         let expectation = self.expectation(description: "testDetectionOfStopToDrivingOfDriveCalled")
         let stubAutoMode = StubAutoModeContextProtocol ()
-        let state = DetectionOfStopState(context: stubAutoMode)
+        let state = DetectionOfStopState(context: stubAutoMode, locationManager: LocationManager())
         stubAutoMode.state = state
         stubAutoMode.rxState.asObservable().observeOn(MainScheduler.instance).subscribe({(event) in
             if let state = event.element {
@@ -211,7 +211,7 @@ class AutoModeGherkinTests: XCTestCase {
     func testDetectionOfStopToDetectionOfStartStopCalled() {
         let expectation = self.expectation(description: #function)
         let stubAutoMode = StubAutoModeContextProtocol ()
-        let state = DetectionOfStopState(context: stubAutoMode)
+        let state = DetectionOfStopState(context: stubAutoMode, locationManager: LocationManager())
         stubAutoMode.state = state
         stubAutoMode.rxState.asObservable().observeOn(MainScheduler.instance).subscribe({(event) in
             if let state = event.element {
