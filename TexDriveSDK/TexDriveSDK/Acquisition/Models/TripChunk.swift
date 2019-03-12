@@ -9,7 +9,7 @@
 import Foundation
 
 struct TripConstant {
-    static let MinFixesToSend = 100
+    static let MinFixesToSend = 50
 }
 
 public typealias TripId = NSUUID

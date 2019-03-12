@@ -16,39 +16,59 @@ enum LocationManagerState {
 }
 
 public class LocationManager: NSObject, CLLocationManagerDelegate {
-    let locationManager: CLLocationManager
+    var locationManager: CLLocationManager
     public var rxLocation = PublishSubject<CLLocation>()
+    public var rxRegion = PublishSubject<CLRegion>()
     var state = LocationManagerState.disabled
+    var locationsCount = 0
     
     init(locationManager clLocationManager: CLLocationManager = CLLocationManager()) {
         locationManager = clLocationManager
+        clLocationManager.requestAlwaysAuthorization()
     }
     
     func change(state: LocationManagerState) {
-        if state != self.state {
-            switch state {
-            case .disabled:
-                disable()
-            case .significantLocationChanges:
-                if self.state == .disabled {
-                    configure()
-                    self.state = .significantLocationChanges
-                    locationManager.stopMonitoringSignificantLocationChanges()
-                    locationManager.stopUpdatingLocation()
-                    locationManager.startMonitoringSignificantLocationChanges()
-                }
-            case .locationChanges:
-                if self.state == .disabled {
-                    configure()
+        DispatchQueue.main.async() {
+            if state != self.state {
+                switch state {
+                case .disabled:
+                    Log.print("State \(state)")
+                    print("State \(state)")
+                    self.disable()
+                case .significantLocationChanges:
+                    if self.state == .disabled {
+                        Log.print("State \(state)")
+                        print("State \(state)")
+                        self.state = .significantLocationChanges
+                        self.locationManager.stopMonitoringSignificantLocationChanges()
+                        self.locationManager.stopUpdatingLocation()
+                        self.locationManager.delegate = nil
+                        self.locationManager = CLLocationManager()
+                        self.configure()
+                        self.locationManager.startMonitoringSignificantLocationChanges()
+                    }
+                case .locationChanges:
+                    if self.state == .disabled {
+                        Log.print("State \(state)")
+                        print("State \(state)")
+                        self.locationManager.stopMonitoringSignificantLocationChanges()
+                        self.locationManager.stopUpdatingLocation()
+                        self.locationManager.delegate = nil
+                        self.locationManager = CLLocationManager()
+                        self.configure()
+                        self.locationManager.startUpdatingLocation()
+                    }
+                    if self.state == .significantLocationChanges {
+                        Log.print("State \(state)")
+                        print("State \(state)")
+                        self.locationManager.stopMonitoringSignificantLocationChanges()
+                        self.locationManager.stopUpdatingLocation()
+                        self.locationManager.delegate = nil
+                        self.locationManager = CLLocationManager()
+                        self.configure()
+                        self.locationManager.startUpdatingLocation()
+                    }
                     self.state = .locationChanges
-                    locationManager.stopMonitoringSignificantLocationChanges()
-                    locationManager.stopUpdatingLocation()
-                    locationManager.startUpdatingLocation()
-                }
-                if self.state == .significantLocationChanges {
-                    locationManager.stopMonitoringSignificantLocationChanges()
-                    locationManager.stopUpdatingLocation()
-                    locationManager.startUpdatingLocation()
                 }
             }
         }
@@ -56,39 +76,45 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     
     // MARK: - Private Method
     func disable() {
-        locationManager.delegate = nil
-        locationManager.stopUpdatingLocation()
-        locationManager.stopMonitoringSignificantLocationChanges()
-        self.state = .disabled
+        DispatchQueue.main.async {
+            Log.print("Locations \(self.locationsCount)")
+            print("\(Date())Locations \(self.locationsCount)")
+            self.locationsCount = 0
+            self.locationManager.delegate = nil
+            self.locationManager.stopUpdatingLocation()
+            self.locationManager.stopMonitoringSignificantLocationChanges()
+            self.state = .disabled
+        }
     }
     
     func configure() {
+        locationManager.requestAlwaysAuthorization()
         locationManager.delegate = self
         locationManager.distanceFilter = kCLDistanceFilterNone
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locationManager.activityType = .automotiveNavigation
         #if targetEnvironment(simulator)
         #else
-        locationManager.stopUpdatingLocation()
-        locationManager.stopMonitoringSignificantLocationChanges()
         locationManager.allowsBackgroundLocationUpdates = true
         #endif
     }
     
     // MARK: - CLLocationManagerDelegate
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
-        print(" ")
-        guard let _ = locations.last else {
-            return
-        }
-        locations.forEach { (result) in
-            rxLocation.onNext(result)
+        DispatchQueue.main.async {
+            self.locationsCount += 1
+            guard let _ = locations.last else {
+                return
+            }
+            locations.forEach { (result) in
+                self.rxLocation.onNext(result)
+            }
         }
     }
     
     public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         Log.print("didFailWithError \(error)", type: .Error)
+        print("didFailWithError \(error)")
         if let error = error as? CLError {
             
             switch error.code {

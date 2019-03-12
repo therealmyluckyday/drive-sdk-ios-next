@@ -27,20 +27,22 @@ class LocationTracker: NSObject, Tracker {
     
     // MARK: - Tracker Protocol
     func enableTracking() {
-        rxDisposeBag = DisposeBag()
-        guard type(of: locationManager.locationManager).authorizationStatus() != .notDetermined else {
-            let error = CLError(_nsError: NSError(domain: "CLLocationManagerNotDetermined requestAlwaysAuthorization()", code: CLError.denied.rawValue, userInfo: nil))
-            rxLocationFix.onNext(Result.Failure(error))
-            return
-        }
-        
-        locationManager.rxLocation.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
-            if let location = event.element {
-                self?.didUpdateLocations(location: location)
+        DispatchQueue.main.async {
+            self.rxDisposeBag = DisposeBag()
+            guard type(of: self.locationManager.locationManager).authorizationStatus() != .notDetermined else {
+                let error = CLError(_nsError: NSError(domain: "CLLocationManagerNotDetermined requestAlwaysAuthorization()", code: CLError.denied.rawValue, userInfo: nil))
+                self.rxLocationFix.onNext(Result.Failure(error))
+                return
             }
-        }.disposed(by: rxDisposeBag!)
-        Log.print("change")
-        locationManager.change(state: .locationChanges)
+            
+            self.locationManager.rxLocation.asObserver().observeOn(MainScheduler.instance).subscribe { [weak self](event) in
+                if let location = event.element {
+                    self?.didUpdateLocations(location: location)
+                }
+                }.disposed(by: self.rxDisposeBag!)
+            Log.print("change")
+            self.locationManager.change(state: .locationChanges)
+        }
     }
     
     func disableTracking() {

@@ -13,8 +13,10 @@ public class StandbyState: SensorAutoModeDetectionState {
     let thresholdSpeed: CLLocationSpeed = CLLocationSpeed(exactly: 10)!
     
     override func enableLocationSensor() {
-        super.enableLocationSensor()
-        locationManager.change(state: .significantLocationChanges)
+        DispatchQueue.main.async {
+            super.enableLocationSensor()
+            self.locationManager.change(state: .significantLocationChanges)
+        }
     }
     
     override func enableMotionSensor() {

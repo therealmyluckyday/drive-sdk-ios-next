@@ -66,7 +66,7 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
     // MARK: - SensorAutoModeDetectionState
     override func didUpdateLocations(location: CLLocation) {
 //        Log.print("- \(location.speed) \(thresholdSpeed)")
-        guard sensorState == .enable else {
+        guard sensorState == .enable, -location.timestamp.timeIntervalSinceNow < 5 else {
             return
         }
         resetTimer(timeInterval: intervalDelay)

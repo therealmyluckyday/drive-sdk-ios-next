@@ -90,11 +90,13 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
     }
     
     func enableLocationSensor() {
-        locationManager.rxLocation.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
-            if let location = event.element {
-                self?.didUpdateLocations(location: location)
-            }
-        }.disposed(by: rxDisposeBag!)
+        DispatchQueue.main.async {
+            self.locationManager.rxLocation.asObserver().observeOn(MainScheduler.instance).subscribe { [weak self](event) in
+                if let location = event.element {
+                    self?.didUpdateLocations(location: location)
+                }
+                }.disposed(by: self.rxDisposeBag!)
+        }
     }
     
     func enableSensor() {
