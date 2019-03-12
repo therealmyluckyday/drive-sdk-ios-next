@@ -11,12 +11,15 @@ import TexDriveSDK
 import Fabric
 import Crashlytics
 import UserNotifications
+import CoreLocation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
-    
+    var texServices: TexServices?
     var window: UIWindow?
     var backgroundCompletionHandler: (() -> ())?
+    let userId = "Erwan-"+UIDevice.current.systemName + UIDevice.current.systemVersion
+    let locationManager = CLLocationManager()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         Fabric.with([Crashlytics.self])
@@ -25,7 +28,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
         center.requestAuthorization(options: options) {
             (granted, error) in
         }
+        locationManager.requestAlwaysAuthorization()
+        self.configureTexSDK(withUserId: userId)
         return true
+    }
+    
+    func configureTexSDK(withUserId: String) {
+        let user = User.Authentified(withUserId)
+        
+        do {
+            ///"APP-TEST"
+            if let configuration = try Config(applicationId: "youdrive_france_prospect", applicationLocale: Locale.current, currentUser: user, domain: Domain.Preproduction) {
+                let service = TexServices.service(reconfigureWith: configuration)
+                texServices = service
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 2000)) {
+                    service.tripRecorder.activateAutoMode()
+                }
+            }
+        } catch ConfigurationError.LocationNotDetermined(let description) {
+            print(description)
+        } catch {
+            print("\(error)")
+        }
     }
     
     func applicationWillResignActive(_ application: UIApplication) {

@@ -23,21 +23,23 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
     @IBOutlet weak var textfield: UITextField!
     
     var tripRecorder : TripRecorder?
-    var locationManager = CLLocationManager()
+
     let rxDisposeBag = DisposeBag()
     lazy var currentTripId = { () -> TripId in
         if let tripId = tripRecorder?.currentTripId {
             return tripId
         }
-        return TripId(uuidString: "165D217D-8339-4D73-9683-9C1AD3BF1B71")!
+        return TripId(uuidString: "C2FF72CA-FBD2-4E81-99CE-CD04E14D1F0C")!
     }()
-    var texServices: TexServices?
+    lazy var texServices: TexServices = {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        return appDelegate.texServices!
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         scoreButton.alpha = 1
         TripSegmentedControl.selectedSegmentIndex = 1
-        locationManager.requestAlwaysAuthorization()
         let userId = "Erwan-"+UIDevice.current.systemName + UIDevice.current.systemVersion
         textfield.text = userId
         
@@ -47,43 +49,37 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
     }
     
     func configureTexSDK(withUserId: String) {
-        let user = User.Authentified(withUserId)
         self.logUser(userName: withUserId)
         do {
-            if let configuration = try Config(applicationId: "APP-TEST", applicationLocale: Locale.current, currentUser: user) {
-                texServices = TexServices.service(reconfigureWith: configuration)
-                texServices!.tripRecorder.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { [weak self] (event) in
-                    if let tripId = event.element {
-                        self?.appendText(string: "\n Trip finished: \n \(tripId.uuidString)")
-                    }
-                    }.disposed(by: rxDisposeBag)
-                tripRecorder = texServices!.tripRecorder
-                tripRecorder?.rxIsDriving.asObserver().observeOn(MainScheduler.asyncInstance).subscribe({ [weak self] (event) in
-                    if let isDriving = event.element {
-                        self?.appendText(string: "\n isDriving: \n \(isDriving)")
-                        if isDriving {
-                            self?.appendText(string: "\n SHOULD BE START: \n \(isDriving)")
-                            self?.sendNotification("Start")
-                            self?.TripSegmentedControl.selectedSegmentIndex = 0
-                            
-                        } else {
-                            self?.appendText(string: "\n SHOULD BE STOP: \n \(isDriving)")
-                            self?.sendNotification("Stop")
-                            self?.TripSegmentedControl.selectedSegmentIndex = 1
-                        }
-                        self?.scoreButton.alpha = CGFloat((!isDriving).hashValue)
+            texServices.tripRecorder.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { [weak self] (event) in
+                if let tripId = event.element {
+                    self?.appendText(string: "\n Trip finished: \n \(tripId.uuidString)")
+                }
+                }.disposed(by: rxDisposeBag)
+            tripRecorder = texServices.tripRecorder
+            tripRecorder?.rxIsDriving.asObserver().observeOn(MainScheduler.asyncInstance).subscribe({ [weak self] (event) in
+                if let isDriving = event.element {
+                    self?.appendText(string: "\n isDriving: \n \(isDriving)")
+                    if isDriving {
+                        self?.sendNotification("Start")
+                        self?.TripSegmentedControl.selectedSegmentIndex = 0
                         
+                    } else {
+                        self?.sendNotification("Stop")
+                        self?.TripSegmentedControl.selectedSegmentIndex = 1
                     }
-                }).disposed(by: rxDisposeBag)
-                
-                texServices?.rxScore.asObserver().observeOn(MainScheduler.asyncInstance).retry().subscribe({ [weak self] (event) in
-                    if let score = event.element {
-                        self?.appendText(string: "NEW SCORE \(score)")
-                    }
-                }).disposed(by: rxDisposeBag)
-                self.configureLog(texServices!.logManager.rxLog)
-                tripRecorder?.activateAutoMode()
-            }
+                    self?.scoreButton.alpha = CGFloat((!isDriving).hashValue)
+                    
+                }
+            }).disposed(by: rxDisposeBag)
+            
+            texServices.rxScore.asObserver().observeOn(MainScheduler.asyncInstance).retry().subscribe({ [weak self] (event) in
+                if let score = event.element {
+                    self?.appendText(string: "NEW SCORE \(score)")
+                }
+            }).disposed(by: rxDisposeBag)
+            self.configureLog(texServices.logManager.rxLog)
+//            texServices.tripRecorder.activateAutoMode()
         } catch ConfigurationError.LocationNotDetermined(let description) {
             print(description)
         } catch {
@@ -94,11 +90,13 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
     @IBAction func tripSegmentedControlValueChanged(_ sender: UISegmentedControl) {
         textfield.resignFirstResponder()
         switch sender.selectedSegmentIndex {
-        case 0:
-            startTrip()
-            break
+        case 1:
+            tripRecorder?.stop()
         default:
-            stopTrip()
+//            tripRecorder?.start()
+            print("tripSegmentedControlValueChanged")
+        
+            print("tripSegmentedControlValueChanged")
         }
     }
     
@@ -135,9 +133,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
         }) { (finished) in
             
         }
-        if let rxScore = texServices?.rxScore {
-            texServices?.scoreRetriever.getScore(tripId: currentTripId, rxScore: rxScore)
-        }
+        let rxScore = texServices.rxScore
+        texServices.scoreRetriever.getScore(tripId: currentTripId, rxScore: rxScore)
     }
     
     // MARK: - Log Management
@@ -149,8 +146,10 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
             }.disposed(by: self.rxDisposeBag)
         
         do {
-            let regex = try NSRegularExpression(pattern: ".*.*", options: NSRegularExpression.Options.caseInsensitive)
-            texServices?.logManager.log(regex: regex, logType: LogType.Error)
+            let regex = try NSRegularExpression(pattern: ".*(TripChunk|LocationManager).*", options: NSRegularExpression.Options.caseInsensitive)
+//            let regex = try NSRegularExpression(pattern: ".*.*", options: NSRegularExpression.Options.caseInsensitive)
+//            let regex = try NSRegularExpression(pattern: ".*(State|API|AutoMode.swift|LocationTracker|APITripSessionManager|PersistantQueue|TripChunk).*", options: NSRegularExpression.Options.caseInsensitive)
+            texServices.logManager.log(regex: regex, logType: LogType.Info)
         } catch {
             let customLog = OSLog(subsystem: "fr.axa.tex", category: #file)
             os_log("[ViewController][configureLog] regex error %@", log: customLog, type: .error, error.localizedDescription)
