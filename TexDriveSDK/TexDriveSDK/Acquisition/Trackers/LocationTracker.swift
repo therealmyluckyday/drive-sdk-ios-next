@@ -53,7 +53,7 @@ class LocationTracker: NSObject, Tracker {
     
     // MARK: - didUpdateLocations
     func didUpdateLocations(location: CLLocation) {
-        Log.print("-")
+        Log.print("Location speed: \(location.speed)")
         let result = Result.Success(LocationFix(timestamp: location.timestamp.timeIntervalSince1970, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, precision: location.horizontalAccuracy, speed: location.speed, bearing: location.course, altitude: location.altitude))
         
         rxLocationFix.onNext(result)

@@ -7,81 +7,40 @@
 //
 
 import XCTest
+import CoreLocation
+@testable import TexDriveSDK
+@testable import RxSwift
 
 class LocationManagerTests: XCTestCase {
-
-    override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testEnableTracking_general() {
-        XCTAssert(false)
-//        mockLocationManager!.delegate = nil
-//        mockLocationManager!.distanceFilter = 1000.0
-//        mockLocationManager!.desiredAccuracy = kCLLocationAccuracyThreeKilometers
-//        mockLocationManager!.mockPausesLocationUpdatesAutomatically = true
-//        mockLocationManager!.activityType = CLActivityType.otherNavigation
-//        mockLocationManager!.allowsBackgroundLocationUpdates = false
-//        mockLocationManager?.isStartUpdatingLocationCalled = false
-//        mockLocationManager?.isStopUpdatingLocationCalled = false
-//        MockCLLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
-//        locationTracker?.enableTracking()
-//
-//        XCTAssertNotNil(mockLocationManager?.delegate, "")
-//        XCTAssertEqual(mockLocationManager!.desiredAccuracy, kCLLocationAccuracyBestForNavigation)
-//        XCTAssertEqual(mockLocationManager!.pausesLocationUpdatesAutomatically, false)
-//        XCTAssertEqual(mockLocationManager!.activityType, .automotiveNavigation)
-//        XCTAssertTrue(mockLocationManager!.allowsBackgroundLocationUpdates)
-//        XCTAssertTrue(mockLocationManager!.isStartUpdatingLocationCalled)
-    }
+    let disposeBag = DisposeBag()
     
-    func testEnableTracking_authorizationStatus_NotDetermined() {
-//        MockCLLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.notDetermined
-//        let locationManagerNotDetermined = MockCLLocationManager()
-//        let tracker = LocationTracker(sensor: locationManagerNotDetermined)
-//
-//        let subscribe = tracker.provideFix().asObservable().subscribe({ (event) in
-//            switch event.element {
-//            case Result.Failure(let error)?:
-//                let error = error as NSError
-//                XCTAssertEqual(error.code, CLError.denied.rawValue)
-//                break
-//            default:
-//                XCTAssertTrue(false)
-//                break
-//            }
-//        })
-//
-//        tracker.enableTracking()
-//
-//        subscribe.dispose()
-        XCTAssert(false)
+    // MARK: - public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
+    func testDidUpdateLocations() {
+        let locationManager = LocationManager(locationManager: CLLocationManager())
+        let expectation = XCTestExpectation(description: #function)
+        locationManager.rxLocation.asObserver().observeOn(MainScheduler.instance) .subscribe { (event) in
+            if event.element != nil {
+                expectation.fulfill()
+            }
+        }.disposed(by: disposeBag)
+        let location = CLLocation(latitude: CLLocationDegrees(exactly: 18)!, longitude: CLLocationDegrees(exactly: 12)!)
+        locationManager.locationManager(locationManager.locationManager, didUpdateLocations: [location])
+        wait(for: [expectation], timeout: 0.3)
     }
     
     // MARK: func locationManager(_ manager: CLLocationManager, didFailWithError error: Error
     func testLocationManagerDidFailWithError() {
-        
-//        let clError = CLError(_nsError: NSError(domain: "CLLocationManagerNotDetermined", code: CLError.geocodeFoundNoResult.rawValue, userInfo: nil))
-//        let subscribe = locationTracker!.provideFix().asObservable().subscribe({ (event) in
-//            switch event.element {
-//            case Result.Failure(let error)?:
-//                let error = error as NSError
-//                XCTAssertEqual(error.code, CLError.geocodeFoundNoResult.rawValue)
-//                break
-//            default:
-//                XCTAssertTrue(false)
-//                break
-//            }
-//        })
-//
-//        locationTracker!.locationManager(mockLocationManager!, didFailWithError: clError)
-//
-//        subscribe.dispose()
-        XCTAssert(false)
+        let locationManager = LocationManager(locationManager: CLLocationManager())
+        let expectation = XCTestExpectation(description: #function)
+        expectation.isInverted = true
+        locationManager.rxLocation.asObserver().observeOn(MainScheduler.instance) .subscribe { (event) in
+            if event.element != nil {
+                expectation.fulfill()
+            }
+            }.disposed(by: disposeBag)
+        let clError = CLError(_nsError: NSError(domain: "CLLocationManagerNotDetermined", code: CLError.geocodeFoundNoResult.rawValue, userInfo: nil))
+        locationManager.locationManager(locationManager.locationManager, didFailWithError: clError)
+        wait(for: [expectation], timeout: 0.2)
     }
 
 }

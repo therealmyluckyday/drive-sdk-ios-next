@@ -30,17 +30,13 @@ class AutoMode: AutoModeContextProtocol {
     
     // MARK: - Public method
     func enable() {
-        Log.print("Enable")
         disable()
         let standbyState = StandbyState(context: self, locationManager: locationManager)
         
         rxState.asObserver().observeOn(MainScheduler.asyncInstance).subscribe {[weak self] (event) in
             if let newState = event.element {
-                if let state = self?.state {
-                    Log.print("PREVIOUS STATE \(state)")
-                }
-                
-                Log.print("NEW STATE \(newState)")
+                Log.print("\(newState)")
+                print("\(newState)")
                 self?.state = newState
             }
         }.disposed(by: rxDisposeBag)
@@ -80,25 +76,11 @@ class AutoMode: AutoModeContextProtocol {
     }
     
     func disable() {
-        Log.print("Disable")
-        if let state = self.state {
-            Log.print("LAST STATE \(state)")
-        }
-        else {
-            Log.print("NO STATE")
-        }
         self.state?.disable()
         self.state = nil
     }
     
     func stop() {
-        Log.print("stop")
-        if let state = self.state {
-            Log.print("LAST STATE \(state)")
-        }
-        else {
-            Log.print("NO STATE")
-        }
         self.state?.stop()
     }
     

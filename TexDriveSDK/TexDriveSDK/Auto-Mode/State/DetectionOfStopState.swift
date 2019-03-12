@@ -83,6 +83,8 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
             if let firstLocation = firstLocation, location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970 > timeLowSpeedThreshold {
                 Log.print("firstLocation = firstLocation, location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970 > timeLowSpeedThreshold")
                 Log.print("\(location.timestamp.timeIntervalSince1970) - \(firstLocation.timestamp.timeIntervalSince1970) > \(timeLowSpeedThreshold)")
+                print("firstLocation = firstLocation, location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970 > timeLowSpeedThreshold")
+                print("\(location.timestamp.timeIntervalSince1970) - \(firstLocation.timestamp.timeIntervalSince1970) > \(timeLowSpeedThreshold)")
                 self.stop()
             }
         }

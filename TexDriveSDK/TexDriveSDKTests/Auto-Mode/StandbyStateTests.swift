@@ -114,6 +114,7 @@ class StandbyStateTests: XCTestCase {
     
     func testDoNothing() {
         let expectation = XCTestExpectation(description: #function)
+        expectation.isInverted = true
         context.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
             if let state = event.element {
                 XCTAssert(state is DetectionOfStartState)
