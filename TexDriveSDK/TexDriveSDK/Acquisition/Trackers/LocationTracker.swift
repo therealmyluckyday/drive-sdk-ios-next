@@ -6,8 +6,11 @@
 //  Copyright © 2018 Axa. All rights reserved.
 //
 
+import UIKit
 import CoreLocation
+import RxCoreLocation
 import RxSwift
+import RxCocoa
 
 class LocationTracker: NSObject, Tracker {
     // MARK: Property
@@ -15,6 +18,7 @@ class LocationTracker: NSObject, Tracker {
     let locationManager: LocationManager
     private var rxLocationFix = PublishSubject<Result<LocationFix>>()
     var rxDisposeBag: DisposeBag?
+    let manager = CLLocationManager()
     
     // MARK: Lifecycle method
     init(sensor: LocationManager) {
@@ -27,26 +31,20 @@ class LocationTracker: NSObject, Tracker {
     
     // MARK: - Tracker Protocol
     func enableTracking() {
-        DispatchQueue.main.async {
-            self.rxDisposeBag = DisposeBag()
-            guard type(of: self.locationManager.locationManager).authorizationStatus() != .notDetermined else {
-                let error = CLError(_nsError: NSError(domain: "CLLocationManagerNotDetermined requestAlwaysAuthorization()", code: CLError.denied.rawValue, userInfo: nil))
-                self.rxLocationFix.onNext(Result.Failure(error))
-                return
-            }
-            
-            self.locationManager.rxLocation.asObserver().observeOn(MainScheduler.instance).subscribe { [weak self](event) in
-                if let location = event.element {
-                    self?.didUpdateLocations(location: location)
-                }
-                }.disposed(by: self.rxDisposeBag!)
-            Log.print("change")
-            self.locationManager.change(state: .locationChanges)
-        }
+        self.rxDisposeBag = DisposeBag()
+        manager.requestWhenInUseAuthorization()
+        manager.startUpdatingLocation()
+        manager.rx
+            .location
+            .subscribe(onNext: { [weak self] location in
+                guard let location = location else { return }
+                self?.didUpdateLocations(location: location)
+            })
+            .disposed(by: rxDisposeBag!)
     }
     
     func disableTracking() {
-        locationManager.change(state: .disabled)
+        manager.stopUpdatingLocation()
     }
     
     func provideFix() -> PublishSubject<Result<LocationFix>> {
