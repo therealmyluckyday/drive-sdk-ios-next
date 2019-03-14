@@ -44,7 +44,6 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
         Log.print("stop")
         disableTimer()
         disableSensor()
-        locationManager.disable()
         if let context = self.context {
             let state = StandbyState(context: context, locationManager: locationManager)
             context.rxState.onNext(state)
@@ -65,7 +64,7 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
     
     // MARK: - SensorAutoModeDetectionState
     override func didUpdateLocations(location: CLLocation) {
-//        Log.print("- \(location.speed) \(thresholdSpeed)")
+        Log.print("- \(location.speed) \(thresholdSpeed)")
         guard sensorState == .enable, -location.timestamp.timeIntervalSinceNow < 5 else {
             return
         }
