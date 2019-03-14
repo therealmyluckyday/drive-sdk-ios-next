@@ -1,6 +1,0 @@
-framework module Gzip {
-  umbrella header "GzipSwift-framework-umbrella.h"
-
-  export *
-  module * { export * }
-}

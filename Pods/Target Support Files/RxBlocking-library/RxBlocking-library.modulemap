@@ -1,6 +1,0 @@
-module RxBlocking {
-  umbrella header "RxBlocking-library-umbrella.h"
-
-  export *
-  module * { export * }
-}
