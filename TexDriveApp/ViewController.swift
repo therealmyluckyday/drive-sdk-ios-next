@@ -45,6 +45,11 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
         
         logTextField.isEditable = false
         CLLocationManager().requestAlwaysAuthorization()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let userId = "Erwan-"+UIDevice.current.systemName + UIDevice.current.systemVersion
         self.configureTexSDK(withUserId: userId)
     }
     
@@ -146,7 +151,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
             }.disposed(by: self.rxDisposeBag)
         
         do {
-            let regex = try NSRegularExpression(pattern: ".*(TripChunk|LocationManager).*", options: NSRegularExpression.Options.caseInsensitive)
+            let regex = try NSRegularExpression(pattern: ".*(TripChunk|Score).*", options: NSRegularExpression.Options.caseInsensitive)
+//            let regex = try NSRegularExpression(pattern: ".*.*", options: NSRegularExpression.Options.caseInsensitive)
 //            let regex = try NSRegularExpression(pattern: ".*.*", options: NSRegularExpression.Options.caseInsensitive)
 //            let regex = try NSRegularExpression(pattern: ".*(State|API|AutoMode.swift|LocationTracker|APITripSessionManager|PersistantQueue|TripChunk).*", options: NSRegularExpression.Options.caseInsensitive)
             texServices.logManager.log(regex: regex, logType: LogType.Info)
