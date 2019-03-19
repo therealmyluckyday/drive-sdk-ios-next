@@ -12,7 +12,7 @@ import CoreLocation
 public class DetectionOfStartState: SensorAutoModeDetectionState {
     var firstLocation: CLLocation?
     let thresholdSpeed = CLLocationSpeed(exactly: 20)!
-    let timeLowSpeedThreshold = TimeInterval(exactly: 120)!
+    let timeLowSpeedThreshold = TimeInterval(exactly: 180)!
     
     override func enableMotionSensor() {
         motionManager.startActivityUpdates(to: OperationQueue.main) {[weak self] (activity) in
@@ -31,6 +31,7 @@ public class DetectionOfStartState: SensorAutoModeDetectionState {
     override func stop() {
         Log.print("stop")
         disableSensor()
+        locationManager.locationManager.stopUpdatingLocation()
         if let context = self.context {
             let state = StandbyState(context: context, locationManager: locationManager)
             context.rxState.onNext(state)

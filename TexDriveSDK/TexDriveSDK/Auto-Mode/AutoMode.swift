@@ -72,7 +72,7 @@ class AutoMode: AutoModeContextProtocol {
             }.disposed(by: rxDisposeBag)
         
         rxState.onNext(standbyState)
-        standbyState.enable()
+        standbyState.start()
     }
     
     func disable() {
