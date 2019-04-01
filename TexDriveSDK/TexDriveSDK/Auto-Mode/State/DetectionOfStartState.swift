@@ -11,7 +11,7 @@ import CoreLocation
 
 public class DetectionOfStartState: SensorAutoModeDetectionState {
     var firstLocation: CLLocation?
-    let thresholdSpeed = CLLocationSpeed(exactly: 20)!
+    var thresholdSpeed = CLLocationSpeed(exactly: 20)!
     let timeLowSpeedThreshold = TimeInterval(exactly: 180)!
     let isSimulatorDriveTestingAutoMode = false // Used for Simulator Device Testing
     

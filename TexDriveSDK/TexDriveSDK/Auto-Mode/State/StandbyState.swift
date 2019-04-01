@@ -10,7 +10,7 @@ import RxSwift
 import CoreLocation
 
 public class StandbyState: SensorAutoModeDetectionState {
-    let thresholdSpeed: CLLocationSpeed = CLLocationSpeed(exactly: 10)!
+    var thresholdSpeed: CLLocationSpeed = CLLocationSpeed(exactly: 10)!
     
     let isSimulatorDriveTestingAutoMode = false // Used for Simulator Device Testing
     
