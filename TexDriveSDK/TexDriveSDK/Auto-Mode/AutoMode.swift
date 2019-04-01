@@ -16,6 +16,14 @@ protocol AutoModeContextProtocol: class {
     var locationManager: LocationManager { get }
 }
 
+enum AutoModeStatus {
+    case ServiceNotStarted
+    case WaitingScanTrigger
+    case ScanningActivity
+    case Driving
+    case Stopped
+}
+
 class AutoMode: AutoModeContextProtocol {
     // MARK: - Property
     var rxState = PublishSubject<AutoModeDetectionState>()
@@ -23,6 +31,35 @@ class AutoMode: AutoModeContextProtocol {
     let rxDisposeBag = DisposeBag()
     var state: AutoModeDetectionState?
     let locationManager: LocationManager
+    
+    var status: AutoModeStatus {
+        get {
+            if let currentState = state {
+                switch currentState {
+                case is StandbyState:
+                    return .WaitingScanTrigger
+                case is DetectionOfStartState:
+                    return .ScanningActivity
+                case is DrivingState:
+                    return .Driving
+                case is DetectionOfStopState:
+                    return .Stopped
+                default:
+                    return .ServiceNotStarted
+                }
+            }
+            return AutoModeStatus.ServiceNotStarted
+        }
+    }
+    
+    var isServiceStarted: Bool {
+        get {
+            if let currentState = state {
+                return !(currentState is DisabledState)
+            }
+            return false
+        }
+    }
     
     init(locationManager clLocationManager: LocationManager) {
         locationManager = clLocationManager
@@ -89,4 +126,25 @@ class AutoMode: AutoModeContextProtocol {
             state.start()
         }
     }
+    
+    func forceStatusDriving() {
+        self.state?.drive()
+    }
+    
+    @available(*, deprecated, message: "Please use disable()")
+    func stopService() {
+        self.disable()
+    }
+    
+    @available(*, deprecated, message: "Please use enable()")
+    func startService() {
+        self.enable()
+    }
+    
+    @available(*, deprecated, message: "Please use enable()")
+    func forceStatusWaitingScanTrigger() {
+        self.enable()
+    }
+    
+    
 }
