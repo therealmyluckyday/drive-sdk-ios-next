@@ -22,7 +22,6 @@ public class ScoreRetriever: ScoreRetrieverProtocol {
     }
     
     // MARK: - scoreRetrieverProtocol
-    @available(*, deprecated, message: "Please use getScore(tripId: String, rxScore: PublishSubject<Score>)")
     public func getScore(tripId: TripId, completionHandler: @escaping (Result<Score>) -> ()) {
         apiScore.getScore(tripId: tripId, completionHandler: completionHandler)
     }
