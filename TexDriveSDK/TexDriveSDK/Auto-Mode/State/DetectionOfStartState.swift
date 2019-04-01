@@ -52,7 +52,7 @@ public class DetectionOfStartState: SensorAutoModeDetectionState {
     
     // MARK: - SensorAutoModeDetectionState
     override func didUpdateLocations(location: CLLocation) {
-        Log.print("Speed: \(location.speed), ThresholdSpeed: \(thresholdSpeed)")
+        Log.print("Speed: \(location.speed), Accuracy: \(location.verticalAccuracy) \(location.horizontalAccuracy)")
         guard sensorState == .enable else {
             return
         }
@@ -64,10 +64,13 @@ public class DetectionOfStartState: SensorAutoModeDetectionState {
         
         if firstLocation == nil {
             firstLocation = location
+            print("FirstLocation: \(location)")
         }
         else {
             if let firstLocation = firstLocation, location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970 > timeLowSpeedThreshold {
+                let delay = location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970
                 Log.print("firstLocation = firstLocation, location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970 > timeLowSpeedThreshold")
+                print("\(delay) > \(timeLowSpeedThreshold)")
                 self.stop()
             }
         }
