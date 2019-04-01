@@ -28,7 +28,6 @@ public class TripRecorder: TripRecorderProtocol {
     private var autoMode: AutoMode?
     private let apiTrip: APITrip
     internal let persistantQueue: PersistantQueue
-    internal var persistantApp: PersistantApp?
     internal let rxTripId = PublishSubject<TripId>()
     
     // MARK: Public
@@ -72,7 +71,6 @@ public class TripRecorder: TripRecorderProtocol {
                 let locationTracker = LocationTracker(sensor: locationManager)
                 collector.collect(tracker: locationTracker)
                 self.autoMode = AutoMode(locationManager: locationManager)
-                self.persistantApp = PersistantApp(self.autoMode!)
                 break
             case .Battery:
                 let batteryTracker = BatteryTracker(sensor: UIDevice.current)
