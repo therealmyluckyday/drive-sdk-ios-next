@@ -9,7 +9,7 @@
 import Foundation
 
 struct TripConstant {
-    static let MinFixesToSend = 100
+    static let MinFixesToSend = 50
 }
 
 public typealias TripId = NSUUID
@@ -56,7 +56,6 @@ class TripChunk: Collection {
         if let event = self.event, event.eventType == EventType.stop {
             return true
         }
-        Log.print("Count Fixes : \(fixes.count)")
         return fixes.count > TripConstant.MinFixesToSend
     }
     
@@ -80,7 +79,9 @@ class TripChunk: Collection {
         var fix : [[String: Any]] = self.fixes.map({$0.serialize()})
         if let event = self.event {
             fix.append(event.serialize())
+            Log.print("Event : \(event.eventType.rawValue)")
         }
+        Log.print("Fixes send : \(fix.count)")
         var dictionary = [String : Any]()
         dictionary["trip_id"] = self.tripId.uuidString
         dictionary["fixes"] = fix

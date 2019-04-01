@@ -32,7 +32,6 @@ class APISessionManager: NSObject, URLSessionDelegate {
         
         let remoteCertMatchesPinnedCert = trust.isRemoteCertificateMatchingPinnedCertificate(domain: self.configuration.domain.rawValue)
         if remoteCertMatchesPinnedCert {
-            Log.print("Http trusting certificate")
             completionHandler(.useCredential, credential)
         } else {
             Log.print("Error no trusting certificate", type: .Error)

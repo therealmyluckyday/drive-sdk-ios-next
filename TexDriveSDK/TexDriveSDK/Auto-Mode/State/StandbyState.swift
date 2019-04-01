@@ -8,63 +8,33 @@
 
 import RxSwift
 import CoreLocation
-import CoreMotion
 
-public class StandbyState: AutoModeDetectionState, CLLocationManagerDelegate {
-    var locationManager = CLLocationManager()
-    let motionManager = CMMotionActivityManager()
+public class StandbyState: SensorAutoModeDetectionState {
+    var thresholdSpeed: CLLocationSpeed = CLLocationSpeed(exactly: 10)!
     
-    override func configure() {
-        
-        switch CLLocationManager.authorizationStatus() {
-        case .notDetermined:
-            Log.print("CLLocationManager authorizationStatus() == .notDetermined", type: .Error)
-            break
-        case .restricted:
-            Log.print("CLLocationManager authorizationStatus() == .restricted", type: .Error)
-            break
-        case .denied:
-            Log.print("CLLocationManager authorizationStatus() == .denied", type: .Error)
-            break
-        case .authorizedAlways:
-            break
-        case .authorizedWhenInUse:
-            Log.print("CLLocationManager authorizationStatus() == .authorizedWhenInUse")
-            break
+    let isSimulatorDriveTestingAutoMode = false // Used for Simulator Device Testing
+    
+    override func enableLocationSensor() {
+        DispatchQueue.main.async {
+            super.enableLocationSensor()
+            self.locationManager.change(state: .significantLocationChanges)
         }
     }
     
-    func configure(locationManager: CLLocationManager) {
-        locationManager.requestAlwaysAuthorization()
-        locationManager.disallowDeferredLocationUpdates()
-        locationManager.stopMonitoringSignificantLocationChanges()
-        locationManager.distanceFilter = kCLDistanceFilterNone
-        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        locationManager.pausesLocationUpdatesAutomatically = false
-        locationManager.activityType = .automotiveNavigation
-        locationManager.allowsBackgroundLocationUpdates = true
-        locationManager.delegate = self
-        locationManager.startMonitoringSignificantLocationChanges()
-    }
-    
-    override func enable() {
-        Log.print("enable")
-        print("StandbyState enable")
-        self.configure(locationManager: self.locationManager)
+    override func enableMotionSensor() {
         motionManager.startActivityUpdates(to: OperationQueue.main) {[weak self] (activity) in
-            Log.print("startActivityUpdates")
             if let activity = activity, activity.automotive == true {
-                self?.drive()
+                Log.print("activity = activity, activity.automotive == true")
+                self?.start()
             }
         }
-        super.enable()
     }
     
     override func start() {
         Log.print("start")
-        self.stopUpdating()
+        disableSensor()
         if let context = self.context {
-            let state = DetectionOfStartState(context: context)
+            let state = DetectionOfStartState(context: context, locationManager: locationManager)
             context.rxState.onNext(state)
             state.enable()
         }
@@ -72,62 +42,27 @@ public class StandbyState: AutoModeDetectionState, CLLocationManagerDelegate {
     
     override func drive() {
         Log.print("drive")
-        self.stopUpdating()
+        disableSensor()
         if let context = self.context {
-            let state = DrivingState(context: context)
+            let state = DrivingState(context: context, locationManager: locationManager)
             context.rxState.onNext(state)
             state.enable()
         }
     }
     
-    override func disable() {
-        Log.print("disable")
-        self.stopUpdating()
-        if let context = self.context {
-            context.rxState.onNext(DisabledState(context: context))
+    // MARK: - SensorAutoModeDetectionState
+    override func didUpdateLocations(location: CLLocation) {
+        Log.print("Speed: \(location.speed), ThresholdSpeed: \(thresholdSpeed)")
+        print("- \(location.speed) \(thresholdSpeed)")
+        guard sensorState == .enable else {
+            return
         }
-    }
-    
-    func stopUpdating() {
-        locationManager.delegate = nil
-        locationManager.stopMonitoringSignificantLocationChanges()
-        motionManager.stopActivityUpdates()
-    }
-    
-    // MARK: - CLLocationManagerDelegate
-    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        Log.print("didUpdateLocations")
-        
-        #if targetEnvironment(simulator)
-        self.start()
-        #else
-        self.checkAutomotiveActivity()
-        #endif
-    }
-    
-    public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        self.checkAutomotiveActivity()
-        Log.print("didFailWithError")
-    }
-    
-    func checkAutomotiveActivity() {
-        Log.print("checkAutomotiveActivity")
-        let motionManager = CMMotionActivityManager()
-        motionManager.queryActivityStarting(from: Date.init().addingTimeInterval(-60.0*10),
-            to: Date.init(),
-        to: OperationQueue.main) {[weak self](activityList, error) in
-            var activityString = ""
-            for (activity) in activityList! {
-                if (activity.automotive) {
-                    activityString = "Automotive"
-                    let dateFormatter = ISO8601DateFormatter()
-                    let dateString:String! = dateFormatter.string(from: activity.startDate)
-                    if activityString != "" {
-                        Log.print(dateString + ": " + activityString)
-                    }
-                    self?.start()
-                }
-            }
+        if location.speed > thresholdSpeed {
+            Log.print("location.speed > thresholdSpeed")
+            self.start()
+        }
+        else if isSimulatorDriveTestingAutoMode {
+            thresholdSpeed -= 1
         }
     }
 }

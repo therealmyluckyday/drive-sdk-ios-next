@@ -12,7 +12,7 @@ enum HttpMethod: String {
     case GET = "GET"
 }
 
-enum Domain: String {
+public enum Domain: String {
     case Integration = "gw-int.tex.dil.services"
     case Preproduction = "gw-preprod.tex.dil.services"
     case Production = "gw.tex.dil.services"

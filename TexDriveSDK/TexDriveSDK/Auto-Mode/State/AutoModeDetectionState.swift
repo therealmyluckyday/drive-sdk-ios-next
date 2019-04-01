@@ -9,9 +9,6 @@
 import RxSwift
 
 protocol AutoModeDetectionStateProtocol {
-    func start()
-    func stop()
-    func drive()
     func enable()
     func disable()
 }

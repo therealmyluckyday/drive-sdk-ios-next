@@ -50,8 +50,9 @@ public class Config: ConfigurationProtocol, ScoringClientConfiguration, APISessi
     // APISessionManagerConfiguration
     public let tripInfos: TripInfos
     
-    public convenience init?(applicationId: String, applicationLocale: Locale = Locale.current, currentUser: User = User.Anonymous) throws {
-        let locationfeature : TripRecorderFeature = TripRecorderFeature.Location(CLLocationManager())
+    public convenience init?(applicationId: String, applicationLocale: Locale = Locale.current, currentUser: User = User.Anonymous, domain: Domain = Domain.Production) throws {
+        
+        let locationfeature : TripRecorderFeature = TripRecorderFeature.Location(LocationManager())
 
         #if targetEnvironment(simulator)
         let batteryfeature : TripRecorderFeature = TripRecorderFeature.Battery(UIDevice.current)
@@ -60,12 +61,12 @@ public class Config: ConfigurationProtocol, ScoringClientConfiguration, APISessi
         #else
         let tripRecorderFeatures = [locationfeature]
         #endif
-        try self.init(applicationId: applicationId, applicationLocale: applicationLocale, currentUser: currentUser, currentTripRecorderFeatures: tripRecorderFeatures)
+        try self.init(applicationId: applicationId, applicationLocale: applicationLocale, currentUser: currentUser, currentTripRecorderFeatures: tripRecorderFeatures, domain: domain)
     }
     
-    init?(applicationId: String, applicationLocale: Locale, currentUser: User, currentTripRecorderFeatures: [TripRecorderFeature]) throws {
+    init?(applicationId: String, applicationLocale: Locale, currentUser: User, currentTripRecorderFeatures: [TripRecorderFeature], domain: Domain = Domain.Production) throws {
         try Config.activable(features: currentTripRecorderFeatures)
-        tripInfos = TripInfos(appId: applicationId, user: currentUser, domain: Domain.Production)
+        tripInfos = TripInfos(appId: applicationId, user: currentUser, domain: domain)
         locale = applicationLocale
         tripRecorderFeatures = currentTripRecorderFeatures
         

@@ -19,7 +19,7 @@ class TripInfosTests: XCTestCase {
         let result = tripInfos.serializeWithGeneralInformation(dictionary: dictionary)
         
         let os = "\(UIDevice.current.systemName) \(UIDevice.current.systemVersion)"
-        let sdkVersion = Bundle(for: APITrip.self).infoDictionary!["CFBundleShortVersionString"] as! String
+        let sdkVersion = "3.0.0"
         let firstVia = "TEX_iOS_SDK/\(os)/\(sdkVersion)"
         XCTAssertEqual(result["uid"] as! String, UIDevice.current.identifierForVendor!.uuidString)
         XCTAssertEqual(result["timezone"] as! String, "+0100")

@@ -14,90 +14,142 @@ import CoreMotion
 import Crashlytics
 import RxSwift
 import os
+import UserNotifications
 
-class ViewController: UIViewController, UITextFieldDelegate {
+class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationCenterDelegate {
     @IBOutlet weak var TripSegmentedControl: UISegmentedControl!
     @IBOutlet weak var scoreButton: UIButton!
     @IBOutlet weak var logTextField: UITextView!
     @IBOutlet weak var textfield: UITextField!
     
     var tripRecorder : TripRecorder?
-    var locationManager = CLLocationManager()
+
     let rxDisposeBag = DisposeBag()
     lazy var currentTripId = { () -> TripId in
         if let tripId = tripRecorder?.currentTripId {
             return tripId
         }
-        return TripId(uuidString: "165D217D-8339-4D73-9683-9C1AD3BF1B71")!
+        return TripId(uuidString: "0FDA9008-F429-4F53-9D8E-F3964B2CAF62")!
     }()
-    var texServices: TexServices?
+    lazy var texServices: TexServices = {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        return appDelegate.texServices!
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         scoreButton.alpha = 1
         TripSegmentedControl.selectedSegmentIndex = 1
-        locationManager.requestAlwaysAuthorization()
         let userId = "Erwan-"+UIDevice.current.systemName + UIDevice.current.systemVersion
         textfield.text = userId
         
         logTextField.isEditable = false
         CLLocationManager().requestAlwaysAuthorization()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let userId = "Erwan-"+UIDevice.current.systemName + UIDevice.current.systemVersion
+        self.showOldLog()
         self.configureTexSDK(withUserId: userId)
     }
     
-    func configureTexSDK(withUserId: String) {
-        let user = User.Authentified(withUserId)
-        self.logUser(userName: withUserId)
+    func showOldLog(cleanOld : Bool = false) {
+        
+        let fileName = "Test"
+        let DocumentDirURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        let fileURL = DocumentDirURL.appendingPathComponent(fileName).appendingPathExtension("txt")
         do {
-            if let configuration = try Config(applicationId: "APP-TEST", applicationLocale: Locale.current, currentUser: user) {
-                texServices = TexServices.service(reconfigureWith: configuration)
-                texServices!.tripRecorder.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { [weak self] (event) in
-                    if let tripId = event.element {
-                        self?.appendText(string: "\n Trip finished: \n \(tripId.uuidString)")
-                    }
-                    }.disposed(by: rxDisposeBag)
-                tripRecorder = texServices!.tripRecorder
-                tripRecorder?.rxState.asObserver().observeOn(MainScheduler.asyncInstance).subscribe({ [weak self] (event) in
-                    if let state = event.element {
-                        self?.appendText(string: "State change \(state)")
-                    }
-                }).disposed(by: rxDisposeBag)
-                
-                texServices?.rxScore.asObserver().observeOn(MainScheduler.asyncInstance).retry().subscribe({ [weak self] (event) in
-                    if let score = event.element {
-                        self?.appendText(string: "NEW SCORE \(score)")
-                    }
-                }).disposed(by: rxDisposeBag)
-                self.configureLog(texServices!.logManager.rxLog)
-            }
-        } catch ConfigurationError.LocationNotDetermined(let description) {
-            print(description)
+            let currentData = try Data(contentsOf: fileURL)
+            let oldLog = String(data: currentData, encoding: String.Encoding.utf8)!
+//            self.appendText(string: oldLog)
+            print(oldLog)
         } catch {
-            print("\(error)")
+            print("Error \(error)")
         }
+        if cleanOld {
+            do {
+                var currentData = Data()
+                currentData.append("\n".data(using: String.Encoding.utf8)!)
+                try currentData.write(to: fileURL, options: Data.WritingOptions.atomic)
+            } catch {
+                print("Error \(error)")
+            }
+        }
+    }
+    
+    func configureTexSDK(withUserId: String) {
+        self.logUser(userName: withUserId)
+        
+        texServices.tripRecorder.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { [weak self] (event) in
+            if let tripId = event.element {
+                self?.appendText(string: "\n Trip finished: \n \(tripId.uuidString)")
+                self?.saveLog("\n Trip finished: \n \(tripId.uuidString)")
+            }
+            }.disposed(by: rxDisposeBag)
+        tripRecorder = texServices.tripRecorder
+        tripRecorder?.rxIsDriving.asObserver().observeOn(MainScheduler.asyncInstance).subscribe({ [weak self] (event) in
+            if let isDriving = event.element {
+                self?.appendText(string: "\n isDriving: \n \(isDriving)")
+                self?.saveLog("\n isDriving: \n \(isDriving)")
+                if isDriving {
+                    self?.sendNotification("Start")
+                    self?.TripSegmentedControl.selectedSegmentIndex = 0
+                    
+                } else {
+                    self?.sendNotification("Stop")
+                    self?.TripSegmentedControl.selectedSegmentIndex = 1
+                }
+                self?.scoreButton.alpha = CGFloat((!isDriving).hashValue)
+                
+            }
+        }).disposed(by: rxDisposeBag)
+        
+        texServices.rxScore.asObserver().observeOn(MainScheduler.asyncInstance).retry().subscribe({ [weak self] (event) in
+            if let score = event.element {
+                self?.appendText(string: "NEW SCORE \(score)")
+            }
+        }).disposed(by: rxDisposeBag)
+        self.configureLog(texServices.logManager.rxLog)
+        
     }
     
     @IBAction func tripSegmentedControlValueChanged(_ sender: UISegmentedControl) {
         textfield.resignFirstResponder()
         switch sender.selectedSegmentIndex {
-        case 0:
-            startTrip()
-            break
+        case 1:
+//            tripRecorder?.stop()
+            print(" ")
         default:
-            stopTrip()
+//            tripRecorder?.start()
+            print(" ")
         }
     }
     
     func startTrip() {
-        tripRecorder?.start()
+        tripRecorder?.activateAutoMode()
+//        tripRecorder?.start()
     }
     
     func stopTrip() {
-        tripRecorder?.stop()
+        tripRecorder?.disableAutoMode()
+//        tripRecorder?.stop()
+        showGetScoreButton()
+    }
+    
+    func showGetScoreButton() {
         UIView.animate(withDuration: 0.3, delay: 26, options: UIView.AnimationOptions.curveEaseInOut, animations: {
             self.scoreButton.alpha = 1
         }) { (finished) in
-        
+            
+        }
+    }
+    
+    func hideGetScoreButton() {
+        UIView.animate(withDuration: 0.3, delay: 26, options: UIView.AnimationOptions.curveEaseInOut, animations: {
+            self.scoreButton.alpha = 0
+        }) { (finished) in
+            
         }
     }
     
@@ -107,9 +159,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }) { (finished) in
             
         }
-        if let rxScore = texServices?.rxScore {
-            texServices?.scoreRetriever.getScore(tripId: currentTripId, rxScore: rxScore)
-        }
+        let rxScore = texServices.rxScore
+        texServices.scoreRetriever.getScore(tripId: currentTripId, rxScore: rxScore)
     }
     
     // MARK: - Log Management
@@ -121,8 +172,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
             }.disposed(by: self.rxDisposeBag)
         
         do {
-            let regex = try NSRegularExpression(pattern: ".*.*", options: NSRegularExpression.Options.caseInsensitive)
-            texServices?.logManager.log(regex: regex, logType: LogType.Error)
+            let regex = try NSRegularExpression(pattern: ".*(TripChunk|Score|URLRequestExtension.swift|State|API|).*", options: NSRegularExpression.Options.caseInsensitive)
+//            let regex = try NSRegularExpression(pattern: ".*.*", options: NSRegularExpression.Options.caseInsensitive)
+//            let regex = try NSRegularExpression(pattern: ".*.*", options: NSRegularExpression.Options.caseInsensitive)
+//            let regex = try NSRegularExpression(pattern: ".*(State|API|AutoMode.swift|LocationTracker|APITripSessionManager|PersistantQueue|TripChunk).*", options: NSRegularExpression.Options.caseInsensitive)
+            texServices.logManager.log(regex: regex, logType: LogType.Info)
         } catch {
             let customLog = OSLog(subsystem: "fr.axa.tex", category: #file)
             os_log("[ViewController][configureLog] regex error %@", log: customLog, type: .error, error.localizedDescription)
@@ -131,7 +185,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     func report(logDetail: LogMessage) {
         let customLog = OSLog(subsystem: "fr.axa.tex", category: logDetail.fileName)
-        print(logDetail.description)
+//        print(logDetail.description)
         switch logDetail.type {
         case .Info:
             Answers.logCustomEvent(withName: logDetail.functionName,
@@ -154,13 +208,33 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
 
         let newLog = String(describing:logDetail.description)
-        self.appendText(string: newLog)
+//        self.appendText(string: newLog)
+        self.saveLog(newLog)
     }
     
     func appendText(string: String) {
         let oldLog = self.logTextField.text ?? ""
         let text = "\(oldLog)\n\(string)"
         self.logTextField.text = text
+        
+    }
+    
+    func saveLog(_ string: String) {
+        let fileName = "Test"
+        let DocumentDirURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        let fileURL = DocumentDirURL.appendingPathComponent(fileName).appendingPathExtension("txt")
+        do {
+            var currentData = try Data(contentsOf: fileURL)
+            currentData.append("\(string)\n".data(using: String.Encoding.utf8)!)
+            try currentData.write(to: fileURL, options: Data.WritingOptions.atomic)
+        } catch {
+            print("Error \(error)")
+            do {
+                try string.data(using: String.Encoding.utf8)!.write(to: fileURL)
+            } catch {
+                print("Error \(error)")
+            }
+        }
     }
     
     // MARK: - Crashlytics setup
@@ -207,5 +281,60 @@ class ViewController: UIViewController, UITextFieldDelegate {
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true;
+    }
+    
+    func sendNotification(_ text: String) {
+        // Configure the notification's payload.
+        let content = UNMutableNotificationContent()
+        content.title = "AutoMode"
+        content.body = text
+        content.sound = UNNotificationSound.default
+        
+        // Deliver the notification in x seconds.
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(10), repeats: false)
+        let request = UNNotificationRequest(identifier: "AutoMode"+text, content: content, trigger: trigger) // Schedule the notification.
+        let center = UNUserNotificationCenter.current()
+        center.delegate = self
+        center.add(request) { (error : Error?) in
+        }
+    }
+    
+    // MARK: - UNUserNotificationCenterDelegate
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler:
+        @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        Answers.logCustomEvent(withName: #function,
+                               customAttributes: [
+                                "detail" : "Notification received \(notification.request.content.categoryIdentifier) ",
+                                "filename" : #file,
+                                "systemVersion": UIDevice.current.systemVersion
+            ])
+//        if notification.request.content.categoryIdentifier ==
+//            "SevenDay" {
+            completionHandler(.sound)
+//            return
+//        }
+//        else {
+//            // Handle other notification types...
+//        }
+//
+//        // Don't alert the user for other types.
+//        completionHandler(UNNotificationPresentationOptions(rawValue: 0))
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler:
+        @escaping () -> Void) {
+        Answers.logCustomEvent(withName: #function,
+                               customAttributes: [
+                                "detail" : "Notification received \(response.notification.request.content.categoryIdentifier)",
+                                "filename" : #file,
+                                "systemVersion": UIDevice.current.systemVersion
+            ])
+
+        completionHandler()
     }
 }

@@ -12,7 +12,7 @@ import CallKit
 import CoreMotion
 
 public enum TripRecorderFeature {
-    case Location(CLLocationManager) // CLLocationManager is the location sensor
+    case Location(LocationManager) // LocationManager is the location sensor
     case Battery(UIDevice) // UIDevice is the battery sensor
     case PhoneCall(CXCallObserver) // CXCallObserver is the Call Sensor
     case Motion(CMMotionManager) // CMMotionManager is the Motion Sensor
@@ -20,7 +20,7 @@ public enum TripRecorderFeature {
     func canActivate() -> Bool {
         switch self {
         case .Location(let locationManager):
-            return type(of: locationManager).authorizationStatus() != .notDetermined
+            return type(of: locationManager.locationManager).authorizationStatus() != .notDetermined
         case .Motion(let motionManager):
             return motionManager.isDeviceMotionAvailable
         default:

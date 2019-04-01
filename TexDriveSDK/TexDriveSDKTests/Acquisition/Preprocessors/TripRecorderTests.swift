@@ -27,8 +27,8 @@ class TripRecorderTests: XCTestCase {
     
     // MARK: - init
     func testInit_LocationFeatureStart() {
-        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
-        let mockLocationManager = MockLocationManager()
+        MockCLLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
+        let mockLocationManager = LocationManager(locationManager: MockCLLocationManager())
         let locationFeature = TripRecorderFeature.Location(mockLocationManager)
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)
@@ -45,7 +45,9 @@ class TripRecorderTests: XCTestCase {
             
         }
         
-        mockLocationManager.send(locations: locations)
+        locations.forEach { (result) in
+            mockLocationManager.rxLocation.onNext(result)
+        }
         
         do{
             if let trip = try tripRecorder.persistantQueue.providerTrip.toBlocking(timeout: 0.1).first() {
@@ -58,8 +60,8 @@ class TripRecorderTests: XCTestCase {
     }
     
     func testInit_LocationFeatureStop() {
-        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
-        let mockLocationManager = MockLocationManager()
+        MockCLLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
+        let mockLocationManager = LocationManager(locationManager: MockCLLocationManager())
         let locationFeature = TripRecorderFeature.Location(mockLocationManager)
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)
@@ -75,7 +77,10 @@ class TripRecorderTests: XCTestCase {
             locations.append(location)
             
         }
-        mockLocationManager.send(locations: locations)
+
+        locations.forEach { (result) in
+            mockLocationManager.rxLocation.onNext(result)
+        }
         
         tripRecorder.stop()
         
@@ -91,8 +96,8 @@ class TripRecorderTests: XCTestCase {
     func testInitSubscribeCalled() {
         let publishTrip = PublishSubject<TripChunk>()
         let mock = APITripSessionManagerMock()
-        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
-        let mockLocationManager = MockLocationManager()
+        MockCLLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
+        let mockLocationManager = LocationManager(locationManager: MockCLLocationManager())
         let locationFeature = TripRecorderFeature.Location(mockLocationManager)
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)
@@ -117,8 +122,8 @@ class TripRecorderTests: XCTestCase {
     func testSubscribe() {
         let publishTrip = PublishSubject<TripChunk>()
         let mock = APITripSessionManagerMock()
-        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
-        let mockLocationManager = MockLocationManager()
+        MockCLLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
+        let mockLocationManager = LocationManager(locationManager: MockCLLocationManager())
         let locationFeature = TripRecorderFeature.Location(mockLocationManager)
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)
@@ -143,8 +148,8 @@ class TripRecorderTests: XCTestCase {
     // MARK: - currentTripId
     func testTripIdNull() {
         
-        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
-        let mockLocationManager = MockLocationManager()
+        MockCLLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
+        let mockLocationManager = LocationManager(locationManager: MockCLLocationManager())
         let locationFeature = TripRecorderFeature.Location(mockLocationManager)
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)
@@ -162,8 +167,8 @@ class TripRecorderTests: XCTestCase {
     }
     
     func testCurrentTripIdNotNull() {
-        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
-        let mockLocationManager = MockLocationManager()
+        MockCLLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
+        let mockLocationManager = LocationManager(locationManager: MockCLLocationManager())
         let locationFeature = TripRecorderFeature.Location(mockLocationManager)
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)
@@ -185,7 +190,10 @@ class TripRecorderTests: XCTestCase {
             
         }
         
-        mockLocationManager.send(locations: locations)
+
+        locations.forEach { (result) in
+            mockLocationManager.rxLocation.onNext(result)
+        }
         do{
             if let _ = try tripRecorder.rxTripId.toBlocking(timeout: 0.1).first() {
             }
@@ -196,8 +204,8 @@ class TripRecorderTests: XCTestCase {
     
     // MARK: - currentTripId
     func testCurrentTripIdNull() {
-        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
-        let mockLocationManager = MockLocationManager()
+        MockCLLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
+        let mockLocationManager = LocationManager(locationManager: MockCLLocationManager())
         let locationFeature = TripRecorderFeature.Location(mockLocationManager)
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)

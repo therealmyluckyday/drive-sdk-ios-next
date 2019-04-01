@@ -49,8 +49,8 @@ class ConfigTests: XCTestCase {
         let appId = "MyAppId"
         let locale = Locale.current
         let user = User.Anonymous
-        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.notDetermined
-        let mockLocationManager = MockLocationManager()
+        MockCLLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.notDetermined
+        let mockLocationManager = LocationManager(locationManager: MockCLLocationManager())
         let locationFeature = TripRecorderFeature.Location(mockLocationManager)
         let features = [locationFeature]
         do {
