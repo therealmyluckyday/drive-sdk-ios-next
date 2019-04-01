@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
         
         do {
             ///"APP-TEST"
-            if let configuration = try Config(applicationId: "youdrive_france_prospect", applicationLocale: Locale.current, currentUser: user, domain: Domain.Preproduction) {
+            if let configuration = try Config(applicationId: "youdrive_france_prospect", applicationLocale: Locale.current, currentUser: user, domain: Domain.Production) {
                 let service = TexServices.service(reconfigureWith: configuration)
                 texServices = service
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 2000)) {
