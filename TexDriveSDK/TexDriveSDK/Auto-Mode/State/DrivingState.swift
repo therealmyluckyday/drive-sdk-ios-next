@@ -80,15 +80,13 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
     
     // MARK: - SensorAutoModeDetectionState
     override func didUpdateLocations(location: CLLocation) {        
-        Log.print("- \(location.speed) \(thresholdSpeed)")
+        
         guard sensorState == .enable, -location.timestamp.timeIntervalSinceNow < 5 else {
             return
         }
         resetTimer(timeInterval: intervalDelay)
         if location.speed < thresholdSpeed {
-            Log.print("location.speed < thresholdSpeed")
             if let activity = lastActivity, -activity.startDate.timeIntervalSinceNow < 60, activity.automotive {
-                Log.print("activity = lastActivity, -activity.startDate.timeIntervalSinceNow < 300, activity.automotive")
             }
             else {
                 motionManager.queryActivityStarting(from: Date.init().addingTimeInterval(-10.0), to: Date(), to: OperationQueue.main) { [weak self](motions, error) in
@@ -99,7 +97,7 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
                             }
                         }
                     }
-                    Log.print("location.speed < thresholdSpeed")
+                    Log.print("location.speed \(location.speed) < thresholdSpeed \(self?.thresholdSpeed)")
                     self?.stop()
                 }
             }
