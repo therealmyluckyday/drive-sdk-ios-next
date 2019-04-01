@@ -16,7 +16,8 @@ enum LocationManagerState {
 }
 
 public class LocationManager: NSObject, CLLocationManagerDelegate {
-    var locationManager: CLLocationManager
+    let locationManager: CLLocationManager
+    let slcLocationManager = CLLocationManager()
     public var rxLocation = PublishSubject<CLLocation>()
     public var rxRegion = PublishSubject<CLRegion>()
     var state = LocationManagerState.disabled
@@ -33,39 +34,22 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
                 switch state {
                 case .disabled:
                     Log.print("State \(state)")
-                    print("State \(state)")
-                    self.disable()
+                    self.locationManager.stopUpdatingLocation()
+                    self.slcLocationManager.stopMonitoringSignificantLocationChanges()
+                    self.state = .disabled
                 case .significantLocationChanges:
-                    if self.state == .disabled {
-                        Log.print("State \(state)")
-                        print("State \(state)")
-                        self.state = .significantLocationChanges
-                        self.locationManager.stopMonitoringSignificantLocationChanges()
-                        self.locationManager.stopUpdatingLocation()
-                        self.locationManager.delegate = nil
-                        self.locationManager = CLLocationManager()
-                        self.configure()
-                        self.locationManager.startMonitoringSignificantLocationChanges()
-                    }
+                    Log.print("State \(state)")
+                    self.state = .significantLocationChanges
+                    self.slcLocationManager.stopMonitoringSignificantLocationChanges()
+                    self.locationManager.stopUpdatingLocation()
+                    self.configure(self.slcLocationManager)
+                    self.slcLocationManager.startMonitoringSignificantLocationChanges()
                 case .locationChanges:
-                    if self.state == .disabled {
+                    if (self.state == .disabled || self.state == .significantLocationChanges) {
                         Log.print("State \(state)")
-                        print("State \(state)")
-                        self.locationManager.stopMonitoringSignificantLocationChanges()
+                        self.slcLocationManager.stopMonitoringSignificantLocationChanges()
                         self.locationManager.stopUpdatingLocation()
-                        self.locationManager.delegate = nil
-                        self.locationManager = CLLocationManager()
-                        self.configure()
-                        self.locationManager.startUpdatingLocation()
-                    }
-                    if self.state == .significantLocationChanges {
-                        Log.print("State \(state)")
-                        print("State \(state)")
-                        self.locationManager.stopMonitoringSignificantLocationChanges()
-                        self.locationManager.stopUpdatingLocation()
-                        self.locationManager.delegate = nil
-                        self.locationManager = CLLocationManager()
-                        self.configure()
+                        self.configure(self.locationManager)
                         self.locationManager.startUpdatingLocation()
                     }
                     self.state = .locationChanges
@@ -75,27 +59,18 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     // MARK: - Private Method
-    func disable() {
-        DispatchQueue.main.async {
-            Log.print("Locations \(self.locationsCount)")
-            print("\(Date())Locations \(self.locationsCount)")
-            self.locationsCount = 0
-            self.locationManager.delegate = nil
-            self.locationManager.stopUpdatingLocation()
-            self.locationManager.stopMonitoringSignificantLocationChanges()
-            self.state = .disabled
-        }
-    }
     
-    func configure() {
-        locationManager.requestAlwaysAuthorization()
-        locationManager.delegate = self
-        locationManager.distanceFilter = kCLDistanceFilterNone
-        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        locationManager.activityType = .automotiveNavigation
+    func configure(_ clLocationManager: CLLocationManager) {
+        clLocationManager.requestAlwaysAuthorization()
+        clLocationManager.delegate = self
+        clLocationManager.distanceFilter = kCLDistanceFilterNone
+        clLocationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        clLocationManager.activityType = .automotiveNavigation
+        
         #if targetEnvironment(simulator)
         #else
-        locationManager.allowsBackgroundLocationUpdates = true
+        clLocationManager.pausesLocationUpdatesAutomatically = false
+        clLocationManager.allowsBackgroundLocationUpdates = true
         #endif
     }
     
@@ -112,9 +87,13 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         }
     }
     
+    public func locationManager(_ manager: CLLocationManager, didFinishDeferredUpdatesWithError error: Error?) {
+        guard let error = error else { return }
+        Log.print("didFinishDeferredUpdatesWithError \(error)", type: .Error)
+    }
+    
     public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         Log.print("didFailWithError \(error)", type: .Error)
-        print("didFailWithError \(error)")
         if let error = error as? CLError {
             
             switch error.code {
@@ -178,4 +157,20 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
             }
         }
     }
+    
+    // MARK: - Region Monitor
+    public func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        if let region = region as? CLCircularRegion {
+            self.rxRegion.onNext(region)
+            Log.print("Monitor Did Enter Region \(region)")
+        }
+    }
+    
+    public func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+        if let region = region as? CLCircularRegion {
+            self.rxRegion.onNext(region)
+            Log.print("Monitor Did Exit Region \(region)")
+        }
+    }
 }
+
