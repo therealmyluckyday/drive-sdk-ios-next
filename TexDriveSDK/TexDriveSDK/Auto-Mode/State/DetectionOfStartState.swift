@@ -26,13 +26,13 @@ public class DetectionOfStartState: SensorAutoModeDetectionState {
     
     override func enableLocationSensor() {
         super.enableLocationSensor()
-        locationManager.change(state: .locationChanges)
+        locationManager.autoModeLocationSensor.change(state: .locationChanges)
     }
     
     override func stop() {
         Log.print("stop")
         disableSensor()
-        locationManager.locationManager.stopUpdatingLocation()
+        locationManager.autoModeLocationSensor.clLocationManager.stopUpdatingLocation()
         if let context = self.context {
             let state = StandbyState(context: context, locationManager: locationManager)
             context.rxState.onNext(state)

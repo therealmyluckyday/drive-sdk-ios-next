@@ -17,7 +17,7 @@ public class StandbyState: SensorAutoModeDetectionState {
     override func enableLocationSensor() {
         DispatchQueue.main.async {
             super.enableLocationSensor()
-            self.locationManager.change(state: .significantLocationChanges)
+            self.locationManager.autoModeLocationSensor.change(state: .significantLocationChanges)
         }
     }
     

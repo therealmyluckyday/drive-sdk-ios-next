@@ -38,7 +38,7 @@ class PersistantQueueTests: XCTestCase {
             if let trip = eventTrip.element {
                 isproviderTripCalled = true
                 XCTAssertEqual(trip.event!.eventType, EventType.start)
-                XCTAssertEqual(trip.count, 101)
+                XCTAssertEqual(trip.count, TripConstant.MinFixesToSend+1)
             }
         }.disposed(by: disposeBag)
         var isTripIdCalled = false
@@ -178,7 +178,7 @@ class PersistantQueueTests: XCTestCase {
             }
         }
         eventType.onNext(EventType.start)
-        for i in 0...99 {
+        for i in 0...TripConstant.MinFixesToSend-1 {
             let date = Date(timeIntervalSinceNow: 9999)
             let latitude = 48.886951
             let longitude = 2.343072

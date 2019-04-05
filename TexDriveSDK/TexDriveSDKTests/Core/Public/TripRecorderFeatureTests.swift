@@ -25,7 +25,9 @@ class TripRecorderFeatureTests: XCTestCase {
     }
     
     func testCanActivateLocationReturnTrue() {
-        let mockLocationManager = LocationManager(locationManager: MockCLLocationManager())
+        let locationSensor = LocationSensor(MockCLLocationManager())
+        let autoModeLocationSensor = AutoModeLocationSensor(MockCLLocationManager())
+        let mockLocationManager = LocationManager(autoModeLocationSensor, trackerLocationSensor: locationSensor)
         MockCLLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
         let feature = TripRecorderFeature.Location(mockLocationManager)
         
@@ -33,27 +35,35 @@ class TripRecorderFeatureTests: XCTestCase {
     }
     
     func testCanActivateLocationReturnFalseWhenAuthorizationStatusDenied() {
-        let mockLocationManager = LocationManager(locationManager: MockCLLocationManager())
+        let locationSensor = LocationSensor(MockCLLocationManager())
+        let autoModeLocationSensor = AutoModeLocationSensor(MockCLLocationManager())
+        let mockLocationManager = LocationManager(autoModeLocationSensor, trackerLocationSensor: locationSensor)
         MockCLLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.denied
         let feature = TripRecorderFeature.Location(mockLocationManager)
         
         XCTAssert(feature.canActivate())
     }
     func testCanActivateLocationWhenAuthorizationStatusNotDetermined() {
-        let mockLocationManager = LocationManager(locationManager: MockCLLocationManager())
+        let locationSensor = LocationSensor(MockCLLocationManager())
+        let autoModeLocationSensor = AutoModeLocationSensor(MockCLLocationManager())
+        let mockLocationManager = LocationManager(autoModeLocationSensor, trackerLocationSensor: locationSensor)
         MockCLLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.notDetermined
         let feature = TripRecorderFeature.Location(mockLocationManager)
         XCTAssertFalse(feature.canActivate())
     }
     func testCanActivateLocationWhenAuthorizationStatusRestricted() {
-        let mockLocationManager = LocationManager(locationManager: MockCLLocationManager())
+        let locationSensor = LocationSensor(MockCLLocationManager())
+        let autoModeLocationSensor = AutoModeLocationSensor(MockCLLocationManager())
+        let mockLocationManager = LocationManager(autoModeLocationSensor, trackerLocationSensor: locationSensor)
         MockCLLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.restricted
         let feature = TripRecorderFeature.Location(mockLocationManager)
 
         XCTAssert(feature.canActivate())
     }
     func testCanActivateLocationAuthorizationStatusAuthorizedWhenInUse() {
-        let mockLocationManager = LocationManager(locationManager: MockCLLocationManager())
+        let locationSensor = LocationSensor(MockCLLocationManager())
+        let autoModeLocationSensor = AutoModeLocationSensor(MockCLLocationManager())
+        let mockLocationManager = LocationManager(autoModeLocationSensor, trackerLocationSensor: locationSensor)
         MockCLLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedWhenInUse
         let feature = TripRecorderFeature.Location(mockLocationManager)
 

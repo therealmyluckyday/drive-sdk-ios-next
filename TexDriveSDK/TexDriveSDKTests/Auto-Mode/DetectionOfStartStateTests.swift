@@ -79,7 +79,7 @@ class DetectionOfStartStateTests: XCTestCase {
         let location = CLLocation(coordinate: CLLocationCoordinate2D(latitude: 14, longitude: 15), altitude: 1000, horizontalAccuracy: 1, verticalAccuracy: 1, course: 1, speed: 1, timestamp: Date())
         state.didUpdateLocations(location: location)
 
-        let locationTime121SecondAfter = CLLocation(coordinate: CLLocationCoordinate2D(latitude: 14, longitude: 15), altitude: 1000, horizontalAccuracy: 1, verticalAccuracy: 1, course: 1, speed: 1, timestamp: Date().addingTimeInterval(121))
+        let locationTime121SecondAfter = CLLocation(coordinate: CLLocationCoordinate2D(latitude: 14, longitude: 15), altitude: 1000, horizontalAccuracy: 1, verticalAccuracy: 1, course: 1, speed: 1, timestamp: Date().addingTimeInterval(state.timeLowSpeedThreshold+1))
         state.didUpdateLocations(location: locationTime121SecondAfter)
         //Then the state machine goes to WaitingScanTrigger state
         wait(for: [expectation], timeout: 1)

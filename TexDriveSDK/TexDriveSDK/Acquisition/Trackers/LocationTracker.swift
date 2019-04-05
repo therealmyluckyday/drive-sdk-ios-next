@@ -15,14 +15,13 @@ import RxCocoa
 class LocationTracker: NSObject, Tracker {
     // MARK: Property
     typealias T = LocationFix
-    let locationManager: LocationManager
     private var rxLocationFix = PublishSubject<Result<LocationFix>>()
     var rxDisposeBag: DisposeBag?
-    let manager = CLLocationManager()
+    let locationSensor: LocationSensor
     
     // MARK: Lifecycle method
-    init(sensor: LocationManager) {
-        locationManager = sensor
+    init(sensor: LocationSensor) {
+        locationSensor = sensor
     }
     
     deinit {
@@ -31,20 +30,24 @@ class LocationTracker: NSObject, Tracker {
     
     // MARK: - Tracker Protocol
     func enableTracking() {
-        self.rxDisposeBag = DisposeBag()
-        manager.requestWhenInUseAuthorization()
-        manager.startUpdatingLocation()
-        manager.rx
-            .location
-            .subscribe(onNext: { [weak self] location in
-                guard let location = location else { return }
-                self?.didUpdateLocations(location: location)
-            })
-            .disposed(by: rxDisposeBag!)
+        let disposeBag = DisposeBag()
+        self.rxDisposeBag = disposeBag
+        #if targetEnvironment(simulator)
+        #else
+        locationSensor.clLocationManager.requestAlwaysAuthorization()
+        #endif
+        locationSensor.configureWithRXCoreLocation()
+        locationSensor.rxLocation.asObservable().observeOn(MainScheduler.instance).subscribe { [weak self](event) in
+                if let location = event.element {
+                    self?.didUpdateLocations(location: location)
+                }
+        }.disposed(by: disposeBag)
+        
+        locationSensor.clLocationManager.startUpdatingLocation()
     }
     
     func disableTracking() {
-        manager.stopUpdatingLocation()
+        locationSensor.clLocationManager.stopUpdatingLocation()
     }
     
     func provideFix() -> PublishSubject<Result<LocationFix>> {

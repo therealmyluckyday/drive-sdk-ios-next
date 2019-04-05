@@ -184,7 +184,7 @@ class MotionBufferTests: XCTestCase {
                 XCTAssert(motionsFix.count < 1501)
                 XCTAssert(motionsFix.first!.timestamp < motionCrashHighest.timestamp - 9)
                 XCTAssert(motionsFix.first!.timestamp > motionCrashHighest.timestamp - 11)
-                XCTAssert(motionsFix.last!.timestamp > motionCrashHighest.timestamp + 4.2, ": \(motionsFix.last!.timestamp - motionCrashHighest.timestamp) < 4.4")
+                XCTAssert(motionsFix.last!.timestamp > motionCrashHighest.timestamp + 4.0, ": \(motionsFix.last!.timestamp - motionCrashHighest.timestamp) < 4.4")
                 XCTAssert(motionsFix.last!.timestamp < motionCrashHighest.timestamp + 5.1)
             }
         })

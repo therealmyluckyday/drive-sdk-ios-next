@@ -39,7 +39,7 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
     
     override func enableLocationSensor() {
         super.enableLocationSensor()
-        locationManager.change(state: .locationChanges)
+        locationManager.autoModeLocationSensor.change(state: .locationChanges)
     }
     
     override func enable() {

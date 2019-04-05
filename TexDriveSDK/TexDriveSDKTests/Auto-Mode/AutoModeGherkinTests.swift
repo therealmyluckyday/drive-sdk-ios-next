@@ -34,24 +34,22 @@ class AutoModeGherkinTests: XCTestCase {
     * TOTEST IN StandbyState Then the monitoring for a significant location change is activated
      */
     func testDisabledToStandbyStateWhenEnabledCalled() {
-        var isCalled = false
+        let expectation = XCTestExpectation(description: #function)
     automode?.rxState.asObservable().observeOn(MainScheduler.instance).subscribe({ (event) in
-        isCalled = true
             if let state = event.element {
-                print(state)
                 switch state {
                 case is StandbyState:
-                    XCTAssert(true)
+                    expectation.fulfill()
                     break
                 default:
-                    XCTAssert(false)
+                    print(state)
                 }
             } else {
                 XCTAssert(false)
             }
         }).disposed(by: disposeBag!)
         automode?.enable()
-        XCTAssert(isCalled)
+        wait(for: [expectation], timeout: 0.1)
     }
 
     /*

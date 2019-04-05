@@ -22,7 +22,7 @@ class TripInfosTests: XCTestCase {
         let sdkVersion = "3.0.0"
         let firstVia = "TEX_iOS_SDK/\(os)/\(sdkVersion)"
         XCTAssertEqual(result["uid"] as! String, UIDevice.current.identifierForVendor!.uuidString)
-        XCTAssertEqual(result["timezone"] as! String, "+0100")
+        XCTAssertNotNil(result["timezone"] as? String)
         XCTAssertEqual(result["os"] as! String, UIDevice.current.os())
         XCTAssertEqual(result["model"] as! String, UIDevice.current.hardwareString())
         XCTAssertEqual(result["version"] as! String, sdkVersion)

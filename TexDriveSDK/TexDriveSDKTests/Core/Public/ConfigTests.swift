@@ -50,7 +50,9 @@ class ConfigTests: XCTestCase {
         let locale = Locale.current
         let user = User.Anonymous
         MockCLLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.notDetermined
-        let mockLocationManager = LocationManager(locationManager: MockCLLocationManager())
+        let locationSensor = LocationSensor(MockCLLocationManager())
+        let autoModeLocationSensor = AutoModeLocationSensor(MockCLLocationManager())
+        let mockLocationManager = LocationManager(autoModeLocationSensor, trackerLocationSensor: locationSensor)
         let locationFeature = TripRecorderFeature.Location(mockLocationManager)
         let features = [locationFeature]
         do {

@@ -8,6 +8,7 @@
 
 import XCTest
 import CoreLocation
+import RxSwift
 
 @testable import TexDriveSDK
 
@@ -15,26 +16,48 @@ class MockLocationManager: LocationManager {
     var mockCLLocationManager = MockCLLocationManager()
 }
 
-class MockCLLocationManager: CLLocationManager {
+extension Reactive where Base: MockCLLocationManager {
+   public var location: Observable<CLLocation?> {
+        return self.observe(CLLocation.self, #keyPath(MockCLLocationManager.mockLocation))
+    }
+}
+
+public class MockLocationManagerDelegate: NSObject, CLLocationManagerDelegate {
+    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("YOUHOU")
+    }
+}
+
+public class MockCLLocationManager: CLLocationManager {
+    @objc var mockLocation: CLLocation?
+    
+    var mockDelegate: MockLocationManagerDelegate?
+    
+    func mock() {
+        self.mockDelegate = MockLocationManagerDelegate()
+        self.delegate = self.mockDelegate
+    }
+    
     static var mockAuthorizationStatus: CLAuthorizationStatus?
-    override class func authorizationStatus() -> CLAuthorizationStatus {
+    override public class func authorizationStatus() -> CLAuthorizationStatus {
         return mockAuthorizationStatus!
     }
     
+    
     var isStartUpdatingLocationCalled = false
     
-    override func startUpdatingLocation() {
+    override public func startUpdatingLocation() {
         isStartUpdatingLocationCalled = true
     }
     
     var isStopUpdatingLocationCalled = false
-    override func stopUpdatingLocation() {
+    override public func stopUpdatingLocation() {
         isStopUpdatingLocationCalled = true
     }
     
     var mockPausesLocationUpdatesAutomatically = true
     
-    override var pausesLocationUpdatesAutomatically: Bool {
+    override public var pausesLocationUpdatesAutomatically: Bool {
         get {
             return mockPausesLocationUpdatesAutomatically
         }
@@ -43,7 +66,7 @@ class MockCLLocationManager: CLLocationManager {
         }
     }
     var mockAllowsBackgroundLocationUpdates = false
-    override var allowsBackgroundLocationUpdates : Bool {
+    override public var allowsBackgroundLocationUpdates : Bool {
         get {
             return mockAllowsBackgroundLocationUpdates
         }
@@ -60,13 +83,13 @@ class MockCLLocationManager: CLLocationManager {
 }
 
 class LocationTrackerTests: XCTestCase {
-    var mockLocationManager :  LocationManager?
     var locationTracker : LocationTracker?
+    var locationSensor : LocationSensor?
     
     override func setUp() {
         super.setUp()
-        mockLocationManager = LocationManager()
-        locationTracker = LocationTracker(sensor: mockLocationManager!)
+        
+        locationTracker = LocationTracker(sensor: LocationSensor(CLLocationManager()))
     }
     
     override func tearDown() {
@@ -95,7 +118,6 @@ class LocationTrackerTests: XCTestCase {
         let altitude = 1.4
         let location = CLLocation(coordinate: coordinate, altitude: altitude, horizontalAccuracy: precision, verticalAccuracy: 1.1, course: bearing, speed: speed, timestamp: date)
         
-        let locations = [location]
         
         let subscribe = locationTracker!.provideFix().asObservable().subscribe({ (event) in
             switch event.element {

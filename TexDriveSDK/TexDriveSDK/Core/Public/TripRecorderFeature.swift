@@ -20,7 +20,7 @@ public enum TripRecorderFeature {
     func canActivate() -> Bool {
         switch self {
         case .Location(let locationManager):
-            return type(of: locationManager.locationManager).authorizationStatus() != .notDetermined
+            return type(of: locationManager.trackerLocationSensor.clLocationManager).authorizationStatus() != .notDetermined
         case .Motion(let motionManager):
             return motionManager.isDeviceMotionAvailable
         default:

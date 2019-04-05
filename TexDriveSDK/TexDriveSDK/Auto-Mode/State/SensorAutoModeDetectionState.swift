@@ -91,7 +91,7 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
     
     func enableLocationSensor() {
         DispatchQueue.main.async {
-            self.locationManager.rxLocation.asObserver().observeOn(MainScheduler.instance).subscribe { [weak self](event) in
+            self.locationManager.autoModeLocationSensor.rxLocation.asObserver().observeOn(MainScheduler.instance).subscribe { [weak self](event) in
                 if let location = event.element {
                     self?.didUpdateLocations(location: location)
                 }
