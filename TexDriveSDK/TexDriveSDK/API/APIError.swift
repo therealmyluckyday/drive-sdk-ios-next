@@ -6,12 +6,20 @@
 //  Copyright © 2019 Axa. All rights reserved.
 //
 
-struct APIError: Error {
+struct APIError: LocalizedError {
     var message: String
     var statusCode: Int
-    lazy var localizedDescription: String =  {
-        "Error on request \(self.statusCode) message: \(self.message)"
-    }()
+    var description: String {
+        get {
+            return "Error on request \(self.statusCode) message: \(self.message)"
+        }
+    }
+
+    var errorDescription: String? {
+        get {
+            return self.description
+        }
+    }
     
     init(message: String, statusCode: Int) {
         self.message = message

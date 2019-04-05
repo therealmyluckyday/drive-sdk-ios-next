@@ -18,6 +18,10 @@ public protocol TripRecorderProtocol {
     func stop()
 }
 
+public enum AXAToggleMode {
+    case Manual
+    case Auto
+}
 
 public class TripRecorder: TripRecorderProtocol {
     // MARK: - Property
@@ -29,6 +33,14 @@ public class TripRecorder: TripRecorderProtocol {
     private let apiTrip: APITrip
     internal let persistantQueue: PersistantQueue
     internal let rxTripId = PublishSubject<TripId>()
+    
+    // MARK: SDKV2 Compatibility
+    public var isRecording: Bool {
+        get {
+            return currentTripId != nil
+        }
+    }
+    public var startTime: Date?
     
     // MARK: Public
     public var currentTripId: TripId?
@@ -43,11 +55,13 @@ public class TripRecorder: TripRecorderProtocol {
     // MARK: - TripRecorder Protocol
     public func start() {
         collector.startCollect()
+        startTime = Date()
     }
     
     public func stop() {
         collector.stopCollect()
-        autoMode?.disable()
+        currentTripId = nil
+        startTime = nil
     }
     
     public func activateAutoMode() {
@@ -68,7 +82,7 @@ public class TripRecorder: TripRecorderProtocol {
         configuration.tripRecorderFeatures.forEach { (feature) in
             switch feature {
             case .Location(let locationManager):
-                let locationTracker = LocationTracker(sensor: locationManager)
+                let locationTracker = LocationTracker(sensor: locationManager.trackerLocationSensor)
                 collector.collect(tracker: locationTracker)
                 self.autoMode = AutoMode(locationManager: locationManager)
                 break
@@ -114,5 +128,20 @@ public class TripRecorder: TripRecorderProtocol {
                 }
             }
             }.disposed(by: rxDisposeBag)
+    }
+
+    // MARK: - SDK V2 compatibility
+    public func startTrip(with mode: AXAToggleMode) {
+        guard !isRecording else {
+            return
+        }
+        start()
+    }
+    
+    public func stopTrip(with mode: AXAToggleMode) {
+        guard isRecording else {
+            return
+        }
+        stop()
     }
 }
