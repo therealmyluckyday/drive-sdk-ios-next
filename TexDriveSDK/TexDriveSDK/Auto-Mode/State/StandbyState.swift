@@ -12,8 +12,6 @@ import CoreLocation
 public class StandbyState: SensorAutoModeDetectionState {
     var thresholdSpeed: CLLocationSpeed = CLLocationSpeed(exactly: 10)!
     
-    let isSimulatorDriveTestingAutoMode = false // Used for Simulator Device Testing
-    
     override func enableLocationSensor() {
         DispatchQueue.main.async {
             super.enableLocationSensor()

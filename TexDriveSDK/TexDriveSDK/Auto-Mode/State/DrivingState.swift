@@ -81,7 +81,7 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
     // MARK: - SensorAutoModeDetectionState
     override func didUpdateLocations(location: CLLocation) {        
         
-        guard sensorState == .enable, -location.timestamp.timeIntervalSinceNow < 5 else {
+        guard sensorState == .enable, -location.timestamp.timeIntervalSinceNow < 5, location.speed >= 0 || isSimulatorDriveTestingAutoMode else {
             return
         }
         resetTimer(timeInterval: intervalDelay)

@@ -13,7 +13,6 @@ public class DetectionOfStartState: SensorAutoModeDetectionState {
     var firstLocation: CLLocation?
     var thresholdSpeed = CLLocationSpeed(exactly: 20)!
     let timeLowSpeedThreshold = TimeInterval(exactly: 180)!
-    let isSimulatorDriveTestingAutoMode = false // Used for Simulator Device Testing
     
     override func enableMotionSensor() {
         motionManager.startActivityUpdates(to: OperationQueue.main) {[weak self] (activity) in
@@ -53,8 +52,8 @@ public class DetectionOfStartState: SensorAutoModeDetectionState {
     
     // MARK: - SensorAutoModeDetectionState
     override func didUpdateLocations(location: CLLocation) {
-        Log.print("Speed: \(location.speed), Accuracy: \(location.verticalAccuracy) \(location.horizontalAccuracy)")
-        guard sensorState == .enable else {
+        Log.print("Speed: \(location.speed), Accuracy: \(location.verticalAccuracy) \(location.horizontalAccuracy), ThresholdSpeed: \(thresholdSpeed)")
+        guard sensorState == .enable, location.speed >= 0 || isSimulatorDriveTestingAutoMode else {
             return
         }
         if location.speed > thresholdSpeed {
