@@ -121,11 +121,13 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
     func urlSession(_ session: URLSession,
                     task: URLSessionTask,
                     didCompleteWithError error: Error?) {
-        if let error = error {
+        if let error = error as NSError? {
             Log.print("HTTP connection error: \(error)", type: .Error)
             if let downloadTask = task as? URLSessionDownloadTask {
                Log.print("HTTP connection error downloadtask: \(downloadTask)")
-                self.retry(task: downloadTask)
+                if error.domain != "NSPOSIXErrorDomain"  {
+                    self.retry(task: downloadTask)
+                }
                 
             }
         }
