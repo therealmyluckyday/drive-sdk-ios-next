@@ -31,9 +31,9 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
         }
         return TripId(uuidString: "0FDA9008-F429-4F53-9D8E-F3964B2CAF62")!
     }()
-    lazy var texServices: TexServices = {
+    lazy var texServices: TexServices? = {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        return appDelegate.texServices!
+        return appDelegate.texServices
     }()
     
     override func viewDidLoad() {
@@ -55,7 +55,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
     }
     
     func showOldLog(cleanOld : Bool = false) {
-        
         let fileName = "Test"
         let DocumentDirURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
         let fileURL = DocumentDirURL.appendingPathComponent(fileName).appendingPathExtension("txt")
@@ -80,14 +79,14 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
     
     func configureTexSDK(withUserId: String) {
         self.logUser(userName: withUserId)
-        
-        texServices.tripRecorder.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { [weak self] (event) in
+        guard let services = texServices else { return }
+        services.tripRecorder.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { [weak self] (event) in
             if let tripId = event.element {
                 self?.appendText(string: "\n Trip finished: \n \(tripId.uuidString)")
                 self?.saveLog("\n Trip finished: \n \(tripId.uuidString)")
             }
             }.disposed(by: rxDisposeBag)
-        tripRecorder = texServices.tripRecorder
+        tripRecorder = services.tripRecorder
         tripRecorder?.rxIsDriving.asObserver().observeOn(MainScheduler.asyncInstance).subscribe({ [weak self] (event) in
             if let isDriving = event.element {
                 self?.appendText(string: "\n isDriving: \n \(isDriving)")
@@ -105,12 +104,12 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
             }
         }).disposed(by: rxDisposeBag)
         
-        texServices.rxScore.asObserver().observeOn(MainScheduler.asyncInstance).retry().subscribe({ [weak self] (event) in
+        services.rxScore.asObserver().observeOn(MainScheduler.asyncInstance).retry().subscribe({ [weak self] (event) in
             if let score = event.element {
                 self?.appendText(string: "NEW SCORE \(score)")
             }
         }).disposed(by: rxDisposeBag)
-        self.configureLog(texServices.logManager.rxLog)
+        self.configureLog(services.logManager.rxLog)
         
     }
     
@@ -154,17 +153,20 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
     }
     
     @IBAction func getScore(_ sender: Any) {
+        guard let services = texServices else { return }
         UIView.animate(withDuration: 0.6, delay: 0, options: UIView.AnimationOptions.curveEaseInOut, animations: {
             self.scoreButton.alpha = 0
         }) { (finished) in
             
         }
-        let rxScore = texServices.rxScore
-        texServices.scoreRetriever.getScore(tripId: currentTripId, rxScore: rxScore)
+        
+        let rxScore = services.rxScore
+        services.scoreRetriever.getScore(tripId: currentTripId, rxScore: rxScore)
     }
     
     // MARK: - Log Management
     func configureLog(_ log: PublishSubject<LogMessage>) {
+        guard let services = texServices else { return }
         log.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
             if let logDetail = event.element {
                 self?.report(logDetail: logDetail)
@@ -172,9 +174,9 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
             }.disposed(by: self.rxDisposeBag)
         
         do {
-            let regex = try NSRegularExpression(pattern: ".*(TripChunk|Score|URLRequestExtension.swift|State|API|).*", options: NSRegularExpression.Options.caseInsensitive)
+            let regex = try NSRegularExpression(pattern: ".*(TripChunk|Score|URLRequestExtension.swift|API).*", options: NSRegularExpression.Options.caseInsensitive)
 //            let regex = try NSRegularExpression(pattern: ".*.*", options: NSRegularExpression.Options.caseInsensitive)
-            texServices.logManager.log(regex: regex, logType: LogType.Info)
+            services.logManager.log(regex: regex, logType: LogType.Info)
         } catch {
             let customLog = OSLog(subsystem: "fr.axa.tex", category: #file)
             os_log("[ViewController][configureLog] regex error %@", log: customLog, type: .error, error.localizedDescription)
