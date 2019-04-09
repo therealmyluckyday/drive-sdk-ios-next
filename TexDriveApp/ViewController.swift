@@ -174,8 +174,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
         do {
             let regex = try NSRegularExpression(pattern: ".*(TripChunk|Score|URLRequestExtension.swift|State|API|).*", options: NSRegularExpression.Options.caseInsensitive)
 //            let regex = try NSRegularExpression(pattern: ".*.*", options: NSRegularExpression.Options.caseInsensitive)
-//            let regex = try NSRegularExpression(pattern: ".*.*", options: NSRegularExpression.Options.caseInsensitive)
-//            let regex = try NSRegularExpression(pattern: ".*(State|API|AutoMode.swift|LocationTracker|APITripSessionManager|PersistantQueue|TripChunk).*", options: NSRegularExpression.Options.caseInsensitive)
             texServices.logManager.log(regex: regex, logType: LogType.Info)
         } catch {
             let customLog = OSLog(subsystem: "fr.axa.tex", category: #file)

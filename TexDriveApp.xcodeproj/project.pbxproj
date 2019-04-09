@@ -478,6 +478,7 @@
 				DEVELOPMENT_TEAM = C8S682A487;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = TexDriveApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -485,7 +486,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = axa.dil.TEXDrive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -498,6 +499,7 @@
 				DEVELOPMENT_TEAM = C8S682A487;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = TexDriveApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -505,7 +507,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = axa.dil.TEXDrive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
