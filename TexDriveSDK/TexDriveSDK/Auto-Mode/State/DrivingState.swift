@@ -97,7 +97,7 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
                             }
                         }
                     }
-                    Log.print("location.speed \(location.speed) < thresholdSpeed \(self?.thresholdSpeed)")
+                    Log.print("location.speed \(location.speed) < thresholdSpeed \(String(describing: self?.thresholdSpeed))")
                     self?.stop()
                 }
             }
