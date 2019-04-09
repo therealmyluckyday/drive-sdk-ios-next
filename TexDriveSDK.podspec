@@ -16,12 +16,12 @@ s.source       = { :git => "https://github.com/axadil/drive-sdk-ios-next.git", :
 s.source_files  = "TexDriveSDK/TexDriveSDK/**/*.{h,m,c,swift}"
 s.resources = "TexDriveSDK/TexDriveSDK/Resources/*"
 
-s.dependency 'RxSwift'
-s.dependency 'RxCocoa'
-s.dependency 'RxBlocking'
-s.dependency 'RxSwiftExt'
-s.dependency 'GzipSwift'
-s.dependency 'RxCoreLocation'
+s.dependency 'RxSwift', '~> 4.5.0'
+s.dependency 'RxCocoa', '~> 4.5.0'
+s.dependency 'RxBlocking', '~> 4.5.0'
+s.dependency 'RxSwiftExt', '~> 3.4.0'
+s.dependency 'GzipSwift', '~> 5.0.0'
+s.dependency 'RxCoreLocation', '~> 1.3.2'
 
 
 end

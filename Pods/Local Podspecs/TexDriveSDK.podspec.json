@@ -19,22 +19,22 @@
   "resources": "TexDriveSDK/TexDriveSDK/Resources/*",
   "dependencies": {
     "RxSwift": [
-
+      "~> 4.5.0"
     ],
     "RxCocoa": [
-
+      "~> 4.5.0"
     ],
     "RxBlocking": [
-
+      "~> 4.5.0"
     ],
     "RxSwiftExt": [
-
+      "~> 3.4.0"
     ],
     "GzipSwift": [
-
+      "~> 5.0.0"
     ],
     "RxCoreLocation": [
-
+      "~> 1.3.2"
     ]
   }
 }
