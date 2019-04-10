@@ -13,14 +13,14 @@ public class TexServices {
     // MARK: - Property
     // MARK: - Public
     public let logManager = LogManager()
-    public var tripRecorder: TripRecorder {
+    public var tripRecorder: TripRecorder? {
         get {
-            return _tripRecorder!
+            return _tripRecorder
         }
     }
-    public var scoreRetriever: ScoreRetrieverProtocol {
+    public var scoreRetriever: ScoreRetrieverProtocol? {
         get {
-            return _scoreRetriever!
+            return _scoreRetriever
         }
     }
     public let rxScore = PublishSubject<Score>()
@@ -37,7 +37,8 @@ public class TexServices {
     
     // MARK: - Internal Method
     internal func reconfigure(_ configure: ConfigurationProtocol) {
-        disposeBag = DisposeBag()
+        let rxDisopseBag = DisposeBag()
+        disposeBag = rxDisopseBag
         self.configuration = configure
         let scoreSessionManager = APIScoreSessionManager(configuration: configure.tripInfos)
         _scoreRetriever = ScoreRetriever(sessionManager: scoreSessionManager, locale: configure.locale)
@@ -47,7 +48,7 @@ public class TexServices {
             if let tripId = event.element, let rxScore = self?.rxScore {
                 self?._scoreRetriever?.getScore(tripId: tripId, rxScore: rxScore)
             }
-        }.disposed(by: disposeBag!)
+        }.disposed(by: rxDisopseBag)
     }
     
     // MARK: - Public Method

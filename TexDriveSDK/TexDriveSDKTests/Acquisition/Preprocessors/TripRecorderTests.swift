@@ -231,7 +231,7 @@ class TripRecorderTests: XCTestCase {
         
         let service = TexServices.service(reconfigureWith: configuration)
         
-        XCTAssertNil(service.tripRecorder.currentTripId)
+        XCTAssertNil(service.tripRecorder?.currentTripId)
     }
 }
 

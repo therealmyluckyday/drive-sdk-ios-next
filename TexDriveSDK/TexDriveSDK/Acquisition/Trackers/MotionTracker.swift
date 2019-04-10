@@ -45,7 +45,9 @@ class MotionTracker: Tracker {
         rxDisposeBag = disposeBag
         motionSensor.startDeviceMotionUpdates(using: CMAttitudeReferenceFrame.xArbitraryCorrectedZVertical, to: operationQueue) { [weak self](motion, error) in
             guard let motion = motion, error == nil else {
-                self?.provideFix().onNext(Result.Failure(error!))
+                if let error = error {
+                    self?.provideFix().onNext(Result.Failure(error))
+                }
                 return
             }
             if let accelerationThreshold = self?.accelerationThreshold {

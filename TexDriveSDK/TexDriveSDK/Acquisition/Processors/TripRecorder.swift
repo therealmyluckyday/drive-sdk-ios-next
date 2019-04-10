@@ -46,9 +46,9 @@ public class TripRecorder: TripRecorderProtocol {
     public var currentTripId: TripId?
     public let tripIdFinished: PublishSubject<TripId>
     
-    public var rxIsDriving: PublishSubject<Bool> {
+    public var rxIsDriving: PublishSubject<Bool>? {
         get {
-            return self.autoMode!.rxIsDriving
+            return self.autoMode?.rxIsDriving
         }
     }
     
@@ -119,7 +119,8 @@ public class TripRecorder: TripRecorderProtocol {
     }
     
     func configureAutoMode(_ scheduler: SerialDispatchQueueScheduler) {
-        autoMode!.rxIsDriving.asObserver().observeOn(MainScheduler.instance).subscribe { [weak self](event) in
+        guard let autoMode = autoMode else { return  }
+        autoMode.rxIsDriving.asObserver().observeOn(MainScheduler.instance).subscribe { [weak self](event) in
             if let isDriving = event.element {
                 if isDriving {
                     self?.collector.startCollect()
