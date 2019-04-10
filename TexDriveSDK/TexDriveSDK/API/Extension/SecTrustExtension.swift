@@ -64,7 +64,7 @@ extension SecTrust: SecurityPolicy {
                 Log.print("Couldn't read pinning certificate data", type: .Error)
             }
         } else {
-            Log.print("Couldn't load pinning certificate!", type: .Error)
+            Log.print("Couldn't load pinning certificate", type: .Error)
         }
         return false
     }
