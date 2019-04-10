@@ -116,6 +116,9 @@ public class LocationSensor: NSObject, LocationSensorProtocol, CLLocationManager
             case .rangingFailure:
                 Log.print("rangingFailure", type: .Error)
                 break
+            @unknown default:
+                Log.print("unknown", type: .Error)
+                break
             }
         }
     }

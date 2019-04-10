@@ -46,6 +46,9 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
             break
         case .authorized:
             break
+        @unknown default:
+            Log.print("CMMotionActivityManager authorizationStatus() == .unknown", type: .Error)
+            break
         }
         switch CLLocationManager.authorizationStatus() {
         case .notDetermined:
@@ -61,6 +64,9 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
             break
         case .authorizedWhenInUse:
             Log.print("CLLocationManager authorizationStatus() == .authorizedWhenInUse")
+            break
+        @unknown default:
+            Log.print("CLLocationManager authorizationStatus() == .unknown", type: .Error)
             break
         }
     }

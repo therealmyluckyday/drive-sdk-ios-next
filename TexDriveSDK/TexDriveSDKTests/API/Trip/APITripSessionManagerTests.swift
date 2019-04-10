@@ -83,7 +83,7 @@ class APITripSessionManagerTests: XCTestCase {
     
     func testIsTripStopped_false_nojsonBody() {
         var request = URLRequest(url: URL(string: "http://google.com")!)
-        request.httpBody = Data(bytes: [15])
+        request.httpBody = Data(_: [15])
         let backgroundTask = urlBackgroundTaskSession!.downloadTask(with: request)
         XCTAssertFalse(APITripSessionManager.isTripStoppedSend(task: backgroundTask))
     }
