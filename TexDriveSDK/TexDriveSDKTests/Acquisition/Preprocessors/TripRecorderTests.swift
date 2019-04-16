@@ -229,7 +229,7 @@ class TripRecorderTests: XCTestCase {
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)
         
-        let service = TexServices.service(reconfigureWith: configuration)
+        let service = TexServices.service(configuration: configuration)
         
         XCTAssertNil(service.tripRecorder?.currentTripId)
     }

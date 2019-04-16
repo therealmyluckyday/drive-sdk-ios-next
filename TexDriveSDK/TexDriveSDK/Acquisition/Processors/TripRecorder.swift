@@ -29,10 +29,11 @@ public class TripRecorder: TripRecorderProtocol {
     private var rxEventType = PublishSubject<EventType>()
     private var rxFix = PublishSubject<Fix>()
     private let rxDisposeBag = DisposeBag()
-    private var autoMode: AutoMode?
+    internal var autoMode: AutoMode?
     private let apiTrip: APITrip
     internal let persistantQueue: PersistantQueue
     internal let rxTripId = PublishSubject<TripId>()
+    internal let rxDispatchQueueScheduler: SerialDispatchQueueScheduler
     
     // MARK: SDKV2 Compatibility
     public var isRecording: Bool {
@@ -74,6 +75,7 @@ public class TripRecorder: TripRecorderProtocol {
     
     // MARK: - Lifecycle
     public init(configuration: TripRecorderConfiguration, sessionManager: APITripSessionManagerProtocol) {
+        rxDispatchQueueScheduler = configuration.rxScheduler
         apiTrip = APITrip(apiSessionManager: sessionManager)
         tripIdFinished = sessionManager.tripIdFinished
         persistantQueue = PersistantQueue(eventType: rxEventType, fixes: rxFix, scheduler: configuration.rxScheduler, rxTripId: rxTripId, tripInfos: configuration.tripInfos, rxTripChunkSent: sessionManager.tripChunkSent)

@@ -23,6 +23,7 @@ public class TexServices {
             return _scoreRetriever
         }
     }
+    
     public let rxScore = PublishSubject<Score>()
     
     // MARK: - Private
@@ -36,24 +37,25 @@ public class TexServices {
     internal var configuration: ConfigurationProtocol?
     
     // MARK: - Internal Method
-    internal func reconfigure(_ configure: ConfigurationProtocol) {
-        let rxDisopseBag = DisposeBag()
-        disposeBag = rxDisopseBag
-        self.configuration = configure
-        let scoreSessionManager = APIScoreSessionManager(configuration: configure.tripInfos)
-        _scoreRetriever = ScoreRetriever(sessionManager: scoreSessionManager, locale: configure.locale)
-        let tripSessionManager = APITripSessionManager(configuration: configure.tripInfos)
-        _tripRecorder = TripRecorder(configuration: configure, sessionManager: tripSessionManager)
-        _tripRecorder?.tripIdFinished.asObserver().observeOn(configure.rxScheduler).delay(RxTimeInterval(exactly: 10)!, scheduler: configure.rxScheduler).subscribe { [weak self](event) in
+    internal func reconfigure(_ configuration: ConfigurationProtocol) {
+        let rxDisposeBag = DisposeBag()
+        disposeBag = rxDisposeBag
+        self.configuration = configuration
+        let scoreSessionManager = APIScoreSessionManager(configuration: configuration.tripInfos)
+        _scoreRetriever = ScoreRetriever(sessionManager: scoreSessionManager, locale: configuration.locale)
+        let tripSessionManager = APITripSessionManager(configuration: configuration.tripInfos)
+        _tripRecorder = TripRecorder(configuration: configuration, sessionManager: tripSessionManager)
+        _tripRecorder?.tripIdFinished.asObserver().observeOn(configuration.rxScheduler).delay(RxTimeInterval(exactly: 10)!, scheduler: configuration.rxScheduler).subscribe { [weak self](event) in
             if let tripId = event.element, let rxScore = self?.rxScore {
                 self?._scoreRetriever?.getScore(tripId: tripId, rxScore: rxScore)
             }
-        }.disposed(by: rxDisopseBag)
+        }.disposed(by: rxDisposeBag)
     }
     
     // MARK: - Public Method
-    public class func service(reconfigureWith configuration: ConfigurationProtocol) -> TexServices {
+    public class func service(configuration: ConfigurationProtocol) -> TexServices {
         if let triprecorder = sharedInstance._tripRecorder {
+            triprecorder.autoMode?.disable()
             triprecorder.stop()
         }
         sharedInstance.reconfigure(configuration)

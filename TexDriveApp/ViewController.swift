@@ -54,7 +54,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
         self.configureTexSDK(withUserId: userId)
     }
     
-    func showOldLog(cleanOld : Bool = false) {
+    func showOldLog(cleanOld : Bool = true) {
         let fileName = "Test"
         let DocumentDirURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
         let fileURL = DocumentDirURL.appendingPathComponent(fileName).appendingPathExtension("txt")
@@ -80,14 +80,14 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
     func configureTexSDK(withUserId: String) {
         self.logUser(userName: withUserId)
         guard let services = texServices else { return }
-        services.tripRecorder.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { [weak self] (event) in
+        services.tripRecorder?.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { [weak self] (event) in
             if let tripId = event.element {
                 self?.appendText(string: "\n Trip finished: \n \(tripId.uuidString)")
                 self?.saveLog("\n Trip finished: \n \(tripId.uuidString)")
             }
             }.disposed(by: rxDisposeBag)
         tripRecorder = services.tripRecorder
-        tripRecorder?.rxIsDriving.asObserver().observeOn(MainScheduler.asyncInstance).subscribe({ [weak self] (event) in
+        tripRecorder?.rxIsDriving?.asObserver().observeOn(MainScheduler.asyncInstance).subscribe({ [weak self] (event) in
             if let isDriving = event.element {
                 self?.appendText(string: "\n isDriving: \n \(isDriving)")
                 self?.saveLog("\n isDriving: \n \(isDriving)")
@@ -117,22 +117,18 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
         textfield.resignFirstResponder()
         switch sender.selectedSegmentIndex {
         case 1:
-//            tripRecorder?.stop()
-            print(" ")
+            print("isDriving")
         default:
-//            tripRecorder?.start()
-            print(" ")
+            print("isNotDriving")
         }
     }
     
     func startTrip() {
         tripRecorder?.activateAutoMode()
-//        tripRecorder?.start()
     }
     
     func stopTrip() {
         tripRecorder?.disableAutoMode()
-//        tripRecorder?.stop()
         showGetScoreButton()
     }
     
@@ -161,7 +157,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
         }
         
         let rxScore = services.rxScore
-        services.scoreRetriever.getScore(tripId: currentTripId, rxScore: rxScore)
+        services.scoreRetriever?.getScore(tripId: currentTripId, rxScore: rxScore)
     }
     
     // MARK: - Log Management
@@ -174,7 +170,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
             }.disposed(by: self.rxDisposeBag)
         
         do {
-            let regex = try NSRegularExpression(pattern: ".*(TripChunk|Score|URLRequestExtension.swift|API).*", options: NSRegularExpression.Options.caseInsensitive)
+            let regex = try NSRegularExpression(pattern: ".*(TripChunk|Score|URLRequestExtension.swift|API|State).*", options: NSRegularExpression.Options.caseInsensitive)
 //            let regex = try NSRegularExpression(pattern: ".*.*", options: NSRegularExpression.Options.caseInsensitive)
             services.logManager.log(regex: regex, logType: LogType.Info)
         } catch {
@@ -208,7 +204,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
         }
 
         let newLog = String(describing:logDetail.description)
-//        self.appendText(string: newLog)
+        self.appendText(string: newLog)
         self.saveLog(newLog)
     }
     

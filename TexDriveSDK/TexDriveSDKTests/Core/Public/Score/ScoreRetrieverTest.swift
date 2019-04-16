@@ -21,13 +21,11 @@ class ScoreRetrieverTest: XCTestCase {
         let user = User.Authentified("Erwan-ios12")
         let appId = "youdrive_france_prospect"
         
-        do {
-            let configuration = try Config(applicationId: appId, applicationLocale: Locale.current, currentUser: user, currentTripRecorderFeatures: [TripRecorderFeature](), domain: Domain.Preproduction)
-            let scoreSessionManager = APIScoreSessionManager(configuration: configuration!.tripInfos)
-            scoreRetriever = ScoreRetriever(sessionManager: scoreSessionManager, locale: Locale.current)
-        } catch {
-            XCTAssert(false)
-        }
+        let configuration = TexConfig(applicationId: appId, currentUser: user)
+        configuration.select(domain: Domain.Preproduction)
+        let scoreSessionManager = APIScoreSessionManager(configuration: configuration.tripInfos)
+        scoreRetriever = ScoreRetriever(sessionManager: scoreSessionManager, locale: Locale.current)
+
     }
     
     
