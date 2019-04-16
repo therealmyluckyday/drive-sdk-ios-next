@@ -4,7 +4,8 @@ workspace 'TexDrive'
 
 def shared_pods
     pod 'RxSwift',  '~> 4.5.0'
-    pod 'RxCocoa',  '~> 4.5.0'
+    # Add inhibit_warnings due to swift 5 conversion
+    pod 'RxCocoa',  '~> 4.5.0', :inhibit_warnings => true
     pod 'RxCoreLocation', '~>1.3.2'
 
     
@@ -27,9 +28,9 @@ end
 
 target 'TexDriveSDK' do
   pod 'RxSwift',  '~> 4.5.0'
-  pod 'RxSwiftExt',  '~> 3.4.0'
+  pod 'RxSwiftExt',  '~> 3.4.0', :inhibit_warnings => true
   pod 'RxCoreLocation', '~>1.3.2'
-  pod 'RxCocoa',  '~> 4.5.0'
+  pod 'RxCocoa',  '~> 4.5.0', :inhibit_warnings => true
   pod 'GzipSwift',  '~> 5.0.0'
     project 'TexDriveSDK/TexDriveSDK.xcodeproj'
     
