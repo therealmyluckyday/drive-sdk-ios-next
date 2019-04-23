@@ -9,7 +9,7 @@
 5. [Manual trip recording](#manual-trip-recording)
 5. [Automode trip recording](#automode-trip-recording)
 6. [Switch SDKV2 to SDKV3](#SDKV2-to-SDKV3)
-)
+
 
 
 ### Main Project Configuration
