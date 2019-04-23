@@ -13,8 +13,8 @@ protocol SerializeAPIGeneralInformation {
 
 public struct TripInfos: Equatable {
     let appId: String
-    let user: User
-    let domain: Domain
+    let user: TexUser
+    let domain: Platform
 }
 
 extension TripInfos: SerializeAPIGeneralInformation {

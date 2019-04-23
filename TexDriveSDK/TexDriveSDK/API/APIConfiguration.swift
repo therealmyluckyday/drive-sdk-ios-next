@@ -12,14 +12,14 @@ enum HttpMethod: String {
     case GET = "GET"
 }
 
-public enum Domain: String {
+public enum Platform: String {
     case Integration = "gw-int.tex.dil.services"
     case Preproduction = "gw-preprod.tex.dil.services"
     case Production = "gw.tex.dil.services"
 }
 
 protocol APIConfiguration {
-    var domain: Domain { get }
+    var domain: Platform { get }
     func baseUrl() -> String
     func httpHeaders() -> [String: Any]
 }

@@ -19,9 +19,9 @@ class APITripSessionManagerTests: XCTestCase {
     override func setUp() {
         super.setUp()
         rxDisposeBag = DisposeBag()
-        let user = User.Authentified("Erwan-ios12")
+        let user = TexUser.Authentified("Erwan-ios12")
         let appId = "youdrive_france_prospect"
-        apiSessionManager = APITripSessionManager(configuration: TripInfos(appId: appId, user: user, domain: Domain.Preproduction))
+        apiSessionManager = APITripSessionManager(configuration: TripInfos(appId: appId, user: user, domain: Platform.Preproduction))
         let config = URLSessionConfiguration.background(withIdentifier: "TexSession")
         config.isDiscretionary = true
         config.sessionSendsLaunchEvents = true
@@ -36,7 +36,7 @@ class APITripSessionManagerTests: XCTestCase {
     // MARK: - func isTripStoppedSend(task: URLSessionDownloadTask) -> Bool
     func testIsTripStopped_true() {
         let eventType = EventType.stop
-        let tripChunk = TripChunk(tripInfos: TripInfos(appId: "TEST", user: User.Anonymous, domain: Domain.Preproduction))
+        let tripChunk = TripChunk(tripInfos: TripInfos(appId: "TEST", user: TexUser.Anonymous, domain: Platform.Preproduction))
         tripChunk.append(eventType: eventType)
         if let request = URLRequest.createUrlRequest(url: URL(string: "http://google.com")!, body: tripChunk.serialize(), httpMethod: HttpMethod.PUT) {
             let backgroundTask = urlBackgroundTaskSession!.downloadTask(with: request)
@@ -48,7 +48,7 @@ class APITripSessionManagerTests: XCTestCase {
     }
     func testIsTripStopped_false_NoStopEvent() {
         let eventType = EventType.start
-        let tripChunk = TripChunk(tripInfos: TripInfos(appId: "TEST", user: User.Anonymous, domain: Domain.Preproduction))
+        let tripChunk = TripChunk(tripInfos: TripInfos(appId: "TEST", user: TexUser.Anonymous, domain: Platform.Preproduction))
         tripChunk.append(eventType: eventType)
         if let request = URLRequest.createUrlRequest(url: URL(string: "http://google.com")!, body: tripChunk.serialize(), httpMethod: HttpMethod.PUT) {
             let backgroundTask = urlBackgroundTaskSession!.downloadTask(with: request)
@@ -60,7 +60,7 @@ class APITripSessionManagerTests: XCTestCase {
     }
     
     func testIsTripStopped_false_noEvent() {
-        let tripChunk = TripChunk(tripInfos: TripInfos(appId: "TEST", user: User.Anonymous, domain: Domain.Preproduction))
+        let tripChunk = TripChunk(tripInfos: TripInfos(appId: "TEST", user: TexUser.Anonymous, domain: Platform.Preproduction))
         tripChunk.append(fix: LocationFix(timestamp: 0, latitude: 0, longitude: 0, precision: 0, speed: 0, bearing: 0, altitude: 0))
         if let request = URLRequest.createUrlRequest(url: URL(string: "http://google.com")!, body: tripChunk.serialize(), httpMethod: HttpMethod.PUT) {
             let backgroundTask = urlBackgroundTaskSession!.downloadTask(with: request)
@@ -90,7 +90,7 @@ class APITripSessionManagerTests: XCTestCase {
     
     // MARK: - func getTripId(task: URLSessionDownloadTask) -> TripId
     func testGetTripId() {
-        let tripChunk = TripChunk(tripInfos: TripInfos(appId: "TEST", user: User.Anonymous, domain: Domain.Preproduction))
+        let tripChunk = TripChunk(tripInfos: TripInfos(appId: "TEST", user: TexUser.Anonymous, domain: Platform.Preproduction))
         if let request = URLRequest.createUrlRequest(url: URL(string: "http://google.com")!, body: tripChunk.serialize(), httpMethod: HttpMethod.PUT) {
             let backgroundTask = urlBackgroundTaskSession!.downloadTask(with: request)
             let tripIdResult = APITripSessionManager.getTripId(task: backgroundTask)

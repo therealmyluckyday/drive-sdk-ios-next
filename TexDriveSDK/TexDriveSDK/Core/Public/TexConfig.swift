@@ -13,6 +13,11 @@ import CoreMotion
 import os
 import RxSwift
 
+public protocol Copyable {
+    associatedtype ObjectType = Self
+    func Copy() -> ObjectType
+}
+
 // This protocol is used on APISessionManager in backgroundmode
 public protocol AppDelegateTex: UIApplicationDelegate {
     var backgroundCompletionHandler: (() -> ())? { get set }
@@ -40,27 +45,25 @@ public protocol ScoringClientConfiguration {
     var locale: Locale { get }
 }
 
-public class TexConfig: ConfigurationProtocol, ScoringClientConfiguration, APISessionManagerConfiguration, NSCopying {
-    public func copy(with zone: NSZone? = nil) -> Any {
-        // TODO
-        return self
-    }
-    
+public class TexConfig: ConfigurationProtocol, ScoringClientConfiguration, APISessionManagerConfiguration {
+    // MARK: - Property
     public var tripRecorderFeatures = [TripRecorderFeature]()
     public let rxScheduler = MainScheduler.asyncInstance
     
-    // ScoringClientConfiguration
+    // MARK: - ScoringClientConfiguration
     public var locale = Locale.current
 
-    // APISessionManagerConfiguration
+    // MARK: - APISessionManagerConfiguration
     public var tripInfos: TripInfos
-    public var domain = Domain.Production
+    public var domain = Platform.Production
     
-    internal init(applicationId: String, currentUser: User) {
+    // MARK: - Lifecycle
+    internal init(applicationId: String, currentUser: TexUser) {
         tripInfos = TripInfos(appId: applicationId, user: currentUser, domain: domain)
     }
     
-    func select(domain: Domain) {
+    // MARK: - Public method
+    func select(domain: Platform) {
         self.domain = domain
         tripInfos = TripInfos(appId: self.tripInfos.appId, user: self.tripInfos.user, domain: domain)
     }
@@ -81,6 +84,17 @@ public class TexConfig: ConfigurationProtocol, ScoringClientConfiguration, APISe
                 break
             }
         }
+    }
+    
+    // MARK: - Copyable Protocol
+    func copy() -> TexConfig {
+        let copy = TexConfig(applicationId: tripInfos.appId, currentUser: tripInfos.user)
+        copy.select(domain: domain)
+        copy.locale = locale
+        copy.tripRecorderFeatures = tripRecorderFeatures.map({ (feature) -> TripRecorderFeature in
+            return feature
+        })
+        return copy
     }
 }
 

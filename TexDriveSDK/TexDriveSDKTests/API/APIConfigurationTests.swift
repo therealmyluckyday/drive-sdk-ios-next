@@ -14,34 +14,34 @@ class APIConfigurationTests: XCTestCase {
     
     // MARK: Domain
     func testDomainName() {
-        XCTAssertEqual(Domain.Integration.rawValue, "gw-int.tex.dil.services")
-        XCTAssertEqual(Domain.Preproduction.rawValue, "gw-preprod.tex.dil.services")
-        XCTAssertEqual(Domain.Production.rawValue, "gw.tex.dil.services")
+        XCTAssertEqual(Platform.Integration.rawValue, "gw-int.tex.dil.services")
+        XCTAssertEqual(Platform.Preproduction.rawValue, "gw-preprod.tex.dil.services")
+        XCTAssertEqual(Platform.Production.rawValue, "gw.tex.dil.services")
     }
     
     // MARK: func baseUrl() -> String
     func testBaseUrlIntegration() {
-        let domain = Domain.Integration
+        let domain = Platform.Integration
         let appId = "APPxID"
-        let config = TripInfos(appId: appId, user: User.Authentified("Erwan-ios12"), domain: domain)
+        let config = TripInfos(appId: appId, user: TexUser.Authentified("Erwan-ios12"), domain: domain)
         
         let result = config.baseUrl()
         
         XCTAssertEqual(result, "https://"+"gw-int.tex.dil.services"+"/v2.0")
     }
     func testBaseUrlPreprod() {
-        let domain = Domain.Preproduction
+        let domain = Platform.Preproduction
         let appId = "APPxID"
-        let config = TripInfos(appId: appId, user: User.Authentified("Erwan-ios12"), domain: domain)
+        let config = TripInfos(appId: appId, user: TexUser.Authentified("Erwan-ios12"), domain: domain)
         
         let result = config.baseUrl()
         
         XCTAssertEqual(result, "https://"+"gw-preprod.tex.dil.services"+"/v2.0")
     }
     func testBaseUrlProd() {
-        let domain = Domain.Production
+        let domain = Platform.Production
         let appId = "APPxID"
-        let config = TripInfos(appId: appId, user: User.Authentified("Erwan-ios12"), domain: domain)
+        let config = TripInfos(appId: appId, user: TexUser.Authentified("Erwan-ios12"), domain: domain)
         
         let result = config.baseUrl()
         
@@ -50,9 +50,9 @@ class APIConfigurationTests: XCTestCase {
     
     // MARK: func httpHeaders() -> [String: Any]
     func testHTTPHeaders() {
-        let domain = Domain.Production
+        let domain = Platform.Production
         let appId = "APPxID"
-        let config = TripInfos(appId: appId, user: User.Authentified("Erwan-ios12"), domain: domain)
+        let config = TripInfos(appId: appId, user: TexUser.Authentified("Erwan-ios12"), domain: domain)
         
         let result = config.httpHeaders()
         

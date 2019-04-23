@@ -16,7 +16,6 @@ public class AutoModeLocationSensor: LocationSensor {
     
     func configure(_ locationManager: CLLocationManager) {
         
-        
         #if targetEnvironment(simulator)
         #else
         locationManager.requestAlwaysAuthorization()

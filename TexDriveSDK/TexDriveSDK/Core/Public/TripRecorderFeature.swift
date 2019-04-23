@@ -11,7 +11,7 @@ import CoreLocation
 import CallKit
 import CoreMotion
 
-public enum TripRecorderFeature {
+public enum TripRecorderFeature: Equatable {
     case Location(LocationManager) // LocationManager is the location sensor
     case Battery(UIDevice) // UIDevice is the battery sensor
     case PhoneCall(CXCallObserver) // CXCallObserver is the Call Sensor

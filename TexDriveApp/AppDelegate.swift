@@ -34,20 +34,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
     }
     
     func configureTexSDK(withUserId: String) {
-        let user = User.Authentified(withUserId)
+        let user = TexUser.Authentified(withUserId)
         let appId = "youdrive_france_prospect"
-        var builder = TexConfigBuilder(appId: appId, texUser: user)
+        let builder = TexConfigBuilder(appId: appId, texUser: user)
         do {
             ///"APP-TEST"
             try builder.enableTripRecorder()
-            builder.select(platform: Domain.Production)
+            builder.select(platform: Platform.Production)
             let config = builder.build()
             let service = TexServices.service(configuration: config)
             texServices = service
             DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 2000)) {
                 service.tripRecorder?.activateAutoMode()
             }
-            
         } catch ConfigurationError.LocationNotDetermined(let description) {
             print(description)
         } catch {

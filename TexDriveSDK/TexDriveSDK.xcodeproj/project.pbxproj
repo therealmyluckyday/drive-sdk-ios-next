@@ -49,7 +49,8 @@
 		C15B9FCB219449270072439F /* LogRxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15B9FCA219449270072439F /* LogRxTests.swift */; };
 		C168630221E33CAF003FF6F0 /* ScoreErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C168630121E33CAF003FF6F0 /* ScoreErrorTests.swift */; };
 		C16D6DBE21FF652500978BFE /* AutoModeGherkinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C16D6DBD21FF652500978BFE /* AutoModeGherkinTests.swift */; };
-		C17E9A74216F828400FCF93E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A73216F828400FCF93E /* User.swift */; };
+		C17D138D226775FD0073BA4F /* TexConfigBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17D138C226775FD0073BA4F /* TexConfigBuilderTests.swift */; };
+		C17E9A74216F828400FCF93E /* TexUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A73216F828400FCF93E /* TexUser.swift */; };
 		C17E9A76216F82F100FCF93E /* TexConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A75216F82F100FCF93E /* TexConfig.swift */; };
 		C17E9A78216F85BD00FCF93E /* TexServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A77216F85BD00FCF93E /* TexServices.swift */; };
 		C17E9A7C216F944500FCF93E /* TripRecorderFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A7B216F944500FCF93E /* TripRecorderFeature.swift */; };
@@ -166,7 +167,8 @@
 		C15B9FCA219449270072439F /* LogRxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogRxTests.swift; sourceTree = "<group>"; };
 		C168630121E33CAF003FF6F0 /* ScoreErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreErrorTests.swift; sourceTree = "<group>"; };
 		C16D6DBD21FF652500978BFE /* AutoModeGherkinTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoModeGherkinTests.swift; sourceTree = "<group>"; };
-		C17E9A73216F828400FCF93E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		C17D138C226775FD0073BA4F /* TexConfigBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexConfigBuilderTests.swift; sourceTree = "<group>"; };
+		C17E9A73216F828400FCF93E /* TexUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexUser.swift; sourceTree = "<group>"; };
 		C17E9A75216F82F100FCF93E /* TexConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexConfig.swift; sourceTree = "<group>"; };
 		C17E9A77216F85BD00FCF93E /* TexServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexServices.swift; sourceTree = "<group>"; };
 		C17E9A7B216F944500FCF93E /* TripRecorderFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecorderFeature.swift; sourceTree = "<group>"; };
@@ -382,7 +384,7 @@
 				C12E34C321C174B600696B03 /* LogRx.swift */,
 				C121002D21C14C6800A126E6 /* Log */,
 				C1F7E45421B53B5000EA0445 /* Score */,
-				C17E9A73216F828400FCF93E /* User.swift */,
+				C17E9A73216F828400FCF93E /* TexUser.swift */,
 				C17E9A75216F82F100FCF93E /* TexConfig.swift */,
 				C17E9A77216F85BD00FCF93E /* TexServices.swift */,
 				C17E9A7B216F944500FCF93E /* TripRecorderFeature.swift */,
@@ -412,6 +414,7 @@
 				C1FDE349219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift */,
 				C121003021C1632500A126E6 /* TripInfosTests.swift */,
 				C1A4F3E522298FE3006AADCF /* LocationSensorTests.swift */,
+				C17D138C226775FD0073BA4F /* TexConfigBuilderTests.swift */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -812,7 +815,7 @@
 				C15198A121EC76CB0058DC95 /* APITrip.swift in Sources */,
 				C1FAAA3A2163C7B700FD3C1D /* Tracker.swift in Sources */,
 				C17E9A7C216F944500FCF93E /* TripRecorderFeature.swift in Sources */,
-				C17E9A74216F828400FCF93E /* User.swift in Sources */,
+				C17E9A74216F828400FCF93E /* TexUser.swift in Sources */,
 				C1274DD52257832300EDC92F /* AutoModeLocationSensor.swift in Sources */,
 				C1CC41E921DFBF20004CB5C2 /* APIError.swift in Sources */,
 				C1E0DFAE21EF993E0057097B /* AutoMode.swift in Sources */,
@@ -870,6 +873,7 @@
 				C114C38C221D979200B74DD8 /* StandbyStateTests.swift in Sources */,
 				C1FDE340219C5B1300F15AF3 /* TripRecorderTests.swift in Sources */,
 				C1A4F3E622298FE3006AADCF /* LocationSensorTests.swift in Sources */,
+				C17D138D226775FD0073BA4F /* TexConfigBuilderTests.swift in Sources */,
 				C15198A521EC81C30058DC95 /* APITripSessionManagerTests.swift in Sources */,
 				C1273EA92178C1670006E6E0 /* MotionTrackerTests.swift in Sources */,
 				C1FDE34C219C72C400F15AF3 /* FixTests.swift in Sources */,
@@ -966,6 +970,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1022,6 +1027,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1052,7 +1058,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1080,7 +1085,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = axa.tex.TexDriveSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -1100,7 +1104,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = axa.tex.TexDriveSDKTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1122,7 +1125,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = axa.tex.TexDriveSDKTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

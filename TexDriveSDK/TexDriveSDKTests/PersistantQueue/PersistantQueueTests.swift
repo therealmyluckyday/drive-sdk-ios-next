@@ -32,7 +32,7 @@ class PersistantQueueTests: XCTestCase {
         let disposeBag = DisposeBag()
         let rxTripChunkSent = PublishSubject<Result<TripId>>()
         
-        let persistantQueue = PersistantQueue(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction), rxTripChunkSent: rxTripChunkSent)
+        let persistantQueue = PersistantQueue(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction), rxTripChunkSent: rxTripChunkSent)
         var isproviderTripCalled = false
         persistantQueue.providerTrip.asObserver().subscribe { (eventTrip) in
             if let trip = eventTrip.element {
@@ -71,7 +71,7 @@ class PersistantQueueTests: XCTestCase {
         let scheduler = MainScheduler.instance
         let rxTripChunkSent = PublishSubject<Result<TripId>>()
         let rxTripId = PublishSubject<TripId>()
-        let persistantQueue = PersistantQueue(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction), rxTripChunkSent: rxTripChunkSent)
+        let persistantQueue = PersistantQueue(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction), rxTripChunkSent: rxTripChunkSent)
         var isproviderTripCalled = false
         let _ = persistantQueue.providerTrip.asObserver().subscribe { (eventTrip) in
             if let trip = eventTrip.element {
@@ -103,7 +103,7 @@ class PersistantQueueTests: XCTestCase {
         let scheduler = MainScheduler.instance
         let rxTripChunkSent = PublishSubject<Result<TripId>>()
         let rxTripId = PublishSubject<TripId>()
-        let persistantQueue = PersistantQueue(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction), rxTripChunkSent:rxTripChunkSent)
+        let persistantQueue = PersistantQueue(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction), rxTripChunkSent:rxTripChunkSent)
         var isproviderTripCalled = false
         let _ = persistantQueue.providerTrip.asObserver().subscribe { (eventTrip) in
             if let trip = eventTrip.element {
@@ -140,7 +140,7 @@ class PersistantQueueTests: XCTestCase {
         let scheduler = MainScheduler.instance
         let rxTripChunkSent = PublishSubject<Result<TripId>>()
         let rxTripId = PublishSubject<TripId>()
-        let persistantQueue = PersistantQueue(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction), rxTripChunkSent:rxTripChunkSent)
+        let persistantQueue = PersistantQueue(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction), rxTripChunkSent:rxTripChunkSent)
         var isproviderTripCalled = false
         let _ = persistantQueue.providerTrip.asObserver().subscribe { (eventTrip) in
             if eventTrip.element != nil {
@@ -170,7 +170,7 @@ class PersistantQueueTests: XCTestCase {
         let scheduler = MainScheduler.instance
         let rxTripChunkSent = PublishSubject<Result<TripId>>()
         let rxTripId = PublishSubject<TripId>()
-        let persistantQueue = PersistantQueue(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction), rxTripChunkSent:rxTripChunkSent)
+        let persistantQueue = PersistantQueue(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction), rxTripChunkSent:rxTripChunkSent)
         var isproviderTripCalled = false
         let _ = persistantQueue.providerTrip.asObserver().subscribe { (eventTrip) in
             if eventTrip.element != nil {
@@ -202,7 +202,7 @@ class PersistantQueueTests: XCTestCase {
         let scheduler = MainScheduler.instance
         let rxTripChunkSent = PublishSubject<Result<TripId>>()
         let rxTripId = PublishSubject<TripId>()
-        let persistantQueue = PersistantQueueStub(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction), rxTripChunkSent:rxTripChunkSent)
+        let persistantQueue = PersistantQueueStub(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction), rxTripChunkSent:rxTripChunkSent)
         let result = Result.Success(TripId())
         rxTripChunkSent.onNext(result)
         XCTAssertTrue(persistantQueue.isSendNextTripChunk)
@@ -214,7 +214,7 @@ class PersistantQueueTests: XCTestCase {
         let scheduler = MainScheduler.instance
         let rxTripChunkSent = PublishSubject<Result<TripId>>()
         let rxTripId = PublishSubject<TripId>()
-        let persistantQueue = PersistantQueueStub(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction), rxTripChunkSent:rxTripChunkSent)
+        let persistantQueue = PersistantQueueStub(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction), rxTripChunkSent:rxTripChunkSent)
         let error = APIError(message: "totomessage", statusCode: 666)
         let result = Result<TripId>.Failure(error)
         rxTripChunkSent.onNext(result)
@@ -228,8 +228,8 @@ class PersistantQueueTests: XCTestCase {
         let scheduler = MainScheduler.instance
         let rxTripChunkSent = PublishSubject<Result<TripId>>()
         let rxTripId = PublishSubject<TripId>()
-        let persistantQueue = PersistantQueueStub(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction), rxTripChunkSent:rxTripChunkSent)
-        let tripChunk = TripChunk(tripInfos: TripInfos(appId: "TOTO", user: User.Anonymous, domain: Domain.Preproduction))
+        let persistantQueue = PersistantQueueStub(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction), rxTripChunkSent:rxTripChunkSent)
+        let tripChunk = TripChunk(tripInfos: TripInfos(appId: "TOTO", user: TexUser.Anonymous, domain: Platform.Preproduction))
         persistantQueue.sendTripChunk(tripChunk: tripChunk)
         //persistantQueue.sendNextTripChunk()
         XCTAssertTrue(persistantQueue.isSendNextTripChunk)
@@ -241,7 +241,7 @@ class PersistantQueueTests: XCTestCase {
         let scheduler = MainScheduler.instance
         let rxTripChunkSent = PublishSubject<Result<TripId>>()
         let rxTripId = PublishSubject<TripId>()
-        let persistantQueue = PersistantQueueStub(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction), rxTripChunkSent:rxTripChunkSent)
+        let persistantQueue = PersistantQueueStub(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction), rxTripChunkSent:rxTripChunkSent)
         persistantQueue.sendNextTripChunk()
         XCTAssertNil(persistantQueue.tripChunkSent)
     }
@@ -253,8 +253,8 @@ class PersistantQueueTests: XCTestCase {
         let scheduler = MainScheduler.instance
         let rxTripChunkSent = PublishSubject<Result<TripId>>()
         let rxTripId = PublishSubject<TripId>()
-        let persistantQueue = PersistantQueueStub(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction), rxTripChunkSent:rxTripChunkSent)
-        let tripChunk = TripChunk(tripInfos: TripInfos(appId: "TOTO", user: User.Anonymous, domain: Domain.Preproduction))
+        let persistantQueue = PersistantQueueStub(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction), rxTripChunkSent:rxTripChunkSent)
+        let tripChunk = TripChunk(tripInfos: TripInfos(appId: "TOTO", user: TexUser.Anonymous, domain: Platform.Preproduction))
         persistantQueue.tripChunkSent = tripChunk
         persistantQueue.sendTripChunk(tripChunk: tripChunk)
         XCTAssertFalse(persistantQueue.isSendNextTripChunk)
@@ -266,8 +266,8 @@ class PersistantQueueTests: XCTestCase {
         let scheduler = MainScheduler.instance
         let rxTripChunkSent = PublishSubject<Result<TripId>>()
         let rxTripId = PublishSubject<TripId>()
-        let persistantQueue = PersistantQueueStub(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction), rxTripChunkSent:rxTripChunkSent)
-        let tripChunk = TripChunk(tripInfos: TripInfos(appId: "TOTO", user: User.Anonymous, domain: Domain.Preproduction))
+        let persistantQueue = PersistantQueueStub(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction), rxTripChunkSent:rxTripChunkSent)
+        let tripChunk = TripChunk(tripInfos: TripInfos(appId: "TOTO", user: TexUser.Anonymous, domain: Platform.Preproduction))
         persistantQueue.tripChunkSent = nil
         persistantQueue.sendTripChunk(tripChunk: tripChunk)
         XCTAssertTrue(persistantQueue.isSendNextTripChunk)

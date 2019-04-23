@@ -1,5 +1,5 @@
 //
-//  User.swift
+//  TexUser.swift
 //  TexDriveSDK
 //
 //  Created by Erwan Masson on 11/10/2018.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum User: Equatable {
+public enum TexUser: Equatable {
     case Anonymous
     case Authentified(String)
 }

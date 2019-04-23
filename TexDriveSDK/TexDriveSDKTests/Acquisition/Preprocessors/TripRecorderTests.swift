@@ -114,7 +114,7 @@ class TripRecorderTests: XCTestCase {
         let configuration = MockConfiguration(features: features)
         configuration.rxScheduler = MainScheduler.instance
         let tripRecorder = TripRecorder(configuration: configuration, sessionManager: mock)
-        let trip = TripChunk(tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
+        let trip = TripChunk(tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction))
         
         publishTrip.onNext(trip)
         tripRecorder.persistantQueue.providerTrip.onNext(trip)
@@ -142,7 +142,7 @@ class TripRecorderTests: XCTestCase {
         let configuration = MockConfiguration(features: features)
         configuration.rxScheduler = MainScheduler.instance
         let tripRecorder = TripRecorder(configuration: configuration, sessionManager: mock)
-        let trip = TripChunk(tripInfos: TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction))
+        let trip = TripChunk(tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction))
         
         tripRecorder.subscribe(providerTrip: publishTrip, scheduler: MainScheduler.instance)
         publishTrip.onNext(trip)

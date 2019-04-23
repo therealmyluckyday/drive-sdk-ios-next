@@ -29,7 +29,7 @@ class MockConfiguration : ConfigurationProtocol {
     
     init(features: [TripRecorderFeature]) {
         tripRecorderFeatures = features
-        tripInfos = TripInfos(appId: "youdrive_france_prospect", user: User.Authentified("Erwan-ios12"), domain: Domain.Preproduction)
+        tripInfos = TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction)
     }
 }
 
@@ -38,27 +38,27 @@ class TexConfigTests: XCTestCase {
     // MARK: - func select(domain: Domain)
     func testSelectDomainProduction() {
         let appId = "MyAppId"
-        let user = User.Anonymous
+        let user = TexUser.Anonymous
         let configuration = TexConfig(applicationId: appId, currentUser: user)
-        configuration.select(domain: Domain.Production)
+        configuration.select(domain: Platform.Production)
         XCTAssertNotNil(configuration)
-        XCTAssertEqual(configuration.tripInfos.domain, Domain.Production)
+        XCTAssertEqual(configuration.tripInfos.domain, Platform.Production)
     }
     func testSelectDomainPreProduction() {
         let appId = "MyAppId"
-        let user = User.Anonymous
+        let user = TexUser.Anonymous
         let configuration = TexConfig(applicationId: appId, currentUser: user)
-        configuration.select(domain: Domain.Preproduction)
+        configuration.select(domain: Platform.Preproduction)
         XCTAssertNotNil(configuration)
-        XCTAssertEqual(configuration.tripInfos.domain, Domain.Preproduction)
+        XCTAssertEqual(configuration.tripInfos.domain, Platform.Preproduction)
     }
     func testSelectDomainIntegration() {
         let appId = "MyAppId"
-        let user = User.Anonymous
+        let user = TexUser.Anonymous
         let configuration = TexConfig(applicationId: appId, currentUser: user)
-        configuration.select(domain: Domain.Integration)
+        configuration.select(domain: Platform.Integration)
         XCTAssertNotNil(configuration)
-        XCTAssertEqual(configuration.tripInfos.domain, Domain.Integration)
+        XCTAssertEqual(configuration.tripInfos.domain, Platform.Integration)
     }
     
     // MARK: - static func activable(features: [TripRecorderFeature]) throws

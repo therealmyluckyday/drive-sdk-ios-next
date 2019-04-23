@@ -7,12 +7,7 @@
 //
 
 import Foundation
-
-//let builder = AXATexConfigBuilder(appId: appName, texUser: texUser) else {
-//
-//    VSLoggerManager.swiftLog(domaine: "tex", level: 0, format: "Cannot init AXATexConfigBuilder")
-//    return
-//}
+import CoreLocation
 
 public class TexConfigBuilder {
     var appId: String {
@@ -20,7 +15,7 @@ public class TexConfigBuilder {
             return _config.tripInfos.appId
         }
     }
-    var texUser: User {
+    var texUser: TexUser {
         get {
             return _config.tripInfos.user
         }
@@ -33,12 +28,15 @@ public class TexConfigBuilder {
     
     var _config: TexConfig
 
-    public init(appId: String, texUser: User) {
+    public init(appId: String, texUser: TexUser) {
         _config = TexConfig(applicationId: appId, currentUser: texUser)
     }
     
-    public func enableTripRecorder() throws {
-        let locationfeature : TripRecorderFeature = TripRecorderFeature.Location(LocationManager())
+    public func enableTripRecorder(locationManager: CLLocationManager = CLLocationManager()) throws {
+        let autoModeLocationSensor = AutoModeLocationSensor(locationManager)
+        let locationSensor: LocationSensor = LocationSensor(locationManager)
+        let mainLocationManager = LocationManager(autoModeLocationSensor, trackerLocationSensor: locationSensor)
+        let locationfeature : TripRecorderFeature = TripRecorderFeature.Location(mainLocationManager)
         try TexConfig.activable(features: [locationfeature])
     
         for feature in _config.tripRecorderFeatures {
@@ -56,39 +54,14 @@ public class TexConfigBuilder {
         _config.tripRecorderFeatures.append(locationfeature)
     }
     
-    public func select(platform: Domain) -> TexConfigBuilder {
+    public func select(platform: Platform) {
         _config.select(domain: platform)
-        return self
     }
     
     public func build() -> TexConfig {
-//        return config.copy()
-        return config
+        return config.copy()
     }
 }
-
-//config = builder.build()
-//- (AXATexConfig *)build {
-//    if (_config.isAutoModeEnabled && _config.isAutoModeBTEnabled){
-//        NSString *exceptionMessage = @"Both AutoMode and AutoModeBT are enabled. Choose only one of them";
-//        AXALogError(exceptionMessage);
-//        [NSException raise:@"InvalidConfigurationException" format:@"%@", exceptionMessage];
-//        return nil;
-//    }
-//    switch (_config.platform) {
-//    case AXAPlatformPreprod:
-//        AXALogInfo(@"Selection of platform: PreProd");
-//        break;
-//    case AXAPlatformTesting:
-//        AXALogInfo(@"Selection of platform: Testing");
-//        break;
-//    case AXAPlatformProduction:
-//        AXALogInfo(@"Selection of platform: Production");
-//        break;
-//    }
-//    return [_config copy];
-//}
-//
 
 
 
