@@ -44,11 +44,15 @@ Example of configuration creation:
 
 // Build configuration
 func configureTexSDK(withUserId: String) {
-    let user = User.Authentified(withUserId)
-
+    let user = TexUser.Authentified(withUserId)
+    let appId = "APP-TEST"
+    let builder = TexConfigBuilder(appId: appId, texUser: user)
     do {
-        if let configuration = try Config(applicationId: "APP-TEST", applicationLocale: Locale.current, currentUser: user) {
-            texServices = TexServices.service(reconfigureWith: configuration)
+        try builder.enableTripRecorder()
+        builder.select(platform: Platform.Production)
+        let config = builder.build()
+        let texServices = TexServices.service(configuration: config)
+        service.tripRecorder?.activateAutoMode()
         }
     } catch ConfigurationError.LocationNotDetermined(let description) {
         print(description)
