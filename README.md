@@ -33,8 +33,8 @@ The SDK uses some other libraries through CocoaPod. You must reference them in
 your pod file.
 
 ```
-pod 'RxSwift', '4.3'
-pod 'RxCocoa', '4.3'
+pod 'RxSwift', '4.5'
+pod 'RxCocoa', '4.5'
 ```
 
 ## Usage

@@ -9,6 +9,7 @@
 5. [AXATexServices](#axatexservices)
 5. [Automode](#automode)
 6. [Start and Stop trip](#start-and-stop-trip)
+7. [AppDelegate](#appdelegate)
 )
 
 
@@ -182,3 +183,19 @@ if texServices.tripRecorder.isRecording {
     }
 }
 ```
+
+### AppDelegate
+Before using the SDK you need to add on your AppDelegate:
+
+```Swift
+// Property
+var backgroundCompletionHandler: (() -> ())?
+
+// MARK: Background mode for URLSession TexServicesSDK identifier: "TexSession"
+func application(_ application: UIApplication,
+    handleEventsForBackgroundURLSession identifier: String,
+    completionHandler: @escaping () -> Void) {
+    backgroundCompletionHandler = completionHandler
+}
+```
+
