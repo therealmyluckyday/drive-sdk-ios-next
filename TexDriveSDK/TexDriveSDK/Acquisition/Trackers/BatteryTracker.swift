@@ -71,6 +71,8 @@ class BatteryTracker: Tracker {
             batteryState = .plugged
         case .unknown:
             batteryState = .unknown
+        @unknown default:
+            batteryState = .unknown
         }
         
         return BatteryFix(timestamp: Date().timeIntervalSince1970, level: deviceBatteryLevel, state: batteryState)

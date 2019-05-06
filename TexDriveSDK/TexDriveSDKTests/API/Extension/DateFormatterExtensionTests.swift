@@ -14,6 +14,6 @@ class DateFormatterExtensionTests: XCTestCase {
     // MARK: static func formattedTimeZone () -> String
     func testFormattedTimeZone() {
         let result = DateFormatter.formattedTimeZone()
-        XCTAssertEqual(result, "+0100")
+        XCTAssertTrue(result ==  "+0100" || result ==  "+0200")
     }
 }

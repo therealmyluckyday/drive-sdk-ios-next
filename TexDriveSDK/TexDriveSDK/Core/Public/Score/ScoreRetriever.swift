@@ -9,12 +9,12 @@
 import Foundation
 import RxSwift
 
-public protocol ScoreRetrieverProtocol {
+public protocol ScoringClient {
     func getScore(tripId: TripId, completionHandler: @escaping (Result<Score>) -> ())
     func getScore(tripId: TripId, rxScore: PublishSubject<Score>)
 }
 
-public class ScoreRetriever: ScoreRetrieverProtocol {
+public class ScoreRetriever: ScoringClient {
     let apiScore: APIScoreProtocol
     
     init(sessionManager: APIScoreSessionManagerProtocol, locale: Locale) {
@@ -22,7 +22,6 @@ public class ScoreRetriever: ScoreRetrieverProtocol {
     }
     
     // MARK: - scoreRetrieverProtocol
-    @available(*, deprecated, message: "Please use getScore(tripId: String, rxScore: PublishSubject<Score>)")
     public func getScore(tripId: TripId, completionHandler: @escaping (Result<Score>) -> ()) {
         apiScore.getScore(tripId: tripId, completionHandler: completionHandler)
     }

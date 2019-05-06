@@ -7,7 +7,9 @@
 3. [Trip Recorder and score](#trip-recorder-and-score)
 4. [Configure log](#configure-log)
 5. [Manual trip recording](#manual-trip-recording)
-)
+5. [Automode trip recording](#automode-trip-recording)
+6. [Switch SDKV2 to SDKV3](#SDKV2-to-SDKV3)
+
 
 
 ### Main Project Configuration
@@ -42,11 +44,15 @@ Example of configuration creation:
 
 // Build configuration
 func configureTexSDK(withUserId: String) {
-    let user = User.Authentified(withUserId)
-
+    let user = TexUser.Authentified(withUserId)
+    let appId = "APP-TEST"
+    let builder = TexConfigBuilder(appId: appId, texUser: user)
     do {
-        if let configuration = try Config(applicationId: "APP-TEST", applicationLocale: Locale.current, currentUser: user) {
-            texServices = TexServices.service(reconfigureWith: configuration)
+        try builder.enableTripRecorder()
+        builder.select(platform: Platform.Production)
+        let config = builder.build()
+        let texServices = TexServices.service(configuration: config)
+        service.tripRecorder?.activateAutoMode()
         }
     } catch ConfigurationError.LocationNotDetermined(let description) {
         print(description)
@@ -98,4 +104,18 @@ You can call the stop function when :
 ```Swift
 texServices?.tripRecorder.stop()
 ```
+### AutoMode trip recording
+#### Activate Automode
+```Swift
+texServices?.tripRecorder.activateAutoMode()
+```
+#### Disable Automode
+```Swift
+texServices?.tripRecorder.disableAutoMode()
+```
+
+### SDKV2 to SDKV3
+See how to switch on 
+- [Switch](./sdkv2tosdkv3.md): 
+
 

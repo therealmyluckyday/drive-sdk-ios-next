@@ -8,29 +8,56 @@
 
 import XCTest
 import CoreLocation
+import RxSwift
 
 @testable import TexDriveSDK
 
-class MockLocationManager: CLLocationManager {
+class MockLocationManager: LocationManager {
+    var mockCLLocationManager = MockCLLocationManager()
+}
+
+extension Reactive where Base: MockCLLocationManager {
+   public var location: Observable<CLLocation?> {
+        return self.observe(CLLocation.self, #keyPath(MockCLLocationManager.mockLocation))
+    }
+}
+
+public class MockLocationManagerDelegate: NSObject, CLLocationManagerDelegate {
+    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("YOUHOU")
+    }
+}
+
+public class MockCLLocationManager: CLLocationManager {
+    @objc var mockLocation: CLLocation?
+    
+    var mockDelegate: MockLocationManagerDelegate?
+    
+    func mock() {
+        self.mockDelegate = MockLocationManagerDelegate()
+        self.delegate = self.mockDelegate
+    }
+    
     static var mockAuthorizationStatus: CLAuthorizationStatus?
-    override class func authorizationStatus() -> CLAuthorizationStatus {
+    override public class func authorizationStatus() -> CLAuthorizationStatus {
         return mockAuthorizationStatus!
     }
     
+    
     var isStartUpdatingLocationCalled = false
     
-    override func startUpdatingLocation() {
+    override public func startUpdatingLocation() {
         isStartUpdatingLocationCalled = true
     }
     
     var isStopUpdatingLocationCalled = false
-    override func stopUpdatingLocation() {
+    override public func stopUpdatingLocation() {
         isStopUpdatingLocationCalled = true
     }
     
     var mockPausesLocationUpdatesAutomatically = true
     
-    override var pausesLocationUpdatesAutomatically: Bool {
+    override public var pausesLocationUpdatesAutomatically: Bool {
         get {
             return mockPausesLocationUpdatesAutomatically
         }
@@ -39,7 +66,7 @@ class MockLocationManager: CLLocationManager {
         }
     }
     var mockAllowsBackgroundLocationUpdates = false
-    override var allowsBackgroundLocationUpdates : Bool {
+    override public var allowsBackgroundLocationUpdates : Bool {
         get {
             return mockAllowsBackgroundLocationUpdates
         }
@@ -56,14 +83,13 @@ class MockLocationManager: CLLocationManager {
 }
 
 class LocationTrackerTests: XCTestCase {
-    var mockLocationManager : MockLocationManager?
     var locationTracker : LocationTracker?
+    var locationSensor : LocationSensor?
     
     override func setUp() {
         super.setUp()
-        mockLocationManager = MockLocationManager()
-        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
-        locationTracker = LocationTracker(sensor: mockLocationManager!)
+        
+        locationTracker = LocationTracker(sensor: LocationSensor(CLLocationManager()))
     }
     
     override func tearDown() {
@@ -72,68 +98,14 @@ class LocationTrackerTests: XCTestCase {
     }
     
     // MARK: func enableTracking()
-    func testEnableTracking_general() {
-        mockLocationManager!.delegate = nil
-        mockLocationManager!.distanceFilter = 1000.0
-        mockLocationManager!.desiredAccuracy = kCLLocationAccuracyThreeKilometers
-        mockLocationManager!.mockPausesLocationUpdatesAutomatically = true
-        mockLocationManager!.activityType = CLActivityType.otherNavigation
-        mockLocationManager!.allowsBackgroundLocationUpdates = false
-        mockLocationManager?.isStartUpdatingLocationCalled = false
-        mockLocationManager?.isStopUpdatingLocationCalled = false
-        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
-        locationTracker?.enableTracking()
-        
-        XCTAssertNotNil(mockLocationManager?.delegate, "")
-        XCTAssertEqual(mockLocationManager!.desiredAccuracy, kCLLocationAccuracyBestForNavigation)
-        XCTAssertEqual(mockLocationManager!.pausesLocationUpdatesAutomatically, false)
-        XCTAssertEqual(mockLocationManager!.activityType, .automotiveNavigation)
-        XCTAssertTrue(mockLocationManager!.allowsBackgroundLocationUpdates)
-        XCTAssertTrue(mockLocationManager!.isStartUpdatingLocationCalled)
-    }
-    
-    func testEnableTracking_authorizationStatus_NotDetermined() {
-        MockLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.notDetermined
-        let locationManagerNotDetermined = MockLocationManager()
-        let tracker = LocationTracker(sensor: locationManagerNotDetermined)
-        
-        let subscribe = tracker.provideFix().asObservable().subscribe({ (event) in
-            switch event.element {
-            case Result.Failure(let error)?:
-                let error = error as NSError
-                XCTAssertEqual(error.code, CLError.denied.rawValue)
-                break
-            default:
-                XCTAssertTrue(false)
-                break
-            }
-        })
-        
-        tracker.enableTracking()
-        
-        subscribe.dispose()
-    }
     
     // MARK: func disableTracking()
     func testDisableTracking() {
-        mockLocationManager?.isStartUpdatingLocationCalled = false
-        mockLocationManager?.isStopUpdatingLocationCalled = false
-        
         locationTracker?.disableTracking()
-        
-        XCTAssertFalse(mockLocationManager!.isStartUpdatingLocationCalled)
-        XCTAssertTrue(mockLocationManager!.isStopUpdatingLocationCalled)
+
+        XCTAssertNil(locationTracker?.rxDisposeBag)
     }
-    
-    // MARK: func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
-    func testLocationManagerDidUpdateLocation_WithEmptyLocationArray() {
-        let locations = [CLLocation]()
-        
-        // test that even with an empty array, the medthod did not fail
-        locationTracker?.locationManager(mockLocationManager!, didUpdateLocations: locations)
-        
-        XCTAssertTrue(true)
-    }
+
     
     func testLocationManagerDidUpdateLocation_onNext() {
         let date = Date(timeIntervalSinceNow: 9999)
@@ -146,7 +118,6 @@ class LocationTrackerTests: XCTestCase {
         let altitude = 1.4
         let location = CLLocation(coordinate: coordinate, altitude: altitude, horizontalAccuracy: precision, verticalAccuracy: 1.1, course: bearing, speed: speed, timestamp: date)
         
-        let locations = [location]
         
         let subscribe = locationTracker!.provideFix().asObservable().subscribe({ (event) in
             switch event.element {
@@ -165,29 +136,9 @@ class LocationTrackerTests: XCTestCase {
             }
         })
         
-        
-        locationTracker?.locationManager(mockLocationManager!, didUpdateLocations: locations)
+        locationTracker?.didUpdateLocations(location: location)
         
         subscribe.dispose()
     }
     
-    // MARK: func locationManager(_ manager: CLLocationManager, didFailWithError error: Error
-    func testLocationManagerDidFailWithError() {
-        let clError = CLError(_nsError: NSError(domain: "CLLocationManagerNotDetermined", code: CLError.geocodeFoundNoResult.rawValue, userInfo: nil))
-        let subscribe = locationTracker!.provideFix().asObservable().subscribe({ (event) in
-            switch event.element {
-            case Result.Failure(let error)?:
-                let error = error as NSError
-                XCTAssertEqual(error.code, CLError.geocodeFoundNoResult.rawValue)
-                break
-            default:
-                XCTAssertTrue(false)
-                break
-            }
-        })
-        
-        locationTracker!.locationManager(mockLocationManager!, didFailWithError: clError)
-        
-        subscribe.dispose()
-    }
 }

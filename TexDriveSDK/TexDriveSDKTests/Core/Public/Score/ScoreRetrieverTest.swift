@@ -18,30 +18,27 @@ class ScoreRetrieverTest: XCTestCase {
     override func setUp() {
         super.setUp()
         rxDisposeBag = DisposeBag()
-        let user = User.Authentified("Erwan-ios12")
+        let user = TexUser.Authentified("Erwan-ios12")
         let appId = "youdrive_france_prospect"
         
-        do {
-            let configuration = try Config(applicationId: appId, applicationLocale: Locale.current, currentUser: user, currentTripRecorderFeatures: [TripRecorderFeature]())
-            let scoreSessionManager = APIScoreSessionManager(configuration: configuration!.tripInfos)
-            scoreRetriever = ScoreRetriever(sessionManager: scoreSessionManager, locale: Locale.current)
-        } catch {
-            XCTAssert(false)
-        }
+        let configuration = TexConfig(applicationId: appId, currentUser: user)
+        configuration.select(domain: Platform.Preproduction)
+        let scoreSessionManager = APIScoreSessionManager(configuration: configuration.tripInfos)
+        scoreRetriever = ScoreRetriever(sessionManager: scoreSessionManager, locale: Locale.current)
+
     }
     
     
 
     func testGetScore() {
         let tripId = TripId(uuidString: "73B1C1B6-8DD8-4DEA-ACAF-4B1E05F6EF09")!
-        var isCompletionCalled = false
         let scoreExpected = Score(tripId:tripId,  global: 86.07, speed: 100, acceleration: 62.15, braking: 82.11, smoothness: 100)
         let expectation = self.expectation(description: "APIGetScoreCalled")
         let rxScore = PublishSubject<Score>()
         
         rxScore.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
             if let score = event.element {
-                isCompletionCalled = true
+                expectation.fulfill()
                 XCTAssertEqual(scoreExpected.global, score.global)
                 XCTAssertEqual(scoreExpected.speed, score.speed)
                 XCTAssertEqual(scoreExpected.acceleration, score.acceleration)
@@ -51,12 +48,9 @@ class ScoreRetrieverTest: XCTestCase {
             else {
                 XCTAssertTrue(false)
             }
-            expectation.fulfill()
             }.disposed(by: rxDisposeBag!)
         
         scoreRetriever!.getScore(tripId: tripId, rxScore: rxScore)
-        wait(for: [expectation], timeout: 50)
-        
-        XCTAssertTrue(isCompletionCalled)
+        wait(for: [expectation], timeout: 5)
     }
 }

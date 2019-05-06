@@ -11,6 +11,12 @@
 		8132CC17A88B22895528C8CC /* libPods-TexDriveSDKTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EB9F29EAFBFD2B3E91BCDF7 /* libPods-TexDriveSDKTests.a */; };
 		C107606F217E2C8000FB28AA /* PersistantQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C107606E217E2C8000FB28AA /* PersistantQueue.swift */; };
 		C1076071217E2E9400FB28AA /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1076070217E2E9400FB28AA /* Event.swift */; };
+		C114C388221D8B9200B74DD8 /* AutoModeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C114C387221D8B9200B74DD8 /* AutoModeTests.swift */; };
+		C114C38A221D8F7700B74DD8 /* DisabledStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C114C389221D8F7700B74DD8 /* DisabledStateTests.swift */; };
+		C114C38C221D979200B74DD8 /* StandbyStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C114C38B221D979200B74DD8 /* StandbyStateTests.swift */; };
+		C114C38E221D9B8900B74DD8 /* DetectionOfStartStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C114C38D221D9B8900B74DD8 /* DetectionOfStartStateTests.swift */; };
+		C114C390221D9C5200B74DD8 /* DrivingStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C114C38F221D9C5200B74DD8 /* DrivingStateTests.swift */; };
+		C114C392221D9CB400B74DD8 /* DetectionOfStopStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C114C391221D9CB400B74DD8 /* DetectionOfStopStateTests.swift */; };
 		C121002F21C14C9100A126E6 /* TripInfos.swift in Sources */ = {isa = PBXBuildFile; fileRef = C121002E21C14C9100A126E6 /* TripInfos.swift */; };
 		C121003121C1632500A126E6 /* TripInfosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C121003021C1632500A126E6 /* TripInfosTests.swift */; };
 		C12373992166468100A95A2A /* TripRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12373982166468100A95A2A /* TripRecorder.swift */; };
@@ -21,7 +27,12 @@
 		C1273EA5217790C50006E6E0 /* MotionBufferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1273EA4217790C50006E6E0 /* MotionBufferTests.swift */; };
 		C1273EA72178B3640006E6E0 /* MotionFixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1273EA62178B3640006E6E0 /* MotionFixTests.swift */; };
 		C1273EA92178C1670006E6E0 /* MotionTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1273EA82178C1670006E6E0 /* MotionTrackerTests.swift */; };
+		C1274DD2225782CE00EDC92F /* LocationSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1274DD1225782CE00EDC92F /* LocationSensor.swift */; };
+		C1274DD52257832300EDC92F /* AutoModeLocationSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1274DD42257832300EDC92F /* AutoModeLocationSensor.swift */; };
+		C12C8B482227E6C700317B1E /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12C8B472227E6C700317B1E /* LocationManager.swift */; };
 		C12E34C421C174B600696B03 /* LogRx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12E34C321C174B600696B03 /* LogRx.swift */; };
+		C12F67762223F9EF00CB21E1 /* SensorAutoModeDetectionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12F67752223F9EF00CB21E1 /* SensorAutoModeDetectionState.swift */; };
+		C12F67782224182000CB21E1 /* SensorAutoModeDetectionStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12F67772224182000CB21E1 /* SensorAutoModeDetectionStateTests.swift */; };
 		C140073A21F0821A00F90D29 /* AutoModeDetectionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C140073921F0821A00F90D29 /* AutoModeDetectionState.swift */; };
 		C140073C21F0823800F90D29 /* DisabledState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C140073B21F0823800F90D29 /* DisabledState.swift */; };
 		C140073E21F083DC00F90D29 /* StandbyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C140073D21F083DC00F90D29 /* StandbyState.swift */; };
@@ -38,16 +49,20 @@
 		C15B9FCB219449270072439F /* LogRxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15B9FCA219449270072439F /* LogRxTests.swift */; };
 		C168630221E33CAF003FF6F0 /* ScoreErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C168630121E33CAF003FF6F0 /* ScoreErrorTests.swift */; };
 		C16D6DBE21FF652500978BFE /* AutoModeGherkinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C16D6DBD21FF652500978BFE /* AutoModeGherkinTests.swift */; };
-		C17E9A74216F828400FCF93E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A73216F828400FCF93E /* User.swift */; };
-		C17E9A76216F82F100FCF93E /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A75216F82F100FCF93E /* Config.swift */; };
+		C17D138D226775FD0073BA4F /* TexConfigBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17D138C226775FD0073BA4F /* TexConfigBuilderTests.swift */; };
+		C17E9A74216F828400FCF93E /* TexUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A73216F828400FCF93E /* TexUser.swift */; };
+		C17E9A76216F82F100FCF93E /* TexConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A75216F82F100FCF93E /* TexConfig.swift */; };
 		C17E9A78216F85BD00FCF93E /* TexServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A77216F85BD00FCF93E /* TexServices.swift */; };
 		C17E9A7C216F944500FCF93E /* TripRecorderFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A7B216F944500FCF93E /* TripRecorderFeature.swift */; };
-		C17E9A7E216FA53900FCF93E /* ConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A7D216FA53900FCF93E /* ConfigTests.swift */; };
-		C183873121F5BBC9000482B7 /* PersistantApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C183873021F5BBC9000482B7 /* PersistantApp.swift */; };
+		C17E9A7E216FA53900FCF93E /* TexConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17E9A7D216FA53900FCF93E /* TexConfigTests.swift */; };
+		C18AE85B2260C5A0001C3FB3 /* TexConfigBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18AE85A2260C5A0001C3FB3 /* TexConfigBuilder.swift */; };
 		C18AE984216E21A00065F0BB /* BatteryFixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18AE983216E21A00065F0BB /* BatteryFixTests.swift */; };
 		C18AE986216E2E2A0065F0BB /* LocationFixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18AE985216E2E2A0065F0BB /* LocationFixTests.swift */; };
 		C18AE989216E31E30065F0BB /* BatteryTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18AE988216E31E30065F0BB /* BatteryTrackerTests.swift */; };
 		C18AE98B216E44D60065F0BB /* LocationTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18AE98A216E44D60065F0BB /* LocationTrackerTests.swift */; };
+		C191208D221C62F4006E0429 /* AutoModeContextProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C191208C221C62F4006E0429 /* AutoModeContextProtocol.swift */; };
+		C1A4F3E622298FE3006AADCF /* LocationSensorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A4F3E522298FE3006AADCF /* LocationSensorTests.swift */; };
+		C1B98DC822312EE300DD1FD2 /* APIErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B98DC722312EE300DD1FD2 /* APIErrorTests.swift */; };
 		C1C83BD7219042F500D8E4B3 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C83BD6219042F500D8E4B3 /* Log.swift */; };
 		C1CC41E721DFBEC4004CB5C2 /* ScoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CC41E621DFBEC4004CB5C2 /* ScoreError.swift */; };
 		C1CC41E921DFBF20004CB5C2 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CC41E821DFBF20004CB5C2 /* APIError.swift */; };
@@ -113,6 +128,12 @@
 		AF9E4DBBDCD5D4E15A273DDC /* Pods-TexDriveSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveSDK.release.xcconfig"; path = "../Pods/Target Support Files/Pods-TexDriveSDK/Pods-TexDriveSDK.release.xcconfig"; sourceTree = "<group>"; };
 		C107606E217E2C8000FB28AA /* PersistantQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistantQueue.swift; sourceTree = "<group>"; };
 		C1076070217E2E9400FB28AA /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		C114C387221D8B9200B74DD8 /* AutoModeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoModeTests.swift; sourceTree = "<group>"; };
+		C114C389221D8F7700B74DD8 /* DisabledStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisabledStateTests.swift; sourceTree = "<group>"; };
+		C114C38B221D979200B74DD8 /* StandbyStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandbyStateTests.swift; sourceTree = "<group>"; };
+		C114C38D221D9B8900B74DD8 /* DetectionOfStartStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectionOfStartStateTests.swift; sourceTree = "<group>"; };
+		C114C38F221D9C5200B74DD8 /* DrivingStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingStateTests.swift; sourceTree = "<group>"; };
+		C114C391221D9CB400B74DD8 /* DetectionOfStopStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectionOfStopStateTests.swift; sourceTree = "<group>"; };
 		C121002E21C14C9100A126E6 /* TripInfos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripInfos.swift; sourceTree = "<group>"; };
 		C121003021C1632500A126E6 /* TripInfosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripInfosTests.swift; sourceTree = "<group>"; };
 		C12373982166468100A95A2A /* TripRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecorder.swift; sourceTree = "<group>"; };
@@ -123,7 +144,12 @@
 		C1273EA4217790C50006E6E0 /* MotionBufferTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionBufferTests.swift; sourceTree = "<group>"; };
 		C1273EA62178B3640006E6E0 /* MotionFixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionFixTests.swift; sourceTree = "<group>"; };
 		C1273EA82178C1670006E6E0 /* MotionTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionTrackerTests.swift; sourceTree = "<group>"; };
+		C1274DD1225782CE00EDC92F /* LocationSensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSensor.swift; sourceTree = "<group>"; };
+		C1274DD42257832300EDC92F /* AutoModeLocationSensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoModeLocationSensor.swift; sourceTree = "<group>"; };
+		C12C8B472227E6C700317B1E /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		C12E34C321C174B600696B03 /* LogRx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LogRx.swift; path = TexDriveSDK/Core/LogRx.swift; sourceTree = SOURCE_ROOT; };
+		C12F67752223F9EF00CB21E1 /* SensorAutoModeDetectionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorAutoModeDetectionState.swift; sourceTree = "<group>"; };
+		C12F67772224182000CB21E1 /* SensorAutoModeDetectionStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorAutoModeDetectionStateTests.swift; sourceTree = "<group>"; };
 		C140073921F0821A00F90D29 /* AutoModeDetectionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoModeDetectionState.swift; sourceTree = "<group>"; };
 		C140073B21F0823800F90D29 /* DisabledState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisabledState.swift; sourceTree = "<group>"; };
 		C140073D21F083DC00F90D29 /* StandbyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandbyState.swift; sourceTree = "<group>"; };
@@ -141,16 +167,20 @@
 		C15B9FCA219449270072439F /* LogRxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogRxTests.swift; sourceTree = "<group>"; };
 		C168630121E33CAF003FF6F0 /* ScoreErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreErrorTests.swift; sourceTree = "<group>"; };
 		C16D6DBD21FF652500978BFE /* AutoModeGherkinTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoModeGherkinTests.swift; sourceTree = "<group>"; };
-		C17E9A73216F828400FCF93E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		C17E9A75216F82F100FCF93E /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		C17D138C226775FD0073BA4F /* TexConfigBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexConfigBuilderTests.swift; sourceTree = "<group>"; };
+		C17E9A73216F828400FCF93E /* TexUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexUser.swift; sourceTree = "<group>"; };
+		C17E9A75216F82F100FCF93E /* TexConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexConfig.swift; sourceTree = "<group>"; };
 		C17E9A77216F85BD00FCF93E /* TexServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexServices.swift; sourceTree = "<group>"; };
 		C17E9A7B216F944500FCF93E /* TripRecorderFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecorderFeature.swift; sourceTree = "<group>"; };
-		C17E9A7D216FA53900FCF93E /* ConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigTests.swift; sourceTree = "<group>"; };
-		C183873021F5BBC9000482B7 /* PersistantApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistantApp.swift; sourceTree = "<group>"; };
+		C17E9A7D216FA53900FCF93E /* TexConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexConfigTests.swift; sourceTree = "<group>"; };
+		C18AE85A2260C5A0001C3FB3 /* TexConfigBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexConfigBuilder.swift; sourceTree = "<group>"; };
 		C18AE983216E21A00065F0BB /* BatteryFixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryFixTests.swift; sourceTree = "<group>"; };
 		C18AE985216E2E2A0065F0BB /* LocationFixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFixTests.swift; sourceTree = "<group>"; };
 		C18AE988216E31E30065F0BB /* BatteryTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryTrackerTests.swift; sourceTree = "<group>"; };
 		C18AE98A216E44D60065F0BB /* LocationTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTrackerTests.swift; sourceTree = "<group>"; };
+		C191208C221C62F4006E0429 /* AutoModeContextProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoModeContextProtocol.swift; sourceTree = "<group>"; };
+		C1A4F3E522298FE3006AADCF /* LocationSensorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSensorTests.swift; sourceTree = "<group>"; };
+		C1B98DC722312EE300DD1FD2 /* APIErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIErrorTests.swift; sourceTree = "<group>"; };
 		C1C83BD6219042F500D8E4B3 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		C1CC41E621DFBEC4004CB5C2 /* ScoreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreError.swift; sourceTree = "<group>"; };
 		C1CC41E821DFBF20004CB5C2 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
@@ -271,6 +301,17 @@
 			path = API;
 			sourceTree = "<group>";
 		};
+		C1274DD3225782FC00EDC92F /* Sensor */ = {
+			isa = PBXGroup;
+			children = (
+				C12C8B472227E6C700317B1E /* LocationManager.swift */,
+				C1274DD1225782CE00EDC92F /* LocationSensor.swift */,
+				C1274DD42257832300EDC92F /* AutoModeLocationSensor.swift */,
+			);
+			name = Sensor;
+			path = "New Group";
+			sourceTree = "<group>";
+		};
 		C140073821F0820200F90D29 /* State */ = {
 			isa = PBXGroup;
 			children = (
@@ -280,6 +321,7 @@
 				C140073F21F083F400F90D29 /* DetectionOfStartState.swift */,
 				C140074121F0840800F90D29 /* DrivingState.swift */,
 				C140074321F0843800F90D29 /* DetectionOfStopState.swift */,
+				C12F67752223F9EF00CB21E1 /* SensorAutoModeDetectionState.swift */,
 			);
 			path = State;
 			sourceTree = "<group>";
@@ -315,6 +357,14 @@
 			isa = PBXGroup;
 			children = (
 				C16D6DBD21FF652500978BFE /* AutoModeGherkinTests.swift */,
+				C191208C221C62F4006E0429 /* AutoModeContextProtocol.swift */,
+				C114C387221D8B9200B74DD8 /* AutoModeTests.swift */,
+				C114C389221D8F7700B74DD8 /* DisabledStateTests.swift */,
+				C114C38B221D979200B74DD8 /* StandbyStateTests.swift */,
+				C114C38D221D9B8900B74DD8 /* DetectionOfStartStateTests.swift */,
+				C114C38F221D9C5200B74DD8 /* DrivingStateTests.swift */,
+				C114C391221D9CB400B74DD8 /* DetectionOfStopStateTests.swift */,
+				C12F67772224182000CB21E1 /* SensorAutoModeDetectionStateTests.swift */,
 			);
 			path = "Auto-Mode";
 			sourceTree = "<group>";
@@ -330,14 +380,16 @@
 		C17E9A72216F826000FCF93E /* Public */ = {
 			isa = PBXGroup;
 			children = (
+				C1274DD3225782FC00EDC92F /* Sensor */,
 				C12E34C321C174B600696B03 /* LogRx.swift */,
 				C121002D21C14C6800A126E6 /* Log */,
 				C1F7E45421B53B5000EA0445 /* Score */,
-				C17E9A73216F828400FCF93E /* User.swift */,
-				C17E9A75216F82F100FCF93E /* Config.swift */,
+				C17E9A73216F828400FCF93E /* TexUser.swift */,
+				C17E9A75216F82F100FCF93E /* TexConfig.swift */,
 				C17E9A77216F85BD00FCF93E /* TexServices.swift */,
 				C17E9A7B216F944500FCF93E /* TripRecorderFeature.swift */,
 				C121002E21C14C9100A126E6 /* TripInfos.swift */,
+				C18AE85A2260C5A0001C3FB3 /* TexConfigBuilder.swift */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -355,12 +407,14 @@
 			isa = PBXGroup;
 			children = (
 				C14CA50821BED09400158BA0 /* Score */,
-				C17E9A7D216FA53900FCF93E /* ConfigTests.swift */,
+				C17E9A7D216FA53900FCF93E /* TexConfigTests.swift */,
 				C15B9FC621942E720072439F /* LogTests.swift */,
 				C15B9FC82194441F0072439F /* LogDetailTests.swift */,
 				C1FDE33C219C5A4C00F15AF3 /* TexServicesTests.swift */,
 				C1FDE349219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift */,
 				C121003021C1632500A126E6 /* TripInfosTests.swift */,
+				C1A4F3E522298FE3006AADCF /* LocationSensorTests.swift */,
+				C17D138C226775FD0073BA4F /* TexConfigBuilderTests.swift */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -417,7 +471,6 @@
 			children = (
 				C140073821F0820200F90D29 /* State */,
 				C1E0DFAD21EF993E0057097B /* AutoMode.swift */,
-				C183873021F5BBC9000482B7 /* PersistantApp.swift */,
 			);
 			path = "Auto-Mode";
 			sourceTree = "<group>";
@@ -429,6 +482,7 @@
 				C1F7E45721B53D8B00EA0445 /* Score */,
 				C1E93DF621875F460082B2B3 /* Extension */,
 				C1DD032E21886BD5000BBBBF /* APIConfigurationTests.swift */,
+				C1B98DC722312EE300DD1FD2 /* APIErrorTests.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -667,6 +721,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = E2798EA02147F0DB006228A3;
 			productRefGroup = E2798EAB2147F0DC006228A3 /* Products */;
@@ -750,6 +805,7 @@
 				E2798ED1214AB6F3006228A3 /* FixCollector.swift in Sources */,
 				E2798EC721480E3B006228A3 /* Fix.swift in Sources */,
 				C1F7E45321B5365C00EA0445 /* ScoreRetriever.swift in Sources */,
+				C12F67762223F9EF00CB21E1 /* SensorAutoModeDetectionState.swift in Sources */,
 				C1CCD6ED2204A3C600F4B312 /* LogManager.swift in Sources */,
 				C1D1343F218740290099B650 /* URLRequestExtension.swift in Sources */,
 				E2798ECE214AB4BA006228A3 /* BatteryTracker.swift in Sources */,
@@ -759,7 +815,8 @@
 				C15198A121EC76CB0058DC95 /* APITrip.swift in Sources */,
 				C1FAAA3A2163C7B700FD3C1D /* Tracker.swift in Sources */,
 				C17E9A7C216F944500FCF93E /* TripRecorderFeature.swift in Sources */,
-				C17E9A74216F828400FCF93E /* User.swift in Sources */,
+				C17E9A74216F828400FCF93E /* TexUser.swift in Sources */,
+				C1274DD52257832300EDC92F /* AutoModeLocationSensor.swift in Sources */,
 				C1CC41E921DFBF20004CB5C2 /* APIError.swift in Sources */,
 				C1E0DFAE21EF993E0057097B /* AutoMode.swift in Sources */,
 				C1DD032D21886B77000BBBBF /* APIConfiguration.swift in Sources */,
@@ -771,19 +828,21 @@
 				C1273E9F2175EE800006E6E0 /* MotionFix.swift in Sources */,
 				C1CC41E721DFBEC4004CB5C2 /* ScoreError.swift in Sources */,
 				C1F7E45E21B55E5200EA0445 /* APIScore.swift in Sources */,
+				C12C8B482227E6C700317B1E /* LocationManager.swift in Sources */,
 				C1076071217E2E9400FB28AA /* Event.swift in Sources */,
 				E2798EDD215A5D65006228A3 /* LocationFix.swift in Sources */,
-				C17E9A76216F82F100FCF93E /* Config.swift in Sources */,
+				C17E9A76216F82F100FCF93E /* TexConfig.swift in Sources */,
 				C1D13437218728600099B650 /* SecTrustExtension.swift in Sources */,
 				C15198A221EC76CB0058DC95 /* APITripSessionManager.swift in Sources */,
 				C17E9A78216F85BD00FCF93E /* TexServices.swift in Sources */,
 				C1D13439218729900099B650 /* UIDeviceExtension.swift in Sources */,
 				E2798EC921481570006228A3 /* BatteryFix.swift in Sources */,
 				C140073E21F083DC00F90D29 /* StandbyState.swift in Sources */,
-				C183873121F5BBC9000482B7 /* PersistantApp.swift in Sources */,
 				E2798ED62158DFC4006228A3 /* LocationTracker.swift in Sources */,
+				C18AE85B2260C5A0001C3FB3 /* TexConfigBuilder.swift in Sources */,
 				C1F7E45621B53B6000EA0445 /* Score.swift in Sources */,
 				C140073A21F0821A00F90D29 /* AutoModeDetectionState.swift in Sources */,
+				C1274DD2225782CE00EDC92F /* LocationSensor.swift in Sources */,
 				C121002F21C14C9100A126E6 /* TripInfos.swift in Sources */,
 				C140074221F0840800F90D29 /* DrivingState.swift in Sources */,
 				C140073C21F0823800F90D29 /* DisabledState.swift in Sources */,
@@ -795,19 +854,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C114C38E221D9B8900B74DD8 /* DetectionOfStartStateTests.swift in Sources */,
 				C121003121C1632500A126E6 /* TripInfosTests.swift in Sources */,
 				C1FDE33D219C5A4C00F15AF3 /* TexServicesTests.swift in Sources */,
 				C18AE98B216E44D60065F0BB /* LocationTrackerTests.swift in Sources */,
 				C15B9FC92194441F0072439F /* LogDetailTests.swift in Sources */,
-				C17E9A7E216FA53900FCF93E /* ConfigTests.swift in Sources */,
+				C17E9A7E216FA53900FCF93E /* TexConfigTests.swift in Sources */,
+				C191208D221C62F4006E0429 /* AutoModeContextProtocol.swift in Sources */,
+				C12F67782224182000CB21E1 /* SensorAutoModeDetectionStateTests.swift in Sources */,
 				C1FDE342219C5B4300F15AF3 /* FixCollectorTests.swift in Sources */,
+				C114C38A221D8F7700B74DD8 /* DisabledStateTests.swift in Sources */,
 				C14CA50A21BED0C000158BA0 /* ScoreRetrieverTest.swift in Sources */,
 				C15B9FC721942E720072439F /* LogTests.swift in Sources */,
 				C1E521B621748CE800B80C64 /* CallFixTests.swift in Sources */,
 				E2798EB92147F0DC006228A3 /* TexDriveSDKTests.swift in Sources */,
 				C16D6DBE21FF652500978BFE /* AutoModeGherkinTests.swift in Sources */,
 				C1FDE346219C5BA700F15AF3 /* APITripTests.swift in Sources */,
+				C114C38C221D979200B74DD8 /* StandbyStateTests.swift in Sources */,
 				C1FDE340219C5B1300F15AF3 /* TripRecorderTests.swift in Sources */,
+				C1A4F3E622298FE3006AADCF /* LocationSensorTests.swift in Sources */,
+				C17D138D226775FD0073BA4F /* TexConfigBuilderTests.swift in Sources */,
 				C15198A521EC81C30058DC95 /* APITripSessionManagerTests.swift in Sources */,
 				C1273EA92178C1670006E6E0 /* MotionTrackerTests.swift in Sources */,
 				C1FDE34C219C72C400F15AF3 /* FixTests.swift in Sources */,
@@ -820,9 +886,13 @@
 				C18AE984216E21A00065F0BB /* BatteryFixTests.swift in Sources */,
 				C1DD0325218861F4000BBBBF /* DateFormatterExtensionTests.swift in Sources */,
 				C1DD032321885AE4000BBBBF /* EventTests.swift in Sources */,
+				C114C390221D9C5200B74DD8 /* DrivingStateTests.swift in Sources */,
+				C114C388221D8B9200B74DD8 /* AutoModeTests.swift in Sources */,
 				C1FDE34A219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift in Sources */,
+				C114C392221D9CB400B74DD8 /* DetectionOfStopStateTests.swift in Sources */,
 				C1DD032B21886A01000BBBBF /* UIDeviceExtensionTests.swift in Sources */,
 				C1273EA72178B3640006E6E0 /* MotionFixTests.swift in Sources */,
+				C1B98DC822312EE300DD1FD2 /* APIErrorTests.swift in Sources */,
 				C18AE989216E31E30065F0BB /* BatteryTrackerTests.swift in Sources */,
 				C18AE986216E2E2A0065F0BB /* LocationFixTests.swift in Sources */,
 				C1FDE33B219C58E500F15AF3 /* PersistantQueueTests.swift in Sources */,
@@ -900,6 +970,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -956,6 +1027,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -976,6 +1048,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = TexDriveSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -985,8 +1058,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1004,6 +1076,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = TexDriveSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1012,8 +1085,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = axa.tex.TexDriveSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -1032,7 +1104,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = axa.tex.TexDriveSDKTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1054,7 +1125,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = axa.tex.TexDriveSDKTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

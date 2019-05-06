@@ -19,9 +19,9 @@ class APIScoreSessionManagerTests: XCTestCase {
     override func setUp() {
         super.setUp()
         rxDisposeBag = DisposeBag()
-        let user = User.Authentified("Erwan-ios12")
+        let user = TexUser.Authentified("Erwan-ios12")
         let appId = "youdrive_france_prospect"
-        apiSessionManager = APIScoreSessionManager(configuration: TripInfos(appId: appId, user: user, domain: Domain.Preproduction))
+        apiSessionManager = APIScoreSessionManager(configuration: TripInfos(appId: appId, user: user, domain: Platform.Preproduction))
         let config = URLSessionConfiguration.background(withIdentifier: "TexSession")
         config.isDiscretionary = true
         config.sessionSendsLaunchEvents = true

@@ -10,16 +10,48 @@ import UIKit
 import TexDriveSDK
 import Fabric
 import Crashlytics
+import UserNotifications
+import CoreLocation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
-    
+    var texServices: TexServices?
     var window: UIWindow?
     var backgroundCompletionHandler: (() -> ())?
+    let userId = "Erwan-"+UIDevice.current.systemName + UIDevice.current.systemVersion
+    let locationManager = CLLocationManager()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         Fabric.with([Crashlytics.self])
+        let options: UNAuthorizationOptions = [.alert, .badge, .sound];
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: options) {
+            (granted, error) in
+        }
+        locationManager.requestAlwaysAuthorization()
+        self.configureTexSDK(withUserId: userId)
         return true
+    }
+    
+    func configureTexSDK(withUserId: String) {
+        let user = TexUser.Authentified(withUserId)
+        let appId = "youdrive_france_prospect"
+        let builder = TexConfigBuilder(appId: appId, texUser: user)
+        do {
+            ///"APP-TEST"
+            try builder.enableTripRecorder()
+            builder.select(platform: Platform.Production)
+            let config = builder.build()
+            let service = TexServices.service(configuration: config)
+            texServices = service
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 2000)) {
+                service.tripRecorder?.activateAutoMode()
+            }
+        } catch ConfigurationError.LocationNotDetermined(let description) {
+            print(description)
+        } catch {
+            print("\(error)")
+        }
     }
     
     func applicationWillResignActive(_ application: UIApplication) {

@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		526F8BB1E5C56E1291D09BF4 /* Pods_TexDriveAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A281DA094D603552790F39A /* Pods_TexDriveAppTests.framework */; };
-		950BDCCD5C61D31223205EBF /* Pods_TexDriveApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D4CA8346ECEE2C3BA5E3F8 /* Pods_TexDriveApp.framework */; };
+		6785292F6ED8E5D0EE51AA43 /* libPods-TexDriveApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A1AB3E22764144804469AB6 /* libPods-TexDriveApp.a */; };
+		935C9E33E15DA79641ED037D /* libPods-TexDriveAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE71D68FC7DA4F158EFA71C3 /* libPods-TexDriveAppTests.a */; };
 		C19D42A82201A20800E9855D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C19D42A72201A20800E9855D /* Assets.xcassets */; };
 		E2798E812147EE80006228A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2798E802147EE80006228A3 /* AppDelegate.swift */; };
 		E2798E832147EE80006228A3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2798E822147EE80006228A3 /* ViewController.swift */; };
@@ -30,11 +30,11 @@
 /* Begin PBXFileReference section */
 		14156CE72E97C91515F2370F /* Pods-TexDriveApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TexDriveApp/Pods-TexDriveApp.debug.xcconfig"; sourceTree = "<group>"; };
 		4C579984912A760AEF003612 /* Pods-TexDriveApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-TexDriveApp/Pods-TexDriveApp.release.xcconfig"; sourceTree = "<group>"; };
-		8A281DA094D603552790F39A /* Pods_TexDriveAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TexDriveAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A1AB3E22764144804469AB6 /* libPods-TexDriveApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TexDriveApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		98DFE0A21F1C20270057BCC5 /* Pods-TexDriveAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TexDriveAppTests/Pods-TexDriveAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		BC049353FB34A04720AEFDB9 /* Pods-TexDriveAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TexDriveAppTests/Pods-TexDriveAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		BE71D68FC7DA4F158EFA71C3 /* libPods-TexDriveAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TexDriveAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C19D42A72201A20800E9855D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		C6D4CA8346ECEE2C3BA5E3F8 /* Pods_TexDriveApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TexDriveApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2798E7D2147EE80006228A3 /* TexDriveApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TexDriveApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2798E802147EE80006228A3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E2798E822147EE80006228A3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -51,7 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				950BDCCD5C61D31223205EBF /* Pods_TexDriveApp.framework in Frameworks */,
+				6785292F6ED8E5D0EE51AA43 /* libPods-TexDriveApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				526F8BB1E5C56E1291D09BF4 /* Pods_TexDriveAppTests.framework in Frameworks */,
+				935C9E33E15DA79641ED037D /* libPods-TexDriveAppTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,8 +80,8 @@
 		D9FE30E5EE1F2DE7A22EA00D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C6D4CA8346ECEE2C3BA5E3F8 /* Pods_TexDriveApp.framework */,
-				8A281DA094D603552790F39A /* Pods_TexDriveAppTests.framework */,
+				6A1AB3E22764144804469AB6 /* libPods-TexDriveApp.a */,
+				BE71D68FC7DA4F158EFA71C3 /* libPods-TexDriveAppTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -139,8 +139,8 @@
 				E2798E792147EE80006228A3 /* Sources */,
 				E2798E7A2147EE80006228A3 /* Frameworks */,
 				E2798E7B2147EE80006228A3 /* Resources */,
-				9449A0398388653869068759 /* [CP] Embed Pods Frameworks */,
 				C171AC4621A2B9FB00F8AF64 /* ShellScript */,
+				079F5C9F9A19EDC85BA2A76F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -236,6 +236,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		079F5C9F9A19EDC85BA2A76F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TexDriveApp/Pods-TexDriveApp-resources.sh",
+				"${PODS_ROOT}/../TexDriveSDK/TexDriveSDK/Resources/TEX-elb-ssl.der",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TEX-elb-ssl.der",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TexDriveApp/Pods-TexDriveApp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		62476437454FB030A04CEF22 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -252,34 +274,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9449A0398388653869068759 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TexDriveApp/Pods-TexDriveApp-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/GzipSwift-framework/Gzip.framework",
-				"${BUILT_PRODUCTS_DIR}/RxBlocking-framework/RxBlocking.framework",
-				"${BUILT_PRODUCTS_DIR}/RxCocoa-framework/RxCocoa.framework",
-				"${BUILT_PRODUCTS_DIR}/RxSwift-framework/RxSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/RxSwiftExt-framework/RxSwiftExt.framework",
-				"${BUILT_PRODUCTS_DIR}/TexDriveSDK/TexDriveSDK.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Gzip.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxBlocking.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwiftExt.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TexDriveSDK.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TexDriveApp/Pods-TexDriveApp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C171AC4621A2B9FB00F8AF64 /* ShellScript */ = {
@@ -419,6 +413,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -471,6 +466,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -484,14 +480,14 @@
 				DEVELOPMENT_TEAM = C8S682A487;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = TexDriveApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = axa.dil.TEXDrive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -504,14 +500,14 @@
 				DEVELOPMENT_TEAM = C8S682A487;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = TexDriveApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = axa.dil.TEXDrive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -531,7 +527,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = axa.tex.TexDriveAppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TexDriveApp.app/TexDriveApp";
 			};
@@ -553,7 +548,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = axa.tex.TexDriveAppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TexDriveApp.app/TexDriveApp";
 			};

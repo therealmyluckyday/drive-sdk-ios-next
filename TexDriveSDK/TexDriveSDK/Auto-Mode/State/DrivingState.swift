@@ -10,24 +10,49 @@ import RxSwift
 import CoreLocation
 import CoreMotion
 
-public class DrivingState: AutoModeDetectionState {
-    let motionManager = CMMotionActivityManager()
+protocol TimerProtocol {
+    var intervalDelay: TimeInterval { get }
+    var timer: Timer? { get set }
+    func enableTimer(timeInterval: TimeInterval)
+    func disableTimer()
+    func resetTimer(timeInterval: TimeInterval)
+}
+
+public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
+    let intervalDelay: TimeInterval
+    let thresholdSpeed = CLLocationSpeed(exactly: 10)!
+    var timer: Timer?
+    var lastActivity: CMMotionActivity?
     
-    override func enable() {
-        Log.print("enable")
-        print("Driving enable")
+    init(context: AutoModeContextProtocol, locationManager clLocationManager: LocationManager, motionActivityManager: CMMotionActivityManager = CMMotionActivityManager(), interval: TimeInterval = TimeInterval(4*60)) {
+        intervalDelay = interval
+        super.init(context: context, locationManager: clLocationManager, motionActivityManager: motionActivityManager)
+    }
+    
+    override func enableMotionSensor() {
         motionManager.startActivityUpdates(to: OperationQueue.main) {[weak self] (activity) in
-            if let activity = activity, activity.automotive == false, activity.stationary == true {
-                self?.stop()
+            if let activity = activity {
+                self?.lastActivity = activity
             }
         }
     }
-
+    
+    override func enableLocationSensor() {
+        super.enableLocationSensor()
+        locationManager.autoModeLocationSensor.change(state: .locationChanges)
+    }
+    
+    override func enable() {
+        super.enable()
+        enableTimer(timeInterval: intervalDelay)
+    }
+    
     override func stop() {
         Log.print("stop")
-        self.stopUpdating()
+        disableTimer()
+        disableSensor()
         if let context = self.context {
-            let state = DetectionOfStopState(context: context)
+            let state = DetectionOfStopState(context: context, locationManager: locationManager)
             context.rxState.onNext(state)
             state.enable()
         }
@@ -35,13 +60,64 @@ public class DrivingState: AutoModeDetectionState {
     
     override func disable() {
         Log.print("disable")
-        self.stopUpdating()
+        disableTimer()
+        disableSensor()
         if let context = self.context {
             context.rxState.onNext(DisabledState(context: context))
         }
     }
     
-    func stopUpdating() {
-        motionManager.stopActivityUpdates()
+    func forceStop() {
+        Log.print("forceStop")
+        disableTimer()
+        disableSensor()
+        if let context = self.context {
+            let state = DetectionOfStopState(context: context, locationManager: locationManager)
+            context.rxState.onNext(state)
+            state.stop()
+        }
+    }
+    
+    // MARK: - SensorAutoModeDetectionState
+    override func didUpdateLocations(location: CLLocation) {        
+        
+        guard sensorState == .enable, -location.timestamp.timeIntervalSinceNow < 5, location.speed >= 0 || isSimulatorDriveTestingAutoMode else {
+            return
+        }
+        resetTimer(timeInterval: intervalDelay)
+        if location.speed < thresholdSpeed {
+            if let activity = lastActivity, -activity.startDate.timeIntervalSinceNow < 60, activity.automotive {
+            }
+            else {
+                motionManager.queryActivityStarting(from: Date.init().addingTimeInterval(-10.0), to: Date(), to: OperationQueue.main) { [weak self](motions, error) in
+                    if let motions = motions {
+                        for activity in motions {
+                            if activity.automotive {
+                                return
+                            }
+                        }
+                    }
+                    Log.print("location.speed \(location.speed) < thresholdSpeed \(String(describing: self?.thresholdSpeed))")
+                    self?.stop()
+                }
+            }
+        }
+    }
+    
+    // MARK: - TimerProtocol
+    func enableTimer(timeInterval: TimeInterval){
+        timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false, block: { [weak self](timer) in
+            self?.forceStop()
+        })
+    }
+    
+    func disableTimer() {
+        timer?.invalidate()
+        timer = nil
+    }
+    
+    func resetTimer(timeInterval: TimeInterval) {
+        disableTimer()
+        enableTimer(timeInterval: timeInterval)
     }
 }

@@ -1,6 +1,0 @@
-framework module RxSwiftExt {
-  umbrella header "RxSwiftExt-framework-umbrella.h"
-
-  export *
-  module * { export * }
-}

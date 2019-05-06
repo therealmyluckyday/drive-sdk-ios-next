@@ -45,6 +45,7 @@ class PersistantQueue {
                 if let tripInfos = self?.tripInfos, eventType == EventType.start {
                     let aTrip = TripChunk(tripInfos: tripInfos)
                     self?.currentTripChunk = aTrip
+                    Log.print("New TRIP \(aTrip.tripId) ")
                     rxTripId.onNext(aTrip.tripId)
                 }
                 if let trip = self?.currentTripChunk {
@@ -85,6 +86,7 @@ class PersistantQueue {
     func sendNextTripChunk() {
         if let tripChunk = self.tripChunkWaitingQueue.pop() {
             self.tripChunkSent = tripChunk
+            Log.print("sendNextTripChunk \(tripChunk.count) ")
             self.providerTrip.onNext(tripChunk)
         }
         else {
@@ -93,6 +95,7 @@ class PersistantQueue {
     }
     
     func sendTripChunk(tripChunk: TripChunk) {
+        Log.print("sendTripChunk \(tripChunk.count) ")
         self.tripChunkWaitingQueue.push(element: tripChunk)
         if self.tripChunkSent == nil {
             self.sendNextTripChunk()

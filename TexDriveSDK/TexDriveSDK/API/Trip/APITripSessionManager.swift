@@ -59,7 +59,7 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
             
             tripChunkSent.onNext(Result.Success(tripId))
             if APITripSessionManager.isTripStoppedSend(task:downloadTask) {
-                Log.print("Trip Finished!!!!")
+                Log.print("Trip Finished")
                 tripIdFinished.onNext(tripId)
             }
         } else {
@@ -78,11 +78,32 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
                     Log.print("HTTP Body \(body)")
                 }
                 let apiError = APISessionManager.manageError(data: data, httpResponse: httpResponse)
-                tripChunkSent.onNext(Result.Failure(apiError))
+                if apiError.statusCode >= 400 && apiError.statusCode < 500 {
+                    tripChunkSent.onNext(Result.Failure(apiError))
+                } else {
+                    retry(task:downloadTask)
+                }
+                
             } catch {
                 Log.print("HTTP File Error \(error)", type: .Error)
-                let apiError = APIError(message: "Unable to Parse API response File", statusCode: 400)
-                tripChunkSent.onNext(Result.Failure(apiError))
+                let apiError = APIError(message: "Unable to Parse API response File", statusCode: httpResponse.statusCode)
+                
+                if apiError.statusCode >= 400 && apiError.statusCode < 500 {
+                    tripChunkSent.onNext(Result.Failure(apiError))
+                } else {
+                    retry(task:downloadTask)
+                }
+            }
+        }
+    }
+    
+    func retry(task: URLSessionDownloadTask) {
+        Log.print("Retry")
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.seconds(60)) {
+            if let request = task.currentRequest {
+                let backgroundTask = self.urlBackgroundTaskSession.downloadTask(with: request)
+                Log.print("Retry")
+                backgroundTask.resume()
             }
         }
     }
@@ -100,8 +121,15 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
     func urlSession(_ session: URLSession,
                     task: URLSessionTask,
                     didCompleteWithError error: Error?) {
-        if let error = error {
+        if let error = error as NSError? {
             Log.print("HTTP connection error: \(error)", type: .Error)
+            if let downloadTask = task as? URLSessionDownloadTask {
+               Log.print("HTTP connection error downloadtask: \(downloadTask)")
+                if error.domain != "NSPOSIXErrorDomain"  {
+                    self.retry(task: downloadTask)
+                }
+                
+            }
         }
     }
     
@@ -127,36 +155,36 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
     
     
     func urlSession(_ session: URLSession, taskIsWaitingForConnectivity task: URLSessionTask) {
-        Log.print("HTTP urlsession")
+        Log.print("HTTP urlsession taskIsWaitingForConnectivity")
     }
     
     
     func urlSession(_ session: URLSession, task: URLSessionTask, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Swift.Void) {
-        Log.print("HTTP urlsession")
+        Log.print("HTTP urlsession didReceive challenge")
     }
     
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Swift.Void) {
-        Log.print("HTTP urlsession")
+        Log.print("HTTP urlsession didReceive response")
     }
     
     
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didBecome downloadTask: URLSessionDownloadTask) {
-        Log.print("HTTP urlsession")
+        Log.print("HTTP urlsession didBecome downloadTask")
     }
     
     
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didBecome streamTask: URLSessionStreamTask) {
-        Log.print("HTTP urlsession")
+        Log.print("HTTP urlsession didBecome streamTask")
     }
     
     
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
-        Log.print("HTTP urlsession")
+        Log.print("HTTP urlsession didReceive data")
     }
     
     
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, willCacheResponse proposedResponse: CachedURLResponse, completionHandler: @escaping (CachedURLResponse?) -> Swift.Void) {
-        Log.print("HTTP urlsession")
+        Log.print("HTTP urlsession willCacheResponse proposedResponse")
     }
     
     // MARK: - func isTripStopedSend(on: downloadTask) -> Bool

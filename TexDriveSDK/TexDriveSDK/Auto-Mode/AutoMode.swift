@@ -13,55 +13,138 @@ import CoreMotion
 protocol AutoModeContextProtocol: class {
     var rxState: PublishSubject<AutoModeDetectionState> { get }
     var state: AutoModeDetectionState? { get set }
+    var locationManager: LocationManager { get }
+}
+
+enum AutoModeStatus {
+    case ServiceNotStarted
+    case WaitingScanTrigger
+    case ScanningActivity
+    case Driving
+    case Stopped
 }
 
 class AutoMode: AutoModeContextProtocol {
     // MARK: - Property
-    var rxState = PublishSubject<AutoModeDetectionState>() // see to refactor and manage complete stream
+    var rxState = PublishSubject<AutoModeDetectionState>()
+    var rxIsDriving = PublishSubject<Bool>()
     let rxDisposeBag = DisposeBag()
     var state: AutoModeDetectionState?
+    let locationManager: LocationManager
+    
+    var status: AutoModeStatus {
+        get {
+            if let currentState = state {
+                switch currentState {
+                case is StandbyState:
+                    return .WaitingScanTrigger
+                case is DetectionOfStartState:
+                    return .ScanningActivity
+                case is DrivingState:
+                    return .Driving
+                case is DetectionOfStopState:
+                    return .Stopped
+                default:
+                    return .ServiceNotStarted
+                }
+            }
+            return AutoModeStatus.ServiceNotStarted
+        }
+    }
+    
+    var isServiceStarted: Bool {
+        get {
+            if let currentState = state {
+                return !(currentState is DisabledState)
+            }
+            return false
+        }
+    }
+    
+    init(locationManager clLocationManager: LocationManager) {
+        locationManager = clLocationManager
+    }
     
     // MARK: - Public method
     func enable() {
-        Log.print("Enable")
-        self.disable()
-        let state = StandbyState(context: self)
-        self.state = state
-        self.rxState.asObserver().observeOn(MainScheduler.asyncInstance).subscribe {[weak self] (event) in
+        disable()
+        let standbyState = StandbyState(context: self, locationManager: locationManager)
+        
+        rxState.asObserver().observeOn(MainScheduler.asyncInstance).subscribe {[weak self] (event) in
             if let newState = event.element {
-                if let state = self?.state {
-                    Log.print("PREVIOUS STATE \(state)")
-                }
-                
-                Log.print("NEW STATE \(newState)")
+                Log.print("\(newState)")
+                print("\(newState)")
                 self?.state = newState
             }
         }.disposed(by: rxDisposeBag)
         
-        self.rxState.onNext(state)
-        state.enable()
+        rxState.asObserver().observeOn(MainScheduler.asyncInstance).pairwise().subscribe {[weak self] event in
+            if let (state1, state2) = event.element {
+                Log.print("State 1 : \(state1) , State 2: \(state2)")
+                if state1 is DetectionOfStartState, state2 is DrivingState {
+                    Log.print("START DETECTED")
+                    self?.rxIsDriving.onNext(true)
+                }
+                if state1 is StandbyState, state2 is DrivingState {
+                    Log.print("START DETECTED")
+                    self?.rxIsDriving.onNext(true)
+                }
+                if state1 is DisabledState, state2 is DrivingState {
+                    Log.print("START DETECTED")
+                    self?.rxIsDriving.onNext(true)
+                }
+                if state1 is DetectionOfStopState, state2 is StandbyState {
+                    Log.print("STOP DETECTED )")
+                    self?.rxIsDriving.onNext(false)
+                }
+                if state1 is DrivingState, state2 is DisabledState {
+                    Log.print("STOP DETECTED )")
+                    self?.rxIsDriving.onNext(false)
+                }
+                if state1 is DetectionOfStopState, state2 is DisabledState {
+                    Log.print("STOP DETECTED )")
+                    self?.rxIsDriving.onNext(false)
+                }
+            }
+            }.disposed(by: rxDisposeBag)
+        
+        rxState.onNext(standbyState)
+        standbyState.start()
     }
     
     func disable() {
-        Log.print("Disable")
-        if let state = self.state {
-            Log.print("LAST STATE \(state)")
-        }
-        else {
-            Log.print("NO STATE")
-        }
         self.state?.disable()
         self.state = nil
     }
     
     func stop() {
-        Log.print("stop")
-        if let state = self.state {
-            Log.print("LAST STATE \(state)")
-        }
-        else {
-            Log.print("NO STATE")
-        }
         self.state?.stop()
     }
+    
+    func detectionOfStart(){
+        if let state = self.state, state is StandbyState {
+            state.start()
+        }
+    }
+    
+    func forceStatusDriving() {
+        self.state?.drive()
+    }
+    
+    @available(*, deprecated, message: "Please use disable()")
+    func stopService() {
+        self.disable()
+    }
+    
+    @available(*, deprecated, message: "Please use enable()")
+    func startService() {
+        self.enable()
+    }
+    
+    @available(*, deprecated, message: "Please use enable()")
+    func forceStatusWaitingScanTrigger() {
+        self.enable()
+    }
+    
+    
 }
