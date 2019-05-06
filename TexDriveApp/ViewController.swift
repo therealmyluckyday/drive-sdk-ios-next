@@ -157,7 +157,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
         }
         
         let rxScore = services.rxScore
-        services.scoreRetriever?.getScore(tripId: currentTripId, rxScore: rxScore)
+        services.scoringClient?.getScore(tripId: currentTripId, rxScore: rxScore)
     }
     
     // MARK: - Log Management
