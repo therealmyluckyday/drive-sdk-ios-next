@@ -18,7 +18,7 @@ public class TexServices {
             return _tripRecorder
         }
     }
-    public var scoreRetriever: ScoreRetrieverProtocol? {
+    public var scoringClient: ScoringClient? {
         get {
             return _scoreRetriever
         }
@@ -30,7 +30,7 @@ public class TexServices {
     private var disposeBag: DisposeBag?
     private var _tripRecorder: TripRecorder?
     private var _tripSessionManager: APITripSessionManager?
-    private var _scoreRetriever: ScoreRetrieverProtocol?
+    private var _scoreRetriever: ScoringClient?
     private static let sharedInstance = TexServices()
     
     // MARK: - Internal
