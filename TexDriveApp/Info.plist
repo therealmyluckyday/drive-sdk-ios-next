@@ -2,20 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>Fabric</key>
-    <dict>
-        <key>APIKey</key>
-        <string>f8f93617ece5adaba2dcd591cb5e013816d59c21</string>
-        <key>Kits</key>
-        <array>
-            <dict>
-                <key>KitInfo</key>
-                <dict/>
-                <key>KitName</key>
-                <string>Crashlytics</string>
-            </dict>
-        </array>
-    </dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -29,29 +15,59 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.0</string>
+	<string>1.0.1</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>Fabric</key>
+	<dict>
+		<key>APIKey</key>
+		<string>f8f93617ece5adaba2dcd591cb5e013816d59c21</string>
+		<key>Kits</key>
+		<array>
+			<dict>
+				<key>KitInfo</key>
+				<dict/>
+				<key>KitName</key>
+				<string>Crashlytics</string>
+			</dict>
+		</array>
+	</dict>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSAppTransportSecurity</key>
-	<dict>
+    <key>NSAppTransportSecurity</key>
+    <dict>
         <key>NSExceptionDomains</key>
         <dict>
             <key>tex.dil.services</key>
             <dict>
-                <!--Include to allow subdomains-->
                 <key>NSIncludesSubdomains</key>
                 <true/>
-                <!--Include to allow HTTP requests-->
                 <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
                 <true/>
-                <!--Include to specify minimum TLS version-->
                 <key>NSTemporaryExceptionMinimumTLSVersion</key>
                 <string>TLSv1.2</string>
             </dict>
+            <key>gw.tex.dil.services</key>
+            <dict>
+                <key>NSIncludesSubdomains</key>
+                <true/>
+                <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+                <key>NSTemporaryExceptionMinimumTLSVersion</key>
+                <string>TLSv1.2</string>
+            </dict>
+            <key>tex-gw-bigdata.axa.com</key>
+            <dict>
+                <key>NSIncludesSubdomains</key>
+                <true/>
+                <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+                <key>NSTemporaryExceptionMinimumTLSVersion</key>
+                <string>TLSv1.2</string>
+            </dict>
+            
         </dict>
-	</dict>
+    </dict>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>AXADrive needs to know the location of your vehicle.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
