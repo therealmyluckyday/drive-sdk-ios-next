@@ -5,15 +5,15 @@
   },
   "summary": "TexDriveSDK",
   "requires_arc": true,
-  "version": "3.0.0",
+  "version": "3.0.1",
   "homepage": "http://www.axa.com",
-  "swift_version": "4.2",
+  "swift_version": "5.0",
   "authors": {
     "vhiribarren": "vhiribarren@users.noreply.github.com"
   },
   "source": {
     "git": "https://github.com/axadil/drive-sdk-ios-next.git",
-    "tag": "v3.0.0"
+    "tag": "v3.0.1"
   },
   "source_files": "TexDriveSDK/TexDriveSDK/**/*.{h,m,c,swift}",
   "resources": "TexDriveSDK/TexDriveSDK/Resources/*",
