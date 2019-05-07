@@ -14,12 +14,12 @@ public class ParseError: Error {
 }
 
 public struct Score: CustomStringConvertible {
-    let tripId: TripId
-    let global: Double
-    let speed: Double
-    let acceleration: Double
-    let braking: Double
-    let smoothness: Double
+    public let tripId: TripId
+    public let global: Double
+    public let speed: Double
+    public let acceleration: Double
+    public let braking: Double
+    public let smoothness: Double
     // MARK : - CustomStringConvertible
     public var description: String {
         get {
