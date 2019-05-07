@@ -37,7 +37,7 @@ enum ScoreStatus: String {
 //NotEnoughLocations = ScoreStatus.trip_invalid
 //DataQualityIssue = ScoreStatus.trip_invalid
 
-enum ExceptionScoreStatus: String {
+public enum ExceptionScoreStatus: String {
     case lowPrecisionTrip = "not_enough_locations"
     case tripTooShort = "trip_too_short"
     case tripTooLong = "trip_too_long"
@@ -48,7 +48,7 @@ enum ExceptionScoreStatus: String {
     case noLocations = "no_locations"
 }
 
-struct ScoreError: Error {
+public struct ScoreError: Error {
     let details: [ExceptionScoreStatus]
     let status: ScoreStatus
     let tripId: TripId

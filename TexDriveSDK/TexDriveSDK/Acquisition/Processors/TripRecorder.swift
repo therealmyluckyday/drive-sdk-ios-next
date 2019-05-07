@@ -18,11 +18,6 @@ public protocol TripRecorderProtocol {
     func stop()
 }
 
-public enum AXAToggleMode {
-    case Manual
-    case Auto
-}
-
 public class TripRecorder: TripRecorderProtocol {
     // MARK: - Property
     private let collector: FixCollector
@@ -32,7 +27,7 @@ public class TripRecorder: TripRecorderProtocol {
     internal var autoMode: AutoMode?
     private let apiTrip: APITrip
     internal let persistantQueue: PersistantQueue
-    internal let rxTripId = PublishSubject<TripId>()
+    public let rxTripId = PublishSubject<TripId>()
     internal let rxDispatchQueueScheduler: SerialDispatchQueueScheduler
     
     // MARK: SDKV2 Compatibility
@@ -134,14 +129,14 @@ public class TripRecorder: TripRecorderProtocol {
     }
 
     // MARK: - SDK V2 compatibility
-    public func startTrip(with mode: AXAToggleMode) {
+    public func startTrip() {
         guard !isRecording else {
             return
         }
         start()
     }
     
-    public func stopTrip(with mode: AXAToggleMode) {
+    public func stopTrip() {
         guard isRecording else {
             return
         }

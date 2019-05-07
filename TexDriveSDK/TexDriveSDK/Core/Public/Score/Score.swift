@@ -8,18 +8,25 @@
 
 import Foundation
 
-class ParsingError: Error {
+public class ParseError: Error {
     var localizedDescription: String = "Parsing Error"
     
 }
 
-public struct Score {
+public struct Score: CustomStringConvertible {
     let tripId: TripId
     let global: Double
     let speed: Double
     let acceleration: Double
     let braking: Double
     let smoothness: Double
+    // MARK : - CustomStringConvertible
+    public var description: String {
+        get {
+            return "tripId \(tripId), global \(global), speed \(speed), acceleration \(acceleration), braking \(braking), smoothness \(smoothness)"
+        }
+        
+    }
     
     init?(dictionary: [String: Any]) {
         guard let scoreDictionary = dictionary["scores_dil"] as? [String: Any],

@@ -57,13 +57,13 @@ class APIScore: APIScoreProtocol {
                         completionHandler(Result.Success(score))
                     }
                     else {
-                        let error: Error = ParsingError()
+                        let error: Error = ParseError()
                         Log.print("Error On Parsing -\(dictionaryResult)-", type: LogType.Error)
                         completionHandler(Result.Failure(error))
                     }
                 }
                 else {
-                    var error: Error = ParsingError()
+                    var error: Error = ParseError()
                     if let scoreError = ScoreError(dictionary: dictionaryResult) {
                         error = scoreError
                         Log.print("Error On Score -\(dictionaryResult)-", type: LogType.Error)
