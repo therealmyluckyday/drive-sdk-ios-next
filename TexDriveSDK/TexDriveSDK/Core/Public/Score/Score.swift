@@ -20,10 +20,17 @@ public struct Score: CustomStringConvertible {
     public let acceleration: Double
     public let braking: Double
     public let smoothness: Double
+    @available(*, deprecated, message: "Implement startDate")
+    public let startDate: Date = Date()
+    @available(*, deprecated, message: "Implement endDate")
+    public let endDate: Date = Date()
+    @available(*, deprecated, message: "Implement distance")
+    public let distance: Double = Double(22000)
+    
     // MARK : - CustomStringConvertible
     public var description: String {
         get {
-            return "tripId \(tripId), global \(global), speed \(speed), acceleration \(acceleration), braking \(braking), smoothness \(smoothness)"
+            return "tripId \(tripId), start date \(startDate), end date \(endDate),, global \(global), speed \(speed), acceleration \(acceleration), braking \(braking), smoothness \(smoothness), distance \(distance),"
         }
         
     }
