@@ -26,6 +26,9 @@ public struct Score: CustomStringConvertible {
     public let endDate: Date = Date()
     @available(*, deprecated, message: "Implement distance")
     public let distance: Double = Double(22000)
+    @available(*, deprecated, message: "Implement duration")
+    public let duration: Double = Double(33000)
+    
     
     // MARK : - CustomStringConvertible
     public var description: String {
