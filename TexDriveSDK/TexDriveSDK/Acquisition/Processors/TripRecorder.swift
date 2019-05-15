@@ -52,12 +52,14 @@ public class TripRecorder: TripRecorderProtocol {
     public func start() {
         collector.startCollect()
         startTime = Date()
+        autoMode?.rxIsDriving.onNext(true)
     }
     
     public func stop() {
         collector.stopCollect()
         currentTripId = nil
         startTime = nil
+        autoMode?.rxIsDriving.onNext(false)
     }
     
     public func activateAutoMode() {
