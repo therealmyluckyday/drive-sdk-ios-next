@@ -29,7 +29,8 @@ class TripRecorderTests: XCTestCase {
     // MARK: - init
     func testInit_LocationFeatureStart() {
         MockCLLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
-        let locationSensor = LocationSensor(MockCLLocationManager())
+        let mockCLLocationManager = MockCLLocationManager()
+        let locationSensor = LocationSensor(mockCLLocationManager)
         let autoModeLocationSensor = AutoModeLocationSensor(CLLocationManager())
         let mockLocationManager = LocationManager(autoModeLocationSensor, trackerLocationSensor: locationSensor)
         let locationFeature = TripRecorderFeature.Location(mockLocationManager)
@@ -53,6 +54,7 @@ class TripRecorderTests: XCTestCase {
             let random = Double.random(in: closedRange)
             let location = CLLocation(latitude: CLLocationDegrees(random), longitude: CLLocationDegrees(random))
             locationSensor.rxLocation.onNext(location)
+            mockCLLocationManager.send(locations: [location])
         }
         tripRecorder.start()
 
@@ -61,6 +63,7 @@ class TripRecorderTests: XCTestCase {
             let random = Double.random(in: closedRange)
             let location = CLLocation(latitude: CLLocationDegrees(random), longitude: CLLocationDegrees(random))
             locationSensor.rxLocation.onNext(location)
+            mockCLLocationManager.send(locations: [location])
         }
 
         wait(for: [expectation], timeout: 2)
@@ -191,11 +194,11 @@ class TripRecorderTests: XCTestCase {
         let configuration = MockConfiguration(features: features)
         let mockSessionManager = APITripSessionManagerMock()
         let tripRecorder = TripRecorder(configuration: configuration, sessionManager: mockSessionManager)
-        
+        let expectation = XCTestExpectation(description: #function)
         var locations = [CLLocation]()
-        var isRxTripIdCalled = false
+
         tripRecorder.rxTripId.asObservable().observeOn(configuration.rxScheduler).subscribe {(event) in
-            isRxTripIdCalled = true
+            expectation.fulfill()
             XCTAssertNotNil(event.element)
             }.disposed(by: rxDisposeBag!)
         
@@ -206,17 +209,10 @@ class TripRecorderTests: XCTestCase {
             locations.append(location)
             
         }
-        
-
         locations.forEach { (result) in
             locationSensor.rxLocation.onNext(result)
         }
-        do{
-            if let _ = try tripRecorder.rxTripId.toBlocking(timeout: 0.1).first() {
-            }
-        } catch {
-        }
-        XCTAssertTrue(isRxTripIdCalled)
+        wait(for: [expectation], timeout: 1)
     }
     
     // MARK: - currentTripId

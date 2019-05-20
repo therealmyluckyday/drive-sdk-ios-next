@@ -32,10 +32,13 @@ class ScoreRetrieverTest: XCTestCase {
 
     func testGetScore() {
         let tripId = TripId(uuidString: "73B1C1B6-8DD8-4DEA-ACAF-4B1E05F6EF09")!
-        let scoreExpected = Score(tripId:tripId,  global: 86.07, speed: 100, acceleration: 62.15, braking: 82.11, smoothness: 100)
+        let duration = Double(698)
+        let distance = 2.6
+        let startTime = Double(1545382379)
+        let endTime = Double(1545383077)
+        let scoreExpected = Score(tripId:tripId,  global: 86.07, speed: 100, acceleration: 62.15, braking: 82.11, smoothness: 100, startDouble:startTime, endDouble: endTime, distance: distance, duration: duration)
         let expectation = self.expectation(description: "APIGetScoreCalled")
         let rxScore = PublishSubject<Score>()
-        
         rxScore.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
             if let score = event.element {
                 expectation.fulfill()

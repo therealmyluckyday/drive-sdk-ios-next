@@ -21,25 +21,32 @@ public struct Score: CustomStringConvertible {
     public let braking: Double
     public let smoothness: Double
     @available(*, deprecated, message: "Implement startDate")
-    public let startDate: Date = Date()
+    public let startDate: Date
     @available(*, deprecated, message: "Implement endDate")
-    public let endDate: Date = Date()
+    public let endDate: Date
     @available(*, deprecated, message: "Implement distance")
-    public let distance: Double = Double(22000)
+    public let distance: Double
     @available(*, deprecated, message: "Implement duration")
-    public let duration: Double = Double(33000)
+    public let duration: Double
     
     
     // MARK : - CustomStringConvertible
     public var description: String {
         get {
-            return "tripId \(tripId), start date \(startDate), end date \(endDate),, global \(global), speed \(speed), acceleration \(acceleration), braking \(braking), smoothness \(smoothness), distance \(distance),"
+            return "tripId \(tripId), start date \(startDate), end date \(endDate),, global \(global), speed \(speed), acceleration \(acceleration), braking \(braking), smoothness \(smoothness), distance \(distance), duration \(duration)"
         }
         
     }
     
     init?(dictionary: [String: Any]) {
         guard let scoreDictionary = dictionary["scores_dil"] as? [String: Any],
+            let tripInfoDictionary = dictionary["trip_info"] as? [String: Any],
+            let poiDilArray = scoreDictionary["poi_dil"] as? [Any],
+            let poiDilDictionary = (poiDilArray.first as? [String: Any]),
+            let distanceDouble = poiDilDictionary["distance"] as? Double,
+            let durationDouble = tripInfoDictionary["duration"] as? Double,
+            let startDouble = dictionary["start_time"] as? Double,
+            let endDouble = dictionary["end_time"] as? Double,
         let globalParsed = scoreDictionary["expert"] as? Double,
         let speedParsed = scoreDictionary["speed"] as? Double,
         let accelerationParsed = scoreDictionary["acceleration"] as? Double,
@@ -50,6 +57,10 @@ public struct Score: CustomStringConvertible {
             else {
             return nil
         }
+        startDate = Date(timeIntervalSince1970: TimeInterval(startDouble)/1000)
+        endDate = Date(timeIntervalSince1970: TimeInterval(endDouble)/1000)
+        distance = distanceDouble
+        duration = durationDouble
         global = globalParsed
         speed = speedParsed
         acceleration = accelerationParsed
@@ -58,12 +69,16 @@ public struct Score: CustomStringConvertible {
         tripId = tripIdParsed
     }
     
-    internal init(tripId: TripId, global: Double, speed: Double, acceleration: Double, braking: Double, smoothness: Double) {
+    internal init(tripId: TripId, global: Double, speed: Double, acceleration: Double, braking: Double, smoothness: Double, startDouble: Double, endDouble: Double, distance: Double, duration: Double) {
         self.global = global
         self.speed = speed
         self.acceleration = acceleration
         self.braking = braking
         self.smoothness = smoothness
         self.tripId = tripId
+        self.startDate = Date(timeIntervalSince1970: TimeInterval(startDouble)/1000)
+        self.endDate = Date(timeIntervalSince1970: TimeInterval(endDouble)/1000)
+        self.distance = distance
+        self.duration = duration
     }
 }
