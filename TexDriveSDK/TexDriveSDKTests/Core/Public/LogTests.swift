@@ -8,7 +8,7 @@
 
 import XCTest
 import RxSwift
-import RxTest
+
 @testable import TexDriveSDK
 
 class LogTests: XCTestCase {

@@ -1,46 +1,42 @@
 PODS:
-  - Crashlytics (3.12.0):
-    - Fabric (~> 1.9.0)
-  - Fabric (1.9.0)
+  - Crashlytics (3.13.1):
+    - Fabric (~> 1.10.1)
+  - Fabric (1.10.1)
   - GzipSwift (5.0.0)
-  - RxBlocking (4.5.0):
-    - RxSwift (>= 4.4.2, ~> 4.4)
-  - RxCocoa (4.5.0):
-    - RxSwift (>= 4.4.2, ~> 4.4)
-  - RxCoreLocation (1.3.2):
-    - RxCoreLocation/Core (= 1.3.2)
-  - RxCoreLocation/Core (1.3.2):
-    - RxCocoa (~> 4.0)
-    - RxSwift (~> 4.0)
-  - RxSwift (4.5.0)
-  - RxSwiftExt (3.4.0):
-    - RxSwiftExt/Core (= 3.4.0)
-    - RxSwiftExt/RxCocoa (= 3.4.0)
-  - RxSwiftExt/Core (3.4.0):
-    - RxSwift (~> 4.0)
-  - RxSwiftExt/RxCocoa (3.4.0):
-    - RxCocoa (~> 4.0)
+  - RxCocoa (5.0.0):
+    - RxRelay (~> 5)
+    - RxSwift (~> 5)
+  - RxCoreLocation (1.4.0):
+    - RxCoreLocation/Core (= 1.4.0)
+  - RxCoreLocation/Core (1.4.0):
+    - RxCocoa (~> 5.0)
+    - RxSwift (~> 5.0)
+  - RxRelay (5.0.0):
+    - RxSwift (~> 5)
+  - RxSwift (5.0.0)
+  - RxSwiftExt (5.0.0):
+    - RxSwiftExt/Core (= 5.0.0)
+    - RxSwiftExt/RxCocoa (= 5.0.0)
+  - RxSwiftExt/Core (5.0.0):
+    - RxSwift (~> 5.0)
+  - RxSwiftExt/RxCocoa (5.0.0):
+    - RxCocoa (~> 5.0)
     - RxSwiftExt/Core
-  - RxTest (4.5.0):
-    - RxSwift (>= 4.4.2, ~> 4.4)
   - TexDriveSDK (3.0.1):
     - GzipSwift (~> 5.0.0)
-    - RxBlocking (~> 4.5.0)
-    - RxCocoa (~> 4.5.0)
-    - RxCoreLocation (~> 1.3.2)
-    - RxSwift (~> 4.5.0)
-    - RxSwiftExt (~> 3.4.0)
+    - RxCocoa (~> 5.0.0)
+    - RxCoreLocation (~> 1.4.0)
+    - RxSwift (~> 5.0.0)
+    - RxSwiftExt (~> 5)
 
 DEPENDENCIES:
   - Crashlytics
   - Fabric
-  - GzipSwift (~> 5.0.0)
-  - RxBlocking (~> 4.5.0)
-  - RxCocoa (~> 4.5.0)
-  - RxCoreLocation (~> 1.3.2)
-  - RxSwift (~> 4.5.0)
-  - RxSwiftExt (~> 3.4.0)
-  - RxTest (~> 4.5.0)
+  - GzipSwift
+  - RxCocoa
+  - RxCoreLocation
+  - RxSwift
+  - RxSwiftExt
   - TexDriveSDK (from `./TexDriveSDK.podspec`)
 
 SPEC REPOS:
@@ -48,29 +44,27 @@ SPEC REPOS:
     - Crashlytics
     - Fabric
     - GzipSwift
-    - RxBlocking
     - RxCocoa
     - RxCoreLocation
+    - RxRelay
     - RxSwift
     - RxSwiftExt
-    - RxTest
 
 EXTERNAL SOURCES:
   TexDriveSDK:
     :path: "./TexDriveSDK.podspec"
 
 SPEC CHECKSUMS:
-  Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
-  Fabric: f988e33c97f08930a413e08123064d2e5f68d655
+  Crashlytics: 5aa8e90dcbf2f34898b4f5a0037787531246cca0
+  Fabric: f6f21452846788bb44595d73e9909d79d328e617
   GzipSwift: 5592f4d62b641e04d06443ba471f8ed76b1363e4
-  RxBlocking: 79413e4d916f44bb3e113c5b2cc059e36fe58910
-  RxCocoa: cbf70265dc65a981d4ac982e513c10cf23df24a0
-  RxCoreLocation: 23d0f2f06fba5af57f2fa9064a5c165e75eb4c33
-  RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
-  RxSwiftExt: 01f8ecbeeb355698e9c75365ebe908b00dacf45d
-  RxTest: 3ccb66bfbace0bf7df1c43a7c75d046f8ce60372
-  TexDriveSDK: d31c224e61c6ee61fad5aa606c03debd51b1b0a1
+  RxCocoa: fcf32050ac00d801f34a7f71d5e8e7f23026dcd8
+  RxCoreLocation: ac3a3d97dc5f4e779058f43c9327534f1e3fb95a
+  RxRelay: 4f7409406a51a55cd88483f21ed898c234d60f18
+  RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
+  RxSwiftExt: 4564187392cc53823ef241fa4a11647861567026
+  TexDriveSDK: c03f6841bf1b498326d128da525fd7197724db09
 
-PODFILE CHECKSUM: 51f3444a2911961258f5ef2d0330192d2856ca65
+PODFILE CHECKSUM: 2276c3cfcb0cadb95c563e6f6cc4e9b7e484478e
 
 COCOAPODS: 1.6.0

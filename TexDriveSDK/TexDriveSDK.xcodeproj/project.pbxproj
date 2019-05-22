@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		76578802AD1E22FC85ACBA59 /* libPods-TexDriveSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FF9BB194DE92C32454DA6CB /* libPods-TexDriveSDK.a */; };
-		8132CC17A88B22895528C8CC /* libPods-TexDriveSDKTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EB9F29EAFBFD2B3E91BCDF7 /* libPods-TexDriveSDKTests.a */; };
+		7DB71CFD700B01F3298F86CC /* libPods-TexDriveSDKTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EB9F29EAFBFD2B3E91BCDF7 /* libPods-TexDriveSDKTests.a */; };
 		C107606F217E2C8000FB28AA /* PersistantQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C107606E217E2C8000FB28AA /* PersistantQueue.swift */; };
 		C1076071217E2E9400FB28AA /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1076070217E2E9400FB28AA /* Event.swift */; };
 		C114C388221D8B9200B74DD8 /* AutoModeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C114C387221D8B9200B74DD8 /* AutoModeTests.swift */; };
@@ -120,11 +120,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		50A2513B59D5B3B15FA7C0BA /* Pods-TexDriveSDKTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveSDKTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-TexDriveSDKTests/Pods-TexDriveSDKTests.debug.xcconfig"; sourceTree = "<group>"; };
+		0C4DF065CE5413233869082C /* Pods-TexDriveSDKTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveSDKTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-TexDriveSDKTests/Pods-TexDriveSDKTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5EB9F29EAFBFD2B3E91BCDF7 /* libPods-TexDriveSDKTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TexDriveSDKTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C9C02028661D6DB90B8EF11 /* Pods-TexDriveSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveSDK.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-TexDriveSDK/Pods-TexDriveSDK.debug.xcconfig"; sourceTree = "<group>"; };
 		8FF9BB194DE92C32454DA6CB /* libPods-TexDriveSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TexDriveSDK.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A225B2E66F16EA9C461C17A6 /* Pods-TexDriveSDKTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveSDKTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-TexDriveSDKTests/Pods-TexDriveSDKTests.release.xcconfig"; sourceTree = "<group>"; };
 		AF9E4DBBDCD5D4E15A273DDC /* Pods-TexDriveSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveSDK.release.xcconfig"; path = "../Pods/Target Support Files/Pods-TexDriveSDK/Pods-TexDriveSDK.release.xcconfig"; sourceTree = "<group>"; };
 		C107606E217E2C8000FB28AA /* PersistantQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistantQueue.swift; sourceTree = "<group>"; };
 		C1076070217E2E9400FB28AA /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
@@ -227,6 +226,7 @@
 		E2798ED0214AB6F3006228A3 /* FixCollector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixCollector.swift; sourceTree = "<group>"; };
 		E2798ED52158DFC4006228A3 /* LocationTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTracker.swift; sourceTree = "<group>"; };
 		E2798EDC215A5D65006228A3 /* LocationFix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFix.swift; sourceTree = "<group>"; };
+		EA63070EE42BCA47CA74BECF /* Pods-TexDriveSDKTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveSDKTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-TexDriveSDKTests/Pods-TexDriveSDKTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -243,7 +243,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2798EB42147F0DC006228A3 /* TexDriveSDK.framework in Frameworks */,
-				8132CC17A88B22895528C8CC /* libPods-TexDriveSDKTests.a in Frameworks */,
+				7DB71CFD700B01F3298F86CC /* libPods-TexDriveSDKTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,8 +264,8 @@
 			children = (
 				8C9C02028661D6DB90B8EF11 /* Pods-TexDriveSDK.debug.xcconfig */,
 				AF9E4DBBDCD5D4E15A273DDC /* Pods-TexDriveSDK.release.xcconfig */,
-				50A2513B59D5B3B15FA7C0BA /* Pods-TexDriveSDKTests.debug.xcconfig */,
-				A225B2E66F16EA9C461C17A6 /* Pods-TexDriveSDKTests.release.xcconfig */,
+				0C4DF065CE5413233869082C /* Pods-TexDriveSDKTests.debug.xcconfig */,
+				EA63070EE42BCA47CA74BECF /* Pods-TexDriveSDKTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -681,7 +681,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E2798EC12147F0DC006228A3 /* Build configuration list for PBXNativeTarget "TexDriveSDKTests" */;
 			buildPhases = (
-				2E36E7684F0631798B56678F /* [CP] Check Pods Manifest.lock */,
+				78232FA51996852E345FB4E8 /* [CP] Check Pods Manifest.lock */,
 				E2798EAF2147F0DC006228A3 /* Sources */,
 				E2798EB02147F0DC006228A3 /* Frameworks */,
 				E2798EB12147F0DC006228A3 /* Resources */,
@@ -771,16 +771,20 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		2E36E7684F0631798B56678F /* [CP] Check Pods Manifest.lock */ = {
+		78232FA51996852E345FB4E8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			inputFileListPaths = (
 			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-TexDriveSDKTests-checkManifestLockResult.txt",
 			);
@@ -1091,7 +1095,7 @@
 		};
 		E2798EC22147F0DC006228A3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 50A2513B59D5B3B15FA7C0BA /* Pods-TexDriveSDKTests.debug.xcconfig */;
+			baseConfigurationReference = 0C4DF065CE5413233869082C /* Pods-TexDriveSDKTests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = C8S682A487;
@@ -1110,7 +1114,7 @@
 		};
 		E2798EC32147F0DC006228A3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A225B2E66F16EA9C461C17A6 /* Pods-TexDriveSDKTests.release.xcconfig */;
+			baseConfigurationReference = EA63070EE42BCA47CA74BECF /* Pods-TexDriveSDKTests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = C8S682A487;

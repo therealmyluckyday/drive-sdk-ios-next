@@ -45,7 +45,8 @@ public class TexServices {
         _scoreRetriever = ScoreRetriever(sessionManager: scoreSessionManager, locale: configuration.locale)
         let tripSessionManager = APITripSessionManager(configuration: configuration.tripInfos)
         _tripRecorder = TripRecorder(configuration: configuration, sessionManager: tripSessionManager)
-        _tripRecorder?.tripIdFinished.asObserver().observeOn(configuration.rxScheduler).delay(RxTimeInterval(exactly: 10)!, scheduler: configuration.rxScheduler).subscribe { [weak self](event) in
+        let timeInterval = RxTimeInterval.seconds(10)
+        _tripRecorder?.tripIdFinished.asObserver().observeOn(configuration.rxScheduler).delay(timeInterval, scheduler: configuration.rxScheduler).subscribe { [weak self](event) in
             if let tripId = event.element, let rxScore = self?.rxScore {
                 self?._scoreRetriever?.getScore(tripId: tripId, rxScore: rxScore)
             }

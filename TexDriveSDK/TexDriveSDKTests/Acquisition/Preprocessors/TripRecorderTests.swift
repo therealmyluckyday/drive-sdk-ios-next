@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import CoreLocation
 @testable import TexDriveSDK
-@testable import RxBlocking
+
 
 class TripRecorderTests: XCTestCase {
     var rxDisposeBag: DisposeBag?
@@ -79,6 +79,7 @@ class TripRecorderTests: XCTestCase {
         let configuration = MockConfiguration(features: features)
         let mockSessionManager = APITripSessionManagerMock()
         let tripRecorder = TripRecorder(configuration: configuration, sessionManager: mockSessionManager)
+        let expectation = XCTestExpectation(description: #function)
         
         var locations = [CLLocation]()
         
@@ -94,15 +95,16 @@ class TripRecorderTests: XCTestCase {
             locationSensor.rxLocation.onNext(result)
         }
         
+        tripRecorder.persistantQueue.providerTrip.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+            if let tripChunk = event.element {
+                XCTAssertEqual(tripChunk.event?.eventType, EventType.stop)
+                expectation.fulfill()
+            }
+        }.disposed(by: rxDisposeBag!)
+        
         tripRecorder.stop()
         
-        do{
-            if let trip = try tripRecorder.persistantQueue.providerTrip.toBlocking(timeout: 0.1).first() {
-                XCTAssertEqual(trip.event?.eventType, EventType.stop)
-            }
-        } catch {
-            XCTAssertFalse(true)
-        }
+        wait(for: [expectation], timeout: 2)
     }
     
     func testInitSubscribeCalled() {
@@ -118,16 +120,18 @@ class TripRecorderTests: XCTestCase {
         configuration.rxScheduler = MainScheduler.instance
         let tripRecorder = TripRecorder(configuration: configuration, sessionManager: mock)
         let trip = TripChunk(tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction))
-        
+        let expectation = XCTestExpectation(description: #function)
+        publishTrip.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+            if let tripChunk = event.element {
+                XCTAssertNil(tripChunk.event?.eventType)
+                expectation.fulfill()
+            }
+            }.disposed(by: rxDisposeBag!)
         publishTrip.onNext(trip)
+
         tripRecorder.persistantQueue.providerTrip.onNext(trip)
         
-        do{
-            if let trip = try tripRecorder.persistantQueue.providerTrip.toBlocking(timeout: 0.1).first() {
-                XCTAssertEqual(trip.event?.eventType, EventType.stop)
-            }
-        } catch {
-        }
+        wait(for: [expectation], timeout: 2)
         XCTAssertTrue(mock.isPutCalled)
         XCTAssertNotNil(mock.dictionaryPut)
     }
@@ -146,16 +150,17 @@ class TripRecorderTests: XCTestCase {
         configuration.rxScheduler = MainScheduler.instance
         let tripRecorder = TripRecorder(configuration: configuration, sessionManager: mock)
         let trip = TripChunk(tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction))
+        let expectation = XCTestExpectation(description: #function)
         
         tripRecorder.subscribe(providerTrip: publishTrip, scheduler: MainScheduler.instance)
+        
+        publishTrip.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+            expectation.fulfill()
+            }.disposed(by: rxDisposeBag!)
+        
         publishTrip.onNext(trip)
         
-        do{
-            if let trip = try tripRecorder.persistantQueue.providerTrip.toBlocking(timeout: 0.1).first() {
-                XCTAssertEqual(trip.event?.eventType, EventType.stop)
-            }
-        } catch {
-        }
+        wait(for: [expectation], timeout: 2)
         XCTAssertTrue(mock.isPutCalled)
         XCTAssertNotNil(mock.dictionaryPut)
     }
@@ -173,14 +178,13 @@ class TripRecorderTests: XCTestCase {
         let configuration = MockConfiguration(features: features)
         let mockSessionManager = APITripSessionManagerMock()
         let tripRecorder = TripRecorder(configuration: configuration, sessionManager: mockSessionManager)
+        let expectation = XCTestExpectation(description: #function)
+        expectation.isInverted = true
+        tripRecorder.rxTripId.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+            expectation.fulfill()
+            }.disposed(by: rxDisposeBag!)
         
-        do{
-            if let _ = try tripRecorder.rxTripId.toBlocking(timeout: 0.1).first() {
-                XCTAssertFalse(true)
-            }
-        } catch {
-            XCTAssertTrue(true)
-        }
+        wait(for: [expectation], timeout: 0.1)
         
     }
     
