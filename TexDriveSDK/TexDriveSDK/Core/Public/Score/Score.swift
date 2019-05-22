@@ -20,13 +20,9 @@ public struct Score: CustomStringConvertible {
     public let acceleration: Double
     public let braking: Double
     public let smoothness: Double
-    @available(*, deprecated, message: "Implement startDate")
     public let startDate: Date
-    @available(*, deprecated, message: "Implement endDate")
     public let endDate: Date
-    @available(*, deprecated, message: "Implement distance")
     public let distance: Double
-    @available(*, deprecated, message: "Implement duration")
     public let duration: Double
     
     
