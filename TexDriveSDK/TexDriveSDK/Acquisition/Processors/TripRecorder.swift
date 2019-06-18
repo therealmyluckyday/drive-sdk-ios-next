@@ -14,8 +14,8 @@ import RxSwiftExt
 public protocol TripRecorderProtocol {
     var currentTripId: TripId? { get }
     var tripIdFinished: PublishSubject<TripId> { get }
-    func start(_ isAutomodeEnabled: Bool)
-    func stop(_ isAutomodeEnabled: Bool)
+    func start()
+    func stop()
 }
 
 public class TripRecorder: TripRecorderProtocol {
@@ -49,20 +49,20 @@ public class TripRecorder: TripRecorderProtocol {
     }
     
     // MARK: - TripRecorder Protocol
-    public func start(_ isAutomodeEnabled: Bool = false) {
+    public func start() {
         collector.startCollect()
         startTime = Date()
-        if isAutomodeEnabled {
-            autoMode?.rxIsDriving.onNext(true)
+        if let autoMode = self.autoMode, !autoMode.isServiceStarted {
+            autoMode.rxIsDriving.onNext(true)
         }
     }
     
-    public func stop(_ isAutomodeEnabled: Bool = false) {
+    public func stop() {
         collector.stopCollect()
         currentTripId = nil
         startTime = nil
-        if isAutomodeEnabled {
-            autoMode?.rxIsDriving.onNext(false)
+        if let autoMode = self.autoMode, !autoMode.isServiceStarted {
+            autoMode.rxIsDriving.onNext(false)
         }
     }
     
@@ -125,9 +125,9 @@ public class TripRecorder: TripRecorderProtocol {
         autoMode.rxIsDriving.asObserver().observeOn(scheduler).subscribe { [weak self](event) in
             if let isDriving = event.element {
                 if isDriving {
-                    self?.start(true)
+                    self?.start()
                 } else {
-                    self?.stop(true)
+                    self?.stop()
                 }
             }
             }.disposed(by: rxDisposeBag)
