@@ -45,6 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
             let service = TexServices.service(configuration: config)
             texServices = service
             DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 2000)) {
+                service.tripRecorder?.configureAutoMode()
                 service.tripRecorder?.activateAutoMode()
             }
         } catch ConfigurationError.LocationNotDetermined(let description) {

@@ -106,7 +106,6 @@ public class TripRecorder: TripRecorderProtocol {
                 self?.currentTripId = tripId
             }
             }.disposed(by: rxDisposeBag)
-        self.configureAutoMode(configuration.rxScheduler)
     }
     
     func subscribe(providerTrip: PublishSubject<TripChunk>, scheduler: ImmediateSchedulerType) {
@@ -117,9 +116,9 @@ public class TripRecorder: TripRecorderProtocol {
             }.disposed(by: rxDisposeBag)
     }
     
-    func configureAutoMode(_ scheduler: SerialDispatchQueueScheduler) {
+    public func configureAutoMode(_ scheduler: SerialDispatchQueueScheduler = MainScheduler.instance) {
         guard let autoMode = autoMode else { return  }
-        autoMode.rxIsDriving.asObserver().observeOn(MainScheduler.instance).subscribe { [weak self](event) in
+        autoMode.rxIsDriving.asObserver().observeOn(scheduler).subscribe { [weak self](event) in
             if let isDriving = event.element {
                 if isDriving {
                     self?.collector.startCollect()
