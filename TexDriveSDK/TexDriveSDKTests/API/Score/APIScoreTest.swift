@@ -35,7 +35,7 @@ class APIScoreTest: XCTestCase {
     func testGetScore_Rx_Success() {
         let tripId = TripId(uuidString: "73B1C1B6-8DD8-4DEA-ACAF-4B1E05F6EF09")!
         let duration = Double(698)
-        let distance = 2.6
+        let distance = 6.27
         let startTime = Double(1545382379000)
         let endTime = Double(1545383077000)
         let scoreExpected = Score(tripId:tripId,  global: 86.07, speed: 100, acceleration: 62.15, braking: 82.11, smoothness: 100, startDouble:startTime, endDouble: endTime, distance: distance, duration: duration)
@@ -102,7 +102,7 @@ class APIScoreTest: XCTestCase {
         let tripId = TripId(uuidString: "73B1C1B6-8DD8-4DEA-ACAF-4B1E05F6EF09")!
         var isCompletionCalled = false
         let duration = Double(698)
-        let distance = 2.6
+        let distance = 6.27
         let startTime = Double(1545382379000)
         let endTime = Double(1545383077000)
         let scoreExpected = Score(tripId:tripId,  global: 86.07, speed: 100, acceleration: 62.15, braking: 82.11, smoothness: 100, startDouble:startTime, endDouble: endTime, distance: distance, duration: duration)

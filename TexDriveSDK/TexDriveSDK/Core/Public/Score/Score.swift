@@ -31,15 +31,12 @@ public struct Score: CustomStringConvertible {
         get {
             return "tripId \(tripId), start date \(startDate), end date \(endDate),, global \(global), speed \(speed), acceleration \(acceleration), braking \(braking), smoothness \(smoothness), distance \(distance), duration \(duration)"
         }
-        
     }
     
     init?(dictionary: [String: Any]) {
         guard let scoreDictionary = dictionary["scores_dil"] as? [String: Any],
             let tripInfoDictionary = dictionary["trip_info"] as? [String: Any],
-            let poiDilArray = scoreDictionary["poi_dil"] as? [Any],
-            let poiDilDictionary = (poiDilArray.first as? [String: Any]),
-            let distanceDouble = poiDilDictionary["distance"] as? Double,
+            let distanceDouble = tripInfoDictionary["length"] as? Double,
             let durationDouble = tripInfoDictionary["duration"] as? Double,
             let startDouble = dictionary["start_time"] as? Double,
             let endDouble = dictionary["end_time"] as? Double,
