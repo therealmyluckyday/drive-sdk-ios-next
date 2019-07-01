@@ -9,7 +9,7 @@
 public struct APIError: LocalizedError {
     var message: String
     public var statusCode: Int
-    var description: String {
+    public var description: String {
         get {
             return "Error on request \(self.statusCode) message: \(self.message)"
         }
