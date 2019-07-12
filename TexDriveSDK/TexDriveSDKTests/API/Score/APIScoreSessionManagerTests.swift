@@ -9,9 +9,16 @@
 import XCTest
 import RxSwift
 @testable import TexDriveSDK
-
+class MockAPIScoreSessionManager: APIScoreSessionManager {
+    var retryExpected: XCTestExpectation?
+    override func retry(request: URLRequest, completionHandler: @escaping (Result<[String : Any]>) -> ()) {
+        DispatchQueue.main.async {
+            self.retryExpected?.fulfill()
+        }
+    }
+}
 class APIScoreSessionManagerTests: XCTestCase {
-    var apiSessionManager: APIScoreSessionManager?
+    var apiSessionManager: MockAPIScoreSessionManager?
     var rxDisposeBag: DisposeBag?
     let logFactory = LogRx()
     var urlBackgroundTaskSession: URLSession?
@@ -21,7 +28,7 @@ class APIScoreSessionManagerTests: XCTestCase {
         rxDisposeBag = DisposeBag()
         let user = TexUser.Authentified("Erwan-ios12")
         let appId = "youdrive_france_prospect"
-        apiSessionManager = APIScoreSessionManager(configuration: TripInfos(appId: appId, user: user, domain: Platform.Preproduction))
+        apiSessionManager = MockAPIScoreSessionManager(configuration: TripInfos(appId: appId, user: user, domain: Platform.Preproduction))
         let config = URLSessionConfiguration.background(withIdentifier: "TexSession")
         config.isDiscretionary = true
         config.sessionSendsLaunchEvents = true
@@ -51,30 +58,25 @@ class APIScoreSessionManagerTests: XCTestCase {
             getSuccessExpected.fulfill()
             
         }
-        wait(for: [getSuccessExpected], timeout: 5)
+        wait(for: [getSuccessExpected], timeout: 1)
         XCTAssertTrue(isCompleted)
     }
     
-    func testGetError() {
-        var isCompleted = false
-        let getSuccessExpected = self.expectation(description: "testGetFailureExpectation")
+    func testGetErrorRetry() {
+        let retryExpected = self.expectation(description: "testGetFailureRetryExpectation")
+        apiSessionManager!.retryExpected = retryExpected
         let dictionary = [String: Any]()
+        
         apiSessionManager!.get(parameters: dictionary) { (result) in
             switch result {
             case Result.Success(_):
                 XCTAssert(false)
                 break
-            case Result.Failure(let error as APIError):
-                XCTAssertEqual(error.statusCode, 400)
             case .Failure(_):
                 XCTAssert(false)
             }
-            isCompleted = true
-            getSuccessExpected.fulfill()
-            
         }
-        wait(for: [getSuccessExpected], timeout: 5)
-        XCTAssertTrue(isCompleted)
+        wait(for: [retryExpected], timeout: 1)
     }
 }
 

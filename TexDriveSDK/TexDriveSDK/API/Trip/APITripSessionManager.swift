@@ -28,6 +28,7 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
     }()
     let tripIdFinished = PublishSubject<TripId>()
     let tripChunkSent = PublishSubject<Result<TripId>>()
+    var retryCount = 0
     
     //Recreate the Session If the App Was Terminated
     /*
@@ -56,7 +57,7 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
         Log.print("HTTP response \(httpResponse)")
         if (200...299).contains(httpResponse.statusCode), let tripId = APITripSessionManager.getTripId(task: downloadTask) {
             Log.print("TripId: \(tripId)")
-            
+            retryCount = 0
             tripChunkSent.onNext(Result.Success(tripId))
             if APITripSessionManager.isTripStoppedSend(task:downloadTask) {
                 Log.print("Trip Finished")
@@ -97,13 +98,21 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
         }
     }
     
-    func retry(task: URLSessionDownloadTask) {
+    func retry(task: URLSessionDownloadTask, error: Error? = nil) {
         Log.print("Retry")
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.seconds(60)) {
-            if let request = task.currentRequest {
-                let backgroundTask = self.urlBackgroundTaskSession.downloadTask(with: request)
+        retryCount = retryCount + 1
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.seconds(60*retryCount)) {
+            if let error = error as NSError?, let resumeData = error.userInfo[NSURLSessionDownloadTaskResumeData] as? Data {
+                let backgroundTask = self.urlBackgroundTaskSession.downloadTask(withResumeData: resumeData)
                 Log.print("Retry")
                 backgroundTask.resume()
+
+            } else {
+                if let request = task.currentRequest {
+                    let backgroundTask = self.urlBackgroundTaskSession.downloadTask(with: request)
+                    Log.print("Retry")
+                    backgroundTask.resume()
+                }
             }
         }
     }
@@ -126,9 +135,8 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
             if let downloadTask = task as? URLSessionDownloadTask {
                Log.print("HTTP connection error downloadtask: \(downloadTask)")
                 if error.domain != "NSPOSIXErrorDomain"  {
-                    self.retry(task: downloadTask)
+                    self.retry(task: downloadTask, error: error)
                 }
-                
             }
         }
     }
