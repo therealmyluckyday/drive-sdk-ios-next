@@ -54,6 +54,6 @@ class ScoreRetrieverTest: XCTestCase {
             }.disposed(by: rxDisposeBag!)
         
         scoreRetriever!.getScore(tripId: tripId, rxScore: rxScore)
-        wait(for: [expectation], timeout: 5)
+        wait(for: [expectation], timeout: 1)
     }
 }

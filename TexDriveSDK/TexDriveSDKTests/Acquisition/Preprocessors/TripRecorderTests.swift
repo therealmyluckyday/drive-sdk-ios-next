@@ -66,7 +66,7 @@ class TripRecorderTests: XCTestCase {
             mockCLLocationManager.send(locations: [location])
         }
 
-        wait(for: [expectation], timeout: 2)
+        wait(for: [expectation], timeout: 1)
     }
     
     func testInit_LocationFeatureStop() {
@@ -104,7 +104,7 @@ class TripRecorderTests: XCTestCase {
         
         tripRecorder.stop()
         
-        wait(for: [expectation], timeout: 2)
+        wait(for: [expectation], timeout: 1)
     }
     
     func testInitSubscribeCalled() {
@@ -131,7 +131,7 @@ class TripRecorderTests: XCTestCase {
 
         tripRecorder.persistantQueue.providerTrip.onNext(trip)
         
-        wait(for: [expectation], timeout: 2)
+        wait(for: [expectation], timeout: 1)
         XCTAssertTrue(mock.isPutCalled)
         XCTAssertNotNil(mock.dictionaryPut)
     }
@@ -160,7 +160,7 @@ class TripRecorderTests: XCTestCase {
         
         publishTrip.onNext(trip)
         
-        wait(for: [expectation], timeout: 2)
+        wait(for: [expectation], timeout: 1)
         XCTAssertTrue(mock.isPutCalled)
         XCTAssertNotNil(mock.dictionaryPut)
     }
