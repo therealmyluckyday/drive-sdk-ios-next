@@ -17,18 +17,6 @@ If you have SSH read access to the TEX library, you can simply add this line to 
 The tag depends on the version you want to use. There is no need to add other
 CocoaPod dependencies since they will be automatically fetched.
 
-### Using the distributed framework file
-
-The AXA DIL Telematic Exchange library can be distributed as `framework` file.
-It already embeds any resources it may need, and is compatible for both the
-simulator and the ARM architecture. The deliverable is a zip file containing the
-following elements:
-
-- `README.md`: this readme file
-- `CHANGELOG.md`: description of the changes between each version
-- `TexDriveSDK.framework`: the release version of the library, log outputs are disabled by default
-- `Docs`: developer guides
-
 The SDK uses some other libraries through CocoaPod. You must reference them in
 your pod file.
 
