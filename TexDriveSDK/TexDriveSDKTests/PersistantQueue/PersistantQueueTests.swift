@@ -222,7 +222,58 @@ class PersistantQueueTests: XCTestCase {
     }
     
     // MARK: - func sendNextTripChunk()
-    func testSendNextTrip_POP() {
+    func testSendNextTrip_SendLastTripChunk() {
+        let eventType = PublishSubject<EventType>()
+        let fixes = PublishSubject<Fix>()
+        let scheduler = MainScheduler.instance
+        let rxTripChunkSent = PublishSubject<Result<TripId>>()
+        let rxTripId = PublishSubject<TripId>()
+        let persistantQueue = PersistantQueueStub(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction), rxTripChunkSent:rxTripChunkSent)
+        let counter = persistantQueue.tripChunkSentCounter
+        let tripChunk = TripChunk(tripInfos: TripInfos(appId: "TOTO", user: TexUser.Anonymous, domain: Platform.Preproduction))
+        
+        
+        let expectation = XCTestExpectation(description: #function)
+        persistantQueue.providerTrip.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+            if event.element != nil {
+                expectation.fulfill()
+            }
+        }
+        persistantQueue.lastTripChunk = tripChunk
+        persistantQueue.tripChunkSentCounter = 0
+        persistantQueue.sendNextTripChunk()
+    
+        XCTAssertNil(persistantQueue.lastTripChunk)
+        XCTAssertEqual(persistantQueue.tripChunkSentCounter, counter)
+        wait(for: [expectation], timeout: 1)
+    }
+    func testSendNextTrip_Not_SendLastTripChunk_tripchunkNil() {
+        let eventType = PublishSubject<EventType>()
+        let fixes = PublishSubject<Fix>()
+        let scheduler = MainScheduler.instance
+        let rxTripChunkSent = PublishSubject<Result<TripId>>()
+        let rxTripId = PublishSubject<TripId>()
+        let persistantQueue = PersistantQueueStub(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction), rxTripChunkSent:rxTripChunkSent)
+        let counter = persistantQueue.tripChunkSentCounter
+        let tripChunk = TripChunk(tripInfos: TripInfos(appId: "TOTO", user: TexUser.Anonymous, domain: Platform.Preproduction))
+        
+        
+        let expectation = XCTestExpectation(description: #function)
+        expectation.isInverted = true
+        persistantQueue.providerTrip.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+            if event.element != nil {
+                expectation.fulfill()
+            }
+        }
+        persistantQueue.lastTripChunk = nil
+        persistantQueue.tripChunkSentCounter = 0
+        persistantQueue.sendNextTripChunk()
+        
+        XCTAssertNil(persistantQueue.lastTripChunk)
+        XCTAssertEqual(persistantQueue.tripChunkSentCounter, counter)
+        wait(for: [expectation], timeout: 0.3)
+    }
+    func testSendNextTrip_Not_SendLastTripChunk_CounterSup0() {
         let eventType = PublishSubject<EventType>()
         let fixes = PublishSubject<Fix>()
         let scheduler = MainScheduler.instance
@@ -230,20 +281,22 @@ class PersistantQueueTests: XCTestCase {
         let rxTripId = PublishSubject<TripId>()
         let persistantQueue = PersistantQueueStub(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction), rxTripChunkSent:rxTripChunkSent)
         let tripChunk = TripChunk(tripInfos: TripInfos(appId: "TOTO", user: TexUser.Anonymous, domain: Platform.Preproduction))
-        persistantQueue.sendTripChunk(tripChunk: tripChunk)
-        //persistantQueue.sendNextTripChunk()
-        XCTAssertTrue(persistantQueue.isSendNextTripChunk)
-        XCTAssertNotNil(persistantQueue.tripChunkSent)
-    }
-    func testSendNextTrip_POP_NIL() {
-        let eventType = PublishSubject<EventType>()
-        let fixes = PublishSubject<Fix>()
-        let scheduler = MainScheduler.instance
-        let rxTripChunkSent = PublishSubject<Result<TripId>>()
-        let rxTripId = PublishSubject<TripId>()
-        let persistantQueue = PersistantQueueStub(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction), rxTripChunkSent:rxTripChunkSent)
+        
+        
+        let expectation = XCTestExpectation(description: #function)
+        expectation.isInverted = true
+        persistantQueue.providerTrip.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+            if event.element != nil {
+                expectation.fulfill()
+            }
+        }
+        persistantQueue.lastTripChunk = tripChunk
+        persistantQueue.tripChunkSentCounter = 1
         persistantQueue.sendNextTripChunk()
-        XCTAssertNil(persistantQueue.tripChunkSent)
+        
+        XCTAssertNotNil(persistantQueue.lastTripChunk)
+        XCTAssertEqual(persistantQueue.tripChunkSentCounter, 1)
+        wait(for: [expectation], timeout: 0.3)
     }
     
     // MARK: - func sendTripChunk(tripChunk: TripChunk)
@@ -255,21 +308,10 @@ class PersistantQueueTests: XCTestCase {
         let rxTripId = PublishSubject<TripId>()
         let persistantQueue = PersistantQueueStub(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction), rxTripChunkSent:rxTripChunkSent)
         let tripChunk = TripChunk(tripInfos: TripInfos(appId: "TOTO", user: TexUser.Anonymous, domain: Platform.Preproduction))
-        persistantQueue.tripChunkSent = tripChunk
+        let counter = persistantQueue.tripChunkSentCounter
         persistantQueue.sendTripChunk(tripChunk: tripChunk)
         XCTAssertFalse(persistantQueue.isSendNextTripChunk)
-    }
-    
-    func testSendTripChunk_tripChunkSent_NIL() {
-        let eventType = PublishSubject<EventType>()
-        let fixes = PublishSubject<Fix>()
-        let scheduler = MainScheduler.instance
-        let rxTripChunkSent = PublishSubject<Result<TripId>>()
-        let rxTripId = PublishSubject<TripId>()
-        let persistantQueue = PersistantQueueStub(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction), rxTripChunkSent:rxTripChunkSent)
-        let tripChunk = TripChunk(tripInfos: TripInfos(appId: "TOTO", user: TexUser.Anonymous, domain: Platform.Preproduction))
-        persistantQueue.tripChunkSent = nil
-        persistantQueue.sendTripChunk(tripChunk: tripChunk)
-        XCTAssertTrue(persistantQueue.isSendNextTripChunk)
+        XCTAssertNil(persistantQueue.lastTripChunk)
+        XCTAssert(persistantQueue.tripChunkSentCounter == (counter+1))
     }
 }
