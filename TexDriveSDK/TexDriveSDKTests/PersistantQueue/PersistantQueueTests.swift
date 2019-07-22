@@ -24,12 +24,13 @@ class PersistantQueueStub : PersistantQueue {
 }
 
 class PersistantQueueTests: XCTestCase {
+    let disposeBag = DisposeBag()   
     func testProviderTripStart100FixSend() {
         let eventType = PublishSubject<EventType>()
         let fixes = PublishSubject<Fix>()
         let scheduler = MainScheduler.instance
         let rxTripId = PublishSubject<TripId>()
-        let disposeBag = DisposeBag()
+        
         let rxTripChunkSent = PublishSubject<Result<TripId>>()
         
         let persistantQueue = PersistantQueue(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction), rxTripChunkSent: rxTripChunkSent)
@@ -238,7 +239,7 @@ class PersistantQueueTests: XCTestCase {
             if event.element != nil {
                 expectation.fulfill()
             }
-        }
+        }.disposed(by: disposeBag)
         persistantQueue.lastTripChunk = tripChunk
         persistantQueue.tripChunkSentCounter = 0
         persistantQueue.sendNextTripChunk()
@@ -264,7 +265,7 @@ class PersistantQueueTests: XCTestCase {
             if event.element != nil {
                 expectation.fulfill()
             }
-        }
+        }.disposed(by: disposeBag)
         persistantQueue.lastTripChunk = nil
         persistantQueue.tripChunkSentCounter = 0
         persistantQueue.sendNextTripChunk()
@@ -289,7 +290,7 @@ class PersistantQueueTests: XCTestCase {
             if event.element != nil {
                 expectation.fulfill()
             }
-        }
+        }.disposed(by: disposeBag)
         persistantQueue.lastTripChunk = tripChunk
         persistantQueue.tripChunkSentCounter = 1
         persistantQueue.sendNextTripChunk()
