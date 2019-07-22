@@ -32,6 +32,9 @@ xcuserdata
 # AppCode
 .idea/
 
+# Fastlane
+test_output
+
 ### OSX ###
 .DS_Store
 .AppleDouble
