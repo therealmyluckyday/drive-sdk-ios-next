@@ -3,12 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		6785292F6ED8E5D0EE51AA43 /* libPods-TexDriveApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A1AB3E22764144804469AB6 /* libPods-TexDriveApp.a */; };
 		935C9E33E15DA79641ED037D /* libPods-TexDriveAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE71D68FC7DA4F158EFA71C3 /* libPods-TexDriveAppTests.a */; };
+		C10A404D24AB370E0015B888 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C10A404C24AB370E0015B888 /* GoogleService-Info.plist */; };
 		C19D42A82201A20800E9855D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C19D42A72201A20800E9855D /* Assets.xcassets */; };
 		E2798E812147EE80006228A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2798E802147EE80006228A3 /* AppDelegate.swift */; };
 		E2798E832147EE80006228A3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2798E822147EE80006228A3 /* ViewController.swift */; };
@@ -34,6 +35,7 @@
 		98DFE0A21F1C20270057BCC5 /* Pods-TexDriveAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TexDriveAppTests/Pods-TexDriveAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		BC049353FB34A04720AEFDB9 /* Pods-TexDriveAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TexDriveAppTests/Pods-TexDriveAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BE71D68FC7DA4F158EFA71C3 /* libPods-TexDriveAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TexDriveAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C10A404C24AB370E0015B888 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C19D42A72201A20800E9855D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E2798E7D2147EE80006228A3 /* TexDriveApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TexDriveApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2798E802147EE80006228A3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 		E2798E7F2147EE80006228A3 /* TexDriveApp */ = {
 			isa = PBXGroup;
 			children = (
+				C10A404C24AB370E0015B888 /* GoogleService-Info.plist */,
 				C19D42A72201A20800E9855D /* Assets.xcassets */,
 				E2798E802147EE80006228A3 /* AppDelegate.swift */,
 				E2798E822147EE80006228A3 /* ViewController.swift */,
@@ -221,6 +224,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2798E8B2147EE81006228A3 /* LaunchScreen.storyboard in Resources */,
+				C10A404D24AB370E0015B888 /* GoogleService-Info.plist in Resources */,
 				C19D42A82201A20800E9855D /* Assets.xcassets in Resources */,
 				E2798E862147EE80006228A3 /* Main.storyboard in Resources */,
 			);
@@ -242,16 +246,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TexDriveApp/Pods-TexDriveApp-resources.sh",
-				"${PODS_ROOT}/../TexDriveSDK/TexDriveSDK/Resources/TEX-elb-ssl.der",
+				"${PODS_ROOT}/Target Support Files/Pods-TexDriveApp/Pods-TexDriveApp-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TEX-elb-ssl.der",
+				"${PODS_ROOT}/Target Support Files/Pods-TexDriveApp/Pods-TexDriveApp-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -287,7 +286,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\" f8f93617ece5adaba2dcd591cb5e013816d59c21 c01980ef5fbd0947617fdd421e387fceac91d53a20734c3682ed9ee872159125";
+			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
 		};
 		C651BA0B01565DF7FC9663AC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

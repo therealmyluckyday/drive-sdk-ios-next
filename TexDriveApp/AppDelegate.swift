@@ -8,10 +8,9 @@
 
 import UIKit
 import TexDriveSDK
-import Fabric
-import Crashlytics
 import UserNotifications
 import CoreLocation
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
@@ -22,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
     let locationManager = CLLocationManager()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        Fabric.with([Crashlytics.self])
+        FirebaseApp.configure()
         let options: UNAuthorizationOptions = [.alert, .badge, .sound];
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: options) {
@@ -34,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
     }
     
     func configureTexSDK(withUserId: String) {
+        Crashlytics.crashlytics().setUserID(withUserId)
         let user = TexUser.Authentified(withUserId)
         let appId = "youdrive_france_prospect"
         let builder = TexConfigBuilder(appId: appId, texUser: user)
@@ -65,13 +65,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         let memoryinuse = report_memory()
         let message = "Memory Infos. Memory in use: \(memoryinuse)"
-        Answers.logCustomEvent(withName: #function,
-                               customAttributes: [
-                                "filename" : #file,
-                                "functionName": #function,
-                                "type": "Info",
-                                "detail": message
-            ])
+        Analytics.logEvent(#function, parameters: [
+            "filename" : #file,
+            "functionName": #function,
+            "type": "Info",
+            "detail": message
+        ])
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -86,16 +85,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         let memoryinuse = report_memory()
         let message = "MemoryWarning. Memory in use: \(memoryinuse)"
-        Crashlytics.sharedInstance().recordError(NSError(domain: "AppDelegate", code: 9999, userInfo: ["filename" : "AppDelegate", "functionName": "applicationWillTerminate", "description": message]))
+        Crashlytics.crashlytics().record(error: NSError(domain: "AppDelegate", code: 9999, userInfo: ["filename" : "AppDelegate", "functionName": "applicationWillTerminate", "description": message]))
 
-        
-        Answers.logCustomEvent(withName: #function,
-                               customAttributes: [
-                                "filename" : #file,
-                                "functionName": #function,
-                                "type": "Info",
-                                "detail": message
-            ])
+        Analytics.logEvent(#function, parameters: [
+            "filename" : #file,
+            "functionName": #function,
+            "type": "Info",
+            "detail": message
+        ])
     }
     
     // MARK: Background mode for URLSession
@@ -110,16 +107,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
         let memoryinuse = report_memory()
         let message = "MemoryWarning. Memory in use: \(memoryinuse)"
         
-        Crashlytics.sharedInstance().recordError(NSError(domain: "AppDelegate", code: 6666, userInfo: ["filename" : "AppDelegate", "functionName": "applicationDidReceiveMemoryWarning", "description": message]))
+        Crashlytics.crashlytics().record(error: NSError(domain: "AppDelegate", code: 6666, userInfo: ["filename" : "AppDelegate", "functionName": "applicationDidReceiveMemoryWarning", "description": message]))
 
-        
-        Answers.logCustomEvent(withName: #function,
-                               customAttributes: [
-                                "filename" : #file,
-                                "functionName": #function,
-                                "type": "Info",
-                                "detail": message
-            ])
+        Analytics.logEvent( #function, parameters: [
+        "filename" : #file,
+        "functionName": #function,
+        "type": "Info",
+        "detail": message
+        ])
     }
     
     func report_memory() -> String {

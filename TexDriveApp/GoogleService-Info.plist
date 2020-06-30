@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>522194832206-j6suuu5dqc5pnm3dlb5m8k5sc2m36jp9.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.522194832206-j6suuu5dqc5pnm3dlb5m8k5sc2m36jp9</string>
+	<key>API_KEY</key>
+	<string>AIzaSyApaxu5bu7Nen1Sebx4OqzmrmrH7NhzUE4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>522194832206</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.axa.dil.tex.app.drive</string>
+	<key>PROJECT_ID</key>
+	<string>simple-demo-app-tex</string>
+	<key>STORAGE_BUCKET</key>
+	<string>simple-demo-app-tex.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:522194832206:ios:ec3c915122955202b4ac1f</string>
+	<key>DATABASE_URL</key>
+	<string>https://simple-demo-app-tex.firebaseio.com</string>
+</dict>
+</plist>

@@ -11,10 +11,10 @@ import CoreLocation
 import TexDriveSDK
 import CallKit
 import CoreMotion
-import Crashlytics
 import RxSwift
 import os
 import UserNotifications
+import Firebase
 
 class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationCenterDelegate {
     @IBOutlet weak var TripSegmentedControl: UISegmentedControl!
@@ -184,22 +184,20 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
 //        print(logDetail.description)
         switch logDetail.type {
         case .Info:
-            Answers.logCustomEvent(withName: logDetail.functionName,
-                                           customAttributes: [
-                                            "filename" : logDetail.fileName,
-                                            "functionName": logDetail.functionName,
-                                            "type": "Info",
-                                            "detail": logDetail.message
-                ])
+            Analytics.logEvent(logDetail.functionName, parameters: [
+                "filename" : logDetail.fileName,
+                "functionName": logDetail.functionName,
+                "type": "Info",
+                "detail": logDetail.message])
             os_log("%@", log: customLog, type: .info, logDetail.description)
             break
         case .Warning:
-            Crashlytics.sharedInstance().recordError(NSError(domain: logDetail.fileName, code: 1111, userInfo: ["filename" : logDetail.fileName, "functionName": logDetail.functionName, "description": logDetail.message]))
+            Crashlytics.crashlytics().record(error: NSError(domain: logDetail.fileName, code: 1111, userInfo: ["filename" : logDetail.fileName, "functionName": logDetail.functionName, "description": logDetail.message]))
             os_log("%@", log: customLog, type: .debug, logDetail.description)
             break
         case .Error:
+            Crashlytics.crashlytics().record(error: NSError(domain: logDetail.fileName, code: 9999, userInfo: ["filename" : logDetail.fileName, "functionName": logDetail.functionName, "description": logDetail.message]))
             os_log("%@", log: customLog, type: .error, logDetail.description)
-            Crashlytics.sharedInstance().recordError(NSError(domain: logDetail.fileName, code: 9999, userInfo: ["filename" : logDetail.fileName, "functionName": logDetail.functionName, "description": logDetail.message]))
             break
         }
 
@@ -235,8 +233,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
     
     // MARK: - Crashlytics setup
     func logUser(userName: String) {
-        Crashlytics.sharedInstance().setUserIdentifier(userName)
-        Crashlytics.sharedInstance().setUserName(userName)
+        Crashlytics.crashlytics().setUserID(userName)
     }
     
     // MARK: - Memory management
@@ -244,7 +241,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
         let memoryinuse = report_memory()
         let message = "MemoryWarning. Memory in use: \(memoryinuse)"
         
-        Crashlytics.sharedInstance().recordError(NSError(domain: "ViewController", code: 9999, userInfo: ["filename" : "AppDelegate", "functionName": "ViewController", "description": message]))
+        Crashlytics.crashlytics().record(error: NSError(domain: "ViewController", code: 9999, userInfo: ["filename" : "AppDelegate", "functionName": "ViewController", "description": message]))
         print("[ViewController] MemoryWarning. Memory in use: \(memoryinuse)")
         super.didReceiveMemoryWarning()
     }
@@ -301,12 +298,12 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
                                 withCompletionHandler completionHandler:
         @escaping (UNNotificationPresentationOptions) -> Void) {
         
-        Answers.logCustomEvent(withName: #function,
-                               customAttributes: [
-                                "detail" : "Notification received \(notification.request.content.categoryIdentifier) ",
-                                "filename" : #file,
-                                "systemVersion": UIDevice.current.systemVersion
-            ])
+        Analytics.logEvent(#function, parameters: [
+        "detail" : "Notification received \(notification.request.content.categoryIdentifier) ",
+        "filename" : #file,
+        "systemVersion": UIDevice.current.systemVersion
+        ])
+        
 //        if notification.request.content.categoryIdentifier ==
 //            "SevenDay" {
             completionHandler(.sound)
@@ -324,12 +321,11 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler:
         @escaping () -> Void) {
-        Answers.logCustomEvent(withName: #function,
-                               customAttributes: [
-                                "detail" : "Notification received \(response.notification.request.content.categoryIdentifier)",
-                                "filename" : #file,
-                                "systemVersion": UIDevice.current.systemVersion
-            ])
+        Analytics.logEvent(#function, parameters: [
+        "detail" : "Notification received \(response.notification.request.content.categoryIdentifier)",
+        "filename" : #file,
+        "systemVersion": UIDevice.current.systemVersion
+        ])
 
         completionHandler()
     }
