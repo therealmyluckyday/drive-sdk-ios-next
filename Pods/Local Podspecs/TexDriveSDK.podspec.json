@@ -7,7 +7,7 @@
   "requires_arc": true,
   "version": "3.0.1",
   "homepage": "http://www.axa.com",
-  "swift_version": "5.0",
+  "swift_versions": "5.0",
   "authors": {
     "vhiribarren": "vhiribarren@users.noreply.github.com"
   },
@@ -33,5 +33,6 @@
     "RxCoreLocation": [
       "~> 1.4.0"
     ]
-  }
+  },
+  "swift_version": "5.0"
 }

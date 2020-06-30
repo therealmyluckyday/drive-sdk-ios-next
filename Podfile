@@ -9,12 +9,12 @@ def shared_pods
 end
 
 target 'TexDriveApp' do
-  pod 'Fabric'
-  pod 'Crashlytics'
   shared_pods
   pod "TexDriveSDK", :path => "./TexDriveSDK.podspec"
 #  pod 'TexDriveSDK', :git => 'git@github.com:axadil/drive-sdk-ios-next.git', :tag => 'v3.0.0'
-
+  pod 'Firebase/Crashlytics'
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Performance'
 
   target 'TexDriveAppTests' do
     inherit! :search_paths
