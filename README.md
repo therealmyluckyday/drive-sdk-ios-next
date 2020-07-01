@@ -12,7 +12,7 @@ There is two ways to use the library.
 If you have SSH read access to the TEX library, you can simply add this line to your Pod file:
     
     use_modular_headers!
-    pod 'TexDriveSDK', :git => 'git@github.com:axadil/drive-sdk-ios-next.git', :tag => 'v3.0.0'
+    pod 'TexDriveSDK', :git => 'git@github.com:axadil/drive-sdk-ios-next.git', :tag => 'v3.0.1'
 
 The tag depends on the version you want to use. There is no need to add other
 CocoaPod dependencies since they will be automatically fetched.
@@ -38,8 +38,11 @@ The SDK uses some other libraries through CocoaPod. You must reference them in
 your pod file.
 
 ```
-pod 'RxSwift', '4.5'
-pod 'RxCocoa', '4.5'
+pod 'RxSwift', '~> 5.0.0'
+pod 'RxCocoa', '~> 5.0.0'
+pod 'RxSwiftExt', '~> 5'
+pod 'GzipSwift', '~> 5.0.0'
+pod 'RxCoreLocation', '~> 1.4.0'
 ```
 
 ## Usage
@@ -48,22 +51,41 @@ pod 'RxCocoa', '4.5'
 -  `NSLocationAlwaysUsageDescription`, `NSLocationWhenInUseUsageDescription` and `NSLocationAlwaysAndWhenInUseUsageDescription`, add a string for instance:
 
         "AXADrive needs to know the location of your vehicle."
+        
  - `NSAppTransportSecurity`, add
 
     ```<dict>
         <key>NSExceptionDomains</key>
         <dict>
+            <key>gw.tex.dil.services</key>
+            <dict>
+                <key>NSIncludesSubdomains</key>
+                <true/>
+                <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+                <key>NSTemporaryExceptionMinimumTLSVersion</key>
+                <string>TLSv1.2</string>
+            </dict>
+            <key>tex-gw-bigdata.axa.com</key>
+            <dict>
+                <key>NSIncludesSubdomains</key>
+                <true/>
+                <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+                <key>NSTemporaryExceptionMinimumTLSVersion</key>
+                <string>TLSv1.2</string>
+            </dict>
             <key>tex.dil.services</key>
             <dict>
-            <!--Include to allow subdomains-->
-            <key>NSIncludesSubdomains</key>
-            <true/>
-            <!--Include to allow HTTP requests-->
-            <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
-            <true/>
-            <!--Include to specify minimum TLS version-->
-            <key>NSTemporaryExceptionMinimumTLSVersion</key>
-            <string>TLSv1.2</string>
+                <!--Include to allow subdomains-->
+                <key>NSIncludesSubdomains</key>
+                <true/>
+                <!--Include to allow HTTP requests-->
+                <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+                <!--Include to specify minimum TLS version-->
+                <key>NSTemporaryExceptionMinimumTLSVersion</key>
+                <string>TLSv1.2</string>
             </dict>
         </dict>
     </dict>
