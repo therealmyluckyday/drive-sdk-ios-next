@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 3.0.1 - 2020-01-07
+- Update to newer version of rx
+- Remove old link to Fabric
+
 ## 3.0.0 - 2019-02-07
 ### Second release
 - Clean API
