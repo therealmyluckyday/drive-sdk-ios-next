@@ -50,7 +50,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let userId = "Erwan-"+UIDevice.current.systemName + UIDevice.current.systemVersion
-        self.showOldLog()
+        self.showOldLog(cleanOld: false)
         self.configureTexSDK(withUserId: userId)
     }
     
