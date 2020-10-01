@@ -16,6 +16,7 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
     var firstLocation: CLLocation?
     let thresholdSpeed = CLLocationSpeed(exactly: 10*0.28)!
     let timeLowSpeedThreshold = TimeInterval(exactly: 180)!
+    var lastLocationDate: Date = Date()
 
     init(context: AutoModeContextProtocol, locationManager clLocationManager: LocationManager, motionActivityManager: CMMotionActivityManager = CMMotionActivityManager(), interval: TimeInterval = TimeInterval(4*60)) {
         intervalDelay = interval
@@ -65,7 +66,9 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
     // MARK: - SensorAutoModeDetectionState
     override func didUpdateLocations(location: CLLocation) {
         Log.print("- \(location.speed) \(thresholdSpeed)")
-        guard sensorState == .enable, -location.timestamp.timeIntervalSinceNow < 5, location.speed >= 0 || isSimulatorDriveTestingAutoMode else {
+        let timeIntervalBetweenLocation = -(lastLocationDate.timeIntervalSinceNow - location.timestamp.timeIntervalSinceNow)
+        lastLocationDate = location.timestamp
+        guard sensorState == .enable, timeIntervalBetweenLocation < 5, location.speed >= 0 || isSimulatorDriveTestingAutoMode else {
             return
         }
         resetTimer(timeInterval: intervalDelay)
