@@ -22,7 +22,7 @@ public class TripRecorder: TripRecorderProtocol {
     // MARK: - Property
     private let collector: FixCollector
     private var rxEventType = PublishSubject<EventType>()
-    private var rxFix = PublishSubject<Fix>()
+    public var rxFix = PublishSubject<Fix>()
     private let rxDisposeBag = DisposeBag()
     internal var autoMode: AutoMode?
     private let apiTrip: APITrip

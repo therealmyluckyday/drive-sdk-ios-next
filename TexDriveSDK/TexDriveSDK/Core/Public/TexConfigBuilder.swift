@@ -32,11 +32,8 @@ public class TexConfigBuilder {
         _config = TexConfig(applicationId: appId, currentUser: texUser)
     }
     
-    public func enableTripRecorder(locationManager: CLLocationManager = CLLocationManager()) throws {
-        let autoModeLocationSensor = AutoModeLocationSensor(locationManager)
-        let locationSensor: LocationSensor = LocationSensor(locationManager)
-        let mainLocationManager = LocationManager(autoModeLocationSensor, trackerLocationSensor: locationSensor)
-        let locationfeature : TripRecorderFeature = TripRecorderFeature.Location(mainLocationManager)
+    public func enableTripRecorder(locationManager: LocationManager = LocationManager()) throws {
+        let locationfeature : TripRecorderFeature = TripRecorderFeature.Location(locationManager)
         try TexConfig.activable(features: [locationfeature])
     
         for feature in _config.tripRecorderFeatures {

@@ -36,18 +36,17 @@ class LocationTracker: NSObject, Tracker {
         #else
         locationSensor.clLocationManager.requestAlwaysAuthorization()
         #endif
-        locationSensor.configureWithRXCoreLocation()
         locationSensor.rxLocation.asObservable().observeOn(MainScheduler.instance).subscribe { [weak self](event) in
                 if let location = event.element {
                     self?.didUpdateLocations(location: location)
                 }
         }.disposed(by: disposeBag)
         
-        locationSensor.clLocationManager.startUpdatingLocation()
+        locationSensor.startUpdatingLocation()
     }
     
     func disableTracking() {
-        locationSensor.clLocationManager.stopUpdatingLocation()
+        locationSensor.stopUpdatingLocation()
     }
     
     func provideFix() -> PublishSubject<Result<LocationFix>> {

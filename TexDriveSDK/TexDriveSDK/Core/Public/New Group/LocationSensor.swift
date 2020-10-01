@@ -21,11 +21,13 @@ protocol LocationSensorProtocol {
 
 public class LocationSensor: NSObject, LocationSensorProtocol, CLLocationManagerDelegate {
     var rxLocation = PublishSubject<CLLocation>()
-    var clLocationManager: CLLocationManager
-    let rxDisposeBag = DisposeBag()
+    internal var clLocationManager: CLLocationManager
+    private let rxDisposeBag = DisposeBag()
     
     init(_ locationManager: CLLocationManager = CLLocationManager()) {
         clLocationManager = locationManager
+        super.init()
+        self.configureWithRXCoreLocation()
     }
     
     func configureWithRXCoreLocation() {
@@ -47,6 +49,19 @@ public class LocationSensor: NSObject, LocationSensorProtocol, CLLocationManager
             }
         }
     }
+    // MARK: Redirect for CLLocationManager
+    public func startUpdatingLocation() {
+        clLocationManager.startUpdatingLocation()
+    }
+    
+    public func stopUpdatingLocation() {
+        clLocationManager.stopUpdatingLocation()
+    }
+    
+    public func authorizationStatus() -> (CLAuthorizationStatus) {
+        return type(of: clLocationManager).authorizationStatus()
+    }
+    
     // MARK:  CLLocationManagerDelegate error management
     
     public func locationManager(_ manager: CLLocationManager, didFinishDeferredUpdatesWithError error: Error?) {

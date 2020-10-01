@@ -6,7 +6,7 @@
 //  Copyright © 2018 Axa. All rights reserved.
 //
 
-protocol Fix: CustomStringConvertible {
+public protocol Fix: CustomStringConvertible {
     var timestamp: TimeInterval { get } //location.timestamp.timeIntervalSince1970 * 1000
     func serialize() -> [String: Any]
 }
