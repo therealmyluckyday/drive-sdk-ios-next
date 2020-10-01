@@ -20,7 +20,7 @@ protocol TimerProtocol {
 
 public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
     let intervalDelay: TimeInterval
-    let thresholdSpeed = CLLocationSpeed(exactly: 10)!
+    let thresholdSpeed = CLLocationSpeed(exactly: 20*0.28)!
     var timer: Timer?
     var lastActivity: CMMotionActivity?
     

@@ -11,7 +11,7 @@ import CoreLocation
 
 public class DetectionOfStartState: SensorAutoModeDetectionState {
     var firstLocation: CLLocation?
-    var thresholdSpeed = CLLocationSpeed(exactly: 20)!
+    var thresholdSpeed = CLLocationSpeed(exactly: 10*0.28)!
     let timeLowSpeedThreshold = TimeInterval(exactly: 180)!
     
     override func enableMotionSensor() {
