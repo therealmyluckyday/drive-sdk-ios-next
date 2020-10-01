@@ -32,7 +32,7 @@ class TripRecorderTests: XCTestCase {
         let mockCLLocationManager = MockCLLocationManager()
         let locationSensor = LocationSensor(mockCLLocationManager)
         let autoModeLocationSensor = AutoModeLocationSensor(CLLocationManager())
-        let mockLocationManager = LocationManager(autoModeLocationSensor, trackerLocationSensor: locationSensor)
+        let mockLocationManager = LocationManager(autoModeLocationSensor: autoModeLocationSensor, locationSensor: locationSensor)
         let locationFeature = TripRecorderFeature.Location(mockLocationManager)
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)
@@ -73,7 +73,7 @@ class TripRecorderTests: XCTestCase {
         MockCLLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
         let locationSensor = LocationSensor(MockCLLocationManager())
         let autoModeLocationSensor = AutoModeLocationSensor(MockCLLocationManager())
-        let mockLocationManager = LocationManager(autoModeLocationSensor, trackerLocationSensor: locationSensor)
+        let mockLocationManager = LocationManager(autoModeLocationSensor: autoModeLocationSensor, locationSensor: locationSensor)
         let locationFeature = TripRecorderFeature.Location(mockLocationManager)
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)
@@ -113,7 +113,7 @@ class TripRecorderTests: XCTestCase {
         MockCLLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
         let locationSensor = LocationSensor(MockCLLocationManager())
         let autoModeLocationSensor = AutoModeLocationSensor(CLLocationManager())
-        let mockLocationManager = LocationManager(autoModeLocationSensor, trackerLocationSensor: locationSensor)
+        let mockLocationManager = LocationManager(autoModeLocationSensor: autoModeLocationSensor, locationSensor: locationSensor)
         let locationFeature = TripRecorderFeature.Location(mockLocationManager)
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)
@@ -143,7 +143,7 @@ class TripRecorderTests: XCTestCase {
         MockCLLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
         let locationSensor = LocationSensor(MockCLLocationManager())
         let autoModeLocationSensor = AutoModeLocationSensor(CLLocationManager())
-        let mockLocationManager = LocationManager(autoModeLocationSensor, trackerLocationSensor: locationSensor)
+        let mockLocationManager = LocationManager(autoModeLocationSensor: autoModeLocationSensor, locationSensor: locationSensor)
         let locationFeature = TripRecorderFeature.Location(mockLocationManager)
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)
@@ -172,7 +172,7 @@ class TripRecorderTests: XCTestCase {
         MockCLLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
         let locationSensor = LocationSensor(MockCLLocationManager())
         let autoModeLocationSensor = AutoModeLocationSensor(CLLocationManager())
-        let mockLocationManager = LocationManager(autoModeLocationSensor, trackerLocationSensor: locationSensor)
+        let mockLocationManager = LocationManager(autoModeLocationSensor: autoModeLocationSensor, locationSensor: locationSensor)
         let locationFeature = TripRecorderFeature.Location(mockLocationManager)
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)
@@ -192,7 +192,7 @@ class TripRecorderTests: XCTestCase {
         MockCLLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
         let locationSensor = LocationSensor(MockCLLocationManager())
         let autoModeLocationSensor = AutoModeLocationSensor(CLLocationManager())
-        let mockLocationManager = LocationManager(autoModeLocationSensor, trackerLocationSensor: locationSensor)
+        let mockLocationManager = LocationManager(autoModeLocationSensor: autoModeLocationSensor, locationSensor: locationSensor)
         let locationFeature = TripRecorderFeature.Location(mockLocationManager)
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)
@@ -224,7 +224,7 @@ class TripRecorderTests: XCTestCase {
         MockCLLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
         let locationSensor = LocationSensor(MockCLLocationManager())
         let autoModeLocationSensor = AutoModeLocationSensor(CLLocationManager())
-        let mockLocationManager = LocationManager(autoModeLocationSensor, trackerLocationSensor: locationSensor)
+        let mockLocationManager = LocationManager(autoModeLocationSensor: autoModeLocationSensor, locationSensor: locationSensor)
         let locationFeature = TripRecorderFeature.Location(mockLocationManager)
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)

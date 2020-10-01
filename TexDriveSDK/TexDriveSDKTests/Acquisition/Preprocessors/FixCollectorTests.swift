@@ -36,52 +36,54 @@ class MockTracker: Tracker {
 class FixCollectorTests: XCTestCase {
     // MARK: - func collect<T>(tracker: T) where T: Tracker
     func testCollectTrackerTestSuccess() {
-        let mockTracker = MockTracker()
         let eventType = PublishSubject<EventType>()
         let fixes = PublishSubject<Fix>()
-        let fixToSend = MockFix()
-        
+        let fixToSend = LocationFix(timestamp: TimeInterval(0), latitude: 0.1, longitude: 0.2, precision: 2, speed: 3, bearing: 4, altitude: 5)
+        let isCallSubscribeExpectation = XCTestExpectation(description: "isCallSubscribeExpectation")
         let fixCollector = FixCollector(eventsType: eventType, fixes: fixes, scheduler: MainScheduler.instance)
-        fixCollector.collect(tracker: mockTracker)
+        let fakeLocationSensor = FakeLocationSensor()
+        let locationTracker = LocationTracker(sensor: fakeLocationSensor)
+        fixCollector.collect(tracker: locationTracker)
         
-        var isCallSubscribe = false
         let disposable = fixes.asObserver().subscribe { (event) in
             if let fix = event.element {
-                isCallSubscribe = true
+                isCallSubscribeExpectation.fulfill()
                 XCTAssertEqual(fix.description, fixToSend.description)
             }
         }
-        mockTracker.provider.onNext(Result.Success(fixToSend))
-        XCTAssertTrue(isCallSubscribe)
+        locationTracker.provideFix().onNext(Result.Success(fixToSend))
+        wait(for: [isCallSubscribeExpectation], timeout: TimeInterval(5), enforceOrder: false)
+        
         disposable.dispose()
     }
     
     func testCollectTrackerTestFailure() {
-        let mockTracker = MockTracker()
         let eventType = PublishSubject<EventType>()
         let fixes = PublishSubject<Fix>()
         let fixToSend = MockFix()
+        let isNotCallSubscribeExpectation = XCTestExpectation(description: "isCallSubscribeExpectation")
+        isNotCallSubscribeExpectation.isInverted = true
         let error = NSError(domain: "TEST", code: 044, userInfo: nil)
         let fixCollector = FixCollector(eventsType: eventType, fixes: fixes, scheduler: MainScheduler.instance)
-        var isCallSubscribeRxError = false
+        let fakeLocationSensor = FakeLocationSensor()
+        let locationTracker = LocationTracker(sensor: fakeLocationSensor)
+        let isCallSubscribeRxErrorExpectation = XCTestExpectation(description: "isCallSubscribeRxError")
         let disposableRxError = fixCollector.rxErrorCollecting.asObserver().subscribe { (event) in
             if event.element != nil {
-                isCallSubscribeRxError = true
+                isCallSubscribeRxErrorExpectation.fulfill()
             }
         }
         
-        fixCollector.collect(tracker: mockTracker)
+        fixCollector.collect(tracker: locationTracker)
         
-        var isCallSubscribe = false
         let disposable = fixes.asObserver().subscribe { (event) in
             if let fix = event.element {
-                isCallSubscribe = true
+                isNotCallSubscribeExpectation.fulfill()
                 XCTAssertEqual(fix.description, fixToSend.description)
             }
         }
-        mockTracker.provider.onNext(Result.Failure(error))
-        XCTAssertFalse(isCallSubscribe)
-        XCTAssertTrue(isCallSubscribeRxError)
+        locationTracker.provideFix().onNext(Result.Failure(error))
+        wait(for: [isNotCallSubscribeExpectation, isCallSubscribeRxErrorExpectation], timeout: TimeInterval(5))
         disposable.dispose()
         disposableRxError.dispose()
     }

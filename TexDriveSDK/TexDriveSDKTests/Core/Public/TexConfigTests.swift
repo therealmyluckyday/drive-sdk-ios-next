@@ -77,7 +77,7 @@ class TexConfigTests: XCTestCase {
         MockCLLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.notDetermined
         let locationSensor = LocationSensor(MockCLLocationManager())
         let autoModeLocationSensor = AutoModeLocationSensor(MockCLLocationManager())
-        let mockLocationManager = LocationManager(autoModeLocationSensor, trackerLocationSensor: locationSensor)
+        let mockLocationManager = LocationManager(autoModeLocationSensor: autoModeLocationSensor, locationSensor: locationSensor)
         let locationFeature = TripRecorderFeature.Location(mockLocationManager)
         let features = [locationFeature]
         do {

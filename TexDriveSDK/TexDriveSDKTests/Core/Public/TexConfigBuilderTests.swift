@@ -36,9 +36,9 @@ class TexConfigBuilderTests: XCTestCase {
         let appId = "APPTEST"
         let user = TexUser.Authentified("TOTO")
         let builder = TexConfigBuilder(appId: appId, texUser: user)
-        
+        let locationManager = LocationManager(locationManager: mockCLLocationManager)
         do {
-            try builder.enableTripRecorder(locationManager: mockCLLocationManager)
+            try builder.enableTripRecorder(locationManager: locationManager)
             XCTAssertEqual(builder._config.tripRecorderFeatures.count, 1)
             XCTAssertNotNil(builder._config.tripRecorderFeatures.first)
             
@@ -96,8 +96,9 @@ class TexConfigBuilderTests: XCTestCase {
         let builder = TexConfigBuilder(appId: appId, texUser: user)
         let expectation = XCTestExpectation(description: #function)
         builder.select(platform: Platform.Integration)
+        let locationManager = LocationManager(locationManager: mockCLLocationManager)
         do {
-            try builder.enableTripRecorder(locationManager: mockCLLocationManager)
+            try builder.enableTripRecorder(locationManager: locationManager)
 
             let texconfig = builder.build()
             expectation.fulfill()
