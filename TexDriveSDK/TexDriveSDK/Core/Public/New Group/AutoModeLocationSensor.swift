@@ -38,23 +38,23 @@ public class AutoModeLocationSensor: LocationSensor {
                 switch state {
                 case .disabled:
                     Log.print("State \(state)")
-                    self.clLocationManager.stopUpdatingLocation()
+                    self.stopUpdatingLocation()
                     self.slcLocationManager.stopMonitoringSignificantLocationChanges()
                     self.state = .disabled
                 case .significantLocationChanges:
                     Log.print("State \(state)")
                     self.state = .significantLocationChanges
                     self.slcLocationManager.stopMonitoringSignificantLocationChanges()
-                    self.clLocationManager.stopUpdatingLocation()
+                    self.stopUpdatingLocation()
                     self.configure(self.slcLocationManager)
                     self.slcLocationManager.startMonitoringSignificantLocationChanges()
                 case .locationChanges:
                     if (self.state == .disabled || self.state == .significantLocationChanges) {
                         Log.print("State \(state)")
                         self.slcLocationManager.stopMonitoringSignificantLocationChanges()
-                        self.clLocationManager.stopUpdatingLocation()
+                        self.stopUpdatingLocation()
                         self.configure(self.clLocationManager)
-                        self.clLocationManager.startUpdatingLocation()
+                        self.startUpdatingLocation()
                     }
                     self.state = .locationChanges
                 }
