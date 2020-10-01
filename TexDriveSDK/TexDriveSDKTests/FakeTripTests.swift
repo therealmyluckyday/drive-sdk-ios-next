@@ -118,69 +118,97 @@ class FakeTripTests: XCTestCase {
         print("Trip Finished Waiting for Scoring")
         wait(for: [scoreExpectation], timeout: 120)
     }
+    
+    func testAutomodeWithFakeSensorService() throws {
         let userId = "Erwan-"+UIDevice.current.systemName + UIDevice.current.systemVersion
         let user = TexUser.Authentified(userId)
         let appId = "APP-TEST"
         let builder = TexConfigBuilder(appId: appId, texUser: user)
         let scoreExpectation = XCTestExpectation(description: #function+"-Score")
         let tripExpectation = XCTestExpectation(description: #function+"-Trip")
+        
+        var date = Date()
+        
         do {
             let fakeLocationManager = FakeLocationManager()
             try builder.enableTripRecorder(locationManager: fakeLocationManager)
             builder.select(platform: Platform.Production)
             let config = builder.build()
             let service = TexServices.service(configuration: config)
-            service.logManager.rxLog.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
-                if let logDetail = event.element {
-                    print(logDetail.description)
-                    XCTAssert(logDetail.type != LogType.Error, "ERROR Log : "+logDetail.description)
-                    print(logDetail.description)
-                }
-                }.disposed(by: self.rxDisposeBag)
             
-            do {//".*(TripChunk|Score|URLRequestExtension.swift|API|State).*"
+            
+            do {
                 let regex = try NSRegularExpression(pattern: " .*.*", options: NSRegularExpression.Options.caseInsensitive)
-    //            let regex = try NSRegularExpression(pattern: ".*.*", options: NSRegularExpression.Options.caseInsensitive)
                 service.logManager.log(regex: regex, logType: LogType.Info)
             } catch {
                 let customLog = OSLog(subsystem: "fr.axa.tex", category: #file)
                 os_log("[ViewController][configureLog] regex error %@", log: customLog, type: .error, error.localizedDescription)
             }
+            
+            service.logManager.rxLog.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
+                if let logDetail = event.element {
+                    print("LOG \(logDetail.description)")
+                    XCTAssert(logDetail.type != LogType.Error, "ERROR Log : "+logDetail.description)
+                }
+                }.disposed(by: self.rxDisposeBag)
+            
             var nbFix  = 0
-            service.tripRecorder?.rxFix.asObserver().observeOn(MainScheduler.asyncInstance).subscribe({ (eventFix) in
+            service.tripRecorder!.rxFix.asObserver().observeOn(MainScheduler.asyncInstance).subscribe({ (eventFix) in
                 if let _ = eventFix.element {
                     nbFix += 1
-                    if (nbFix == 935) {tripExpectation.fulfill()}
+                    //print("tripExpectation \(nbFix)")
+                    
+                    if (nbFix == 634) {
+                        date = Date()
+                        print("\n [\(date)]  Fake Trip loaded NEED TO STOP")
+                        //service.tripRecorder!.stop()
+                    }
                 }
             }).disposed(by: rxDisposeBag)
-            service.tripRecorder?.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
+            service.tripRecorder!.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
                if let tripId = event.element {
-                   print("\n Trip finished: \n \(tripId.uuidString)")
-                //tripExpectation.fulfill()
+                date = Date()
+                   print("\n [\(date)]  Trip finished: \n \(tripId.uuidString)")
+                   tripExpectation.fulfill()
                }
                }.disposed(by: rxDisposeBag)
+            
+            service.tripRecorder!.autoMode!.rxIsDriving.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
+                if let isDriving = event.element {
+                    date = Date()
+                    if isDriving {
+                        print("[\(date)] DRIVING START")
+                    } else {
+                        print("[\(date)] DRIVING STOP")
+                    }
+                }
+                }.disposed(by: rxDisposeBag)
+            
             service.rxScore.asObserver().observeOn(MainScheduler.asyncInstance).retry().subscribe({ (event) in
                 if let score = event.element {
-                    print( "\n NEW SCORE \(score)")
+                    date = Date()
+                    print( "\n [\(date)]  NEW SCORE \(score)")
                     scoreExpectation.fulfill()
                 }
             }).disposed(by: rxDisposeBag)
-            service.tripRecorder!.start()
             
-            // Loading GPS Element
-            fakeLocationManager.loadTrip(intervalBetweenGPSPointInMilliSecond: 1000)
+            service.tripRecorder!.configureAutoMode()
+            service.tripRecorder!.activateAutoMode()
             
-            wait(for: [tripExpectation], timeout: 120)
-            service.tripRecorder!.stop()
-            
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 1000)) {
+                date = Date()
+                print("[\(date)] Loading GPS Element")
+                fakeLocationManager.loadTrip(intervalBetweenGPSPointInMilliSecond: 1000)
+            }
+            wait(for: [tripExpectation], timeout: 1000)
             
         } catch ConfigurationError.LocationNotDetermined(let description) {
             print("\n ConfigurationError : \(description)")
         } catch {
             print("\n ERROR : \(error)")
         }
-        
-        print("Trip Finished Waiting for Scoring")
-        wait(for: [scoreExpectation], timeout: 120)
+        date = Date()
+        print("[\(date)] Trip Finished Waiting for Scoring")
+        wait(for: [scoreExpectation], timeout: 300)
     }
 }
