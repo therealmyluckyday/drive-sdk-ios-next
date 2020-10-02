@@ -30,7 +30,6 @@ class FakeTripTests: XCTestCase {
     }
     
     func testTrip_Stop() {
-        XCTAssert(false)
         let fakeLocationManager = FakeLocationManager()
         let locationFeature = TripRecorderFeature.Location(fakeLocationManager)
         let features = [locationFeature]
