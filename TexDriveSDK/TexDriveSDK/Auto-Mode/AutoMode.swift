@@ -73,7 +73,6 @@ class AutoMode: AutoModeContextProtocol {
         rxState.asObserver().observeOn(MainScheduler.asyncInstance).subscribe {[weak self] (event) in
             if let newState = event.element {
                 Log.print("\(newState)")
-                print("\(newState)")
                 self?.state = newState
             }
         }.disposed(by: rxDisposeBag)

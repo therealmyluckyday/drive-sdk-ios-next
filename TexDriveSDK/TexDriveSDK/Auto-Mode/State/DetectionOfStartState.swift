@@ -31,7 +31,7 @@ public class DetectionOfStartState: SensorAutoModeDetectionState {
     override func stop() {
         Log.print("stop")
         disableSensor()
-        locationManager.autoModeLocationSensor.clLocationManager.stopUpdatingLocation()
+        locationManager.autoModeLocationSensor.stopUpdatingLocation()
         if let context = self.context {
             let state = StandbyState(context: context, locationManager: locationManager)
             context.rxState.onNext(state)
@@ -73,7 +73,6 @@ public class DetectionOfStartState: SensorAutoModeDetectionState {
             if let firstLocation = firstLocation, location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970 > timeLowSpeedThreshold {
                 let delay = location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970
                 Log.print("firstLocation = firstLocation, location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970 > timeLowSpeedThreshold")
-                print("\(delay) > \(timeLowSpeedThreshold)")
                 self.stop()
             }
         }

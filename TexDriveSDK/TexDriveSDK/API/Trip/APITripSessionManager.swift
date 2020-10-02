@@ -19,7 +19,11 @@ public protocol APITripSessionManagerProtocol {
 class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, URLSessionDownloadDelegate, URLSessionTaskDelegate {
     // MARK: Property
     private lazy var urlBackgroundTaskSession: URLSession = {
+        #if targetEnvironment(simulator)
+        let config = URLSessionConfiguration.default
+        #else
         let config = URLSessionConfiguration.background(withIdentifier: "TexSession")
+        #endif
         config.isDiscretionary = true
         config.sessionSendsLaunchEvents = true
         config.timeoutIntervalForResource = 15 * 60 * 60

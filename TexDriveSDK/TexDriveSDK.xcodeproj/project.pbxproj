@@ -11,6 +11,7 @@
 		7DB71CFD700B01F3298F86CC /* libPods-TexDriveSDKTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EB9F29EAFBFD2B3E91BCDF7 /* libPods-TexDriveSDKTests.a */; };
 		C107606F217E2C8000FB28AA /* PersistantQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C107606E217E2C8000FB28AA /* PersistantQueue.swift */; };
 		C1076071217E2E9400FB28AA /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1076070217E2E9400FB28AA /* Event.swift */; };
+		C113C7222514F9D700DB7532 /* MockLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C113C7212514F9D700DB7532 /* MockLocationManager.swift */; };
 		C114C388221D8B9200B74DD8 /* AutoModeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C114C387221D8B9200B74DD8 /* AutoModeTests.swift */; };
 		C114C38A221D8F7700B74DD8 /* DisabledStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C114C389221D8F7700B74DD8 /* DisabledStateTests.swift */; };
 		C114C38C221D979200B74DD8 /* StandbyStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C114C38B221D979200B74DD8 /* StandbyStateTests.swift */; };
@@ -29,6 +30,9 @@
 		C1273EA92178C1670006E6E0 /* MotionTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1273EA82178C1670006E6E0 /* MotionTrackerTests.swift */; };
 		C1274DD2225782CE00EDC92F /* LocationSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1274DD1225782CE00EDC92F /* LocationSensor.swift */; };
 		C1274DD52257832300EDC92F /* AutoModeLocationSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1274DD42257832300EDC92F /* AutoModeLocationSensor.swift */; };
+		C12906DA25122C280049EADB /* FakeTripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12906D925122C280049EADB /* FakeTripTests.swift */; };
+		C12906DC251233A00049EADB /* FakeLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12906DB251233A00049EADB /* FakeLocationManager.swift */; };
+		C12906DE251233B60049EADB /* FakeLocationSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12906DD251233B60049EADB /* FakeLocationSensor.swift */; };
 		C12C8B482227E6C700317B1E /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12C8B472227E6C700317B1E /* LocationManager.swift */; };
 		C12E34C421C174B600696B03 /* LogRx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12E34C321C174B600696B03 /* LogRx.swift */; };
 		C12F67762223F9EF00CB21E1 /* SensorAutoModeDetectionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12F67752223F9EF00CB21E1 /* SensorAutoModeDetectionState.swift */; };
@@ -72,6 +76,7 @@
 		C1D13439218729900099B650 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D13438218729900099B650 /* UIDeviceExtension.swift */; };
 		C1D1343F218740290099B650 /* URLRequestExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D1343E218740290099B650 /* URLRequestExtension.swift */; };
 		C1D13441218742320099B650 /* DateFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D13440218742320099B650 /* DateFormatterExtension.swift */; };
+		C1DA0C782518A98D00545691 /* trip_location_simulation.csv in Resources */ = {isa = PBXBuildFile; fileRef = C1DA0C772518A98D00545691 /* trip_location_simulation.csv */; };
 		C1DD032321885AE4000BBBBF /* EventTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DD032221885AE4000BBBBF /* EventTests.swift */; };
 		C1DD0325218861F4000BBBBF /* DateFormatterExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DD0324218861F4000BBBBF /* DateFormatterExtensionTests.swift */; };
 		C1DD032B21886A01000BBBBF /* UIDeviceExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DD032A21886A01000BBBBF /* UIDeviceExtensionTests.swift */; };
@@ -99,7 +104,6 @@
 		C1FDE34A219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE349219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift */; };
 		C1FDE34C219C72C400F15AF3 /* FixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE34B219C72C400F15AF3 /* FixTests.swift */; };
 		E2798EB42147F0DC006228A3 /* TexDriveSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2798EAA2147F0DC006228A3 /* TexDriveSDK.framework */; };
-		E2798EB92147F0DC006228A3 /* TexDriveSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2798EB82147F0DC006228A3 /* TexDriveSDKTests.swift */; };
 		E2798EBB2147F0DC006228A3 /* TexDriveSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = E2798EAD2147F0DC006228A3 /* TexDriveSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E2798EC721480E3B006228A3 /* Fix.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2798EC621480E3B006228A3 /* Fix.swift */; };
 		E2798EC921481570006228A3 /* BatteryFix.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2798EC821481570006228A3 /* BatteryFix.swift */; };
@@ -127,6 +131,7 @@
 		AF9E4DBBDCD5D4E15A273DDC /* Pods-TexDriveSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveSDK.release.xcconfig"; path = "../Pods/Target Support Files/Pods-TexDriveSDK/Pods-TexDriveSDK.release.xcconfig"; sourceTree = "<group>"; };
 		C107606E217E2C8000FB28AA /* PersistantQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistantQueue.swift; sourceTree = "<group>"; };
 		C1076070217E2E9400FB28AA /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		C113C7212514F9D700DB7532 /* MockLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLocationManager.swift; sourceTree = "<group>"; };
 		C114C387221D8B9200B74DD8 /* AutoModeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoModeTests.swift; sourceTree = "<group>"; };
 		C114C389221D8F7700B74DD8 /* DisabledStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisabledStateTests.swift; sourceTree = "<group>"; };
 		C114C38B221D979200B74DD8 /* StandbyStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandbyStateTests.swift; sourceTree = "<group>"; };
@@ -145,6 +150,9 @@
 		C1273EA82178C1670006E6E0 /* MotionTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionTrackerTests.swift; sourceTree = "<group>"; };
 		C1274DD1225782CE00EDC92F /* LocationSensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSensor.swift; sourceTree = "<group>"; };
 		C1274DD42257832300EDC92F /* AutoModeLocationSensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoModeLocationSensor.swift; sourceTree = "<group>"; };
+		C12906D925122C280049EADB /* FakeTripTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeTripTests.swift; sourceTree = "<group>"; };
+		C12906DB251233A00049EADB /* FakeLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeLocationManager.swift; sourceTree = "<group>"; };
+		C12906DD251233B60049EADB /* FakeLocationSensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeLocationSensor.swift; sourceTree = "<group>"; };
 		C12C8B472227E6C700317B1E /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		C12E34C321C174B600696B03 /* LogRx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LogRx.swift; path = TexDriveSDK/Core/LogRx.swift; sourceTree = SOURCE_ROOT; };
 		C12F67752223F9EF00CB21E1 /* SensorAutoModeDetectionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorAutoModeDetectionState.swift; sourceTree = "<group>"; };
@@ -189,6 +197,7 @@
 		C1D13438218729900099B650 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
 		C1D1343E218740290099B650 /* URLRequestExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestExtension.swift; sourceTree = "<group>"; };
 		C1D13440218742320099B650 /* DateFormatterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtension.swift; sourceTree = "<group>"; };
+		C1DA0C772518A98D00545691 /* trip_location_simulation.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = trip_location_simulation.csv; sourceTree = "<group>"; };
 		C1DD032221885AE4000BBBBF /* EventTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTests.swift; sourceTree = "<group>"; };
 		C1DD0324218861F4000BBBBF /* DateFormatterExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtensionTests.swift; sourceTree = "<group>"; };
 		C1DD032A21886A01000BBBBF /* UIDeviceExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtensionTests.swift; sourceTree = "<group>"; };
@@ -218,7 +227,6 @@
 		E2798EAD2147F0DC006228A3 /* TexDriveSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TexDriveSDK.h; sourceTree = "<group>"; };
 		E2798EAE2147F0DC006228A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E2798EB32147F0DC006228A3 /* TexDriveSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TexDriveSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		E2798EB82147F0DC006228A3 /* TexDriveSDKTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexDriveSDKTests.swift; sourceTree = "<group>"; };
 		E2798EBA2147F0DC006228A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E2798EC621480E3B006228A3 /* Fix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fix.swift; sourceTree = "<group>"; };
 		E2798EC821481570006228A3 /* BatteryFix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryFix.swift; sourceTree = "<group>"; };
@@ -307,6 +315,8 @@
 				C12C8B472227E6C700317B1E /* LocationManager.swift */,
 				C1274DD1225782CE00EDC92F /* LocationSensor.swift */,
 				C1274DD42257832300EDC92F /* AutoModeLocationSensor.swift */,
+				C12906DB251233A00049EADB /* FakeLocationManager.swift */,
+				C12906DD251233B60049EADB /* FakeLocationSensor.swift */,
 			);
 			name = Sensor;
 			path = "New Group";
@@ -415,6 +425,7 @@
 				C121003021C1632500A126E6 /* TripInfosTests.swift */,
 				C1A4F3E522298FE3006AADCF /* LocationSensorTests.swift */,
 				C17D138C226775FD0073BA4F /* TexConfigBuilderTests.swift */,
+				C113C7212514F9D700DB7532 /* MockLocationManager.swift */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -499,6 +510,7 @@
 		C1F2A0DA2183174900765D08 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C1DA0C772518A98D00545691 /* trip_location_simulation.csv */,
 				C148D7152181F34C00F1088B /* TEX-elb-ssl.der */,
 			);
 			path = Resources;
@@ -592,8 +604,8 @@
 				C1E93DF521875F2D0082B2B3 /* API */,
 				C17E9A79216F8F5400FCF93E /* Core */,
 				C18AE981216E21210065F0BB /* Acquisition */,
-				E2798EB82147F0DC006228A3 /* TexDriveSDKTests.swift */,
 				E2798EBA2147F0DC006228A3 /* Info.plist */,
+				C12906D925122C280049EADB /* FakeTripTests.swift */,
 			);
 			path = TexDriveSDKTests;
 			sourceTree = "<group>";
@@ -740,6 +752,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C1F2A0D72183129900765D08 /* TEX-elb-ssl.der in Resources */,
+				C1DA0C782518A98D00545691 /* trip_location_simulation.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -806,6 +819,7 @@
 				C1273EA32176314F0006E6E0 /* MotionBuffer.swift in Sources */,
 				C1273EA12175F59C0006E6E0 /* MotionTracker.swift in Sources */,
 				C12E34C421C174B600696B03 /* LogRx.swift in Sources */,
+				C12906DE251233B60049EADB /* FakeLocationSensor.swift in Sources */,
 				E2798ED1214AB6F3006228A3 /* FixCollector.swift in Sources */,
 				E2798EC721480E3B006228A3 /* Fix.swift in Sources */,
 				C1F7E45321B5365C00EA0445 /* ScoreRetriever.swift in Sources */,
@@ -823,6 +837,7 @@
 				C1274DD52257832300EDC92F /* AutoModeLocationSensor.swift in Sources */,
 				C1CC41E921DFBF20004CB5C2 /* APIError.swift in Sources */,
 				C1E0DFAE21EF993E0057097B /* AutoMode.swift in Sources */,
+				C12906DC251233A00049EADB /* FakeLocationManager.swift in Sources */,
 				C1DD032D21886B77000BBBBF /* APIConfiguration.swift in Sources */,
 				C140074021F083F400F90D29 /* DetectionOfStartState.swift in Sources */,
 				C107606F217E2C8000FB28AA /* PersistantQueue.swift in Sources */,
@@ -860,6 +875,7 @@
 			files = (
 				C114C38E221D9B8900B74DD8 /* DetectionOfStartStateTests.swift in Sources */,
 				C121003121C1632500A126E6 /* TripInfosTests.swift in Sources */,
+				C113C7222514F9D700DB7532 /* MockLocationManager.swift in Sources */,
 				C1FDE33D219C5A4C00F15AF3 /* TexServicesTests.swift in Sources */,
 				C18AE98B216E44D60065F0BB /* LocationTrackerTests.swift in Sources */,
 				C15B9FC92194441F0072439F /* LogDetailTests.swift in Sources */,
@@ -871,7 +887,6 @@
 				C14CA50A21BED0C000158BA0 /* ScoreRetrieverTest.swift in Sources */,
 				C15B9FC721942E720072439F /* LogTests.swift in Sources */,
 				C1E521B621748CE800B80C64 /* CallFixTests.swift in Sources */,
-				E2798EB92147F0DC006228A3 /* TexDriveSDKTests.swift in Sources */,
 				C16D6DBE21FF652500978BFE /* AutoModeGherkinTests.swift in Sources */,
 				C1FDE346219C5BA700F15AF3 /* APITripTests.swift in Sources */,
 				C114C38C221D979200B74DD8 /* StandbyStateTests.swift in Sources */,
@@ -891,6 +906,7 @@
 				C1DD0325218861F4000BBBBF /* DateFormatterExtensionTests.swift in Sources */,
 				C1DD032321885AE4000BBBBF /* EventTests.swift in Sources */,
 				C114C390221D9C5200B74DD8 /* DrivingStateTests.swift in Sources */,
+				C12906DA25122C280049EADB /* FakeTripTests.swift in Sources */,
 				C114C388221D8B9200B74DD8 /* AutoModeTests.swift in Sources */,
 				C1FDE34A219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift in Sources */,
 				C114C392221D9CB400B74DD8 /* DetectionOfStopStateTests.swift in Sources */,

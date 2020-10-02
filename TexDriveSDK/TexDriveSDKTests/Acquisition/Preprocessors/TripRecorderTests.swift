@@ -28,11 +28,7 @@ class TripRecorderTests: XCTestCase {
     
     // MARK: - init
     func testInit_LocationFeatureStart() {
-        MockCLLocationManager.mockAuthorizationStatus = CLAuthorizationStatus.authorizedAlways
-        let mockCLLocationManager = MockCLLocationManager()
-        let locationSensor = LocationSensor(mockCLLocationManager)
-        let autoModeLocationSensor = AutoModeLocationSensor(CLLocationManager())
-        let mockLocationManager = LocationManager(autoModeLocationSensor: autoModeLocationSensor, locationSensor: locationSensor)
+        let mockLocationManager = FakeLocationManager()
         let locationFeature = TripRecorderFeature.Location(mockLocationManager)
         let features = [locationFeature]
         let configuration = MockConfiguration(features: features)
@@ -53,8 +49,7 @@ class TripRecorderTests: XCTestCase {
             let closedRange = ClosedRange<Double>.init(uncheckedBounds: (lower: 0.0, upper: 19))
             let random = Double.random(in: closedRange)
             let location = CLLocation(latitude: CLLocationDegrees(random), longitude: CLLocationDegrees(random))
-            locationSensor.rxLocation.onNext(location)
-            mockCLLocationManager.send(locations: [location])
+            mockLocationManager.fakeTrackerLocationSensor.rxLocation.onNext(location)
         }
         tripRecorder.start()
 
@@ -62,11 +57,10 @@ class TripRecorderTests: XCTestCase {
             let closedRange = ClosedRange<Double>.init(uncheckedBounds: (lower: 0.0, upper: 19))
             let random = Double.random(in: closedRange)
             let location = CLLocation(latitude: CLLocationDegrees(random), longitude: CLLocationDegrees(random))
-            locationSensor.rxLocation.onNext(location)
-            mockCLLocationManager.send(locations: [location])
+            mockLocationManager.fakeTrackerLocationSensor.rxLocation.onNext(location)
         }
 
-        wait(for: [expectation], timeout: 1)
+        wait(for: [expectation], timeout: 10)
     }
     
     func testInit_LocationFeatureStop() {

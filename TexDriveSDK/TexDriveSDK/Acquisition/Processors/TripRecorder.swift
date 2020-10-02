@@ -81,7 +81,6 @@ public class TripRecorder: TripRecorderProtocol {
         tripIdFinished = sessionManager.tripIdFinished
         persistantQueue = PersistantQueue(eventType: rxEventType, fixes: rxFix, scheduler: configuration.rxScheduler, rxTripId: rxTripId, tripInfos: configuration.tripInfos, rxTripChunkSent: sessionManager.tripChunkSent)
         collector = FixCollector(eventsType: rxEventType, fixes: rxFix, scheduler: configuration.rxScheduler)
-        
         configuration.tripRecorderFeatures.forEach { (feature) in
             switch feature {
             case .Location(let locationManager):

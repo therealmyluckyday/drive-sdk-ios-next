@@ -30,6 +30,7 @@ class FakeTripTests: XCTestCase {
     }
     
     func testTrip_Stop() {
+        XCTAssert(false)
         let fakeLocationManager = FakeLocationManager()
         let locationFeature = TripRecorderFeature.Location(fakeLocationManager)
         let features = [locationFeature]
@@ -86,7 +87,7 @@ class FakeTripTests: XCTestCase {
             service.tripRecorder?.rxFix.asObserver().observeOn(MainScheduler.asyncInstance).subscribe({ (eventFix) in
                 if let _ = eventFix.element {
                     nbFix += 1
-                    if (nbFix == 935) {tripExpectation.fulfill()}
+                    if (nbFix == 934) {tripExpectation.fulfill()}
                 }
             }).disposed(by: rxDisposeBag)
             service.tripRecorder?.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
@@ -105,7 +106,7 @@ class FakeTripTests: XCTestCase {
             // Loading GPS Element
             fakeLocationManager.loadTrip(intervalBetweenGPSPointInMilliSecond: 1000)
             
-            wait(for: [tripExpectation], timeout: 120)
+            wait(for: [tripExpectation], timeout: 70)
             service.tripRecorder!.stop()
             
             
@@ -116,7 +117,7 @@ class FakeTripTests: XCTestCase {
         }
         
         print("Trip Finished Waiting for Scoring")
-        wait(for: [scoreExpectation], timeout: 120)
+        wait(for: [scoreExpectation], timeout: 70)
     }
     
     func testAutomodeWithFakeSensorService() throws {
@@ -200,7 +201,7 @@ class FakeTripTests: XCTestCase {
                 print("[\(date)] Loading GPS Element")
                 fakeLocationManager.loadTrip(intervalBetweenGPSPointInMilliSecond: 1000)
             }
-            wait(for: [tripExpectation], timeout: 1000)
+            wait(for: [tripExpectation], timeout: 70)
             
         } catch ConfigurationError.LocationNotDetermined(let description) {
             print("\n ConfigurationError : \(description)")
@@ -209,6 +210,6 @@ class FakeTripTests: XCTestCase {
         }
         date = Date()
         print("[\(date)] Trip Finished Waiting for Scoring")
-        wait(for: [scoreExpectation], timeout: 300)
+        wait(for: [scoreExpectation], timeout: 70)
     }
 }

@@ -16,7 +16,7 @@ class AutoModeGherkinTests: XCTestCase {
     var disposeBag: DisposeBag?
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        automode = AutoMode(locationManager: LocationManager())
+        automode = AutoMode(locationManager: FakeLocationManager())
         disposeBag = DisposeBag()
     }
 
