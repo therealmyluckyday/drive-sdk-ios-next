@@ -98,9 +98,11 @@ EOM
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "${PODS_ROOT}/../TexDriveSDK/TexDriveSDK/Resources/TEX-elb-ssl.der"
+  install_resource "${PODS_ROOT}/../TexDriveSDK/TexDriveSDK/Resources/trip_location_simulation.csv"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "${PODS_ROOT}/../TexDriveSDK/TexDriveSDK/Resources/TEX-elb-ssl.der"
+  install_resource "${PODS_ROOT}/../TexDriveSDK/TexDriveSDK/Resources/trip_location_simulation.csv"
 fi
 
 mkdir -p "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"

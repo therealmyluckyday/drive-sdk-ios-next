@@ -19,19 +19,19 @@
   "resources": "TexDriveSDK/TexDriveSDK/Resources/*",
   "dependencies": {
     "RxSwift": [
-      "~> 5.0.0"
+      "~> 5.1.1"
     ],
     "RxCocoa": [
-      "~> 5.0.0"
+      "~> 5.1.1"
     ],
     "RxSwiftExt": [
       "~> 5"
     ],
     "GzipSwift": [
-      "~> 5.0.0"
+      "~> 5.1.1"
     ],
     "RxCoreLocation": [
-      "~> 1.4.0"
+      "~> 1.5.0"
     ]
   },
   "swift_version": "5.0"
