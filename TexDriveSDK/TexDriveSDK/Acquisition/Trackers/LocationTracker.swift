@@ -36,7 +36,7 @@ class LocationTracker: NSObject, Tracker {
         #else
         locationSensor.clLocationManager.requestAlwaysAuthorization()
         #endif
-        locationSensor.rxLocation.asObservable().observeOn(MainScheduler.instance).subscribe { [weak self](event) in
+        locationSensor.rxLocation.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
                 if let location = event.element {
                     self?.didUpdateLocations(location: location)
                 }

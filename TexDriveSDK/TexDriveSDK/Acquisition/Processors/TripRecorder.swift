@@ -79,7 +79,7 @@ public class TripRecorder: TripRecorderProtocol {
         rxDispatchQueueScheduler = configuration.rxScheduler
         apiTrip = APITrip(apiSessionManager: sessionManager)
         tripIdFinished = sessionManager.tripIdFinished
-        persistantQueue = PersistantQueue(eventType: rxEventType, fixes: rxFix, scheduler: configuration.rxScheduler, rxTripId: rxTripId, tripInfos: configuration.tripInfos, rxTripChunkSent: sessionManager.tripChunkSent)
+        persistantQueue = PersistantQueue(eventType: rxEventType, fixes: rxFix, scheduler: MainScheduler.asyncInstance, rxTripId: rxTripId, tripInfos: configuration.tripInfos, rxTripChunkSent: sessionManager.tripChunkSent)
         collector = FixCollector(eventsType: rxEventType, fixes: rxFix, scheduler: configuration.rxScheduler)
         configuration.tripRecorderFeatures.forEach { (feature) in
             switch feature {
@@ -120,7 +120,10 @@ public class TripRecorder: TripRecorderProtocol {
     }
     
     public func configureAutoMode(_ scheduler: SerialDispatchQueueScheduler = MainScheduler.instance) {
-        guard let autoMode = autoMode else { return  }
+        guard let autoMode = autoMode else {
+            Log.print("configureAutoMode error no automode", type: .Error)
+            return
+        }
         autoMode.rxIsDriving.asObserver().observeOn(scheduler).subscribe { [weak self](event) in
             if let isDriving = event.element {
                 if isDriving {

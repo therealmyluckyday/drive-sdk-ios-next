@@ -157,12 +157,8 @@ class FakeTripTests: XCTestCase {
             service.tripRecorder!.rxFix.asObserver().observeOn(MainScheduler.asyncInstance).subscribe({ (eventFix) in
                 if let _ = eventFix.element {
                     nbFix += 1
-                    //print("tripExpectation \(nbFix)")
-                    
                     if (nbFix == 634) {
-                        date = Date()
-                        print("\n [\(date)]  Fake Trip loaded NEED TO STOP")
-                        //service.tripRecorder!.stop()
+                        print("\n [\(Date())]  Fake Trip loaded NEED TO STOP")
                     }
                 }
             }).disposed(by: rxDisposeBag)

@@ -22,7 +22,11 @@ class APITripSessionManagerTests: XCTestCase {
         let user = TexUser.Authentified("Erwan-ios12")
         let appId = "youdrive_france_prospect"
         apiSessionManager = APITripSessionManager(configuration: TripInfos(appId: appId, user: user, domain: Platform.Preproduction))
+        #if targetEnvironment(simulator)
+        let config = URLSessionConfiguration.default
+        #else
         let config = URLSessionConfiguration.background(withIdentifier: "TexSession")
+        #endif
         config.isDiscretionary = true
         config.sessionSendsLaunchEvents = true
         urlBackgroundTaskSession = URLSession(configuration: config, delegate: apiSessionManager, delegateQueue: nil)

@@ -21,7 +21,6 @@ class APIScoreSessionManagerTests: XCTestCase {
     var apiSessionManager: MockAPIScoreSessionManager?
     var rxDisposeBag: DisposeBag?
     let logFactory = LogRx()
-    var urlBackgroundTaskSession: URLSession?
     
     override func setUp() {
         super.setUp()
@@ -29,10 +28,6 @@ class APIScoreSessionManagerTests: XCTestCase {
         let user = TexUser.Authentified("Erwan-ios12")
         let appId = "youdrive_france_prospect"
         apiSessionManager = MockAPIScoreSessionManager(configuration: TripInfos(appId: appId, user: user, domain: Platform.Preproduction))
-        let config = URLSessionConfiguration.background(withIdentifier: "TexSession")
-        config.isDiscretionary = true
-        config.sessionSendsLaunchEvents = true
-        urlBackgroundTaskSession = URLSession(configuration: config, delegate: apiSessionManager, delegateQueue: nil)
     }
     
     override func tearDown() {
