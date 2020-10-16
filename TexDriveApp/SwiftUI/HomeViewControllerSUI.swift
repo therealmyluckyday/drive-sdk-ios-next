@@ -106,9 +106,8 @@ struct HomeViewControllerSUI: View {
             }.disposed(by: self.rxDisposeBag)
         
         do {
-            //let regex = try NSRegularExpression(pattern: ".*(TripChunk|Score|URLRequestExtension.swift|API|State).*", options: NSRegularExpression.Options.caseInsensitive)
-            let regex = try NSRegularExpression(pattern: ".*(URLRequestExtension.swift|API).*", options: NSRegularExpression.Options.caseInsensitive)
-//            let regex = try NSRegularExpression(pattern: ".*.*", options: NSRegularExpression.Options.caseInsensitive)
+            // ".*(TripChunk|Score|URLRequestExtension.swift|API|State).*"
+            let regex = try NSRegularExpression(pattern: ".*(Score|API).*", options: NSRegularExpression.Options.caseInsensitive)
             texServices.logManager.log(regex: regex, logType: LogType.Info)
         } catch {
             //let customLog = OSLog(subsystem: "fr.axa.tex", category: #file)

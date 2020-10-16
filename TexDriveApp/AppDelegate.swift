@@ -40,17 +40,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
         Crashlytics.crashlytics().setUserID(withUserId)
         let user = TexUser.Authentified(withUserId)
         let appId = "youdrive_france_prospect"
+        let fakeLocationManager = FakeLocationManager()
         let builder = TexConfigBuilder(appId: appId, texUser: user)
         do {
-            ///"APP-TEST"
-            try builder.enableTripRecorder()
-            builder.select(platform: Platform.Production)
+            try builder.enableTripRecorder(locationManager: fakeLocationManager)
+            builder.select(platform: Platform.Production) //Platform.APIV2Testing
             let config = builder.build()
             let service = TexServices.service(configuration: config)
             texServices = service
             DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 2000)) {
                 service.tripRecorder?.configureAutoMode()
                 service.tripRecorder?.activateAutoMode()
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 90000000000)) {
+                    fakeLocationManager.loadTrip(intervalBetweenGPSPointInMilliSecond: 1000)
+                }
             }
         } catch ConfigurationError.LocationNotDetermined(let description) {
             print(description)
