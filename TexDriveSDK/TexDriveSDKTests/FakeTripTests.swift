@@ -56,15 +56,16 @@ class FakeTripTests: XCTestCase {
     
     func testFakeSensorService() throws {
         let userId = "Erwan-"+UIDevice.current.systemName + UIDevice.current.systemVersion
+        print(userId)
         let user = TexUser.Authentified(userId)
-        let appId = "APP-TEST"
+        let appId = "youdrive-france-prospect"//"APP-TEST"
         let builder = TexConfigBuilder(appId: appId, texUser: user)
         let scoreExpectation = XCTestExpectation(description: #function+"-Score")
         let tripExpectation = XCTestExpectation(description: #function+"-Trip")
         do {
             let fakeLocationManager = FakeLocationManager()
             try builder.enableTripRecorder(locationManager: fakeLocationManager)
-            builder.select(platform: Platform.Production)
+            builder.select(platform: Platform.Integration)
             let config = builder.build()
             let service = TexServices.service(configuration: config)
             service.logManager.rxLog.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
@@ -86,6 +87,7 @@ class FakeTripTests: XCTestCase {
             service.tripRecorder?.rxFix.asObserver().observeOn(MainScheduler.asyncInstance).subscribe({ (eventFix) in
                 if let _ = eventFix.element {
                     nbFix += 1
+                    
                     if (nbFix == 934) {tripExpectation.fulfill()}
                 }
             }).disposed(by: rxDisposeBag)
@@ -105,7 +107,9 @@ class FakeTripTests: XCTestCase {
             // Loading GPS Element
             fakeLocationManager.loadTrip(intervalBetweenGPSPointInMilliSecond: 1000)
             
-            wait(for: [tripExpectation], timeout: 70)
+            wait(for: [tripExpectation], timeout: 570)
+            
+            print("\n Trip finished: \n \(service.tripRecorder?.currentTripId?.uuidString)")
             service.tripRecorder!.stop()
             
             

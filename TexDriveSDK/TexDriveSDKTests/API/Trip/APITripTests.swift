@@ -34,7 +34,7 @@ class APITripTests: XCTestCase {
         let mock = APITripSessionManagerMock()
         
         let apiTrip = APITrip(apiSessionManager: mock)
-        let trip = TripChunk(tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction))
+        let trip = TripChunk(tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Integration))
         
         apiTrip.sendTrip(trip: trip)
         

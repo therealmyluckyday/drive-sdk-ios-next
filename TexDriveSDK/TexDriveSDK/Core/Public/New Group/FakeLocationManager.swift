@@ -9,9 +9,9 @@
 import UIKit
 import CoreLocation
 
-class FakeLocationManager: LocationManager {
+public class FakeLocationManager: LocationManager {
     let fakeTrackerLocationSensor: FakeLocationSensor
-    init() {
+    public init() {
         self.fakeTrackerLocationSensor = FakeLocationSensor()
         super.init(autoModeLocationSensor: AutoModeLocationSensor(), locationSensor: fakeTrackerLocationSensor)
         #if targetEnvironment(simulator)
@@ -20,39 +20,34 @@ class FakeLocationManager: LocationManager {
         #endif
     }
     
-    func loadTrip(intervalBetweenGPSPointInMilliSecond: Double) {
+    public func loadTrip(intervalBetweenGPSPointInMilliSecond: Double) {
         let myFakeTripPath = Bundle(for: FakeLocationManager.self).path(forResource: "trip_location_simulation", ofType: "csv")
-        
-        
         let background = DispatchQueue.global()
         background.async {
-        do {
-            let csvString = try String(contentsOfFile: myFakeTripPath!)
-            //print(csvString)
-            let separator = CharacterSet.whitespacesAndNewlines
-            let scanner = Scanner(string: csvString)
-            scanner.charactersToBeSkipped = separator
-            var line : NSString?
-            var time = Date().timeIntervalSince1970 - 1000//- 90000 + 86400 39000
-            var i = 0
-            while scanner.scanUpToCharacters(from: separator, into: &line) {
-                if let line = line {
-                    i = i + 1
-                    if #available(iOS 13.0, *) {
-                        time = self.sendLocationLineStringToSpeedFilter(line: line as String, time: time, intervalBetweenGPSPointInMilliSecond: intervalBetweenGPSPointInMilliSecond)
-                    } else {
-                        // Fallback on earlier versions
+            do {
+                let csvString = try String(contentsOfFile: myFakeTripPath!)
+                let separator = CharacterSet.whitespacesAndNewlines
+                let scanner = Scanner(string: csvString)
+                scanner.charactersToBeSkipped = separator
+                var line : NSString?
+                var time = Date().timeIntervalSince1970 - 1000//- 90000 + 86400 39000
+                var i = 0
+                while scanner.scanUpToCharacters(from: separator, into: &line) {
+                    if let line = line {
+                        i = i + 1
+                        if #available(iOS 13.0, *) {
+                            time = self.sendLocationLineStringToSpeedFilter(line: line as String, time: time, intervalBetweenGPSPointInMilliSecond: intervalBetweenGPSPointInMilliSecond)
+                        } else {
+                            // Fallback on earlier versions
+                        }
+                        //if i%10 == 0 { print(" ") }
+                        //print("                                     \(i)")
                     }
-                    //if i%10 == 0 { print(" ") }
-                    //print("                                     \(i)")
                 }
+            } catch {
+                print("Error: \(error)")
             }
-            //locationSensor.rxLocation.onNext(result)
-            
-        } catch {
-            print("Error: \(error)")
         }
-            }
     }
     
     @available(iOS 13.0, *)
@@ -75,13 +70,10 @@ class FakeLocationManager: LocationManager {
             fakeTrackerLocationSensor.rxLocation.onNext(location)
             autoModeLocationSensor.rxLocation.onNext(location)
             if (time > 0) {Thread.sleep(forTimeInterval: 0.05)}
-            //rxLocation.onNext(location)
+            //print("fakeLocationManager FIX")
         }
-            
-       
-            return locationTime
-        }
-    
+        return locationTime
+    }
 }
 
 extension Scanner {
