@@ -10,6 +10,8 @@
 		6785292F6ED8E5D0EE51AA43 /* libPods-TexDriveApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A1AB3E22764144804469AB6 /* libPods-TexDriveApp.a */; };
 		935C9E33E15DA79641ED037D /* libPods-TexDriveAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE71D68FC7DA4F158EFA71C3 /* libPods-TexDriveAppTests.a */; };
 		C10A404D24AB370E0015B888 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C10A404C24AB370E0015B888 /* GoogleService-Info.plist */; };
+		C16140F8252CA53300D5C878 /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C16140F7252CA53300D5C878 /* SegmentedControl.swift */; };
+		C183108325277C8F00FBFD03 /* HomeViewControllerSUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C183108225277C8F00FBFD03 /* HomeViewControllerSUI.swift */; };
 		C19D42A82201A20800E9855D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C19D42A72201A20800E9855D /* Assets.xcassets */; };
 		E2798E812147EE80006228A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2798E802147EE80006228A3 /* AppDelegate.swift */; };
 		E2798E832147EE80006228A3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2798E822147EE80006228A3 /* ViewController.swift */; };
@@ -36,6 +38,8 @@
 		BC049353FB34A04720AEFDB9 /* Pods-TexDriveAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TexDriveAppTests/Pods-TexDriveAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BE71D68FC7DA4F158EFA71C3 /* libPods-TexDriveAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TexDriveAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C10A404C24AB370E0015B888 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C16140F7252CA53300D5C878 /* SegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
+		C183108225277C8F00FBFD03 /* HomeViewControllerSUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewControllerSUI.swift; sourceTree = "<group>"; };
 		C19D42A72201A20800E9855D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E2798E7D2147EE80006228A3 /* TexDriveApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TexDriveApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2798E802147EE80006228A3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -79,6 +83,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		C16140F6252CA51300D5C878 /* SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				C183108225277C8F00FBFD03 /* HomeViewControllerSUI.swift */,
+				C16140F7252CA53300D5C878 /* SegmentedControl.swift */,
+			);
+			path = SwiftUI;
+			sourceTree = "<group>";
+		};
 		D9FE30E5EE1F2DE7A22EA00D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -111,6 +124,7 @@
 		E2798E7F2147EE80006228A3 /* TexDriveApp */ = {
 			isa = PBXGroup;
 			children = (
+				C16140F6252CA51300D5C878 /* SwiftUI */,
 				C10A404C24AB370E0015B888 /* GoogleService-Info.plist */,
 				C19D42A72201A20800E9855D /* Assets.xcassets */,
 				E2798E802147EE80006228A3 /* AppDelegate.swift */,
@@ -313,7 +327,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C183108325277C8F00FBFD03 /* HomeViewControllerSUI.swift in Sources */,
 				E2798E832147EE80006228A3 /* ViewController.swift in Sources */,
+				C16140F8252CA53300D5C878 /* SegmentedControl.swift in Sources */,
 				E2798E812147EE80006228A3 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

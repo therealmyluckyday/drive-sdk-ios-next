@@ -11,6 +11,7 @@ import TexDriveSDK
 import UserNotifications
 import CoreLocation
 import Firebase
+import SwiftUI
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
@@ -29,6 +30,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
         }
         locationManager.requestAlwaysAuthorization()
         self.configureTexSDK(withUserId: userId)
+        let swuiftUIVC = HomeViewControllerSUI(texServices: self.texServices!, tripRecorder: self.texServices!.tripRecorder!)
+        let hostVC = UIHostingController(rootView: swuiftUIVC)
+        window?.rootViewController = hostVC
         return true
     }
     
