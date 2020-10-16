@@ -58,4 +58,22 @@ class LocationFix : Fix {
         dictionary["altitude"] = altitude
         return dictionary
     }
+    
+    func serializeAPIV2() -> [String : Any] {
+        let (key, value) = self.serializeTimestamp()
+        let dictionary = ["gps": self.serializeLocationAPIV2(), key: value] as [String : Any]
+        return dictionary
+    }
+    
+    // @(roundToDecimal(location.coordinate.latitude, AXAMaxDecimalPlaces)) ?
+    private func serializeLocationAPIV2() -> [String: Any] {
+        var dictionary = [String: Any]()
+        dictionary["latitude"] = latitude
+        dictionary["longitude"] = longitude
+        dictionary["precision_hdop"] = precision
+        dictionary["speed"] = speed
+        dictionary["bearing"] = bearing
+        dictionary["altitude"] = altitude
+        return dictionary
+    }
 }

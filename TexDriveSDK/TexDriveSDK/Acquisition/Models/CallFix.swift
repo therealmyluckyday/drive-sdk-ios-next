@@ -40,4 +40,8 @@ class CallFix: Fix {
         let dictionary = ["zede": "", key: value] as [String : Any]
         return dictionary
     }
+    
+    func serializeAPIV2() -> [String : Any] {
+        return self.serialize()
+    }
 }

@@ -9,6 +9,7 @@
 import Foundation
 protocol SerializeAPIGeneralInformation {
     func serializeWithGeneralInformation(dictionary: [String: Any]) -> [String: Any]
+    func serializeWithGeneralInformationAPIV2(dictionary: [String: Any]) -> [String: Any]
 }
 
 public struct TripInfos: Equatable {
@@ -34,13 +35,36 @@ extension TripInfos: SerializeAPIGeneralInformation {
         default:
             break
         }
-        newDictionary["uid"] = uuid
-        newDictionary["timezone"] = timeZone
-        newDictionary["os"] = os
-        newDictionary["model"] = model
-        newDictionary["version"] = sdkVersion
-        newDictionary["app_name"] = appId
+        
+        let firstVia = "TEX_iOS_SDK/\(os)/\(sdkVersion)"
         newDictionary["via"] = [firstVia]
+        newDictionary["uid"] = uuid
+        newDictionary["app_name"] = appId
+        newDictionary["timezone"] = timeZone
+        newDictionary["version"] = sdkVersion
+        newDictionary["model"] = model
+        newDictionary["os"] = os
+        return newDictionary
+    }
+    
+    func serializeWithGeneralInformationAPIV2(dictionary: [String : Any]) -> [String : Any] {
+        var newDictionary = dictionary
+        let uuid = UIDevice.current.identifierForVendor?.uuidString
+        let os = UIDevice.current.os()
+        let model = UIDevice.current.hardwareString()
+        let sdkVersion = "3.0.0"
+
+        switch user {
+        case .Authentified(let clientId):
+            newDictionary["client_id"] = clientId
+        default:
+            break
+        }
+        
+        newDictionary["device_info"] = "\(model)/\(os)/\(sdkVersion)"
+        newDictionary["device_id"] = uuid
+        newDictionary["program_id"] = appId
+        newDictionary["os"] = os
         return newDictionary
     }
 }

@@ -18,7 +18,6 @@ extension URLRequest: APIURLRequest {
     static func createUrlRequest(url: URL, body: [String: Any], httpMethod: HttpMethod, withCompression: Bool = false) -> URLRequest? {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = httpMethod.rawValue
-        urlRequest.addValue("gzip", forHTTPHeaderField: "Content-Encoding")
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: body, options:[])
             Log.print("[Json]\(String(describing: String(bytes:jsonData, encoding: String.Encoding.utf8)))")
@@ -26,9 +25,13 @@ extension URLRequest: APIURLRequest {
             if withCompression {
                 do {
                     urlRequest.httpBody = try jsonData.gzipped(level: .bestCompression)
+                    urlRequest.addValue("gzip", forHTTPHeaderField: "Content-Encoding")
+                    urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
                 } catch {
                     Log.print("Error in compression \(error)", type: .Error)
                 }
+            } else {
+                urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
             }
         } catch {
             Log.print("Json serialization error: \(error)", type: .Error)

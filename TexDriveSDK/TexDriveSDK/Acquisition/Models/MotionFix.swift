@@ -66,6 +66,10 @@ class MotionFix: Fix {
     private func serializeXYZAxisValues(value: XYZAxisValues) -> [String: Double] {
         return ["x": value.x, "y": value.y, "z": value.z]
     }
+    
+    func serializeAPIV2() -> [String : Any] {
+        return self.serialize()
+    }
 }
 // @(roundToDecimal(motion.userAcceleration.x * GravityConstant, AXAMaxDecimalPlaces));
 // Extension use to convert CMDeviceMotion to MotionFix

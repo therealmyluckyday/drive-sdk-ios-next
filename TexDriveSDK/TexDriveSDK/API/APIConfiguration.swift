@@ -10,12 +10,15 @@ import Foundation
 enum HttpMethod: String {
     case PUT = "PUT"
     case GET = "GET"
+    case POST = "POST"
 }
 
 public enum Platform: String {
     case Integration = "gw-int.tex.dil.services"
     case Preproduction = "gw-preprod.tex.dil.services"
     case Production = "gw.tex.dil.services"
+    case Testing = "gw-uat.tex.dil.services"
+    case APIV2Testing = "mobile-sink.youdrive-dev.next.dil.services"
 }
 
 protocol APIConfiguration {

@@ -45,4 +45,8 @@ class BatteryFix : Fix {
     private func serializeBattery() -> [String: Any] {
         return ["level": Int(self.level > 0 ? self.level*100 : 0 ), "state": self.state.rawValue]
     }
+    
+    func serializeAPIV2() -> [String : Any] {
+        return self.serialize()
+    }
 }

@@ -43,7 +43,8 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
     // MARK: PUT HTTP
     func put(dictionaryBody: [String: Any]) {
         if let url = URL(string: "\(configuration.baseUrl())/data") {
-            if let request = URLRequest.createUrlRequest(url: url, body: dictionaryBody, httpMethod: HttpMethod.PUT, withCompression: false) {
+            if let request = URLRequest.createUrlRequest(url: url, body: dictionaryBody, httpMethod: HttpMethod.PUT, withCompression: true) {
+                Log.print("[\(url)]\n[\(request.allHTTPHeaderFields)]\nHTTP dictionaryBody \(dictionaryBody)")
                 let backgroundTask = self.urlBackgroundTaskSession.downloadTask(with: request)
                 backgroundTask.resume()
             }
@@ -217,6 +218,12 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
             }
         }
         return false
+    }
+    
+    class func showRequestInformation(task: URLSessionDownloadTask) {
+        if let body = task.currentRequest?.httpBody, let bodyString = String(bytes: body, encoding: String.Encoding.utf8) {
+            Log.print(bodyString, type: .Error)
+        }
     }
     
     class func getTripId(task: URLSessionDownloadTask) -> TripId? {

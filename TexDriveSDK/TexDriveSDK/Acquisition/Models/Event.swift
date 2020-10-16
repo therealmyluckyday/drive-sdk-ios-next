@@ -54,4 +54,10 @@ class Event: Fix {
 //        })
         return [eventType.rawValue]
     }
+    
+    func serializeAPIV2() -> [String : Any] {
+        let (key, value) = self.serializeTimestamp()
+        let dictionary = ["events": self.serializeEvents(), key: value] as [String : Any]
+        return dictionary
+    }
 }

@@ -89,6 +89,20 @@ class TripChunk: Collection {
         return tripInfos.serializeWithGeneralInformation(dictionary: dictionary)
     }
     
+    
+    func serializeAPIV2() -> [String: Any] {
+        var fix : [[String: Any]] = self.fixes.map({$0.serializeAPIV2()})
+        if let event = self.event {
+            fix.append(event.serializeAPIV2())
+            Log.print("Event : \(event.eventType.rawValue)")
+        }
+        Log.print("Fixes send : \(fix.count)")
+        var dictionary = [String : Any]()
+        dictionary["trip_id"] = self.tripId.uuidString
+        dictionary["fixes"] = fix
+
+        return tripInfos.serializeWithGeneralInformationAPIV2(dictionary: dictionary)
+    }
 }
 
 
