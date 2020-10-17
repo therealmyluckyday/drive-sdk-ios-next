@@ -16,10 +16,15 @@ public struct TripInfos: Equatable {
     let appId: String
     let user: TexUser
     let domain: Platform
+    let isAPIV2: Bool
 }
 
 extension TripInfos: SerializeAPIGeneralInformation {
     func serializeWithGeneralInformation(dictionary: [String : Any]) -> [String : Any] {
+        return isAPIV2 ? serializeWithGeneralInformationAPIV2(dictionary: dictionary)  : serializeWithGeneralInformationAPIV1(dictionary: dictionary)
+    }
+    
+    func serializeWithGeneralInformationAPIV1(dictionary: [String : Any]) -> [String : Any] {
         var newDictionary = dictionary
         let uuid = UIDevice.current.identifierForVendor?.uuidString
         let timeZone = DateFormatter.formattedTimeZone()
@@ -27,8 +32,7 @@ extension TripInfos: SerializeAPIGeneralInformation {
         let model = UIDevice.current.hardwareString()
         let sdkVersion = "3.0.0"
         let firstVia = "TEX_iOS_SDK/\(os)/\(sdkVersion)"
-        //        token _texConfig.texUser.authToken
-
+        
         switch user {
         case .Authentified(let clientId):
             newDictionary["client_id"] = clientId
@@ -36,7 +40,6 @@ extension TripInfos: SerializeAPIGeneralInformation {
             break
         }
         
-        let firstVia = "TEX_iOS_SDK/\(os)/\(sdkVersion)"
         newDictionary["via"] = [firstVia]
         newDictionary["uid"] = uuid
         newDictionary["app_name"] = appId

@@ -13,23 +13,75 @@ enum HttpMethod: String {
     case POST = "POST"
 }
 
-public enum Platform: String {
+public enum Platform {
+    case Integration
+    case Preproduction
+    case Production
+    case Testing
+    
+    func generateUrl(isAPIV2: Bool) -> String {
+        if isAPIV2 {
+            switch self {
+            case .Integration:
+                return PlatformAPIV2.Integration.rawValue
+            case .Preproduction:
+                return PlatformAPIV2.Preproduction.rawValue
+            case .Production:
+                return PlatformAPIV2.Production.rawValue
+            case .Testing:
+                return PlatformAPIV2.Testing.rawValue
+            default:
+                return PlatformAPIV2.Testing.rawValue
+            }
+        } else {
+            switch self {
+            case .Integration:
+                return PlatformAPIV1.Integration.rawValue
+            case .Preproduction:
+                return PlatformAPIV1.Preproduction.rawValue
+            case .Production:
+                return PlatformAPIV1.Production.rawValue
+            case .Testing:
+                return PlatformAPIV1.Testing.rawValue
+            default:
+                return PlatformAPIV1.Testing.rawValue
+            }
+        }
+    }
+}
+
+public enum PlatformAPIV1: String {
     case Integration = "gw-int.tex.dil.services"
     case Preproduction = "gw-preprod.tex.dil.services"
     case Production = "gw.tex.dil.services"
     case Testing = "gw-uat.tex.dil.services"
-    case APIV2Testing = "mobile-sink.youdrive-dev.next.dil.services"
+}
+
+public enum PlatformAPIV2: String {
+    case Integration = "mobile-uat.youdrive-dev.next.dil.services"
+    case Preproduction = "mobile-sink.youdrive-pp.next.dil.services"
+    case Production = "mobile-sink.youdrive.next.dil.services"
+    case Testing = "mobile-sink.youdrive-dev.next.dil.services"
 }
 
 protocol APIConfiguration {
     var domain: Platform { get }
+    var isAPIV2: Bool { get }
     func baseUrl() -> String
     func httpHeaders() -> [String: Any]
 }
 
 extension TripInfos: APIConfiguration {
     func baseUrl() -> String {
-        return "https://"+domain.rawValue+"/v2.0"
+        return isAPIV2 ? baseUrlAPIV2() : baseUrlAPIV1()
+    }
+    
+    func baseUrlAPIV1() -> String {
+        return "https://"+domain.generateUrl(isAPIV2: false)+"/v2.0"
+    }
+    
+    func baseUrlAPIV2() -> String {
+        return "https://"+domain.generateUrl(isAPIV2: true)+"/mobile"
     }
     
     func httpHeaders() -> [String: Any] {

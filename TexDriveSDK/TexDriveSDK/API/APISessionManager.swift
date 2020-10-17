@@ -32,12 +32,14 @@ class APISessionManager: NSObject, URLSessionDelegate {
         }
         let credential = URLCredential(trust: trust)
         
-        let remoteCertMatchesPinnedCert = trust.isRemoteCertificateMatchingPinnedCertificate(domain: self.configuration.domain.rawValue)
-        if remoteCertMatchesPinnedCert {
-            completionHandler(.useCredential, credential)
-        } else {
-            Log.print("Error no trusting certificate", type: .Error)
-            completionHandler(.rejectProtectionSpace, nil)
+        if !configuration.isAPIV2 {
+            let remoteCertMatchesPinnedCert = trust.isRemoteCertificateMatchingPinnedCertificate(domain: self.configuration.domain.generateUrl(isAPIV2: false))
+            if remoteCertMatchesPinnedCert {
+                completionHandler(.useCredential, credential)
+            } else {
+                Log.print("Error no trusting certificate", type: .Error)
+                completionHandler(.rejectProtectionSpace, nil)
+            }
         }
         if challenge.previousFailureCount > 0 {
             completionHandler(Foundation.URLSession.AuthChallengeDisposition.cancelAuthenticationChallenge, nil)

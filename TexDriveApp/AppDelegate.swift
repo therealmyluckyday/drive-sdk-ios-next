@@ -39,12 +39,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
     func configureTexSDK(withUserId: String) {
         Crashlytics.crashlytics().setUserID(withUserId)
         let user = TexUser.Authentified(withUserId)
-        let appId = "youdrive_france_prospect"
+        let appId = "youdrive-france-prospect" //"youdrive_france_prospect" "APP-TEST"
         let fakeLocationManager = FakeLocationManager()
-        let builder = TexConfigBuilder(appId: appId, texUser: user)
+        let builder = TexConfigBuilder(appId: appId, texUser: user, isAPIV2: true)
         do {
             try builder.enableTripRecorder(locationManager: fakeLocationManager)
-            builder.select(platform: Platform.Production) //Platform.APIV2Testing
+            builder.select(platform: Platform.Testing, isAPIV2: true) //Platform.APIV2Testing
             let config = builder.build()
             let service = TexServices.service(configuration: config)
             texServices = service

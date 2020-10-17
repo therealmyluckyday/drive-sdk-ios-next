@@ -11,7 +11,7 @@ import RxSwift
 import Gzip
 
 public protocol APITripSessionManagerProtocol {
-    func put(dictionaryBody: [String: Any])
+    func put(dictionaryBody: [String: Any], baseUrl: String)
     var tripChunkSent: PublishSubject<Result<TripId>> { get }
     var tripIdFinished: PublishSubject<TripId> { get }
 }
@@ -41,8 +41,8 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
     
     
     // MARK: PUT HTTP
-    func put(dictionaryBody: [String: Any]) {
-        if let url = URL(string: "\(configuration.baseUrl())/data") {
+    func put(dictionaryBody: [String: Any], baseUrl: String) {
+        if let url = URL(string: "\(baseUrl)/data") {
             if let request = URLRequest.createUrlRequest(url: url, body: dictionaryBody, httpMethod: HttpMethod.PUT, withCompression: true) {
                 Log.print("[\(url)]\n[\(request.allHTTPHeaderFields)]\nHTTP dictionaryBody \(dictionaryBody)")
                 let backgroundTask = self.urlBackgroundTaskSession.downloadTask(with: request)
@@ -83,21 +83,26 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
                 if let body = String(bytes: data, encoding: String.Encoding.utf8) {
                     Log.print("HTTP Body \(body)")
                 }
+                APITripSessionManager.showRequestInformation(task: downloadTask)
                 let apiError = APISessionManager.manageError(data: data, httpResponse: httpResponse)
-                if apiError.statusCode >= 400 && apiError.statusCode < 500 {
-                    tripChunkSent.onNext(Result.Failure(apiError))
-                } else {
+                switch apiError.statusCode {
+                case 429:
                     retry(task:downloadTask)
+                case let x where x >= 500:
+                    retry(task:downloadTask)
+                default:
+                    tripChunkSent.onNext(Result.Failure(apiError))
                 }
-                
             } catch {
                 Log.print("HTTP File Error \(error)", type: .Error)
                 let apiError = APIError(message: "Unable to Parse API response File", statusCode: httpResponse.statusCode)
-                
-                if apiError.statusCode >= 400 && apiError.statusCode < 500 {
-                    tripChunkSent.onNext(Result.Failure(apiError))
-                } else {
+                switch apiError.statusCode {
+                case 429:
                     retry(task:downloadTask)
+                case let x where x >= 500:
+                    retry(task:downloadTask)
+                default:
+                    tripChunkSent.onNext(Result.Failure(apiError))
                 }
             }
         }

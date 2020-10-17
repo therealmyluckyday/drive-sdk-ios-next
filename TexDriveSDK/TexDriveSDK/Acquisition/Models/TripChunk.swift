@@ -76,6 +76,10 @@ class TripChunk: Collection {
     
     // MARK: Serialize
     func serialize() -> [String: Any] {
+        return tripInfos.isAPIV2 ? serializeAPIV2() : serializeAPIV1()
+    }
+    
+    func serializeAPIV1() -> [String: Any] {
         var fix : [[String: Any]] = self.fixes.map({$0.serialize()})
         if let event = self.event {
             fix.append(event.serialize())
@@ -88,7 +92,6 @@ class TripChunk: Collection {
 
         return tripInfos.serializeWithGeneralInformation(dictionary: dictionary)
     }
-    
     
     func serializeAPIV2() -> [String: Any] {
         var fix : [[String: Any]] = self.fixes.map({$0.serializeAPIV2()})

@@ -58,14 +58,14 @@ public class TexConfig: ConfigurationProtocol, ScoringClientConfiguration, APISe
     public var domain = Platform.Production
     
     // MARK: - Lifecycle
-    internal init(applicationId: String, currentUser: TexUser) {
-        tripInfos = TripInfos(appId: applicationId, user: currentUser, domain: domain)
+    internal init(applicationId: String, currentUser: TexUser, isAPIV2: Bool) {
+        tripInfos = TripInfos(appId: applicationId, user: currentUser, domain: domain, isAPIV2: isAPIV2)
     }
     
     // MARK: - Public method
-    func select(domain: Platform) {
+    func select(domain: Platform, isAPIV2: Bool) {
         self.domain = domain
-        tripInfos = TripInfos(appId: self.tripInfos.appId, user: self.tripInfos.user, domain: domain)
+        tripInfos = TripInfos(appId: self.tripInfos.appId, user: self.tripInfos.user, domain: domain, isAPIV2: isAPIV2)
     }
     
     static func activable(features: [TripRecorderFeature]) throws {
@@ -88,8 +88,8 @@ public class TexConfig: ConfigurationProtocol, ScoringClientConfiguration, APISe
     
     // MARK: - Copyable Protocol
     func copy() -> TexConfig {
-        let copy = TexConfig(applicationId: tripInfos.appId, currentUser: tripInfos.user)
-        copy.select(domain: domain)
+        let copy = TexConfig(applicationId: tripInfos.appId, currentUser: tripInfos.user, isAPIV2: tripInfos.isAPIV2)
+        copy.select(domain: domain, isAPIV2: tripInfos.isAPIV2)
         copy.locale = locale
         copy.tripRecorderFeatures = tripRecorderFeatures.map({ (feature) -> TripRecorderFeature in
             return feature

@@ -28,8 +28,8 @@ public class TexConfigBuilder {
     
     var _config: TexConfig
 
-    public init(appId: String, texUser: TexUser) {
-        _config = TexConfig(applicationId: appId, currentUser: texUser)
+    public init(appId: String, texUser: TexUser, isAPIV2: Bool) {
+        _config = TexConfig(applicationId: appId, currentUser: texUser, isAPIV2: isAPIV2)
     }
     
     public func enableTripRecorder(locationManager: LocationManager = LocationManager()) throws {
@@ -51,8 +51,8 @@ public class TexConfigBuilder {
         _config.tripRecorderFeatures.append(locationfeature)
     }
     
-    public func select(platform: Platform) {
-        _config.select(domain: platform)
+    public func select(platform: Platform, isAPIV2: Bool) {
+        _config.select(domain: platform, isAPIV2: isAPIV2)
     }
     
     public func build() -> TexConfig {
