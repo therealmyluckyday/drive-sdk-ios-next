@@ -58,7 +58,7 @@ public enum PlatformAPIV1: String {
 }
 
 public enum PlatformAPIV2: String {
-    case Integration = "mobile-uat.youdrive-dev.next.dil.services"
+    case Integration = "mobile-sink.youdrive-uat.next.dil.services"
     case Preproduction = "mobile-sink.youdrive-pp.next.dil.services"
     case Production = "mobile-sink.youdrive.next.dil.services"
     case Testing = "mobile-sink.youdrive-dev.next.dil.services"

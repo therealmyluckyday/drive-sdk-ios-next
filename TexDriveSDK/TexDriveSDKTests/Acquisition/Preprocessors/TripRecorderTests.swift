@@ -113,7 +113,7 @@ class TripRecorderTests: XCTestCase {
         let configuration = MockConfiguration(features: features)
         configuration.rxScheduler = MainScheduler.instance
         let tripRecorder = TripRecorder(configuration: configuration, sessionManager: mock)
-        let trip = TripChunk(tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction))
+        let trip = TripChunk(tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction, isAPIV2: false))
         let expectation = XCTestExpectation(description: #function)
         publishTrip.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
             if let tripChunk = event.element {
@@ -143,7 +143,7 @@ class TripRecorderTests: XCTestCase {
         let configuration = MockConfiguration(features: features)
         configuration.rxScheduler = MainScheduler.instance
         let tripRecorder = TripRecorder(configuration: configuration, sessionManager: mock)
-        let trip = TripChunk(tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction))
+        let trip = TripChunk(tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction, isAPIV2: false))
         let expectation = XCTestExpectation(description: #function)
         
         tripRecorder.subscribe(providerTrip: publishTrip, scheduler: MainScheduler.instance)

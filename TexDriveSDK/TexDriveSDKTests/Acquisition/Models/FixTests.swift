@@ -17,6 +17,9 @@ struct FixTest: Fix {
     func serialize() -> [String: Any] {
         return [String: Any]()
     }
+    func serializeAPIV2() -> [String: Any] {
+        return [String: Any]()
+    }
 }
 
 class FixTests: XCTestCase {

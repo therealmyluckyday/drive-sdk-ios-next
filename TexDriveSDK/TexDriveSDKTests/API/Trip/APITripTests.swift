@@ -16,15 +16,17 @@ class APITripSessionManagerMock: APITripSessionManagerProtocol {
     var tripIdFinished = PublishSubject<TripId>()
     
     var tripChunkSent = PublishSubject<Result<TripId>>()
+    var baseUrl = ""
     
     func get(parameters: [String : Any], completionHandler: @escaping (Result<[String : Any]>) -> ()) {
     }
     
     var isPutCalled = false
     var dictionaryPut : [String: Any]?
-    func put(dictionaryBody: [String: Any]) {
+    func put(dictionaryBody: [String: Any], baseUrl: String) {
         isPutCalled = true
         dictionaryPut = dictionaryBody
+        self.baseUrl = baseUrl
     }
 }
 
@@ -34,7 +36,7 @@ class APITripTests: XCTestCase {
         let mock = APITripSessionManagerMock()
         
         let apiTrip = APITrip(apiSessionManager: mock)
-        let trip = TripChunk(tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Integration))
+        let trip = TripChunk(tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Integration, isAPIV2: false))
         
         apiTrip.sendTrip(trip: trip)
         

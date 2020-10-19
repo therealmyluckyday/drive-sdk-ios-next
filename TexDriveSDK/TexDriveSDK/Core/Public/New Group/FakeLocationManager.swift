@@ -77,9 +77,6 @@ public class FakeLocationManager: LocationManager {
 }
 
 extension Scanner {
-  
-  
-  
   func scanDouble() -> Double? {
     var double: Double = 0
     return scanDouble(&double) ? double : nil

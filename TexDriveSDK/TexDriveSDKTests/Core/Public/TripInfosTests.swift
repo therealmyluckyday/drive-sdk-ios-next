@@ -15,7 +15,7 @@ class TripInfosTests: XCTestCase {
     func testSerializeWithGeneralInformation() {
         let dictionary = ["toto": 1984]
         let appId = "AXAAppId"
-        let tripInfos =  TripInfos(appId: appId, user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction)
+        let tripInfos =  TripInfos(appId: appId, user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction, isAPIV2: false)
         let result = tripInfos.serializeWithGeneralInformation(dictionary: dictionary)
         
         let os = "\(UIDevice.current.systemName) \(UIDevice.current.systemVersion)"

@@ -15,6 +15,9 @@ class MockFix: Fix {
     func serialize() -> [String : Any] {
         return [String: Any]()
     }
+    func serializeAPIV2() -> [String: Any] {
+        return [String: Any]()
+    }
 }
 
 class MockTracker: Tracker {

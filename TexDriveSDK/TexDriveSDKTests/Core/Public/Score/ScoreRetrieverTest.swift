@@ -21,8 +21,8 @@ class ScoreRetrieverTest: XCTestCase {
         let user = TexUser.Authentified("Erwan-ios12")
         let appId = "youdrive_france_prospect"
         
-        let configuration = TexConfig(applicationId: appId, currentUser: user)
-        configuration.select(domain: Platform.Preproduction)
+        let configuration = TexConfig(applicationId: appId, currentUser: user, isAPIV2: false)
+        configuration.select(domain: Platform.Preproduction, isAPIV2: false)
         let scoreSessionManager = APIScoreSessionManager(configuration: configuration.tripInfos)
         scoreRetriever = ScoreRetriever(sessionManager: scoreSessionManager, locale: Locale.current)
 

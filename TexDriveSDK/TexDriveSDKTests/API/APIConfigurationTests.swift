@@ -14,16 +14,24 @@ class APIConfigurationTests: XCTestCase {
     
     // MARK: Domain
     func testDomainName() {
-        XCTAssertEqual(Platform.Integration.rawValue, "gw-int.tex.dil.services")
-        XCTAssertEqual(Platform.Preproduction.rawValue, "gw-preprod.tex.dil.services")
-        XCTAssertEqual(Platform.Production.rawValue, "gw.tex.dil.services")
+        XCTAssertEqual(Platform.Testing.generateUrl(isAPIV2: false), "gw-uat.tex.dil.services")
+        XCTAssertEqual(Platform.Integration.generateUrl(isAPIV2: false), "gw-int.tex.dil.services")
+        XCTAssertEqual(Platform.Preproduction.generateUrl(isAPIV2: false), "gw-preprod.tex.dil.services")
+        XCTAssertEqual(Platform.Production.generateUrl(isAPIV2: false), "gw.tex.dil.services")
     }
     
+    func testDomainNameAPIV2() {
+        XCTAssertEqual(Platform.Testing.generateUrl(isAPIV2: true), "mobile-sink.youdrive-dev.next.dil.services")
+        XCTAssertEqual(Platform.Integration.generateUrl(isAPIV2: true), "mobile-sink.youdrive-uat.next.dil.services")
+        XCTAssertEqual(Platform.Preproduction.generateUrl(isAPIV2: true), "mobile-sink.youdrive-pp.next.dil.services")
+        XCTAssertEqual(Platform.Production.generateUrl(isAPIV2: true), "mobile-sink.youdrive.next.dil.services")
+    }
+
     // MARK: func baseUrl() -> String
     func testBaseUrlIntegration() {
         let domain = Platform.Integration
         let appId = "APPxID"
-        let config = TripInfos(appId: appId, user: TexUser.Authentified("Erwan-ios12"), domain: domain)
+        let config = TripInfos(appId: appId, user: TexUser.Authentified("Erwan-ios12"), domain: domain, isAPIV2: false)
         
         let result = config.baseUrl()
         
@@ -32,7 +40,7 @@ class APIConfigurationTests: XCTestCase {
     func testBaseUrlPreprod() {
         let domain = Platform.Preproduction
         let appId = "APPxID"
-        let config = TripInfos(appId: appId, user: TexUser.Authentified("Erwan-ios12"), domain: domain)
+        let config = TripInfos(appId: appId, user: TexUser.Authentified("Erwan-ios12"), domain: domain, isAPIV2: false)
         
         let result = config.baseUrl()
         
@@ -41,7 +49,7 @@ class APIConfigurationTests: XCTestCase {
     func testBaseUrlProd() {
         let domain = Platform.Production
         let appId = "APPxID"
-        let config = TripInfos(appId: appId, user: TexUser.Authentified("Erwan-ios12"), domain: domain)
+        let config = TripInfos(appId: appId, user: TexUser.Authentified("Erwan-ios12"), domain: domain, isAPIV2: false)
         
         let result = config.baseUrl()
         
@@ -52,7 +60,7 @@ class APIConfigurationTests: XCTestCase {
     func testHTTPHeaders() {
         let domain = Platform.Production
         let appId = "APPxID"
-        let config = TripInfos(appId: appId, user: TexUser.Authentified("Erwan-ios12"), domain: domain)
+        let config = TripInfos(appId: appId, user: TexUser.Authentified("Erwan-ios12"), domain: domain, isAPIV2: false)
         
         let result = config.httpHeaders()
         

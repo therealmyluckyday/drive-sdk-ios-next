@@ -27,7 +27,7 @@ class APIScoreSessionManagerTests: XCTestCase {
         rxDisposeBag = DisposeBag()
         let user = TexUser.Authentified("Erwan-ios12")
         let appId = "youdrive_france_prospect"
-        apiSessionManager = MockAPIScoreSessionManager(configuration: TripInfos(appId: appId, user: user, domain: Platform.Preproduction))
+        apiSessionManager = MockAPIScoreSessionManager(configuration: TripInfos(appId: appId, user: user, domain: Platform.Preproduction, isAPIV2: false))
     }
     
     override func tearDown() {

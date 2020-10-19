@@ -16,7 +16,7 @@ class TexConfigBuilderTests: XCTestCase {
     func testInit() {
         let appId = "APPTEST"
         let user = TexUser.Authentified("TOTO")
-        let builder = TexConfigBuilder(appId: appId, texUser: user)
+        let builder = TexConfigBuilder(appId: appId, texUser: user, isAPIV2: false)
         XCTAssertEqual(appId, builder.config.tripInfos.appId)
         XCTAssertEqual(user, builder.config.tripInfos.user)
         XCTAssertEqual(appId, builder._config.tripInfos.appId)
@@ -35,7 +35,7 @@ class TexConfigBuilderTests: XCTestCase {
         let mockCLLocationManager = MockCLLocationManager()
         let appId = "APPTEST"
         let user = TexUser.Authentified("TOTO")
-        let builder = TexConfigBuilder(appId: appId, texUser: user)
+        let builder = TexConfigBuilder(appId: appId, texUser: user, isAPIV2: false)
         let locationManager = LocationManager(locationManager: mockCLLocationManager)
         do {
             try builder.enableTripRecorder(locationManager: locationManager)
@@ -59,30 +59,30 @@ class TexConfigBuilderTests: XCTestCase {
     func testSelectPlatformProd() {
         let appId = "APPTEST"
         let user = TexUser.Authentified("TOTO")
-        let builder = TexConfigBuilder(appId: appId, texUser: user)
+        let builder = TexConfigBuilder(appId: appId, texUser: user, isAPIV2: false)
         
-        builder.select(platform: Platform.Integration)
-        builder.select(platform: Platform.Production)
+        builder.select(platform: Platform.Integration, isAPIV2: false)
+        builder.select(platform: Platform.Production, isAPIV2: false)
         
         XCTAssertEqual(builder._config.domain, Platform.Production)
     }
     func testSelectPlatformPreProd() {
         let appId = "APPTEST"
         let user = TexUser.Authentified("TOTO")
-        let builder = TexConfigBuilder(appId: appId, texUser: user)
+        let builder = TexConfigBuilder(appId: appId, texUser: user, isAPIV2: false)
         
-        builder.select(platform: Platform.Integration)
-        builder.select(platform: Platform.Preproduction)
+        builder.select(platform: Platform.Integration, isAPIV2: false)
+        builder.select(platform: Platform.Preproduction, isAPIV2: false)
         
         XCTAssertEqual(builder._config.domain, Platform.Preproduction)
     }
     func testSelectPlatformIntegration() {
         let appId = "APPTEST"
         let user = TexUser.Authentified("TOTO")
-        let builder = TexConfigBuilder(appId: appId, texUser: user)
+        let builder = TexConfigBuilder(appId: appId, texUser: user, isAPIV2: false)
         
-        builder.select(platform: Platform.Production)
-        builder.select(platform: Platform.Integration)
+        builder.select(platform: Platform.Production, isAPIV2: false)
+        builder.select(platform: Platform.Integration, isAPIV2: false)
         
         XCTAssertEqual(builder._config.domain, Platform.Integration)
     }
@@ -93,9 +93,9 @@ class TexConfigBuilderTests: XCTestCase {
         let mockCLLocationManager = MockCLLocationManager()
         let appId = "APPTESTA"
         let user = TexUser.Authentified("TOTOA")
-        let builder = TexConfigBuilder(appId: appId, texUser: user)
+        let builder = TexConfigBuilder(appId: appId, texUser: user, isAPIV2: false)
         let expectation = XCTestExpectation(description: #function)
-        builder.select(platform: Platform.Integration)
+        builder.select(platform: Platform.Integration, isAPIV2: false)
         let locationManager = LocationManager(locationManager: mockCLLocationManager)
         do {
             try builder.enableTripRecorder(locationManager: locationManager)

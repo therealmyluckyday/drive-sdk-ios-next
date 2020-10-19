@@ -29,7 +29,7 @@ class MockConfiguration : ConfigurationProtocol {
     
     init(features: [TripRecorderFeature]) {
         tripRecorderFeatures = features
-        tripInfos = TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction)
+        tripInfos = TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction, isAPIV2: false)
     }
 }
 
@@ -39,24 +39,24 @@ class TexConfigTests: XCTestCase {
     func testSelectDomainProduction() {
         let appId = "MyAppId"
         let user = TexUser.Anonymous
-        let configuration = TexConfig(applicationId: appId, currentUser: user)
-        configuration.select(domain: Platform.Production)
+        let configuration = TexConfig(applicationId: appId, currentUser: user, isAPIV2: false)
+        configuration.select(domain: Platform.Production, isAPIV2: false)
         XCTAssertNotNil(configuration)
         XCTAssertEqual(configuration.tripInfos.domain, Platform.Production)
     }
     func testSelectDomainPreProduction() {
         let appId = "MyAppId"
         let user = TexUser.Anonymous
-        let configuration = TexConfig(applicationId: appId, currentUser: user)
-        configuration.select(domain: Platform.Preproduction)
+        let configuration = TexConfig(applicationId: appId, currentUser: user, isAPIV2: false)
+        configuration.select(domain: Platform.Preproduction, isAPIV2: false)
         XCTAssertNotNil(configuration)
         XCTAssertEqual(configuration.tripInfos.domain, Platform.Preproduction)
     }
     func testSelectDomainIntegration() {
         let appId = "MyAppId"
         let user = TexUser.Anonymous
-        let configuration = TexConfig(applicationId: appId, currentUser: user)
-        configuration.select(domain: Platform.Integration)
+        let configuration = TexConfig(applicationId: appId, currentUser: user, isAPIV2: false)
+        configuration.select(domain: Platform.Integration, isAPIV2: false)
         XCTAssertNotNil(configuration)
         XCTAssertEqual(configuration.tripInfos.domain, Platform.Integration)
     }
