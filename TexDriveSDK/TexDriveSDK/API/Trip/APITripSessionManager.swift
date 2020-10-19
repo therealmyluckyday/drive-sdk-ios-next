@@ -209,7 +209,8 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
     class func isTripStoppedSend(task: URLSessionDownloadTask) -> Bool {
         if let body = task.currentRequest?.httpBody {
             do {
-                if let json = try (JSONSerialization.jsonObject(with: body, options: JSONSerialization.ReadingOptions.allowFragments)) as? [String: Any] {
+                let bodyUncompress = try body.gunzipped()
+                if let json = try (JSONSerialization.jsonObject(with: bodyUncompress, options: JSONSerialization.ReadingOptions.allowFragments)) as? [String: Any] {
                     if let fixes = json["fixes"] as? [[String: Any]] {
                         for fix in fixes {
                             if let events = fix["event"] as? [String], events.contains(EventType.stop.rawValue) {
@@ -219,6 +220,7 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
                     }
                 }
             } catch {
+                Log.print("\(error)", type: .Error)
                 return false
             }
         }

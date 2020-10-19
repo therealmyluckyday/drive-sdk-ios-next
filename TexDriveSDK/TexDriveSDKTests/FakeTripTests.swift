@@ -58,14 +58,14 @@ class FakeTripTests: XCTestCase {
         let userId = "Erwan-"+UIDevice.current.systemName + UIDevice.current.systemVersion
         print(userId)
         let user = TexUser.Authentified(userId)
-        let appId = "youdrive-france-prospect"//"APP-TEST"
-        let builder = TexConfigBuilder(appId: appId, texUser: user)
+        let appId = "youdrive_france_prospect"//"APP-TEST" // APIV2 "youdrive-france-prospect"
+        let builder = TexConfigBuilder(appId: appId, texUser: user, isAPIV2: false)
         let scoreExpectation = XCTestExpectation(description: #function+"-Score")
         let tripExpectation = XCTestExpectation(description: #function+"-Trip")
         do {
             let fakeLocationManager = FakeLocationManager()
             try builder.enableTripRecorder(locationManager: fakeLocationManager)
-            builder.select(platform: Platform.Integration)
+            builder.select(platform: Platform.Production, isAPIV2: false)
             let config = builder.build()
             let service = TexServices.service(configuration: config)
             service.logManager.rxLog.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
@@ -75,7 +75,6 @@ class FakeTripTests: XCTestCase {
                     print(logDetail.description)
                 }
                 }.disposed(by: self.rxDisposeBag)
-            
             do {
                 let regex = try NSRegularExpression(pattern: " .*.*", options: NSRegularExpression.Options.caseInsensitive)
                 service.logManager.log(regex: regex, logType: LogType.Info)
@@ -88,7 +87,7 @@ class FakeTripTests: XCTestCase {
                 if let _ = eventFix.element {
                     nbFix += 1
                     
-                    if (nbFix == 934) {tripExpectation.fulfill()}
+                    if (nbFix == 935) {tripExpectation.fulfill()}
                 }
             }).disposed(by: rxDisposeBag)
             service.tripRecorder?.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
@@ -123,11 +122,80 @@ class FakeTripTests: XCTestCase {
         wait(for: [scoreExpectation], timeout: 70)
     }
     
+    
+    func testFakeSensorServiceAPIV2() throws {
+        let userId = "Erwan-"+UIDevice.current.systemName + UIDevice.current.systemVersion
+        print(userId)
+        let user = TexUser.Authentified(userId)
+        let appId = "youdrive-france-prospect"//"APP-TEST" // APIV2 "youdrive-france-prospect"
+        let builder = TexConfigBuilder(appId: appId, texUser: user, isAPIV2: true)
+        let scoreExpectation = XCTestExpectation(description: #function+"-Score")
+        let tripExpectation = XCTestExpectation(description: #function+"-Trip")
+        do {
+            let fakeLocationManager = FakeLocationManager()
+            try builder.enableTripRecorder(locationManager: fakeLocationManager)
+            builder.select(platform: Platform.Testing, isAPIV2: true)
+            let config = builder.build()
+            let service = TexServices.service(configuration: config)
+            service.logManager.rxLog.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
+                if let logDetail = event.element {
+                    print(logDetail.description)
+                    XCTAssert(logDetail.type != LogType.Error, "ERROR Log : "+logDetail.description)
+                    print(logDetail.description)
+                }
+                }.disposed(by: self.rxDisposeBag)
+            do {
+                let regex = try NSRegularExpression(pattern: " .*.*", options: NSRegularExpression.Options.caseInsensitive)
+                service.logManager.log(regex: regex, logType: LogType.Info)
+            } catch {
+                let customLog = OSLog(subsystem: "fr.axa.tex", category: #file)
+                os_log("[ViewController][configureLog] regex error %@", log: customLog, type: .error, error.localizedDescription)
+            }
+            var nbFix  = 0
+            service.tripRecorder?.rxFix.asObserver().observeOn(MainScheduler.asyncInstance).subscribe({ (eventFix) in
+                if let _ = eventFix.element {
+                    nbFix += 1
+                    
+                    if (nbFix == 935) {tripExpectation.fulfill()}
+                }
+            }).disposed(by: rxDisposeBag)
+            service.tripRecorder?.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
+               if let tripId = event.element {
+                   print("\n Trip finished: \n \(tripId.uuidString)")
+               }
+               }.disposed(by: rxDisposeBag)
+            service.rxScore.asObserver().observeOn(MainScheduler.asyncInstance).retry().subscribe({ (event) in
+                if let score = event.element {
+                    print( "\n NEW SCORE \(score)")
+                    scoreExpectation.fulfill()
+                }
+            }).disposed(by: rxDisposeBag)
+            service.tripRecorder!.start()
+            
+            // Loading GPS Element
+            fakeLocationManager.loadTrip(intervalBetweenGPSPointInMilliSecond: 1000)
+            
+            wait(for: [tripExpectation], timeout: 570)
+            
+            print("\n Trip finished: \n \(service.tripRecorder?.currentTripId?.uuidString)")
+            service.tripRecorder!.stop()
+            
+            
+        } catch ConfigurationError.LocationNotDetermined(let description) {
+            print("\n ConfigurationError : \(description)")
+        } catch {
+            print("\n ERROR : \(error)")
+        }
+        
+        //print("Trip Finished Waiting for Scoring")
+        //wait(for: [scoreExpectation], timeout: 1)
+    }
+    
     func testAutomodeWithFakeSensorService() throws {
         let userId = "Erwan-"+UIDevice.current.systemName + UIDevice.current.systemVersion
         let user = TexUser.Authentified(userId)
         let appId = "APP-TEST"
-        let builder = TexConfigBuilder(appId: appId, texUser: user)
+        let builder = TexConfigBuilder(appId: appId, texUser: user, isAPIV2: false)
         let scoreExpectation = XCTestExpectation(description: #function+"-Score")
         let tripExpectation = XCTestExpectation(description: #function+"-Trip")
         
@@ -136,7 +204,7 @@ class FakeTripTests: XCTestCase {
         do {
             let fakeLocationManager = FakeLocationManager()
             try builder.enableTripRecorder(locationManager: fakeLocationManager)
-            builder.select(platform: Platform.Production)
+            builder.select(platform: Platform.Production, isAPIV2: false)
             let config = builder.build()
             let service = TexServices.service(configuration: config)
             
@@ -192,7 +260,7 @@ class FakeTripTests: XCTestCase {
                 }
             }).disposed(by: rxDisposeBag)
             
-            service.tripRecorder!.configureAutoMode()
+            service.tripRecorder!.configureAutoMode(MainScheduler.asyncInstance)
             service.tripRecorder!.activateAutoMode()
             
             DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 1000)) {
