@@ -65,7 +65,7 @@ public class TexServices {
     }
     
     // MARK: - Public Method
-    public class func service(configuration: ConfigurationProtocol, isTesting: Bool) -> TexServices {
+    public class func service(configuration: ConfigurationProtocol, isTesting: Bool = false) -> TexServices {
         if let triprecorder = sharedInstance._tripRecorder {
             triprecorder.autoMode?.disable()
             triprecorder.stop()
