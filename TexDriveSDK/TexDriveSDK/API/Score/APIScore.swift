@@ -31,37 +31,16 @@ class APIScore: APIScoreProtocol {
     
     // MARK: - APIScoreProtocol
     func getScore(tripId: TripId, rxScore: PublishSubject<Score>) {
-        
-        #if targetEnvironment(simulator)
-        let isDispatchQueueInBackground = false
-        #else
-        let isDispatchQueueInBackground = true
-        #endif
-        if isDispatchQueueInBackground {
-            DispatchQueue.global(qos: DispatchQoS.QoSClass.background).async {
-                self.getScore(tripId: tripId, completionHandler: { (result) in
-                    switch result {
-                    case Result.Success(let score):
-                        rxScore.onNext(score)
-                        break
-                    case Result.Failure(let error):
-                        Log.print("\(error)", type: .Error)
-                        break
-                    }
-                })
+        self.getScore(tripId: tripId, completionHandler: { (result) in
+            switch result {
+            case Result.Success(let score):
+                rxScore.onNext(score)
+                break
+            case Result.Failure(let error):
+                Log.print("\(error)", type: .Error)
+                break
             }
-        } else {
-            self.getScore(tripId: tripId, completionHandler: { (result) in
-                switch result {
-                case Result.Success(let score):
-                    rxScore.onNext(score)
-                    break
-                case Result.Failure(let error):
-                    Log.print("\(error)", type: .Error)
-                    break
-                }
-            })
-        }
+        })
     }
     
     func getScore(tripId: TripId, completionHandler: @escaping (Result<Score>) -> ()) {
