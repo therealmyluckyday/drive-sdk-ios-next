@@ -21,7 +21,9 @@ class APITripSessionManagerTests: XCTestCase {
         rxDisposeBag = DisposeBag()
         let user = TexUser.Authentified("Erwan-ios12")
         let appId = "youdrive_france_prospect"
-        apiSessionManager = APITripSessionManager(configuration: TripInfos(appId: appId, user: user, domain: Platform.Preproduction, isAPIV2: false))
+        let urlSessionConfiguration = URLSessionConfiguration.default
+        urlSessionConfiguration.timeoutIntervalForResource = 5
+        apiSessionManager = APITripSessionManager(configuration: TripInfos(appId: appId, user: user, domain: Platform.Preproduction, isAPIV2: false), urlSessionConfiguration: urlSessionConfiguration)
         #if targetEnvironment(simulator)
         let config = URLSessionConfiguration.default
         #else
@@ -42,7 +44,7 @@ class APITripSessionManagerTests: XCTestCase {
         let eventType = EventType.stop
         let tripChunk = TripChunk(tripInfos: TripInfos(appId: "TEST", user: TexUser.Anonymous, domain: Platform.Preproduction, isAPIV2: false))
         tripChunk.append(eventType: eventType)
-        if let request = URLRequest.createUrlRequest(url: URL(string: "http://google.com")!, body: tripChunk.serialize(), httpMethod: HttpMethod.PUT) {
+        if let request = URLRequest.createUrlRequest(url: URL(string: "http://google.com")!, body: tripChunk.serialize(), httpMethod: HttpMethod.PUT, withCompression: true) {
             let backgroundTask = urlBackgroundTaskSession!.downloadTask(with: request)
             XCTAssertTrue(APITripSessionManager.isTripStoppedSend(task: backgroundTask))
         }

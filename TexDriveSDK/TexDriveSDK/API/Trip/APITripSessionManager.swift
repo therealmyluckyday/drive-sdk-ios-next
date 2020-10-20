@@ -16,20 +16,9 @@ public protocol APITripSessionManagerProtocol {
     var tripIdFinished: PublishSubject<TripId> { get }
 }
 
-class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, URLSessionDownloadDelegate, URLSessionTaskDelegate {
+class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, URLSessionDownloadDelegate {
     // MARK: Property
-    private lazy var urlBackgroundTaskSession: URLSession = {
-        #if targetEnvironment(simulator)
-        let config = URLSessionConfiguration.default
-        #else
-        let config = URLSessionConfiguration.background(withIdentifier: "TexSession")
-        #endif
-        config.isDiscretionary = true
-        config.sessionSendsLaunchEvents = true
-        config.timeoutIntervalForResource = 15 * 60 * 60
-        config.httpAdditionalHeaders = self.configuration.httpHeaders()
-        return URLSession(configuration: config, delegate: self, delegateQueue: nil)
-    }()
+    
     let tripIdFinished = PublishSubject<TripId>()
     let tripChunkSent = PublishSubject<Result<TripId>>()
     var retryCount = 0
@@ -42,12 +31,10 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
     
     // MARK: PUT HTTP
     func put(dictionaryBody: [String: Any], baseUrl: String) {
-        if let url = URL(string: "\(baseUrl)/data") {
-            if let request = URLRequest.createUrlRequest(url: url, body: dictionaryBody, httpMethod: HttpMethod.PUT, withCompression: true) {
-                Log.print("[\(url)]\n[\(request.allHTTPHeaderFields)]\nHTTP dictionaryBody \(dictionaryBody)")
-                let backgroundTask = self.urlBackgroundTaskSession.downloadTask(with: request)
-                backgroundTask.resume()
-            }
+        if let url = URL(string: "\(baseUrl)/data"), let request = URLRequest.createUrlRequest(url: url, body: dictionaryBody, httpMethod: HttpMethod.PUT, withCompression: true) {
+            Log.print("[\(url)]\n[\(request.allHTTPHeaderFields)]\nHTTP dictionaryBody \(dictionaryBody)")
+            let backgroundTask = self.urlSession?.downloadTask(with: request)
+            backgroundTask?.resume()
         }
     }
     
@@ -113,15 +100,15 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
         retryCount = retryCount + 1
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.seconds(60*retryCount)) {
             if let error = error as NSError?, let resumeData = error.userInfo[NSURLSessionDownloadTaskResumeData] as? Data {
-                let backgroundTask = self.urlBackgroundTaskSession.downloadTask(withResumeData: resumeData)
+                let backgroundTask = self.urlSession?.downloadTask(withResumeData: resumeData)
                 Log.print("Retry")
-                backgroundTask.resume()
+                backgroundTask?.resume()
 
             } else {
                 if let request = task.currentRequest {
-                    let backgroundTask = self.urlBackgroundTaskSession.downloadTask(with: request)
+                    let backgroundTask = self.urlSession?.downloadTask(with: request)
                     Log.print("Retry")
-                    backgroundTask.resume()
+                    backgroundTask?.resume()
                 }
             }
         }

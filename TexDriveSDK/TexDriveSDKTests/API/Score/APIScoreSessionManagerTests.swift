@@ -27,7 +27,9 @@ class APIScoreSessionManagerTests: XCTestCase {
         rxDisposeBag = DisposeBag()
         let user = TexUser.Authentified("Erwan-ios12")
         let appId = "youdrive_france_prospect"
-        apiSessionManager = MockAPIScoreSessionManager(configuration: TripInfos(appId: appId, user: user, domain: Platform.Preproduction, isAPIV2: false))
+        let urlSessionConfiguration = URLSessionConfiguration.default
+        urlSessionConfiguration.timeoutIntervalForResource = 5
+        apiSessionManager = MockAPIScoreSessionManager(configuration: TripInfos(appId: appId, user: user, domain: Platform.Preproduction, isAPIV2: false), urlSessionConfiguration: urlSessionConfiguration)
     }
     
     override func tearDown() {
@@ -71,7 +73,7 @@ class APIScoreSessionManagerTests: XCTestCase {
                 XCTAssert(false)
             }
         }
-        wait(for: [retryExpected], timeout: 1)
+        wait(for: [retryExpected], timeout: 10)
     }
 }
 

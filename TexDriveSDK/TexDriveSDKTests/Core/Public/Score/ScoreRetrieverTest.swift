@@ -21,9 +21,11 @@ class ScoreRetrieverTest: XCTestCase {
         let user = TexUser.Authentified("Erwan-ios12")
         let appId = "youdrive_france_prospect"
         
+        let urlScoreSessionConfiguration = URLSessionConfiguration.default
+        urlScoreSessionConfiguration.timeoutIntervalForResource = 5
         let configuration = TexConfig(applicationId: appId, currentUser: user, isAPIV2: false)
         configuration.select(domain: Platform.Preproduction, isAPIV2: false)
-        let scoreSessionManager = APIScoreSessionManager(configuration: configuration.tripInfos)
+        let scoreSessionManager = APIScoreSessionManager(configuration: configuration.tripInfos, urlSessionConfiguration: urlScoreSessionConfiguration)
         scoreRetriever = ScoreRetriever(sessionManager: scoreSessionManager, locale: Locale.current)
 
     }

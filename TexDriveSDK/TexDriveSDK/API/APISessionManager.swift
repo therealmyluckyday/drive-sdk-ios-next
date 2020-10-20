@@ -8,17 +8,20 @@
 
 import Foundation
 
-class APISessionManager: NSObject, URLSessionDelegate {
+class APISessionManager: NSObject, URLSessionDelegate, URLSessionTaskDelegate {
     // MARK: Property
     internal let configuration: APIConfiguration
+    internal var urlSession: URLSession?
     //Recreate the Session If the App Was Terminated
     /*
      If the system terminated the app while it was suspended, the system relaunches the app in the background. As part of your launch time setup, recreate the background session (see Listing 1), using the same session identifier as before, to allow the system to reassociate the background download task with your session. You do this so your background session is ready to go whether the app was launched by the user or by the system. Once the app relaunches, the series of events is the same as if the app had been suspended and resumed, as discussed earlier in
      */
     
     // MARK: APITEXTravel Protocol Method
-    required init(configuration: APIConfiguration) {
+    required init(configuration: APIConfiguration, urlSessionConfiguration: URLSessionConfiguration) {
         self.configuration = configuration
+        super.init()
+        self.urlSession = URLSession(configuration: urlSessionConfiguration, delegate: self, delegateQueue: nil)
     }
    
     // MARK: - URLSessionDelegate

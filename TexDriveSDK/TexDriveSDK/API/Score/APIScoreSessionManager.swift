@@ -13,13 +13,6 @@ public protocol APIScoreSessionManagerProtocol {
 }
 
 class APIScoreSessionManager: APISessionManager, APIScoreSessionManagerProtocol {
-    // MARK: Property
-    private lazy var urlDataTaskSession: URLSession = {
-        let config = URLSessionConfiguration.default
-        config.httpAdditionalHeaders = self.configuration.httpHeaders()
-        return URLSession(configuration: config, delegate: self, delegateQueue: nil)
-    }()
-    
     // MARK: GET HTTP
     func get(parameters: [String: Any], completionHandler: @escaping (Result<[String: Any]>) -> ()) {
         var urlComponent = URLComponents(string: "\(configuration.baseUrl())/score")
@@ -33,12 +26,12 @@ class APIScoreSessionManager: APISessionManager, APIScoreSessionManagerProtocol 
         if let url = urlComponent?.url {
             let request = URLRequest(url: url)
             let task = generateTask(request: request, completionHandler: completionHandler)
-            task.resume()
+            task?.resume()
         }
     }
     
-    func generateTask(request: URLRequest, completionHandler: @escaping (Result<[String: Any]>) -> ()) -> URLSessionDataTask {
-        let task = self.urlDataTaskSession.dataTask(with: request) { (data, response, error) in
+    func generateTask(request: URLRequest, completionHandler: @escaping (Result<[String: Any]>) -> ()) -> URLSessionDataTask? {
+        let task = self.urlSession?.dataTask(with: request) { (data, response, error) in
             guard let httpResponse = response as? HTTPURLResponse,
                 (200...299).contains(httpResponse.statusCode) else {
                     if let error = error {
@@ -86,7 +79,7 @@ class APIScoreSessionManager: APISessionManager, APIScoreSessionManagerProtocol 
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.seconds(60)) {
             let task = self.generateTask(request: request, completionHandler: completionHandler)
             Log.print("Retry")
-            task.resume()
+            task?.resume()
         }
     }
 }
