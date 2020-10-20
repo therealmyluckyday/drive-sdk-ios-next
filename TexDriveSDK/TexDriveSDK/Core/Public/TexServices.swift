@@ -37,13 +37,24 @@ public class TexServices {
     internal var configuration: ConfigurationProtocol?
     
     // MARK: - Internal Method
-    internal func reconfigure(_ configuration: ConfigurationProtocol) {
+    internal func reconfigure(_ configuration: ConfigurationProtocol, isTesting: Bool) {
         let rxDisposeBag = DisposeBag()
         disposeBag = rxDisposeBag
         self.configuration = configuration
-        let scoreSessionManager = APIScoreSessionManager(configuration: configuration.tripInfos)
+        // Configure API Score session
+        let urlScoreSessionConfiguration = URLSessionConfiguration.default
+        urlScoreSessionConfiguration.timeoutIntervalForResource = 15 * 60 * 60
+        urlScoreSessionConfiguration.httpAdditionalHeaders = configuration.tripInfos.httpHeaders()
+        let scoreSessionManager = APIScoreSessionManager(configuration: configuration.tripInfos, urlSessionConfiguration: urlScoreSessionConfiguration)
         _scoreRetriever = ScoreRetriever(sessionManager: scoreSessionManager, locale: configuration.locale)
-        let tripSessionManager = APITripSessionManager(configuration: configuration.tripInfos)
+        // Configure API Trip session
+        let urlTripSessionConfiguration = isTesting ? URLSessionConfiguration.default : URLSessionConfiguration.background(withIdentifier: "TexSession")
+        urlTripSessionConfiguration.isDiscretionary = true
+        urlTripSessionConfiguration.sessionSendsLaunchEvents = true
+        urlTripSessionConfiguration.timeoutIntervalForResource = 15 * 60 * 60
+        urlTripSessionConfiguration.httpAdditionalHeaders = configuration.tripInfos.httpHeaders()
+        let tripSessionManager = APITripSessionManager(configuration: configuration.tripInfos, urlSessionConfiguration: urlTripSessionConfiguration)
+        
         _tripRecorder = TripRecorder(configuration: configuration, sessionManager: tripSessionManager)
         let timeInterval = RxTimeInterval.seconds(10)
         _tripRecorder?.tripIdFinished.asObserver().observeOn(configuration.rxScheduler).delay(timeInterval, scheduler: configuration.rxScheduler).subscribe { [weak self](event) in
@@ -54,12 +65,12 @@ public class TexServices {
     }
     
     // MARK: - Public Method
-    public class func service(configuration: ConfigurationProtocol) -> TexServices {
+    public class func service(configuration: ConfigurationProtocol, isTesting: Bool) -> TexServices {
         if let triprecorder = sharedInstance._tripRecorder {
             triprecorder.autoMode?.disable()
             triprecorder.stop()
         }
-        sharedInstance.reconfigure(configuration)
+        sharedInstance.reconfigure(configuration, isTesting: isTesting)
         return sharedInstance
     }
 }

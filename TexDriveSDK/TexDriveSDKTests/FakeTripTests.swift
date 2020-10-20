@@ -67,7 +67,7 @@ class FakeTripTests: XCTestCase {
             try builder.enableTripRecorder(locationManager: fakeLocationManager)
             builder.select(platform: Platform.Production, isAPIV2: false)
             let config = builder.build()
-            let service = TexServices.service(configuration: config)
+            let service = TexServices.service(configuration: config, isTesting: true)
             service.logManager.rxLog.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
                 if let logDetail = event.element {
                     print(logDetail.description)
@@ -136,7 +136,7 @@ class FakeTripTests: XCTestCase {
             try builder.enableTripRecorder(locationManager: fakeLocationManager)
             builder.select(platform: Platform.Testing, isAPIV2: true)
             let config = builder.build()
-            let service = TexServices.service(configuration: config)
+            let service = TexServices.service(configuration: config, isTesting: true)
             service.logManager.rxLog.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
                 if let logDetail = event.element {
                     print(logDetail.description)
@@ -206,7 +206,7 @@ class FakeTripTests: XCTestCase {
             try builder.enableTripRecorder(locationManager: fakeLocationManager)
             builder.select(platform: Platform.Production, isAPIV2: false)
             let config = builder.build()
-            let service = TexServices.service(configuration: config)
+            let service = TexServices.service(configuration: config, isTesting: true)
             
             
             do {
