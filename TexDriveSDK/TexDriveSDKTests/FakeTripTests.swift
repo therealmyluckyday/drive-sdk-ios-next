@@ -162,8 +162,20 @@ class FakeTripTests: XCTestCase {
             service.tripRecorder?.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
                if let tripId = event.element {
                    print("\n Trip finished: \n \(tripId.uuidString)")
+                service.scoringClient!.getScore(tripId: tripId, isAPIV2: true, completionHandler: { (result) in
+                    switch (result) {
+                    case .Success(let score):
+                        print(score)
+                        break
+                    case .Failure(let error):
+                        print(error)
+                        break
+                    }
+                    scoreExpectation.fulfill()
+                })
                }
                }.disposed(by: rxDisposeBag)
+            
             service.rxScore.asObserver().observeOn(MainScheduler.asyncInstance).retry().subscribe({ (event) in
                 if let score = event.element {
                     print( "\n NEW SCORE \(score)")
@@ -176,9 +188,21 @@ class FakeTripTests: XCTestCase {
             fakeLocationManager.loadTrip(intervalBetweenGPSPointInMilliSecond: 1000)
             
             wait(for: [tripExpectation], timeout: 570)
-            
+            let tripId = service.tripRecorder!.currentTripId!
             print("\n Trip finished: \n \(service.tripRecorder?.currentTripId?.uuidString)")
             service.tripRecorder!.stop()
+            
+            service.scoringClient!.getScore(tripId: tripId, isAPIV2: true, completionHandler: { (result) in
+                switch (result) {
+                case .Success(let score):
+                    print(score)
+                    break
+                case .Failure(let error):
+                    print(error)
+                    break
+                }
+                scoreExpectation.fulfill()
+            })
             
             
         } catch ConfigurationError.LocationNotDetermined(let description) {
@@ -187,8 +211,8 @@ class FakeTripTests: XCTestCase {
             print("\n ERROR : \(error)")
         }
         
-        //print("Trip Finished Waiting for Scoring")
-        //wait(for: [scoreExpectation], timeout: 1)
+        print("Trip Finished Waiting for Scoring")
+        wait(for: [scoreExpectation], timeout: 120)
     }
     
     func testAutomodeWithFakeSensorService() throws {

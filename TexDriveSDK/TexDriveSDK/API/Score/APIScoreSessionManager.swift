@@ -9,19 +9,22 @@
 import UIKit
 
 public protocol APIScoreSessionManagerProtocol {
-    func get(parameters: [String: Any], completionHandler: @escaping (Result<[String: Any]>) -> ())
+    func get(parameters: [String: Any], isAPIV2: Bool, completionHandler: @escaping (Result<[String: Any]> ) -> ())
 }
 
 class APIScoreSessionManager: APISessionManager, APIScoreSessionManagerProtocol {
     // MARK: GET HTTP
-    func get(parameters: [String: Any], completionHandler: @escaping (Result<[String: Any]>) -> ()) {
-        var urlComponent = URLComponents(string: "\(configuration.baseUrl())/score")
-        var queryItems = [URLQueryItem]()
-        for (key, value) in parameters {
-            queryItems.append(URLQueryItem(name: key, value: "\(value)"))
-        }
+    func get(parameters: [String: Any], isAPIV2: Bool = false, completionHandler: @escaping (Result<[String: Any]>) -> ()) {
         
-        urlComponent?.queryItems = queryItems
+        var urlComponent = isAPIV2 ?  URLComponents(string: "\(configuration.baseUrl())/score/\(parameters["trip_id"] as! String)"):  URLComponents(string: "\(configuration.baseUrl())/score")
+        
+        if (!isAPIV2) {
+            var queryItems = [URLQueryItem]()
+            for (key, value) in parameters {
+                queryItems.append(URLQueryItem(name: key, value: "\(value)"))
+            }
+            urlComponent?.queryItems = queryItems
+        }
         
         if let url = urlComponent?.url {
             let request = URLRequest(url: url)
@@ -55,7 +58,12 @@ class APIScoreSessionManager: APISessionManager, APIScoreSessionManagerProtocol 
             do {
                 if let data = data {
                     if let json = try (JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)) as? [String: Any] {
-                        completionHandler(Result.Success(json))
+                        let status = json["status"] as! String
+                        if (status == "not_found") {
+                            self.retry(request: request, completionHandler: completionHandler)
+                        } else {
+                            completionHandler(Result.Success(json))
+                        }
                     }
                     else {
                         completionHandler(Result.Success([String: Any]()))

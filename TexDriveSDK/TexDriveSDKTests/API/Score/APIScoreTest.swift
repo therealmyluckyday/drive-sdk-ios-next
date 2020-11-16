@@ -36,29 +36,31 @@ class APIScoreTest: XCTestCase {
         apiScore = APIScore(apiSessionManager: apiSessionManager, locale: Locale.current)
     }
     
-    func testGetScore_Rx_Success() {
+    func testGetScoreV1_Rx_Success() {
         let tripId = TripId(uuidString: "73B1C1B6-8DD8-4DEA-ACAF-4B1E05F6EF09")!
         let duration = Double(698)
         let distance = 6.27
         let startTime = Double(1545382379000)
         let endTime = Double(1545383077000)
-        let scoreExpected = Score(tripId:tripId,  global: 86.07, speed: 100, acceleration: 62.15, braking: 82.11, smoothness: 100, startDouble:startTime, endDouble: endTime, distance: distance, duration: duration)
+        let scoreExpected = ScoreV1(tripId:tripId,  global: 86.07, speed: 100, acceleration: 62.15, braking: 82.11, smoothness: 100, startDouble:startTime, endDouble: endTime, distance: distance, duration: duration)
         var isCompletionCalled = false
 
         let expectation = self.expectation(description: "APIGetScoreCalled")
         let rxScore = PublishSubject<Score>()
         rxScore.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
             isCompletionCalled = true
-            if let score = event.element {
-                XCTAssertEqual(scoreExpected.global, score.global)
-                XCTAssertEqual(scoreExpected.speed, score.speed)
-                XCTAssertEqual(scoreExpected.acceleration, score.acceleration)
-                XCTAssertEqual(scoreExpected.braking, score.braking)
-                XCTAssertEqual(scoreExpected.smoothness, score.smoothness)
-                XCTAssertEqual(scoreExpected.duration , score.duration)
-                XCTAssertEqual(scoreExpected.distance, score.distance)
-                XCTAssertEqual(scoreExpected.startDate, score.startDate, "\(scoreExpected.startDate) \(score.startDate)")
-                XCTAssertEqual(scoreExpected.endDate, score.endDate, "\(scoreExpected.endDate) \(score.endDate)")
+            if let scoreGeneral = event.element {
+                let score = scoreGeneral as? ScoreV1
+                XCTAssertNotNil(score)
+                XCTAssertEqual(scoreExpected.global, score!.global)
+                XCTAssertEqual(scoreExpected.speed, score!.speed)
+                XCTAssertEqual(scoreExpected.acceleration, score!.acceleration)
+                XCTAssertEqual(scoreExpected.braking, score!.braking)
+                XCTAssertEqual(scoreExpected.smoothness, score!.smoothness)
+                XCTAssertEqual(scoreExpected.duration , score!.duration)
+                XCTAssertEqual(scoreExpected.distance, score!.distance)
+                XCTAssertEqual(scoreExpected.startDate, score!.startDate, "\(scoreExpected.startDate) \(score!.startDate)")
+                XCTAssertEqual(scoreExpected.endDate, score!.endDate, "\(scoreExpected.endDate) \(score!.endDate)")
             }
             else {
                 XCTAssertTrue(false)
@@ -66,7 +68,7 @@ class APIScoreTest: XCTestCase {
             expectation.fulfill()
             }.disposed(by: rxDisposeBag!)
         
-        apiScore!.getScore(tripId: tripId, rxScore: rxScore)
+        apiScore!.getScore(tripId: tripId, isAPIV2: false, rxScore: rxScore)
         wait(for: [expectation], timeout: 1)
         
         XCTAssertTrue(isCompletionCalled)
@@ -78,7 +80,7 @@ class APIScoreTest: XCTestCase {
         var isCompletionCalled = false
         let expectation = self.expectation(description: "APIGetScoreCalled")
         
-        self.apiScore!.getScore(tripId: tripId, completionHandler: { (result) in
+        self.apiScore!.getScore(tripId: tripId, isAPIV2: false, completionHandler: { (result) in
             switch result {
             case Result.Success(_):
                 XCTAssertTrue(false)
@@ -109,22 +111,24 @@ class APIScoreTest: XCTestCase {
         let distance = 6.27
         let startTime = Double(1545382379000)
         let endTime = Double(1545383077000)
-        let scoreExpected = Score(tripId:tripId,  global: 86.07, speed: 100, acceleration: 62.15, braking: 82.11, smoothness: 100, startDouble:startTime, endDouble: endTime, distance: distance, duration: duration)
+        let scoreExpected = ScoreV1(tripId:tripId,  global: 86.07, speed: 100, acceleration: 62.15, braking: 82.11, smoothness: 100, startDouble:startTime, endDouble: endTime, distance: distance, duration: duration)
 
         let expectation = self.expectation(description: "APIGetScoreCalled")
         
-        self.apiScore!.getScore(tripId: tripId, completionHandler: { (result) in
+        self.apiScore!.getScore(tripId: tripId, isAPIV2: false, completionHandler: { (result) in
             switch result {
-            case Result.Success(let score):
-                XCTAssertEqual(scoreExpected.global, score.global)
-                XCTAssertEqual(scoreExpected.speed, score.speed)
-                XCTAssertEqual(scoreExpected.acceleration, score.acceleration)
-                XCTAssertEqual(scoreExpected.braking, score.braking)
-                XCTAssertEqual(scoreExpected.smoothness, score.smoothness)
-                XCTAssertEqual(scoreExpected.duration , score.duration)
-                XCTAssertEqual(scoreExpected.distance, score.distance)
-                XCTAssertEqual(scoreExpected.startDate, score.startDate)
-                XCTAssertEqual(scoreExpected.endDate, score.endDate)
+            case Result.Success(let scoreGeneral):
+                let score = scoreGeneral as? ScoreV1
+                XCTAssertNotNil(score)
+                XCTAssertEqual(scoreExpected.global, score!.global)
+                XCTAssertEqual(scoreExpected.speed, score!.speed)
+                XCTAssertEqual(scoreExpected.acceleration, score!.acceleration)
+                XCTAssertEqual(scoreExpected.braking, score!.braking)
+                XCTAssertEqual(scoreExpected.smoothness, score!.smoothness)
+                XCTAssertEqual(scoreExpected.duration , score!.duration)
+                XCTAssertEqual(scoreExpected.distance, score!.distance)
+                XCTAssertEqual(scoreExpected.startDate, score!.startDate)
+                XCTAssertEqual(scoreExpected.endDate, score!.endDate)
                 break
             case Result.Failure(_):
                 XCTAssertTrue(false)

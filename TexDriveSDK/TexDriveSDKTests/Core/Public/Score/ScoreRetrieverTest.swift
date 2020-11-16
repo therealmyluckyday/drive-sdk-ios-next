@@ -32,17 +32,17 @@ class ScoreRetrieverTest: XCTestCase {
     
     
 
-    func testGetScore() {
+    func testGetScoreV1() {
         let tripId = TripId(uuidString: "73B1C1B6-8DD8-4DEA-ACAF-4B1E05F6EF09")!
         let duration = Double(698)
         let distance = 2.6
         let startTime = Double(1545382379)
         let endTime = Double(1545383077)
-        let scoreExpected = Score(tripId:tripId,  global: 86.07, speed: 100, acceleration: 62.15, braking: 82.11, smoothness: 100, startDouble:startTime, endDouble: endTime, distance: distance, duration: duration)
+        let scoreExpected = ScoreV1(tripId:tripId,  global: 86.07, speed: 100, acceleration: 62.15, braking: 82.11, smoothness: 100, startDouble:startTime, endDouble: endTime, distance: distance, duration: duration)
         let expectation = self.expectation(description: "APIGetScoreCalled")
         let rxScore = PublishSubject<Score>()
         rxScore.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
-            if let score = event.element {
+            if let score = event.element as? ScoreV1{
                 expectation.fulfill()
                 XCTAssertEqual(scoreExpected.global, score.global)
                 XCTAssertEqual(scoreExpected.speed, score.speed)
@@ -55,7 +55,7 @@ class ScoreRetrieverTest: XCTestCase {
             }
             }.disposed(by: rxDisposeBag!)
         
-        scoreRetriever!.getScore(tripId: tripId, rxScore: rxScore)
+        scoreRetriever!.getScore(tripId: tripId, isAPIV2: false, rxScore: rxScore)
         wait(for: [expectation], timeout: 1)
     }
 }

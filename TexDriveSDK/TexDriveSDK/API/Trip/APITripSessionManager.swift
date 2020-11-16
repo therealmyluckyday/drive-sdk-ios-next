@@ -32,7 +32,7 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
     // MARK: PUT HTTP
     func put(dictionaryBody: [String: Any], baseUrl: String) {
         if let url = URL(string: "\(baseUrl)/data"), let request = URLRequest.createUrlRequest(url: url, body: dictionaryBody, httpMethod: HttpMethod.PUT, withCompression: true) {
-            Log.print("[\(url)]\n[\(request.allHTTPHeaderFields)]\nHTTP dictionaryBody \(dictionaryBody)")
+            Log.print("[\(url)]\n[\(String(describing: request.allHTTPHeaderFields))]\nHTTP dictionaryBody \(dictionaryBody)")
             let backgroundTask = self.urlSession?.downloadTask(with: request)
             backgroundTask?.resume()
         }

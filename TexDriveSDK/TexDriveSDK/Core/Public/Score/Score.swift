@@ -13,7 +13,14 @@ public class ParseError: Error {
     
 }
 
-public struct Score: CustomStringConvertible {
+public protocol Score: CustomStringConvertible {
+    var scoreStatus: ScoreStatus { get }
+    init?(dictionary: [String: Any])
+}
+
+
+public struct ScoreV1: Score {
+    public var scoreStatus: ScoreStatus
     public let tripId: TripId
     public let global: Double
     public let speed: Double
@@ -33,7 +40,7 @@ public struct Score: CustomStringConvertible {
         }
     }
     
-    init?(dictionary: [String: Any]) {
+    public init?(dictionary: [String: Any]) {
         guard let scoreDictionary = dictionary["scores_dil"] as? [String: Any],
             let tripInfoDictionary = dictionary["trip_info"] as? [String: Any],
             let distanceDouble = tripInfoDictionary["length"] as? Double,
@@ -46,6 +53,7 @@ public struct Score: CustomStringConvertible {
         let brakingParsed = scoreDictionary["braking"] as? Double,
         let tripIdStringParsed = dictionary["trip_id"] as? String,
         let tripIdParsed = TripId(uuidString: tripIdStringParsed),
+        let status = ScoreStatus(rawValue: dictionary["status"] as! String),
         let smoothnessParsed = scoreDictionary["smoothness"] as? Double
             else {
             return nil
@@ -60,6 +68,7 @@ public struct Score: CustomStringConvertible {
         braking = brakingParsed
         smoothness = smoothnessParsed
         tripId = tripIdParsed
+        scoreStatus = status
     }
     
     internal init(tripId: TripId, global: Double, speed: Double, acceleration: Double, braking: Double, smoothness: Double, startDouble: Double, endDouble: Double, distance: Double, duration: Double) {
@@ -73,5 +82,26 @@ public struct Score: CustomStringConvertible {
         self.endDate = Date(timeIntervalSince1970: TimeInterval(endDouble)/1000)
         self.distance = distance
         self.duration = duration
+        self.scoreStatus = ScoreStatus.found
     }
+}
+
+public struct ScoreV2: Score {
+    public var scoreStatus: ScoreStatus
+    // MARK : - CustomStringConvertible
+    public var description: String {
+        get {
+            return "status \(scoreStatus)"
+        }
+    }
+    
+    public init?(dictionary: [String: Any]) {
+        guard let status = ScoreStatus(rawValue: dictionary["status"] as! String)
+            else {
+            return nil
+        }
+        
+        scoreStatus = status
+    }
+    
 }

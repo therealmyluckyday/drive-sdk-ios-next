@@ -10,8 +10,8 @@ import Foundation
 import RxSwift
 
 public protocol ScoringClient {
-    func getScore(tripId: TripId, completionHandler: @escaping (Result<Score>) -> ())
-    func getScore(tripId: TripId, rxScore: PublishSubject<Score>)
+    func getScore(tripId: TripId, isAPIV2: Bool, completionHandler: @escaping (Result<Score>) -> ())
+    func getScore(tripId: TripId, isAPIV2: Bool, rxScore: PublishSubject<Score>)
 }
 
 public class ScoreRetriever: ScoringClient {
@@ -22,11 +22,11 @@ public class ScoreRetriever: ScoringClient {
     }
     
     // MARK: - scoreRetrieverProtocol
-    public func getScore(tripId: TripId, completionHandler: @escaping (Result<Score>) -> ()) {
-        apiScore.getScore(tripId: tripId, completionHandler: completionHandler)
+    public func getScore(tripId: TripId, isAPIV2: Bool, completionHandler: @escaping (Result<Score>) -> ()) {
+        apiScore.getScore(tripId: tripId, isAPIV2: isAPIV2, completionHandler: completionHandler)
     }
     
-    public func getScore(tripId: TripId, rxScore: PublishSubject<Score>) {
-        apiScore.getScore(tripId: tripId, rxScore: rxScore)
+    public func getScore(tripId: TripId, isAPIV2: Bool, rxScore: PublishSubject<Score>) {
+        apiScore.getScore(tripId: tripId, isAPIV2: isAPIV2, rxScore: rxScore)
     }
 }

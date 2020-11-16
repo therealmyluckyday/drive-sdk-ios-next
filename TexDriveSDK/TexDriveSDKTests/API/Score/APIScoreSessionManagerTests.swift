@@ -45,7 +45,7 @@ class APIScoreSessionManagerTests: XCTestCase {
         apiSessionManager!.get(parameters: dictionary) { (result) in
             switch result {
             case Result.Success(let response):
-                let score = Score(dictionary: response)
+                let score = ScoreV1(dictionary: response)
                 XCTAssertNotNil(score)
                 break
             default:

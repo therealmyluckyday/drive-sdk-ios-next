@@ -13,7 +13,7 @@ enum ScoreType: String {
     case final = "final"
 }
 
-enum ScoreStatus: String {
+public enum ScoreStatus: String {
     case ok = "ok"
     case pending = "pending"
     case tripNotFound = "trip_not_found"
@@ -21,6 +21,8 @@ enum ScoreStatus: String {
     case invalid = "trip_invalid"
     case tooLong = "trip_too_long"
     case noExternalData = "no_external_data"
+    case found = "found"
+    case notFound = "not_found"
     case error = "error"
 }
 
