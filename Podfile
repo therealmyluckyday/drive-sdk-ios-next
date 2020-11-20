@@ -11,7 +11,7 @@ end
 target 'TexDriveApp' do
   shared_pods
   pod "TexDriveSDK", :path => "./TexDriveSDK.podspec"
-#  pod 'TexDriveSDK', :git => 'git@github.com:axadil/drive-sdk-ios-next.git', :tag => 'v3.0.0'
+#  pod 'TexDriveSDK', :git => 'git@github.com:axadil/drive-sdk-ios-next.git', :tag => 'v3.0.0'v3.0.0-alpha
   pod 'Firebase/Crashlytics'
   pod 'Firebase/Analytics'
   pod 'Firebase/Performance'
