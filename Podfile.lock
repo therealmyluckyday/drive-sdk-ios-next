@@ -122,7 +122,7 @@ PODS:
   - RxSwiftExt/RxCocoa (5.2.0):
     - RxCocoa (~> 5.0)
     - RxSwiftExt/Core
-  - TexDriveSDK (3.0.1):
+  - TexDriveSDK (3.0.0):
     - GzipSwift (~> 5.1.1)
     - RxCocoa (~> 5.1.1)
     - RxCoreLocation (~> 1.5.0)
@@ -194,8 +194,8 @@ SPEC CHECKSUMS:
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   RxSwiftExt: 4ca80336f43c28f11a2825cdd2fc61dd6c044697
-  TexDriveSDK: a8a51dc8d3adfb49fbb746a389054e41d7df391d
+  TexDriveSDK: 52e02e8250dd6f09358ec92f4f998b016f0b93ab
 
-PODFILE CHECKSUM: 6c2f04cafab645413c72fd4c52fdffb32cb66c45
+PODFILE CHECKSUM: 97c95c61e2ebbe074ebd1e6e77036471bd854909
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.0

@@ -149,6 +149,7 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
         Log.print("HTTP urlsession needNewBodyStream \(task)")
     }
     
+    @available(iOS 11.0, *)
     func urlSession(_ session: URLSession, task: URLSessionTask, willBeginDelayedRequest request: URLRequest, completionHandler: @escaping (URLSession.DelayedRequestDisposition, URLRequest?) -> Void) {
         Log.print("HTTP urlsession delayedRequest \(task)")
         completionHandler(URLSession.DelayedRequestDisposition.continueLoading, nil)

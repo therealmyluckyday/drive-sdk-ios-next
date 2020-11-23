@@ -34,21 +34,26 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
             Log.print("CMMotionActivityManager ERROR isActivity NOT Available",type: .Error)
         }
         
-        switch CMMotionActivityManager.authorizationStatus() {
-        case .notDetermined:
-            Log.print("CMMotionActivityManager authorizationStatus() == .notDetermined", type: .Error)
-            break
-        case .restricted:
-            Log.print("CMMotionActivityManager authorizationStatus() == .restricted", type: .Error)
-            break
-        case .denied:
-            Log.print("CMMotionActivityManager authorizationStatus() == .denied", type: .Error)
-            break
-        case .authorized:
-            break
-        @unknown default:
-            Log.print("CMMotionActivityManager authorizationStatus() == .unknown", type: .Error)
-            break
+        
+        if #available(iOS 11.0, *) {
+            switch CMMotionActivityManager.authorizationStatus() {
+            case .notDetermined:
+                Log.print("CMMotionActivityManager authorizationStatus() == .notDetermined", type: .Error)
+                break
+            case .restricted:
+                Log.print("CMMotionActivityManager authorizationStatus() == .restricted", type: .Error)
+                break
+            case .denied:
+                Log.print("CMMotionActivityManager authorizationStatus() == .denied", type: .Error)
+                break
+            case .authorized:
+                break
+            @unknown default:
+                Log.print("CMMotionActivityManager authorizationStatus() == .unknown", type: .Error)
+                break
+            }
+        } else {
+            // Fallback on earlier versions
         }
         switch CLLocationManager.authorizationStatus() {
         case .notDetermined:
