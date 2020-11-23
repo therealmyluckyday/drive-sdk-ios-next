@@ -248,6 +248,7 @@ class PersistantQueueTests: XCTestCase {
         XCTAssertEqual(persistantQueue.tripChunkSentCounter, counter)
         wait(for: [expectation], timeout: 1)
     }
+    
     func testSendNextTrip_Not_SendLastTripChunk_tripchunkNil() {
         let eventType = PublishSubject<EventType>()
         let fixes = PublishSubject<Fix>()
@@ -256,8 +257,6 @@ class PersistantQueueTests: XCTestCase {
         let rxTripId = PublishSubject<TripId>()
         let persistantQueue = PersistantQueueStub(eventType: eventType, fixes: fixes, scheduler: scheduler, rxTripId: rxTripId, tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction, isAPIV2: false), rxTripChunkSent:rxTripChunkSent)
         let counter = persistantQueue.tripChunkSentCounter
-        let tripChunk = TripChunk(tripInfos: TripInfos(appId: "TOTO", user: TexUser.Anonymous, domain: Platform.Preproduction, isAPIV2: false))
-        
         
         let expectation = XCTestExpectation(description: #function)
         expectation.isInverted = true

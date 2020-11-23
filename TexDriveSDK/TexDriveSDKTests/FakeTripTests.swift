@@ -108,7 +108,7 @@ class FakeTripTests: XCTestCase {
             
             wait(for: [tripExpectation], timeout: 570)
             
-            print("\n Trip finished: \n \(service.tripRecorder?.currentTripId?.uuidString)")
+            print("\n Trip finished: \n \(String(describing: service.tripRecorder?.currentTripId?.uuidString))")
             service.tripRecorder!.stop()
             
             
@@ -189,7 +189,7 @@ class FakeTripTests: XCTestCase {
             
             wait(for: [tripExpectation], timeout: 570)
             let tripId = service.tripRecorder!.currentTripId!
-            print("\n Trip finished: \n \(service.tripRecorder?.currentTripId?.uuidString)")
+            print("\n Trip finished: \n \(String(describing: service.tripRecorder?.currentTripId?.uuidString))")
             service.tripRecorder!.stop()
             
             service.scoringClient!.getScore(tripId: tripId, isAPIV2: true, completionHandler: { (result) in
@@ -265,7 +265,7 @@ class FakeTripTests: XCTestCase {
                }
                }.disposed(by: rxDisposeBag)
             
-            service.tripRecorder!.autoMode!.rxIsDriving.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
+            service.tripRecorder!.autoMode!.rxIsDriving.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
                 if let isDriving = event.element {
                     date = Date()
                     if isDriving {
