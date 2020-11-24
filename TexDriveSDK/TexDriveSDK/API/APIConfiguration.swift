@@ -13,11 +13,11 @@ enum HttpMethod: String {
     case POST = "POST"
 }
 
-public enum Platform {
-    case Integration
-    case Preproduction
-    case Production
-    case Testing
+public enum Platform: Int {
+    case Production = 0
+    case Testing = 1
+    case Preproduction = 2
+    case Integration = 3
     
     func generateUrl(isAPIV2: Bool) -> String {
         if isAPIV2 {
@@ -30,8 +30,6 @@ public enum Platform {
                 return PlatformAPIV2.Production.rawValue
             case .Testing:
                 return PlatformAPIV2.Testing.rawValue
-            default:
-                return PlatformAPIV2.Testing.rawValue
             }
         } else {
             switch self {
@@ -42,8 +40,6 @@ public enum Platform {
             case .Production:
                 return PlatformAPIV1.Production.rawValue
             case .Testing:
-                return PlatformAPIV1.Testing.rawValue
-            default:
                 return PlatformAPIV1.Testing.rawValue
             }
         }
