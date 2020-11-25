@@ -14,8 +14,10 @@ import RxCocoa
 
 class LocationTracker: NSObject, Tracker {
     // MARK: Property
+    let maxDistanceAccuracy: CLLocationAccuracy = 100
     typealias T = LocationFix
     private var rxLocationFix = PublishSubject<Result<LocationFix>>()
+    private var lastLocation: CLLocation? = nil
     var rxDisposeBag: DisposeBag?
     let locationSensor: LocationSensor
     
@@ -36,6 +38,7 @@ class LocationTracker: NSObject, Tracker {
         #else
         locationSensor.clLocationManager.requestAlwaysAuthorization()
         #endif
+        lastLocation = nil
         locationSensor.rxLocation.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
                 if let location = event.element {
                     self?.didUpdateLocations(location: location)
@@ -47,6 +50,7 @@ class LocationTracker: NSObject, Tracker {
     
     func disableTracking() {
         locationSensor.stopUpdatingLocation()
+        lastLocation = nil
     }
     
     func provideFix() -> PublishSubject<Result<LocationFix>> {
@@ -56,8 +60,26 @@ class LocationTracker: NSObject, Tracker {
     // MARK: - didUpdateLocations
     func didUpdateLocations(location: CLLocation) {
         Log.print("Location speed: \(location.speed)")
-        let result = Result.Success(LocationFix(timestamp: location.timestamp.timeIntervalSince1970, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, precision: location.horizontalAccuracy, speed: location.speed, bearing: location.course, altitude: location.altitude))
+        let distance: Double = self.distance(location: location)
+        
+        let result = Result.Success(LocationFix(timestamp: location.timestamp.timeIntervalSince1970, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, precision: location.horizontalAccuracy, speed: location.speed, bearing: location.course, altitude: location.altitude, distance: distance))
         
         rxLocationFix.onNext(result)
+    }
+    
+    func isLocationAccurate(accuracy: CLLocationAccuracy) -> Bool {
+        return accuracy > 0 && accuracy < maxDistanceAccuracy
+    }
+    
+    func distance (location: CLLocation) -> Double {
+        defer {
+            lastLocation = location
+        }
+        
+        guard self.isLocationAccurate(accuracy: location.horizontalAccuracy), let lastLocation = self.lastLocation else {
+            return 0
+        }
+        
+        return location.distance(from: lastLocation)
     }
 }

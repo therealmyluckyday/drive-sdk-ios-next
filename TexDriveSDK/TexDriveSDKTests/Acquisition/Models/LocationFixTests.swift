@@ -20,7 +20,7 @@ class LocationFixTests: XCTestCase {
         let bearing = 1.3
         let altitude = 1.4
         
-        let locationFix = LocationFix(timestamp: date.timeIntervalSince1970, latitude: latitude, longitude: longitude, precision: precision, speed: speed, bearing: bearing, altitude: altitude)
+        let locationFix = LocationFix(timestamp: date.timeIntervalSince1970, latitude: latitude, longitude: longitude, precision: precision, speed: speed, bearing: bearing, altitude: altitude, distance: 1)
         
         XCTAssertEqual(locationFix.timestamp, date.timeIntervalSince1970)
     }
@@ -34,7 +34,7 @@ class LocationFixTests: XCTestCase {
         let bearing = 1.38118888188181
         let altitude = 1.48118888188181
         
-        let locationFix = LocationFix(timestamp: date.timeIntervalSince1970, latitude: latitude, longitude: longitude, precision: precision, speed: speed, bearing: bearing, altitude: altitude)
+        let locationFix = LocationFix(timestamp: date.timeIntervalSince1970, latitude: latitude, longitude: longitude, precision: precision, speed: speed, bearing: bearing, altitude: altitude, distance: 1)
         
         XCTAssertEqual(locationFix.latitude, latitude)
         XCTAssertEqual(locationFix.longitude, longitude)
@@ -54,7 +54,7 @@ class LocationFixTests: XCTestCase {
         let bearing = 1.3
         let altitude = 1.4567788865555
         
-        let locationFix = LocationFix(timestamp: timestamp, latitude: latitude, longitude: longitude, precision: precision, speed: speed, bearing: bearing, altitude: altitude)
+        let locationFix = LocationFix(timestamp: timestamp, latitude: latitude, longitude: longitude, precision: precision, speed: speed, bearing: bearing, altitude: altitude, distance: 1)
         
         let result = locationFix.serialize()
         

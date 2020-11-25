@@ -242,7 +242,7 @@ class TripChunkTests: XCTestCase {
         let speed = 1.2
         let bearing = 1.3
         let altitude = 1.4567788865555
-        let locationFix = LocationFix(timestamp: timestamp, latitude: latitude, longitude: longitude, precision: precision, speed: speed, bearing: bearing, altitude: altitude)
+        let locationFix = LocationFix(timestamp: timestamp, latitude: latitude, longitude: longitude, precision: precision, speed: speed, bearing: bearing, altitude: altitude, distance: 1)
         trip.append(fix: locationFix)
         
         let result = trip.serialize()

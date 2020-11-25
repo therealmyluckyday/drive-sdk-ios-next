@@ -10,6 +10,7 @@ import Foundation
 import CoreLocation
 import RxSwift
 import RxSwiftExt
+import OSLog
 
 public protocol TripRecorderProtocol {
     var currentTripId: TripId? { get }
@@ -22,13 +23,17 @@ public class TripRecorder: TripRecorderProtocol {
     // MARK: - Property
     private let collector: FixCollector
     private var rxEventType = PublishSubject<EventType>()
-    public var rxFix = PublishSubject<Fix>()
     private let rxDisposeBag = DisposeBag()
-    internal var autoMode: AutoMode?
     private let apiTrip: APITrip
+    private var tripDistance: Double = 0
+    private var rxFix = PublishSubject<Fix>()
+    
+    internal var autoMode: AutoMode?
     internal let persistantQueue: PersistantQueue
-    public let rxTripId = PublishSubject<TripId>()
     internal let rxDispatchQueueScheduler: SerialDispatchQueueScheduler
+    
+    public let rxTripId = PublishSubject<TripId>()
+    public var rxTripProgress = PublishSubject<TripProgress>()
     
     // MARK: SDKV2 Compatibility
     public var isRecording: Bool {
@@ -52,6 +57,7 @@ public class TripRecorder: TripRecorderProtocol {
     public func start() {
         collector.startCollect()
         startTime = Date()
+        tripDistance = 0
         if let autoMode = self.autoMode, !autoMode.isServiceStarted {
             autoMode.rxIsDriving.onNext(true)
         }
@@ -109,6 +115,7 @@ public class TripRecorder: TripRecorderProtocol {
                 self?.currentTripId = tripId
             }
             }.disposed(by: rxDisposeBag)
+        self.configureTripProgress()
     }
     
     func subscribe(providerTrip: PublishSubject<TripChunk>, scheduler: ImmediateSchedulerType) {
@@ -133,6 +140,23 @@ public class TripRecorder: TripRecorderProtocol {
                 }
             }
             }.disposed(by: rxDisposeBag)
+    }
+    
+    // MARK: - Configure TripProgress
+    func configureTripProgress() {
+        self.rxFix.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self] (event) in
+            if let location = event.element as? LocationFix,
+               let startTime = self?.startTime,
+               let tripId = self?.currentTripId,
+               let oldDistance = self?.tripDistance {
+                let speed = location.speed
+                let duration = location.timestamp - startTime.timeIntervalSince1970
+                let newDistance = oldDistance + location.distance
+                let tripProgress = TripProgress(tripId: tripId, speed: speed, distance: newDistance, duration: duration)
+                self?.tripDistance = newDistance
+                self?.rxTripProgress.onNext(tripProgress)
+            }
+        }.disposed(by: rxDisposeBag)
     }
 
     // MARK: - SDK V2 compatibility

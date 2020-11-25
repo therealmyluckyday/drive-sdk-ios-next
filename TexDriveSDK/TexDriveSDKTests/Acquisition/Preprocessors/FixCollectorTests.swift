@@ -41,7 +41,7 @@ class FixCollectorTests: XCTestCase {
     func testCollectTrackerTestSuccess() {
         let eventType = PublishSubject<EventType>()
         let fixes = PublishSubject<Fix>()
-        let fixToSend = LocationFix(timestamp: TimeInterval(0), latitude: 0.1, longitude: 0.2, precision: 2, speed: 3, bearing: 4, altitude: 5)
+        let fixToSend = LocationFix(timestamp: TimeInterval(0), latitude: 0.1, longitude: 0.2, precision: 2, speed: 3, bearing: 4, altitude: 5, distance: 1)
         let isCallSubscribeExpectation = XCTestExpectation(description: "isCallSubscribeExpectation")
         let fixCollector = FixCollector(eventsType: eventType, fixes: fixes, scheduler: MainScheduler.instance)
         let fakeLocationSensor = FakeLocationSensor()

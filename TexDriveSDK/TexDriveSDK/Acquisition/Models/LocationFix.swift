@@ -14,10 +14,11 @@ class LocationFix : Fix {
     let speed: Double
     let bearing: Double
     let altitude: Double
+    let distance: Double
     let timestamp: TimeInterval
     
     // MARK: LifeCycle
-    init(timestamp: TimeInterval, latitude: Double, longitude: Double, precision: Double, speed: Double, bearing: Double, altitude: Double) {
+    init(timestamp: TimeInterval, latitude: Double, longitude: Double, precision: Double, speed: Double, bearing: Double, altitude: Double, distance: Double) {
         self.latitude = latitude
         self.longitude = longitude
         self.precision = precision
@@ -25,13 +26,14 @@ class LocationFix : Fix {
         self.bearing = bearing
         self.altitude = altitude
         self.timestamp = timestamp
+        self.distance = distance
     }
     
     // MARK: Protocol CustomStringConvertible
     var description: String {
         get {
             var description = "LocationFix: timestamp:\(self.timestamp) latitude: \(self.latitude), longitude: \(self.longitude)"
-            description += "LocationFix: precision:\(self.precision) speed: \(self.speed), bearing: \(self.bearing)"
+            description += "LocationFix: precision:\(self.precision) speed: \(self.speed), bearing: \(self.bearing), distance: \(self.distance)"
             description += "LocationFix: altitude:\(self.altitude) "
             return description
         }

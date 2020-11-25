@@ -67,7 +67,7 @@ class APITripSessionManagerTests: XCTestCase {
     
     func testIsTripStopped_false_noEvent() {
         let tripChunk = TripChunk(tripInfos: TripInfos(appId: "TEST", user: TexUser.Anonymous, domain: Platform.Preproduction, isAPIV2: false))
-        tripChunk.append(fix: LocationFix(timestamp: 0, latitude: 0, longitude: 0, precision: 0, speed: 0, bearing: 0, altitude: 0))
+        tripChunk.append(fix: LocationFix(timestamp: 0, latitude: 0, longitude: 0, precision: 0, speed: 0, bearing: 0, altitude: 0, distance: 1))
         if let request = URLRequest.createUrlRequest(url: URL(string: "http://google.com")!, body: tripChunk.serialize(), httpMethod: HttpMethod.PUT) {
             let backgroundTask = urlBackgroundTaskSession!.downloadTask(with: request)
             XCTAssertFalse(APITripSessionManager.isTripStoppedSend(task: backgroundTask))

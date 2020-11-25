@@ -57,7 +57,7 @@ class PersistantQueueTests: XCTestCase {
             let bearing = 1.3
             let altitude = Double(i)
             
-            let locationFix = LocationFix(timestamp: date.timeIntervalSince1970, latitude: latitude, longitude: longitude, precision: precision, speed: speed, bearing: bearing, altitude: altitude)
+            let locationFix = LocationFix(timestamp: date.timeIntervalSince1970, latitude: latitude, longitude: longitude, precision: precision, speed: speed, bearing: bearing, altitude: altitude, distance: 1)
             
             fixes.onNext(locationFix)
             
@@ -90,7 +90,7 @@ class PersistantQueueTests: XCTestCase {
             let bearing = 1.3
             let altitude = Double(i)
             
-            let locationFix = LocationFix(timestamp: date.timeIntervalSince1970, latitude: latitude, longitude: longitude, precision: precision, speed: speed, bearing: bearing, altitude: altitude)
+            let locationFix = LocationFix(timestamp: date.timeIntervalSince1970, latitude: latitude, longitude: longitude, precision: precision, speed: speed, bearing: bearing, altitude: altitude, distance: 1)
             
             fixes.onNext(locationFix)
             
@@ -122,7 +122,7 @@ class PersistantQueueTests: XCTestCase {
             let bearing = 1.3
             let altitude = Double(i)
             
-            let locationFix = LocationFix(timestamp: date.timeIntervalSince1970, latitude: latitude, longitude: longitude, precision: precision, speed: speed, bearing: bearing, altitude: altitude)
+            let locationFix = LocationFix(timestamp: date.timeIntervalSince1970, latitude: latitude, longitude: longitude, precision: precision, speed: speed, bearing: bearing, altitude: altitude, distance: 1)
             
             fixes.onNext(locationFix)
             
@@ -157,7 +157,7 @@ class PersistantQueueTests: XCTestCase {
             let bearing = 1.3
             let altitude = Double(i)
             
-            let locationFix = LocationFix(timestamp: date.timeIntervalSince1970, latitude: latitude, longitude: longitude, precision: precision, speed: speed, bearing: bearing, altitude: altitude)
+            let locationFix = LocationFix(timestamp: date.timeIntervalSince1970, latitude: latitude, longitude: longitude, precision: precision, speed: speed, bearing: bearing, altitude: altitude, distance: 1)
             
             fixes.onNext(locationFix)
         }
@@ -188,7 +188,7 @@ class PersistantQueueTests: XCTestCase {
             let bearing = 1.3
             let altitude = Double(i)
             
-            let locationFix = LocationFix(timestamp: date.timeIntervalSince1970, latitude: latitude, longitude: longitude, precision: precision, speed: speed, bearing: bearing, altitude: altitude)
+            let locationFix = LocationFix(timestamp: date.timeIntervalSince1970, latitude: latitude, longitude: longitude, precision: precision, speed: speed, bearing: bearing, altitude: altitude, distance: 1)
             
             fixes.onNext(locationFix)
             
