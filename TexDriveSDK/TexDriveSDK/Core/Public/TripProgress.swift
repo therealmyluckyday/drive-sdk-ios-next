@@ -10,6 +10,6 @@ import Foundation
 public struct TripProgress {
     let tripId: TripId
     let speed: Double
-    let distance: Double
+    public let distance: Double
     let duration: TimeInterval
 }
