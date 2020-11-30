@@ -9,6 +9,7 @@
 import Foundation
 import RxSwift
 import os
+import OSLog
 
 class LogRx: LogImplementation {
     
@@ -31,13 +32,23 @@ class LogRx: LogImplementation {
     }
     
     func report(logDetail: LogMessage) {
-        rxLogOutput.onNext(logDetail)
+        //rxLogOutput.onNext(logDetail)
+        let detail =  logDetail.description
+        switch logDetail.type.rawValue {
+        case 0..<2:
+            os_log("%{public}@" , log: OSLog.texDriveSDK, type: OSLogType.error, detail)
+            rxLogOutput.onNext(logDetail)
+        default:
+            os_log("%{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, detail)
+        }
+        
     }
     
     // MARK: LogImplementation Protocol
     func print(_ description: String, type: LogType = .Info, fileName: String = #file, functionName: String = #function) {
         let logDetail = LogMessage(type: type, detail: description, fileName: fileName, functionName: functionName)
-        self.rxLog.onNext(logDetail)
+        //self.rxLog.onNext(logDetail)
+        self.report(logDetail: logDetail)
     }
     
     func warning(_ description: String, fileName: String = #file, functionName: String = #function) {
