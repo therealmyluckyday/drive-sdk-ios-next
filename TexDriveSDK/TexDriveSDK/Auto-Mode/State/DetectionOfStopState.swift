@@ -9,6 +9,7 @@
 import RxSwift
 import CoreLocation
 import CoreMotion
+import OSLog
 
 public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
     let intervalDelay: TimeInterval
@@ -85,7 +86,7 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
             if let firstLocation = firstLocation, location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970 > timeLowSpeedThreshold {
                 Log.print("firstLocation = firstLocation, location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970 > timeLowSpeedThreshold")
                 Log.print("\(location.timestamp.timeIntervalSince1970) - \(firstLocation.timestamp.timeIntervalSince1970) > \(timeLowSpeedThreshold)")
-                print("firstLocation = firstLocation, location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970 > timeLowSpeedThreshold")
+                os_log("Automode stop : firstLocation = firstLocation, location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970 > timeLowSpeedThreshold" , log: OSLog.texDriveSDK, type: OSLogType.info)
                 self.stop()
             }
         }

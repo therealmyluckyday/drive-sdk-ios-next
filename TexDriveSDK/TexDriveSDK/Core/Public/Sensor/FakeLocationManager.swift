@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import OSLog
 
 public class FakeLocationManager: LocationManager {
     let fakeTrackerLocationSensor: FakeLocationSensor
@@ -20,7 +21,7 @@ public class FakeLocationManager: LocationManager {
         #endif
     }
     
-    public func loadTrip(intervalBetweenGPSPointInMilliSecond: Double) {
+    public func loadTrip(intervalBetweenGPSPointInSecond: Double) {
         let myFakeTripPath = Bundle(for: FakeLocationManager.self).path(forResource: "trip_location_simulation", ofType: "csv")
         let background = DispatchQueue.global()
         background.async {
@@ -36,12 +37,14 @@ public class FakeLocationManager: LocationManager {
                     if let line = line {
                         i = i + 1
                         if #available(iOS 13.0, *) {
-                            time = self.sendLocationLineStringToSpeedFilter(line: line as String, time: time, intervalBetweenGPSPointInMilliSecond: intervalBetweenGPSPointInMilliSecond)
+                            time = self.sendLocationLineStringToSpeedFilter(line: line as String, time: time, intervalBetweenGPSPointInSecond: intervalBetweenGPSPointInSecond)
                         } else {
                             // Fallback on earlier versions
                         }
-                        //if i%10 == 0 { print(" ") }
-                        //print("                                     \(i)")
+                        if i%10 == 0 {
+                            os_log("                                     %{private}d" , log: OSLog.texDriveSDK, type: OSLogType.info, i)
+                            
+                        }
                     }
                 }
             } catch {
@@ -51,7 +54,7 @@ public class FakeLocationManager: LocationManager {
     }
     
     @available(iOS 13.0, *)
-    private func sendLocationLineStringToSpeedFilter(line: String, time: Double, intervalBetweenGPSPointInMilliSecond: Double) -> Double {
+    private func sendLocationLineStringToSpeedFilter(line: String, time: Double, intervalBetweenGPSPointInSecond: Double) -> Double {
         let values = line.split(separator: Character(","))
         let latitude = Double(values[0])
         let longitude = Double(values[1])
@@ -69,8 +72,7 @@ public class FakeLocationManager: LocationManager {
         do {
             fakeTrackerLocationSensor.rxLocation.onNext(location)
             autoModeLocationSensor.rxLocation.onNext(location)
-            if (time > 0) {Thread.sleep(forTimeInterval: 0.05)}
-            //print("fakeLocationManager FIX")
+            if (time > 0) {Thread.sleep(forTimeInterval: intervalBetweenGPSPointInSecond)}
         }
         return locationTime
     }

@@ -8,6 +8,13 @@
 
 import Foundation
 import RxSwift
+import OSLog
+
+extension OSLog {
+    private static var texsubsystem = Bundle(for: TexServices.self)
+
+    static let texDriveSDK = OSLog(subsystem: texsubsystem.bundleIdentifier!, category: "TexDriveSDK")
+}
 
 public class TexServices {
     // MARK: - Property
@@ -56,12 +63,6 @@ public class TexServices {
         let tripSessionManager = APITripSessionManager(configuration: configuration.tripInfos, urlSessionConfiguration: urlTripSessionConfiguration)
         
         _tripRecorder = TripRecorder(configuration: configuration, sessionManager: tripSessionManager)
-        let timeInterval = RxTimeInterval.seconds(10)
-        _tripRecorder?.tripIdFinished.asObserver().observeOn(configuration.rxScheduler).delay(timeInterval, scheduler: configuration.rxScheduler).subscribe { [weak self](event) in
-            if let tripId = event.element, let rxScore = self?.rxScore {
-                self?._scoreRetriever?.getScore(tripId: tripId, isAPIV2: configuration.tripInfos.isAPIV2, rxScore: rxScore)
-            }
-        }.disposed(by: rxDisposeBag)
     }
     
     // MARK: - Public Method

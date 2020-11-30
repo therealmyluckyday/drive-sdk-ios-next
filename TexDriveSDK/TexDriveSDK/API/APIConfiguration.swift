@@ -8,16 +8,16 @@
 
 import Foundation
 enum HttpMethod: String {
-    case PUT = "PUT"
-    case GET = "GET"
-    case POST = "POST"
+    case PUT    = "PUT"
+    case GET    = "GET"
+    case POST   = "POST"
 }
 
 public enum Platform: Int {
-    case Production = 0
-    case Testing = 1
-    case Preproduction = 2
-    case Integration = 3
+    case Production     = 0
+    case Testing        = 1
+    case Preproduction  = 2
+    case Integration    = 3
     
     func generateUrl(isAPIV2: Bool) -> String {
         if isAPIV2 {

@@ -8,6 +8,7 @@
 
 import RxSwift
 import CoreLocation
+import OSLog
 
 public class DetectionOfStartState: SensorAutoModeDetectionState {
     var firstLocation: CLLocation?
@@ -67,7 +68,7 @@ public class DetectionOfStartState: SensorAutoModeDetectionState {
         
         if firstLocation == nil {
             firstLocation = location
-            print("FirstLocation: \(location)")
+            os_log("Automode Start: FirstLocation %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, location)
         }
         else {
             if let firstLocation = firstLocation, location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970 > timeLowSpeedThreshold {
