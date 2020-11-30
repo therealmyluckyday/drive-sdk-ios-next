@@ -19,7 +19,7 @@ public protocol TripRecorderProtocol {
     func stop()
 }
 
-extension Notification.Name {
+public extension Notification.Name {
     static let AXAEventTripRecordStart
                 = NSNotification.Name("AXAEventTripRecordStart")
     static let AXAEventTripRecordStop
