@@ -19,6 +19,13 @@ public protocol TripRecorderProtocol {
     func stop()
 }
 
+extension Notification.Name {
+    static let AXAEventTripRecordStart
+                = NSNotification.Name("AXAEventTripRecordStart")
+    static let AXAEventTripRecordStop
+                = NSNotification.Name("AXAEventTripRecordStop")
+}
+
 public class TripRecorder: TripRecorderProtocol {
     // MARK: - Property
     private let collector: FixCollector
@@ -61,6 +68,7 @@ public class TripRecorder: TripRecorderProtocol {
         if let autoMode = self.autoMode, !autoMode.isServiceStarted {
             autoMode.rxIsDriving.onNext(true)
         }
+        NotificationCenter.default.post(name: Notification.Name.AXAEventTripRecordStart, object: nil)
     }
     
     public func stop() {
@@ -70,6 +78,7 @@ public class TripRecorder: TripRecorderProtocol {
         if let autoMode = self.autoMode, !autoMode.isServiceStarted {
             autoMode.rxIsDriving.onNext(false)
         }
+        NotificationCenter.default.post(name: Notification.Name.AXAEventTripRecordStop, object: nil)
     }
     
     public func activateAutoMode() {
