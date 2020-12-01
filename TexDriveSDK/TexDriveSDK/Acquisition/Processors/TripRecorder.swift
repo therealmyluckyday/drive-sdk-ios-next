@@ -34,6 +34,7 @@ public class TripRecorder: TripRecorderProtocol {
     private let apiTrip: APITrip
     private var tripDistance: Double = 0
     private var rxFix = PublishSubject<Fix>()
+    private var currentLocation: LocationFix?
     
     internal var autoMode: AutoMode?
     internal let persistantQueue: PersistantQueue
@@ -75,6 +76,7 @@ public class TripRecorder: TripRecorderProtocol {
         collector.stopCollect()
         currentTripId = nil
         startTime = nil
+        currentLocation = nil
         if let autoMode = self.autoMode, !autoMode.isServiceStarted {
             autoMode.rxIsDriving.onNext(false)
         }
@@ -154,16 +156,25 @@ public class TripRecorder: TripRecorderProtocol {
     // MARK: - Configure TripProgress
     func configureTripProgress() {
         self.rxFix.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self] (event) in
-            if let location = event.element as? LocationFix,
+            
+            if let location =  event.element as? LocationFix,
                let startTime = self?.startTime,
                let tripId = self?.currentTripId,
                let oldDistance = self?.tripDistance,
-               location.distance > 0 {
+               location.distance > 0,
+               location.speed >= 0 {
                 let speed = location.speed
                 let duration = location.timestamp - startTime.timeIntervalSince1970
                 let newDistance = oldDistance + location.distance
+                if let oldLocation = self?.currentLocation {
+                    if ((pow((location.timestamp - oldLocation.timestamp), 2)).squareRoot() > 30) {
+                        return
+                    }
+                }
                 let tripProgress = TripProgress(tripId: tripId, speed: speed, distance: newDistance, duration: duration)
+                os_log("tripProgress : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(tripProgress)")
                 self?.tripDistance = newDistance
+                self?.currentLocation = location
                 self?.rxTripProgress.onNext(tripProgress)
             }
         }.disposed(by: rxDisposeBag)
