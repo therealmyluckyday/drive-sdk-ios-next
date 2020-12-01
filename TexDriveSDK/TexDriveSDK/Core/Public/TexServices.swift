@@ -11,9 +11,9 @@ import RxSwift
 import OSLog
 
 extension OSLog {
-    private static var texsubsystem = Bundle(for: TexServices.self)
+    private static var texsubsystem = Bundle.main.bundleIdentifier!
 
-    static let texDriveSDK = OSLog(subsystem: texsubsystem.bundleIdentifier!, category: "TexDriveSDK")
+    static let texDriveSDK = OSLog(subsystem: texsubsystem, category: "TexDriveSDK")
 }
 
 public class TexServices {

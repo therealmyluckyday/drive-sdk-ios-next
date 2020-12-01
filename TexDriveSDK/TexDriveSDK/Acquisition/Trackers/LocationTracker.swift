@@ -11,6 +11,7 @@ import CoreLocation
 import RxCoreLocation
 import RxSwift
 import RxCocoa
+import OSLog
 
 class LocationTracker: NSObject, Tracker {
     // MARK: Property
@@ -76,10 +77,15 @@ class LocationTracker: NSObject, Tracker {
             lastLocation = location
         }
         
+        os_log("location     : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(location)")
+        os_log("lastlocation : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(lastLocation)")
         guard self.isLocationAccurate(accuracy: location.horizontalAccuracy), let lastLocation = self.lastLocation else {
+            
+            os_log("distance    : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "0")
             return 0
         }
         
+        os_log("distance : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(location.distance(from: lastLocation))")
         return location.distance(from: lastLocation)
     }
 }

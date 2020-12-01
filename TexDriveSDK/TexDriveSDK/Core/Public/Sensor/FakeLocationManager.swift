@@ -48,7 +48,7 @@ public class FakeLocationManager: LocationManager {
                     }
                 }
             } catch {
-                print("Error: \(error)")
+                os_log("Error : %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(error)")
             }
         }
     }

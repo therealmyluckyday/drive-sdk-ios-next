@@ -39,7 +39,7 @@ class LogRx: LogImplementation {
             os_log("%{public}@" , log: OSLog.texDriveSDK, type: OSLogType.error, detail)
             rxLogOutput.onNext(logDetail)
         default:
-            os_log("%{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, detail)
+            os_log("%{public}@" , log: OSLog.texDriveSDK, type: OSLogType.debug, detail)
         }
         
     }

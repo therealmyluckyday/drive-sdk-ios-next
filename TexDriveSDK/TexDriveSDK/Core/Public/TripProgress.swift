@@ -8,8 +8,17 @@
 import Foundation
 
 public struct TripProgress {
-    let tripId: TripId
-    let speed: Double
+    public let tripId: TripId
+    public let speed: Double
     public let distance: Double
-    let duration: TimeInterval
+    public let duration: TimeInterval
+    
+    func roundDistanceValue() -> Double {
+        let roundedValue: Int = ((Int)(self.distance/100)) * 100
+        return Double(roundedValue)/1000.0
+    }
+    
+    func preciseDistanceValue() -> Double {
+        return self.distance/1000.0
+    }
 }

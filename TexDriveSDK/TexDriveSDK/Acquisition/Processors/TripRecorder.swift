@@ -157,7 +157,8 @@ public class TripRecorder: TripRecorderProtocol {
             if let location = event.element as? LocationFix,
                let startTime = self?.startTime,
                let tripId = self?.currentTripId,
-               let oldDistance = self?.tripDistance {
+               let oldDistance = self?.tripDistance,
+               location.distance > 0 {
                 let speed = location.speed
                 let duration = location.timestamp - startTime.timeIntervalSince1970
                 let newDistance = oldDistance + location.distance
