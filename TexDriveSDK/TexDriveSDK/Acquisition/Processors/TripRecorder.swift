@@ -169,12 +169,12 @@ public class TripRecorder: TripRecorderProtocol {
                 if let oldLocation = self?.currentLocation {
                     let deltaTimestamp = (pow((location.timestamp - oldLocation.timestamp), 2)).squareRoot()
                     if (deltaTimestamp > 30) {
-                        os_log("tripProgress : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(location.timestamp - oldLocation.timestamp) \(deltaTimestamp)")
+                        os_log("[TripRecorder]tripProgress DO NOTHING : delta deltaTimestamp speed %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(location.timestamp - oldLocation.timestamp) \(deltaTimestamp) \(location.speed)")
                         return
                     }
                 }
                 let tripProgress = TripProgress(tripId: tripId, speed: speed, distance: newDistance, duration: duration)
-                os_log("tripProgress : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(tripProgress) \(location.speed)")
+                os_log("[TripRecorder] tripProgress : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(tripProgress.distance) \(tripProgress.speed) \(location.speed)")
                 self?.tripDistance = newDistance
                 self?.currentLocation = location
                 self?.rxTripProgress.onNext(tripProgress)

@@ -77,15 +77,17 @@ class LocationTracker: NSObject, Tracker {
             lastLocation = location
         }
         
-        os_log("location     : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(location)")
-        os_log("lastlocation : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(lastLocation)")
-        guard self.isLocationAccurate(accuracy: location.horizontalAccuracy), let lastLocation = self.lastLocation else {
+        guard self.isLocationAccurate(accuracy: location.horizontalAccuracy),
+              let lastLocation = self.lastLocation,
+              location.speed > 0 else {
             
-            os_log("distance    : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "0")
+            os_log("[LocationTracker]distance 0    : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "0")
             return 0
         }
         
-        os_log("distance : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(location.distance(from: lastLocation))")
+        os_log("[LocationTracker]location     : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(location) \(location.speed)")
+        os_log("[LocationTracker]lastlocation : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(lastLocation) \(lastLocation.speed)")
+        os_log("[LocationTracker]distance : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(location.distance(from: lastLocation))")
         return location.distance(from: lastLocation)
     }
 }
