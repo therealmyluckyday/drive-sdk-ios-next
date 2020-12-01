@@ -72,14 +72,19 @@ class LocationTracker: NSObject, Tracker {
         return accuracy > 0 && accuracy < maxDistanceAccuracy
     }
     
+    func isLocationValid(location: CLLocation) -> Bool {
+        return self.isLocationAccurate(accuracy: location.horizontalAccuracy) && location.speed > 0
+    }
+    
     func distance (location: CLLocation) -> Double {
         defer {
-            lastLocation = location
+            if (self.isLocationValid(location: location)) {
+                lastLocation = location
+            }
         }
         
-        guard self.isLocationAccurate(accuracy: location.horizontalAccuracy),
-              let lastLocation = self.lastLocation,
-              location.speed > 0 else {
+        guard self.isLocationValid(location: location),
+              let lastLocation = self.lastLocation else {
             
             os_log("[LocationTracker]distance 0    : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "0")
             return 0
