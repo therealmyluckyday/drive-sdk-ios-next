@@ -13,12 +13,12 @@ public struct TripProgress {
     public let distance: Double
     public let duration: TimeInterval
     
-    func roundDistanceValue() -> Double {
+    public func roundDistanceValue() -> Double {
         let roundedValue: Int = ((Int)(self.distance/100)) * 100
         return Double(roundedValue)/1000.0
     }
     
-    func preciseDistanceValue() -> Double {
+    public func preciseDistanceValue() -> Double {
         return self.distance/1000.0
     }
 }
