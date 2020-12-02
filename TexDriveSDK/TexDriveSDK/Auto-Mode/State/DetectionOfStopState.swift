@@ -66,6 +66,7 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
     
     // MARK: - SensorAutoModeDetectionState
     override func didUpdateLocations(location: CLLocation) {
+        Log.print("didUpdateLocations")
         Log.print("- \(location.speed) \(thresholdSpeed)")
         let timeIntervalBetweenLocation = -(lastLocationDate.timeIntervalSinceNow - location.timestamp.timeIntervalSinceNow)
         lastLocationDate = location.timestamp
@@ -95,6 +96,7 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
     // MARK: - TimerProtocol
     func enableTimer(timeInterval: TimeInterval){
         timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false, block: { [weak self](timer) in
+            Log.print("Timer stop")
             self?.stop()
         })
     }

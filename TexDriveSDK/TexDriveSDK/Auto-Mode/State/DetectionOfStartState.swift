@@ -63,6 +63,7 @@ public class DetectionOfStartState: SensorAutoModeDetectionState {
             return
         }
         else if isSimulatorDriveTestingAutoMode {
+            Log.print("isSimulatorDriveTestingAutoMode")
             thresholdSpeed -= 1
         }
         

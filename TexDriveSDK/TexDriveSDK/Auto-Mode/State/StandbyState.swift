@@ -59,6 +59,7 @@ public class StandbyState: SensorAutoModeDetectionState {
             self.start()
         }
         else if isSimulatorDriveTestingAutoMode {
+            Log.print("isSimulatorDriveTestingAutoMode")
             thresholdSpeed -= 1
         }
     }

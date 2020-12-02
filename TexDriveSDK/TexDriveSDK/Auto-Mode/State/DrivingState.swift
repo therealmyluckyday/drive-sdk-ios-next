@@ -18,14 +18,17 @@ protocol TimerProtocol {
     func resetTimer(timeInterval: TimeInterval)
 }
 
+let minimumDrivingSpeed = CLLocationSpeed(exactly: 20*0.28)!
+let maxDelayBeetweenLocationTimeInSecond = 4*60
+
 public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
     let intervalDelay: TimeInterval
-    let thresholdSpeed = CLLocationSpeed(exactly: 20*0.28)!
+    let thresholdSpeed = minimumDrivingSpeed
     var timer: Timer?
     var lastActivity: CMMotionActivity?
     var lastLocationDate: Date = Date()
     
-    init(context: AutoModeContextProtocol, locationManager clLocationManager: LocationManager, motionActivityManager: CMMotionActivityManager = CMMotionActivityManager(), interval: TimeInterval = TimeInterval(4*60)) {
+    init(context: AutoModeContextProtocol, locationManager clLocationManager: LocationManager, motionActivityManager: CMMotionActivityManager = CMMotionActivityManager(), interval: TimeInterval = TimeInterval(maxDelayBeetweenLocationTimeInSecond)) {
         intervalDelay = interval
         super.init(context: context, locationManager: clLocationManager, motionActivityManager: motionActivityManager)
     }
@@ -44,6 +47,7 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
     }
     
     override func enable() {
+        Log.print("enable")
         super.enable()
         enableTimer(timeInterval: intervalDelay)
     }
@@ -81,9 +85,11 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
     
     // MARK: - SensorAutoModeDetectionState
     override func didUpdateLocations(location: CLLocation) {
+        Log.print("dudUpdateLocations")
         let timeIntervalBetweenLocation = -(lastLocationDate.timeIntervalSinceNow - location.timestamp.timeIntervalSinceNow)
         lastLocationDate = location.timestamp
         guard sensorState == .enable, timeIntervalBetweenLocation < 5, location.speed >= 0 || isSimulatorDriveTestingAutoMode else {
+                Log.print("isSimulatorDriveTestingAutoMode")
             return
         }
         resetTimer(timeInterval: intervalDelay)

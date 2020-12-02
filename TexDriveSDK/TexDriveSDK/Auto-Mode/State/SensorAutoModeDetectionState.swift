@@ -30,6 +30,7 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
     }
     
     override func configure() {
+        Log.print("configure")
         if !CMMotionActivityManager.isActivityAvailable() {
             Log.print("CMMotionActivityManager ERROR isActivity NOT Available",type: .Error)
         }
@@ -90,6 +91,7 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
     }
     // MARK: - Sensor Method
     func enableMotionSensor() {
+        Log.print("enableMotionSensor")
         #if targetEnvironment(simulator)
         #else
         motionManager.startActivityUpdates(to: OperationQueue.main) {[weak self] (activity) in
@@ -102,6 +104,7 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
     }
     
     func enableLocationSensor() {
+        Log.print("enableLocationSensor")
         self.locationManager.autoModeLocationSensor.rxLocation.asObserver().subscribe (onNext: { [weak self](location) in
             self?.didUpdateLocations(location: location)
         },
@@ -115,27 +118,31 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
     }
     
     func enableSensor() {
+        Log.print("enableSensor")
         enableMotionSensor()
         enableLocationSensor()
         sensorState = .enable
     }
     
     func disableSensor() {
+        Log.print("disableSensor")
         sensorState = SensorState.disable
         disableMotionSensor()
         disableLocationSensor()
     }
     
     func disableMotionSensor() {
+        Log.print("disableMotionSensor")
         motionManager.stopActivityUpdates()
     }
     
     func disableLocationSensor() {
+        Log.print("disableLocationSensor")
         rxDisposeBag = nil
     }
     
     // MARK: - didUpdateLocations
     func didUpdateLocations(location: CLLocation) {
-        Log.print("-")
+        Log.print("didUpdateLocations")
     }
 }

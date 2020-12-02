@@ -168,7 +168,7 @@ public class TripRecorder: TripRecorderProtocol {
                 let newDistance = oldDistance + location.distance
                 if let oldLocation = self?.currentLocation {
                     let deltaTimestamp = (pow((location.timestamp - oldLocation.timestamp), 2)).squareRoot()
-                    if (deltaTimestamp > 30) {
+                    if (deltaTimestamp > Double(maxDelayBeetweenLocationTimeInSecond)) {
                         os_log("[TripRecorder]tripProgress DO NOTHING : delta deltaTimestamp speed %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(location.timestamp - oldLocation.timestamp) \(deltaTimestamp) \(location.speed)")
                         return
                     }
