@@ -10,10 +10,12 @@ import RxSwift
 import CoreLocation
 import OSLog
 
-public class DetectionOfStartState: SensorAutoModeDetectionState {
+public class DetectionOfStartState: SensorAutoModeDetectionState, TimerProtocol {
     var firstLocation: CLLocation?
+    var timer: Timer?
     var thresholdSpeed = CLLocationSpeed(exactly: 10*0.28)!
     let timeLowSpeedThreshold = TimeInterval(exactly: 180)!
+    let intervalDelay: TimeInterval = TimeInterval(4*60)
     
     override func enableMotionSensor() {
         motionManager.startActivityUpdates(to: OperationQueue.main) {[weak self] (activity) in
@@ -29,8 +31,14 @@ public class DetectionOfStartState: SensorAutoModeDetectionState {
         locationManager.autoModeLocationSensor.change(state: .locationChanges)
     }
     
+    override func enable() {
+        super.enable()
+        enableTimer(timeInterval: intervalDelay)
+    }
+    
     override func stop() {
         Log.print("stop")
+        disableTimer()
         disableSensor()
         locationManager.autoModeLocationSensor.stopUpdatingLocation()
         if let context = self.context {
@@ -42,6 +50,7 @@ public class DetectionOfStartState: SensorAutoModeDetectionState {
     
     override func drive() {
         Log.print("drive")
+        disableTimer()
         disableSensor()
         if let context = self.context {
             let state = DrivingState(context: context, locationManager: locationManager)
@@ -78,5 +87,23 @@ public class DetectionOfStartState: SensorAutoModeDetectionState {
                 self.stop()
             }
         }
+    }
+    
+    
+    // MARK: - TimerProtocol
+    func enableTimer(timeInterval: TimeInterval){
+        timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false, block: { [weak self](timer) in
+            Log.print("Timer stop")
+            self?.stop()
+        })
+    }
+    
+    func disableTimer() {
+        timer?.invalidate()
+        timer = nil
+    }
+    
+    func resetTimer(timeInterval: TimeInterval) {
+        Log.print("Should not be called")
     }
 }
