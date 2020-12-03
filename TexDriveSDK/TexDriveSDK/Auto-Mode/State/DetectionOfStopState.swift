@@ -37,6 +37,7 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
             }
         }
     }
+    
     override func enable() {
         super.enable()
         enableTimer(timeInterval: intervalDelay)

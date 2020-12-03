@@ -10,7 +10,7 @@ import RxSwift
 import CoreLocation
 
 public class StandbyState: SensorAutoModeDetectionState {
-    var thresholdSpeed: CLLocationSpeed = CLLocationSpeed(exactly: -1)!
+    var thresholdSpeed: CLLocationSpeed = CLLocationSpeed(exactly: 3)!
     
     override func enableLocationSensor() {
         DispatchQueue.main.async {

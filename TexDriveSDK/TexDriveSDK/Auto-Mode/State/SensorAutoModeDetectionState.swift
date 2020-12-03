@@ -21,7 +21,7 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
     let locationManager: LocationManager
     var rxDisposeBag: DisposeBag? = DisposeBag()
     var sensorState: SensorState = .disable
-    let isSimulatorDriveTestingAutoMode = true // Used for Simulator Device Testing
+    let isSimulatorDriveTestingAutoMode = false // Used for Simulator Device Testing
     
     init(context: AutoModeContextProtocol, locationManager clLocationManager: LocationManager, motionActivityManager: CMMotionActivityManager = CMMotionActivityManager()) {
         motionManager = motionActivityManager
