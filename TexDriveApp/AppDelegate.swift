@@ -52,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
                 service.tripRecorder?.configureAutoMode()
                 service.tripRecorder?.activateAutoMode()
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 90000000000)) {
-                    fakeLocationManager.loadTrip(intervalBetweenGPSPointInMilliSecond: 1000)
+                    fakeLocationManager.loadTrip(intervalBetweenGPSPointInSecond: 0.05)
                 }
             }
         } catch ConfigurationError.LocationNotDetermined(let description) {
