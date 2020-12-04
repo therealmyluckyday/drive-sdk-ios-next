@@ -7,6 +7,7 @@
 //
 
 import CoreLocation
+import OSLog
 
 public class AutoModeLocationSensor: LocationSensor {
     var slcLocationManager = CLLocationManager()
@@ -15,12 +16,11 @@ public class AutoModeLocationSensor: LocationSensor {
     // MARK: - Public Method
     
     func configure(_ locationManager: CLLocationManager) {
-        
+        os_log("[AutomodeLocationSensor] configure " , log: OSLog.texDriveSDK, type: OSLogType.info)
         #if targetEnvironment(simulator)
         #else
         locationManager.requestAlwaysAuthorization()
         #endif
-        locationManager.delegate = self
         locationManager.distanceFilter = kCLDistanceFilterNone
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locationManager.activityType = .automotiveNavigation
@@ -34,6 +34,7 @@ public class AutoModeLocationSensor: LocationSensor {
     
     func change(state: LocationManagerState) {
         DispatchQueue.main.async() {
+            os_log("[AutomodeLocationSensor] isSameState %@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(state==self.state)" )
             if state != self.state {
                 switch state {
                 case .disabled:

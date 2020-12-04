@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import OSLog
 
 struct TripConstant {
     static let MinFixesToSend = 50
@@ -41,6 +42,7 @@ class TripChunk: Collection {
     
     // MARK: Public function
     func append(fix: Fix) {
+        os_log("[TripChunk] append  %{private}@ " , log: OSLog.texDriveSDK, type: OSLogType.info, "\(fix) ")
         self.fixes.append(fix)
     }
     
