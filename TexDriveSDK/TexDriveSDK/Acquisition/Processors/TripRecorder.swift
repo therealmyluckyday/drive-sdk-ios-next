@@ -33,12 +33,12 @@ public class TripRecorder: TripRecorderProtocol {
     private let rxDisposeBag = DisposeBag()
     private let apiTrip: APITrip
     private var tripDistance: Double = 0
-    private var rxFix = PublishSubject<Fix>()
     private var currentLocation: LocationFix?
     
     internal var autoMode: AutoMode?
     internal let persistantQueue: PersistantQueue
     internal let rxDispatchQueueScheduler: SerialDispatchQueueScheduler
+    internal var rxFix = PublishSubject<Fix>()
     
     public let rxTripId = PublishSubject<TripId>()
     public var rxTripProgress = PublishSubject<TripProgress>()

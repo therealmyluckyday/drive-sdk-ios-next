@@ -26,7 +26,7 @@ class FakeTripTests: XCTestCase {
     
     func testFakeLocationManagerLoadTrips() {
         let fakeLocationManager = FakeLocationManager()
-        fakeLocationManager.loadTrip(intervalBetweenGPSPointInMilliSecond: 0)
+        fakeLocationManager.loadTrip(intervalBetweenGPSPointInSecond: 0)
     }
     
     func testTrip_Stop() {
@@ -47,7 +47,7 @@ class FakeTripTests: XCTestCase {
             }
         }.disposed(by: rxDisposeBag)
         
-        fakeLocationManager.loadTrip(intervalBetweenGPSPointInMilliSecond: 1000)
+        fakeLocationManager.loadTrip(intervalBetweenGPSPointInSecond: 1000)
         
         tripRecorder.stop()
         
@@ -93,18 +93,15 @@ class FakeTripTests: XCTestCase {
             service.tripRecorder?.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
                if let tripId = event.element {
                    print("\n Trip finished: \n \(tripId.uuidString)")
+                service.scoringClient?.getScore(tripId: tripId, isAPIV2: false, completionHandler: { (result) in
+                    scoreExpectation.fulfill()
+                })
                }
                }.disposed(by: rxDisposeBag)
-            service.rxScore.asObserver().observeOn(MainScheduler.asyncInstance).retry().subscribe({ (event) in
-                if let score = event.element {
-                    print( "\n NEW SCORE \(score)")
-                    scoreExpectation.fulfill()
-                }
-            }).disposed(by: rxDisposeBag)
             service.tripRecorder!.start()
             
             // Loading GPS Element
-            fakeLocationManager.loadTrip(intervalBetweenGPSPointInMilliSecond: 1000)
+            fakeLocationManager.loadTrip(intervalBetweenGPSPointInSecond: 0.05)
             
             wait(for: [tripExpectation], timeout: 570)
             
@@ -185,7 +182,7 @@ class FakeTripTests: XCTestCase {
             service.tripRecorder!.start()
             
             // Loading GPS Element
-            fakeLocationManager.loadTrip(intervalBetweenGPSPointInMilliSecond: 1000)
+            fakeLocationManager.loadTrip(intervalBetweenGPSPointInSecond: 0.05)
             
             wait(for: [tripExpectation], timeout: 570)
             let tripId = service.tripRecorder!.currentTripId!
@@ -259,9 +256,17 @@ class FakeTripTests: XCTestCase {
             }).disposed(by: rxDisposeBag)
             service.tripRecorder!.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
                if let tripId = event.element {
-                date = Date()
-                   print("\n [\(date)]  Trip finished: \n \(tripId.uuidString)")
-                   tripExpectation.fulfill()
+                tripExpectation.fulfill()
+                
+                service.scoringClient!.getScore(tripId: tripId, isAPIV2: false, completionHandler: { (result) in
+                    switch (result) {
+                    case .Success(let score):
+                        break
+                    case .Failure(let error):
+                        break
+                    }
+                    scoreExpectation.fulfill()
+                })
                }
                }.disposed(by: rxDisposeBag)
             
@@ -290,7 +295,7 @@ class FakeTripTests: XCTestCase {
             DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 1000)) {
                 date = Date()
                 print("[\(date)] Loading GPS Element")
-                fakeLocationManager.loadTrip(intervalBetweenGPSPointInMilliSecond: 1000)
+                fakeLocationManager.loadTrip(intervalBetweenGPSPointInSecond: 0.05)
             }
             wait(for: [tripExpectation], timeout: 70)
             
