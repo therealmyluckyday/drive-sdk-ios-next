@@ -67,8 +67,7 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
     
     // MARK: - SensorAutoModeDetectionState
     override func didUpdateLocations(location: CLLocation) {
-        Log.print("didUpdateLocations")
-        Log.print("- \(location.speed) \(thresholdSpeed)")
+        os_log("[DetectionOfStop] didUpdateLocations " , log: OSLog.texDriveSDK, type: OSLogType.info, "- speed \(location.speed) thesholdSpeed \(thresholdSpeed)")
         let timeIntervalBetweenLocation = -(lastLocationDate.timeIntervalSinceNow - location.timestamp.timeIntervalSinceNow)
         lastLocationDate = location.timestamp
         guard sensorState == .enable, timeIntervalBetweenLocation < 5, location.speed >= 0 || isSimulatorDriveTestingAutoMode else {
@@ -76,7 +75,7 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
         }
         resetTimer(timeInterval: intervalDelay)
         if location.speed > thresholdSpeed {
-            Log.print("location.speed > thresholdSpeed")
+            os_log("[DetectionOfStop][didUpdateLocations] location.speed > thresholdSpeed" , log: OSLog.texDriveSDK, type: OSLogType.info)
             self.drive()
             return
         }

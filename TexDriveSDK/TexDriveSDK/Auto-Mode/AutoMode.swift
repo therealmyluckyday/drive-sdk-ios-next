@@ -9,6 +9,7 @@
 import RxSwift
 import CoreLocation
 import CoreMotion
+import OSLog
 
 protocol AutoModeContextProtocol: class {
     var rxState: PublishSubject<AutoModeDetectionState> { get }
@@ -79,29 +80,29 @@ class AutoMode: AutoModeContextProtocol {
         
         rxState.asObserver().observeOn(MainScheduler.asyncInstance).pairwise().subscribe {[weak self] event in
             if let (state1, state2) = event.element {
-                Log.print("State 1 : \(state1) , State 2: \(state2)")
+                os_log("State Old New %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "1 : \(state1), 2: \(state2)")
                 if state1 is DetectionOfStartState, state2 is DrivingState {
-                    Log.print("START DETECTED")
+                    os_log("%{private}@ Start detected" , log: OSLog.texDriveSDK, type: OSLogType.info, "[\(#file)][\(#function)]")
                     self?.rxIsDriving.onNext(true)
                 }
                 if state1 is StandbyState, state2 is DrivingState {
-                    Log.print("START DETECTED")
+                    os_log("%{private}@ Start detected" , log: OSLog.texDriveSDK, type: OSLogType.info, "[\(#file)][\(#function)]")
                     self?.rxIsDriving.onNext(true)
                 }
                 if state1 is DisabledState, state2 is DrivingState {
-                    Log.print("START DETECTED")
+                    os_log("%{private}@ Start detected" , log: OSLog.texDriveSDK, type: OSLogType.info, "[\(#file)][\(#function)]")
                     self?.rxIsDriving.onNext(true)
                 }
                 if state1 is DetectionOfStopState, state2 is StandbyState {
-                    Log.print("STOP DETECTED )")
+                    os_log("%{private}@ Stop detected" , log: OSLog.texDriveSDK, type: OSLogType.info, "[\(#file)][\(#function)]")
                     self?.rxIsDriving.onNext(false)
                 }
                 if state1 is DrivingState, state2 is DisabledState {
-                    Log.print("STOP DETECTED )")
+                    os_log("%{private}@ Stop detected" , log: OSLog.texDriveSDK, type: OSLogType.info, "[\(#file)][\(#function)]")
                     self?.rxIsDriving.onNext(false)
                 }
                 if state1 is DetectionOfStopState, state2 is DisabledState {
-                    Log.print("STOP DETECTED )")
+                    os_log("%{private}@ Stop detected" , log: OSLog.texDriveSDK, type: OSLogType.info, "[\(#file)][\(#function)]")
                     self?.rxIsDriving.onNext(false)
                 }
             }

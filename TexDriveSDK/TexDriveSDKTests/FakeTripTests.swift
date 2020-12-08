@@ -56,12 +56,13 @@ class FakeTripTests: XCTestCase {
     
     func testFakeSensorService() throws {
         let userId = "Erwan-"+UIDevice.current.systemName + UIDevice.current.systemVersion
-        print(userId)
+        os_log("[FakeTripTest] userId %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#function) \(userId)")
         let user = TexUser.Authentified(userId)
         let appId = "youdrive_france_prospect"//"APP-TEST" // APIV2 "youdrive-france-prospect"
         let builder = TexConfigBuilder(appId: appId, texUser: user, isAPIV2: false)
         let scoreExpectation = XCTestExpectation(description: #function+"-Score")
         let tripExpectation = XCTestExpectation(description: #function+"-Trip")
+        
         do {
             let fakeLocationManager = FakeLocationManager()
             try builder.enableTripRecorder(locationManager: fakeLocationManager)
@@ -70,9 +71,8 @@ class FakeTripTests: XCTestCase {
             let service = TexServices.service(configuration: config, isTesting: true)
             service.logManager.rxLog.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
                 if let logDetail = event.element {
-                    print(logDetail.description)
+                    os_log("[FakeTripTest] logDetail %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#function) \(logDetail.description)")
                     XCTAssert(logDetail.type != LogType.Error, "ERROR Log : "+logDetail.description)
-                    print(logDetail.description)
                 }
                 }.disposed(by: self.rxDisposeBag)
             do {
@@ -86,16 +86,17 @@ class FakeTripTests: XCTestCase {
             service.tripRecorder?.rxFix.asObserver().observeOn(MainScheduler.asyncInstance).subscribe({ (eventFix) in
                 if let _ = eventFix.element {
                     nbFix += 1
-                    
                     if (nbFix == 935) {tripExpectation.fulfill()}
                 }
             }).disposed(by: rxDisposeBag)
             service.tripRecorder?.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
                if let tripId = event.element {
-                   print("\n Trip finished: \n \(tripId.uuidString)")
+                os_log("[FakeTripTest] tripIdFinished %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#function) \(tripId.uuidString)")
                 service.scoringClient?.getScore(tripId: tripId, isAPIV2: false, completionHandler: { (result) in
+                    os_log("Scoring: result %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(result)")
                     scoreExpectation.fulfill()
                 })
+                
                }
                }.disposed(by: rxDisposeBag)
             service.tripRecorder!.start()
@@ -105,29 +106,30 @@ class FakeTripTests: XCTestCase {
             
             wait(for: [tripExpectation], timeout: 570)
             
-            print("\n Trip finished: \n \(String(describing: service.tripRecorder?.currentTripId?.uuidString))")
+            os_log("[FakeTripTest] tripIdFinished %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#function) \(service.tripRecorder!.currentTripId!.uuidString)")
             service.tripRecorder!.stop()
             
             
         } catch ConfigurationError.LocationNotDetermined(let description) {
-            print("\n ConfigurationError : \(description)")
+            os_log("[FakeTripTest] configurationError %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.error, "\(#function) \(description)")
         } catch {
-            print("\n ERROR : \(error)")
+            os_log("[FakeTripTest] error %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.error, "\(#file) \(#function) \(error)")
         }
         
-        print("Trip Finished Waiting for Scoring")
+         os_log("[FakeTripTest] trip Finished waiting for scoring %@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#function)")
         wait(for: [scoreExpectation], timeout: 70)
     }
     
     
     func testFakeSensorServiceAPIV2() throws {
         let userId = "Erwan-"+UIDevice.current.systemName + UIDevice.current.systemVersion
-        print(userId)
+        os_log("[FakeTripTest] userId %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#function) \(userId)")
         let user = TexUser.Authentified(userId)
         let appId = "youdrive-france-prospect"//"APP-TEST" // APIV2 "youdrive-france-prospect"
         let builder = TexConfigBuilder(appId: appId, texUser: user, isAPIV2: true)
         let scoreExpectation = XCTestExpectation(description: #function+"-Score")
         let tripExpectation = XCTestExpectation(description: #function+"-Trip")
+        
         do {
             let fakeLocationManager = FakeLocationManager()
             try builder.enableTripRecorder(locationManager: fakeLocationManager)
@@ -136,9 +138,8 @@ class FakeTripTests: XCTestCase {
             let service = TexServices.service(configuration: config, isTesting: true)
             service.logManager.rxLog.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
                 if let logDetail = event.element {
-                    print(logDetail.description)
+                    os_log("[FakeTripTest] logDetail %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#function) \(logDetail.description)")
                     XCTAssert(logDetail.type != LogType.Error, "ERROR Log : "+logDetail.description)
-                    print(logDetail.description)
                 }
                 }.disposed(by: self.rxDisposeBag)
             do {
@@ -152,20 +153,19 @@ class FakeTripTests: XCTestCase {
             service.tripRecorder?.rxFix.asObserver().observeOn(MainScheduler.asyncInstance).subscribe({ (eventFix) in
                 if let _ = eventFix.element {
                     nbFix += 1
-                    
                     if (nbFix == 935) {tripExpectation.fulfill()}
                 }
             }).disposed(by: rxDisposeBag)
             service.tripRecorder?.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
                if let tripId = event.element {
-                   print("\n Trip finished: \n \(tripId.uuidString)")
+                os_log("Trip finished  %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#file) \(#function) \(tripId.uuidString)")
                 service.scoringClient!.getScore(tripId: tripId, isAPIV2: true, completionHandler: { (result) in
                     switch (result) {
                     case .Success(let score):
-                        print(score)
+                        os_log("%{private}@ " , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#file) \(#function) \(score)")
                         break
                     case .Failure(let error):
-                        print(error)
+                        os_log("%{private}@" , log: OSLog.texDriveSDK, type: OSLogType.error, "\(#file) \(#function) \(error)")
                         break
                     }
                     scoreExpectation.fulfill()
@@ -186,29 +186,28 @@ class FakeTripTests: XCTestCase {
             
             wait(for: [tripExpectation], timeout: 570)
             let tripId = service.tripRecorder!.currentTripId!
-            print("\n Trip finished: \n \(String(describing: service.tripRecorder?.currentTripId?.uuidString))")
+            os_log("[FakeTripTest] tripIdFinished %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#file) \(#function) \(service.tripRecorder!.currentTripId!.uuidString)")
             service.tripRecorder!.stop()
             
             service.scoringClient!.getScore(tripId: tripId, isAPIV2: true, completionHandler: { (result) in
                 switch (result) {
                 case .Success(let score):
-                    print(score)
+                    os_log("%{private}@ " , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#file) \(#function) \(score)")
                     break
                 case .Failure(let error):
-                    print(error)
+                    os_log("%{private}@" , log: OSLog.texDriveSDK, type: OSLogType.error, "\(#file) \(#function) \(error)")
                     break
                 }
                 scoreExpectation.fulfill()
             })
             
-            
         } catch ConfigurationError.LocationNotDetermined(let description) {
-            print("\n ConfigurationError : \(description)")
+             os_log("[FakeTripTest] configurationError %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.error, "\(#function) \(description)")
         } catch {
-            print("\n ERROR : \(error)")
+            os_log("[FakeTripTest] error %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.error, "\(#function) \(error)")
         }
         
-        print("Trip Finished Waiting for Scoring")
+        os_log("%{private}@ Trip finished waiting for scoring" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#file) \(#function)")
         wait(for: [scoreExpectation], timeout: 120)
     }
     
@@ -220,15 +219,12 @@ class FakeTripTests: XCTestCase {
         let scoreExpectation = XCTestExpectation(description: #function+"-Score")
         let tripExpectation = XCTestExpectation(description: #function+"-Trip")
         
-        var date = Date()
-        
         do {
             let fakeLocationManager = FakeLocationManager()
             try builder.enableTripRecorder(locationManager: fakeLocationManager)
             builder.select(platform: Platform.Production, isAPIV2: false)
             let config = builder.build()
             let service = TexServices.service(configuration: config, isTesting: true)
-            
             
             do {
                 let regex = try NSRegularExpression(pattern: " .*.*", options: NSRegularExpression.Options.caseInsensitive)
@@ -240,7 +236,7 @@ class FakeTripTests: XCTestCase {
             
             service.logManager.rxLog.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
                 if let logDetail = event.element {
-                    print("LOG \(logDetail.description)")
+                    os_log("[FakeTripTest] logDetail %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#function) \(logDetail.description)")
                     XCTAssert(logDetail.type != LogType.Error, "ERROR Log : "+logDetail.description)
                 }
                 }.disposed(by: self.rxDisposeBag)
@@ -250,19 +246,22 @@ class FakeTripTests: XCTestCase {
                 if let _ = eventFix.element {
                     nbFix += 1
                     if (nbFix == 634) {
-                        print("\n [\(Date())]  Fake Trip loaded NEED TO STOP")
+                        os_log("%@ Fake trip loadded need to stop" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#file) \(#function)")
                     }
                 }
             }).disposed(by: rxDisposeBag)
             service.tripRecorder!.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
                if let tripId = event.element {
+                os_log("[FakeTripTest] tripIdFinished %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#function) \(tripId.uuidString)")
                 tripExpectation.fulfill()
                 
                 service.scoringClient!.getScore(tripId: tripId, isAPIV2: false, completionHandler: { (result) in
                     switch (result) {
                     case .Success(let score):
+                        os_log("%{private}@ " , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#file) \(#function) \(score)")
                         break
                     case .Failure(let error):
+                        os_log("%{private}@" , log: OSLog.texDriveSDK, type: OSLogType.error, "\(#file) \(#function) \(error)")
                         break
                     }
                     scoreExpectation.fulfill()
@@ -272,19 +271,18 @@ class FakeTripTests: XCTestCase {
             
             service.tripRecorder!.autoMode!.rxIsDriving.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
                 if let isDriving = event.element {
-                    date = Date()
                     if isDriving {
-                        print("[\(date)] DRIVING START")
+                        os_log("%{private}@ Driving Start" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#file) \(#function)")
+                        service.tripRecorder?.start()
                     } else {
-                        print("[\(date)] DRIVING STOP")
+                        os_log("%{private}@ Driving stop" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#file) \(#function)")
+                        service.tripRecorder?.stop()
                     }
                 }
                 }.disposed(by: rxDisposeBag)
             
             service.rxScore.asObserver().observeOn(MainScheduler.asyncInstance).retry().subscribe({ (event) in
                 if let score = event.element {
-                    date = Date()
-                    print( "\n [\(date)]  NEW SCORE \(score)")
                     scoreExpectation.fulfill()
                 }
             }).disposed(by: rxDisposeBag)
@@ -293,19 +291,16 @@ class FakeTripTests: XCTestCase {
             service.tripRecorder!.activateAutoMode()
             
             DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 1000)) {
-                date = Date()
-                print("[\(date)] Loading GPS Element")
+                os_log(" %{private}@ Loading GPS element" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#file) \(#function)")
                 fakeLocationManager.loadTrip(intervalBetweenGPSPointInSecond: 0.05)
             }
             wait(for: [tripExpectation], timeout: 70)
-            
         } catch ConfigurationError.LocationNotDetermined(let description) {
-            print("\n ConfigurationError : \(description)")
+             os_log("[FakeTripTest] configurationError %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.error, "\(#function) \(description)")
         } catch {
-            print("\n ERROR : \(error)")
+            os_log("[FakeTripTest] error %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.error, "\(#function) \(error)")
         }
-        date = Date()
-        print("[\(date)] Trip Finished Waiting for Scoring")
+        os_log("%{private}@ Trip finished waiting for scoring" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#file) \(#function)")
         wait(for: [scoreExpectation], timeout: 70)
     }
 }

@@ -9,6 +9,7 @@
 import Foundation
 import CoreLocation
 import RxSwift
+import OSLog
 
 @testable import TexDriveSDK
 
@@ -23,7 +24,7 @@ extension Reactive where Base: MockCLLocationManager {
 }
 public class MockLocationManagerDelegate: NSObject, CLLocationManagerDelegate {
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("YOUHOU")
+        os_log("[MockLocationManagerDelegate] locationManager didUpdateLocations " , log: OSLog.texDriveSDK, type: OSLogType.info)
     }
 }
 

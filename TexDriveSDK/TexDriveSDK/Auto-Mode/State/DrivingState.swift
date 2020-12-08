@@ -9,6 +9,7 @@
 import RxSwift
 import CoreLocation
 import CoreMotion
+import OSLog
 
 protocol TimerProtocol {
     var intervalDelay: TimeInterval { get }
@@ -47,7 +48,7 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
     }
     
     override func enable() {
-        Log.print("enable")
+        os_log("[DrivingState] enable" , log: OSLog.texDriveSDK, type: OSLogType.info)
         super.enable()
         enableTimer(timeInterval: intervalDelay)
     }
@@ -85,7 +86,7 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
     
     // MARK: - SensorAutoModeDetectionState
     override func didUpdateLocations(location: CLLocation) {
-        Log.print("dudUpdateLocations")
+        os_log("[DrivingState][didUpdateLocations]" , log: OSLog.texDriveSDK, type: OSLogType.info)
         let timeIntervalBetweenLocation = -(lastLocationDate.timeIntervalSinceNow - location.timestamp.timeIntervalSinceNow)
         lastLocationDate = location.timestamp
         guard sensorState == .enable, timeIntervalBetweenLocation < 5, location.speed >= 0 || isSimulatorDriveTestingAutoMode else {

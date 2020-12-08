@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import OSLog
 
 @testable import TexDriveSDK
 @testable import RxSwift
@@ -42,7 +43,7 @@ class AutoModeGherkinTests: XCTestCase {
                     expectation.fulfill()
                     break
                 default:
-                    print(state)
+                    os_log("State %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(state)")
                 }
             } else {
                 XCTAssert(false)
@@ -67,7 +68,7 @@ class AutoModeGherkinTests: XCTestCase {
         context.rxState.asObservable().observeOn(MainScheduler.instance).subscribe({ (event) in
             XCTAssertNotNil(event.element)
             if let state = event.element {
-                print(state)
+                os_log("State %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(state)")
                 XCTAssertTrue(state is DetectionOfStartState)
             }
             expectation.fulfill()
@@ -89,7 +90,7 @@ class AutoModeGherkinTests: XCTestCase {
         stubAutoMode.state = state
         stubAutoMode.rxState.asObservable().observeOn(MainScheduler.instance).subscribe({(event) in
             if let state = event.element {
-                print(state)
+                os_log("State %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(state)")
                 switch state {
                 case is StandbyState:
                     expectation.fulfill()
@@ -120,7 +121,7 @@ class AutoModeGherkinTests: XCTestCase {
         stubAutoMode.state = state
         stubAutoMode.rxState.asObservable().observeOn(MainScheduler.instance).subscribe({(event) in
             if let state = event.element {
-                print(state)
+                os_log("State %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(state)")
                 switch state {
                 case is DrivingState:
                     expectation.fulfill()
@@ -151,7 +152,7 @@ class AutoModeGherkinTests: XCTestCase {
         stubAutoMode.state = state
         stubAutoMode.rxState.asObservable().observeOn(MainScheduler.instance).subscribe({(event) in
             if let state = event.element {
-                print(state)
+                os_log("State %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(state)")
                 switch state {
                 case is DetectionOfStopState:
                     expectation.fulfill()
@@ -181,7 +182,7 @@ class AutoModeGherkinTests: XCTestCase {
         stubAutoMode.state = state
         stubAutoMode.rxState.asObservable().observeOn(MainScheduler.instance).subscribe({(event) in
             if let state = event.element {
-                print(state)
+                os_log("State %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(state)")
                 switch state {
                 case is DrivingState:
                     expectation.fulfill()
@@ -213,7 +214,7 @@ class AutoModeGherkinTests: XCTestCase {
         stubAutoMode.state = state
         stubAutoMode.rxState.asObservable().observeOn(MainScheduler.instance).subscribe({(event) in
             if let state = event.element {
-                print(state)
+                os_log("State %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(state)")
                 switch state {
                 case is StandbyState:
                     expectation.fulfill()

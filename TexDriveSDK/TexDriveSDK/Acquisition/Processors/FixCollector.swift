@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import OSLog
 
 class FixCollector {
     // MARK: Property
@@ -27,7 +28,7 @@ class FixCollector {
     // MARK: Public Method
     func collect<T>(tracker: T) where T: Tracker {
         self.subscribe(fromProviderFix: tracker.provideFix()) { [weak self](fix) in
-            Log.print("fix datetime \(fix.description)")
+            //os_log("[FixCollector] fix " , log: OSLog.texDriveSDK, type: OSLogType.info, "\(fix.description)")
             self?.rxFix.onNext(fix)
         }
         trackers.append(tracker)

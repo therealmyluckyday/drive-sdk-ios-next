@@ -174,7 +174,7 @@ public class TripRecorder: TripRecorderProtocol {
                     }
                 }
                 let tripProgress = TripProgress(tripId: tripId, speed: speed, distance: newDistance, duration: duration)
-                os_log("[TripRecorder] tripProgress : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(tripProgress.distance) \(tripProgress.speed) \(location.speed)")
+                //os_log("[TripRecorder] tripProgress : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(tripProgress.distance) \(tripProgress.speed) \(location.speed)")
                 self?.tripDistance = newDistance
                 self?.currentLocation = location
                 self?.rxTripProgress.onNext(tripProgress)

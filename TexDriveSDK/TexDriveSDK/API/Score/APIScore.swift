@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import OSLog
 
 protocol APIScoreProtocol {
     init(apiSessionManager: APIScoreSessionManagerProtocol, locale: Locale)
@@ -45,7 +46,7 @@ class APIScore: APIScoreProtocol {
     
     func getScore(tripId: TripId, isAPIV2: Bool, completionHandler: @escaping (Result<Score>) -> ()) {
         let dictionary = ["trip_id":tripId.uuidString, "lang": Locale.current.identifier]
-        
+        os_log("%{private}@ " , log: OSLog.texDriveSDK, type: OSLogType.info, "APIScore getScore \(dictionary)")
         self.sessionManager.get(parameters: dictionary, isAPIV2: isAPIV2) { (result) in
             switch result {
             case Result.Success(let dictionaryResult):
