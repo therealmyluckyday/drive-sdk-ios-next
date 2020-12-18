@@ -29,22 +29,56 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
             (granted, error) in
         }
         locationManager.requestAlwaysAuthorization()
-        self.configureTexSDK(withUserId: userId)
-        let swuiftUIVC = HomeViewControllerSUI(texServices: self.texServices!, tripRecorder: self.texServices!.tripRecorder!)
-        let hostVC = UIHostingController(rootView: swuiftUIVC)
-        window?.rootViewController = hostVC
+        self.configureTexSDK(userId: userId)
+        //configureWithSwuiftui(withUserId: userId)
+        texServices?.application(application, didFinishLaunchingWithOptions: launchOptions)
+        
         return true
     }
     
-    func configureTexSDK(withUserId: String) {
-        Crashlytics.crashlytics().setUserID(withUserId)
-        let user = TexUser.Authentified(withUserId)
-        let appId = "youdrive-france-prospect" //"youdrive_france_prospect" "APP-TEST"
+    func configureWithSwuiftui(withUserId: String) {
+        configureTexSDKSwuiftui(userId: withUserId)
+        /*let swuiftUIVC = HomeViewControllerSUI(texServices: self.texServices!, tripRecorder: self.texServices!.tripRecorder!)
+        let hostVC = UIHostingController(rootView: swuiftUIVC)
+        window?.rootViewController = hostVC*/
+    }
+    
+    func configureTexSDKSwuiftui(userId: String) {
+        Crashlytics.crashlytics().setUserID(userId)
+        let user = TexUser.Authentified(userId)
+        let appId = "APP-TEST" //"youdrive_france_prospect" "APP-TEST"
         let fakeLocationManager = FakeLocationManager()
         let builder = TexConfigBuilder(appId: appId, texUser: user, isAPIV2: true)
         do {
             try builder.enableTripRecorder(locationManager: fakeLocationManager)
-            builder.select(platform: Platform.Testing, isAPIV2: true) //Platform.APIV2Testing
+            builder.select(platform: Platform.Production, isAPIV2: false) //Platform.APIV2Testing
+            let config = builder.build()
+            /*let service = TexServicesiOS13SwiftUI.service(configuration: config)
+            texServices = service
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 2000)) {
+                service.tripRecorderiOS13?.configureAutoMode()
+                service.tripRecorderiOS13?.activateAutoMode()
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 90000000000)) {
+                    fakeLocationManager.loadTrip(intervalBetweenGPSPointInSecond: 0.05)
+                }
+            }*/
+        } catch ConfigurationError.LocationNotDetermined(let description) {
+            print(description)
+        } catch {
+            print("\(error)")
+        }
+    }
+    
+    func configureTexSDK(userId: String) {
+        Crashlytics.crashlytics().setUserID(userId)
+        let user = TexUser.Authentified(userId)
+        let appId = "APP-TEST" //"youdrive_france_prospect" "APP-TEST"
+        let fakeLocationManager = FakeLocationManager()
+        let builder = TexConfigBuilder(appId: appId, texUser: user, isAPIV2: false)
+        do {
+            try builder.enableTripRecorder(locationManager: fakeLocationManager)
+            //try builder.enableTripRecorder()
+            builder.select(platform: Platform.Production, isAPIV2: false) //Platform.APIV2Testing
             let config = builder.build()
             let service = TexServices.service(configuration: config)
             texServices = service

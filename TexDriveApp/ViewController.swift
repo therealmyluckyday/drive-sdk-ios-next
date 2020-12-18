@@ -84,6 +84,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
             if let tripId = event.element {
                 self?.appendText(string: "\n Trip finished: \n \(tripId.uuidString)")
                 self?.saveLog("\n Trip finished: \n \(tripId.uuidString)")
+                self?.sendNotification("Trip finished: \(tripId.uuidString)")
             }
             }.disposed(by: rxDisposeBag)
         tripRecorder = services.tripRecorder
@@ -116,10 +117,12 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
     @IBAction func tripSegmentedControlValueChanged(_ sender: UISegmentedControl) {
         textfield.resignFirstResponder()
         switch sender.selectedSegmentIndex {
-        case 1:
+        case 0:
             print("isDriving")
+            tripRecorder?.start()
         default:
             print("isNotDriving")
+            tripRecorder?.stop()
         }
     }
     
@@ -299,7 +302,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
         @escaping (UNNotificationPresentationOptions) -> Void) {
         
         Analytics.logEvent(#function, parameters: [
-        "detail" : "Notification received \(notification.request.content.categoryIdentifier) ",
+            "detail" : "Notification received \(notification.request.content.body) ",
         "filename" : #file,
         "systemVersion": UIDevice.current.systemVersion
         ])
