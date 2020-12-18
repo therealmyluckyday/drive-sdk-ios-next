@@ -98,6 +98,7 @@
 		C1FDE346219C5BA700F15AF3 /* APITripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE345219C5BA700F15AF3 /* APITripTests.swift */; };
 		C1FDE34A219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE349219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift */; };
 		C1FDE34C219C72C400F15AF3 /* FixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE34B219C72C400F15AF3 /* FixTests.swift */; };
+		C5E24C33258A47AD00E7CA51 /* TexStopRequestOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E24C32258A47AD00E7CA51 /* TexStopRequestOperation.swift */; };
 		C5F97FA4256E76B40060672D /* TripProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F97FA3256E76B40060672D /* TripProgress.swift */; };
 		C5F97FF7256E8DF50060672D /* AutoModeLocationSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F97FF2256E8DF50060672D /* AutoModeLocationSensor.swift */; };
 		C5F97FF8256E8DF50060672D /* LocationSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F97FF3256E8DF50060672D /* LocationSensor.swift */; };
@@ -219,6 +220,7 @@
 		C1FDE345219C5BA700F15AF3 /* APITripTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITripTests.swift; sourceTree = "<group>"; };
 		C1FDE349219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecorderFeatureTests.swift; sourceTree = "<group>"; };
 		C1FDE34B219C72C400F15AF3 /* FixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixTests.swift; sourceTree = "<group>"; };
+		C5E24C32258A47AD00E7CA51 /* TexStopRequestOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TexStopRequestOperation.swift; sourceTree = "<group>"; };
 		C5F97FA3256E76B40060672D /* TripProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripProgress.swift; sourceTree = "<group>"; };
 		C5F97FF2256E8DF50060672D /* AutoModeLocationSensor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoModeLocationSensor.swift; sourceTree = "<group>"; };
 		C5F97FF3256E8DF50060672D /* LocationSensor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSensor.swift; sourceTree = "<group>"; };
@@ -371,6 +373,7 @@
 		C17E9A71216F824100FCF93E /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				C5E24C32258A47AD00E7CA51 /* TexStopRequestOperation.swift */,
 				C17E9A72216F826000FCF93E /* Public */,
 			);
 			path = Core;
@@ -654,6 +657,7 @@
 			children = (
 				E2798ED0214AB6F3006228A3 /* FixCollector.swift */,
 				C12373982166468100A95A2A /* TripRecorder.swift */,
+				C529F17C2589128000CBA1F1 /* TripRecorderiOS13.swift */,
 			);
 			path = Processors;
 			sourceTree = "<group>";
@@ -823,6 +827,7 @@
 				C12E34C421C174B600696B03 /* LogRx.swift in Sources */,
 				C5F97FFA256E8DF50060672D /* FakeLocationSensor.swift in Sources */,
 				E2798ED1214AB6F3006228A3 /* FixCollector.swift in Sources */,
+				C5E24C33258A47AD00E7CA51 /* TexStopRequestOperation.swift in Sources */,
 				E2798EC721480E3B006228A3 /* Fix.swift in Sources */,
 				C1F7E45321B5365C00EA0445 /* ScoreRetriever.swift in Sources */,
 				C12F67762223F9EF00CB21E1 /* SensorAutoModeDetectionState.swift in Sources */,

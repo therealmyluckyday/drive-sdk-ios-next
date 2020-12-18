@@ -61,8 +61,39 @@ public class TexServices {
         urlTripSessionConfiguration.timeoutIntervalForResource = 15 * 60 * 60
         urlTripSessionConfiguration.httpAdditionalHeaders = configuration.tripInfos.httpHeaders()
         let tripSessionManager = APITripSessionManager(configuration: configuration.tripInfos, urlSessionConfiguration: urlTripSessionConfiguration)
+        _tripSessionManager = tripSessionManager
+        tripRecorder = TripRecorder(configuration: configuration, sessionManager: sessionManager)
+    @available(iOS 13.0, *)
+    func handleStopRequest(_ task: BGProcessingTask) {
+        os_log("[BGTASK] HandleStopRequest" , log: OSLog.texDriveSDK, type: OSLogType.info)
+        guard let tripSessionManager = self._tripSessionManager else {
+            os_log("[BGTASK] Error no tripsesionManager" , log: OSLog.texDriveSDK, type: OSLogType.error)
+            return
+        }
+        let operationQueue = OperationQueue.main
         
-        _tripRecorder = TripRecorder(configuration: configuration, sessionManager: tripSessionManager)
+        // Create an operation that performs the main part of the background task
+        let operation = TexStopRequestOperation(tripSessionManager)
+        
+        // Provide an expiration handler for the background task
+        // that cancels the operation
+        task.expirationHandler = {
+            os_log("[BGTASK] ExpirationHandler operation not completed" , log: OSLog.texDriveSDK, type: OSLogType.error)
+            operation.cancel()
+            task.setTaskCompleted(success: false)
+        }
+        
+        // Inform the system that the background task is complete
+        // when the operation completes
+        operation.completionBlock = {
+            os_log("[BGTASK] Operation completed" , log: OSLog.texDriveSDK, type: OSLogType.info)
+            task.setTaskCompleted(success: !operation.isCancelled)
+        }
+        
+        // Start the operation
+        os_log("[BGTASK] Start the operation" , log: OSLog.texDriveSDK, type: OSLogType.info)
+        operationQueue.addOperation(operation)
+        
     }
     
     // MARK: - Public Method
@@ -73,5 +104,16 @@ public class TexServices {
         }
         sharedInstance.reconfigure(configuration, isTesting: isTesting)
         return sharedInstance
+    }
+    
+    public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
+        if #available(iOS 13.0, *) {
+            BGTaskScheduler.shared.register(forTaskWithIdentifier: BGAppTaskRequestIdentifier, using: .global()) { (task) in
+                os_log("[BGTASK] My backgroundTask is executed now" , log: OSLog.texDriveSDK, type: OSLogType.info)
+                if let task = task as? BGProcessingTask {
+                    self.handleStopRequest(task)
+                }
+            }
+        }
     }
 }

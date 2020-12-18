@@ -8,6 +8,11 @@
 
 import Foundation
 import RxSwift
+import OSLog
+
+#if canImport(BackgroundTasks)
+import BackgroundTasks
+#endif
 
 class PersistantQueue {
     // MARK: Property
@@ -70,22 +75,52 @@ class PersistantQueue {
     }
     
     func sendNextTripChunk() {
-        Log.print("sendNextTripChunk ")
-        if let stopTripChunk = lastTripChunk, tripChunkSentCounter < 1 {
+       if let stopTripChunk = lastTripChunk, tripChunkSentCounter < 1 {
             lastTripChunk = nil
             self.providerTrip.onNext(stopTripChunk)
+            
+            if #available(iOS 13.0, *) {
+                self.cancelScheduleBGTask()
+            }
         }
-
     }
     
     func sendTripChunk(tripChunk: TripChunk) {
-        Log.print("sendTripChunk \(tripChunk.count) ")
         tripChunkSentCounter = tripChunkSentCounter + 1
         self.providerTrip.onNext(tripChunk)
     }
     
     func sendLastTripChunk(tripChunk: TripChunk) {
         lastTripChunk = tripChunk
+        
+        if #available(iOS 13.0, *) {
+            self.scheduleBGTask(lastTripChunk: tripChunk)
+        }
         self.sendNextTripChunk()
     }
+    
+    @available(iOS 13.0, *)
+    func cancelScheduleBGTask() {
+        Log.print("[BGTASK]  CancelScheduleBGTask")
+        BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: BGAppTaskRequestIdentifier)
+    }
+    
+    @available(iOS 13.0, *)
+    func scheduleBGTask(lastTripChunk: TripChunk) {
+        Log.print("[BGTASK] ScheduleBGTask")
+        do {
+            let request = BGProcessingTaskRequest(identifier: BGAppTaskRequestIdentifier)//tripChunkSentCounter
+            request.earliestBeginDate = Calendar.current.date(byAdding: .second, value: 60, to: Date())
+            request.requiresNetworkConnectivity = true
+            try BGTaskScheduler.shared.submit(request)
+            let userDefaultsTexSDK = UserDefaults(suiteName: BGAppTaskRequestIdentifier)
+            userDefaultsTexSDK?.setValue(lastTripChunk.serialize(), forKey: BGTaskDictionaryBodyKey)
+            userDefaultsTexSDK?.setValue(lastTripChunk.tripInfos.baseUrl(), forKey: BGTaskBaseUrlKey)
+            Log.print("[BGTASK]  scheduleBGTask Submitted task request \(tripChunkSentCounter)")
+        } catch {
+            Log.print("[BGTASK] Failed to submit BGTASK: \(error) ", type: .Error)
+        }
+    }
+    
+   
 }
