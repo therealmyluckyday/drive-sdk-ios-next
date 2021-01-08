@@ -88,7 +88,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
             }
             }.disposed(by: rxDisposeBag)
         tripRecorder = services.tripRecorder
-        tripRecorder?.rxIsDriving?.asObserver().observeOn(MainScheduler.asyncInstance).subscribe({ [weak self] (event) in
+        tripRecorder?.rxIsDriving.asObserver().observeOn(MainScheduler.asyncInstance).subscribe({ [weak self] (event) in
             if let isDriving = event.element {
                 self?.appendText(string: "\n isDriving: \n \(isDriving)")
                 self?.saveLog("\n isDriving: \n \(isDriving)")
@@ -173,8 +173,9 @@ class ViewController: UIViewController, UITextFieldDelegate, UNUserNotificationC
             }.disposed(by: self.rxDisposeBag)
         
         do {
-            let regex = try NSRegularExpression(pattern: ".*(TripChunk|Score|URLRequestExtension.swift|API|State).*", options: NSRegularExpression.Options.caseInsensitive)
-//            let regex = try NSRegularExpression(pattern: ".*.*", options: NSRegularExpression.Options.caseInsensitive)
+            //let regex = try NSRegularExpression(pattern: ".*(PersistantQueue|Score).*", options: NSRegularExpression.Options.caseInsensitive)
+            let regex = try NSRegularExpression(pattern: ".*(TexStopRequestOperation|TexServices|PersistantQueue).*", options: NSRegularExpression.Options.caseInsensitive)
+            //let regex = try NSRegularExpression(pattern: ".*.*", options: NSRegularExpression.Options.caseInsensitive)
             services.logManager.log(regex: regex, logType: LogType.Info)
         } catch {
             let customLog = OSLog(subsystem: "fr.axa.tex", category: #file)
