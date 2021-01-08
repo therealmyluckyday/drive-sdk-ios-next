@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		76578802AD1E22FC85ACBA59 /* libPods-TexDriveSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FF9BB194DE92C32454DA6CB /* libPods-TexDriveSDK.a */; };
-		7DB71CFD700B01F3298F86CC /* libPods-TexDriveSDKTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EB9F29EAFBFD2B3E91BCDF7 /* libPods-TexDriveSDKTests.a */; };
+		073C960FC16D60697E5CDC32 /* Pods_TexDriveSDKTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6ECA781E9C9BA013C48D90D /* Pods_TexDriveSDKTests.framework */; };
+		8A564BFDD34FE531F9543A24 /* Pods_TexDriveSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D552DCC22C790C16E1E402AF /* Pods_TexDriveSDK.framework */; };
 		C107606F217E2C8000FB28AA /* PersistantQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C107606E217E2C8000FB28AA /* PersistantQueue.swift */; };
 		C1076071217E2E9400FB28AA /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1076070217E2E9400FB28AA /* Event.swift */; };
 		C113C7222514F9D700DB7532 /* MockLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C113C7212514F9D700DB7532 /* MockLocationManager.swift */; };
@@ -98,7 +98,10 @@
 		C1FDE346219C5BA700F15AF3 /* APITripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE345219C5BA700F15AF3 /* APITripTests.swift */; };
 		C1FDE34A219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE349219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift */; };
 		C1FDE34C219C72C400F15AF3 /* FixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE34B219C72C400F15AF3 /* FixTests.swift */; };
-		C5E24C33258A47AD00E7CA51 /* TexStopRequestOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E24C32258A47AD00E7CA51 /* TexStopRequestOperation.swift */; };
+		C529F17D2589128000CBA1F1 /* TripRecorderiOS13.swift in Sources */ = {isa = PBXBuildFile; fileRef = C529F17C2589128000CBA1F1 /* TripRecorderiOS13.swift */; };
+		C5C4B53725A8AECB0071D338 /* TexStopRequestOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C4B53625A8AECA0071D338 /* TexStopRequestOperation.swift */; };
+		C5E91432258A098700CDEDDC /* TexServicesiOS13.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E91431258A098700CDEDDC /* TexServicesiOS13.swift */; };
+		C5F096EE2580CE63000697FF /* LateInitialized.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F096ED2580CE63000697FF /* LateInitialized.swift */; };
 		C5F97FA4256E76B40060672D /* TripProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F97FA3256E76B40060672D /* TripProgress.swift */; };
 		C5F97FF7256E8DF50060672D /* AutoModeLocationSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F97FF2256E8DF50060672D /* AutoModeLocationSensor.swift */; };
 		C5F97FF8256E8DF50060672D /* LocationSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F97FF3256E8DF50060672D /* LocationSensor.swift */; };
@@ -127,9 +130,8 @@
 
 /* Begin PBXFileReference section */
 		0C4DF065CE5413233869082C /* Pods-TexDriveSDKTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveSDKTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-TexDriveSDKTests/Pods-TexDriveSDKTests.debug.xcconfig"; sourceTree = "<group>"; };
-		5EB9F29EAFBFD2B3E91BCDF7 /* libPods-TexDriveSDKTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TexDriveSDKTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C9C02028661D6DB90B8EF11 /* Pods-TexDriveSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveSDK.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-TexDriveSDK/Pods-TexDriveSDK.debug.xcconfig"; sourceTree = "<group>"; };
-		8FF9BB194DE92C32454DA6CB /* libPods-TexDriveSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TexDriveSDK.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A6ECA781E9C9BA013C48D90D /* Pods_TexDriveSDKTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TexDriveSDKTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF9E4DBBDCD5D4E15A273DDC /* Pods-TexDriveSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TexDriveSDK.release.xcconfig"; path = "../Pods/Target Support Files/Pods-TexDriveSDK/Pods-TexDriveSDK.release.xcconfig"; sourceTree = "<group>"; };
 		C107606E217E2C8000FB28AA /* PersistantQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistantQueue.swift; sourceTree = "<group>"; };
 		C1076070217E2E9400FB28AA /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
@@ -220,13 +222,17 @@
 		C1FDE345219C5BA700F15AF3 /* APITripTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITripTests.swift; sourceTree = "<group>"; };
 		C1FDE349219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecorderFeatureTests.swift; sourceTree = "<group>"; };
 		C1FDE34B219C72C400F15AF3 /* FixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixTests.swift; sourceTree = "<group>"; };
-		C5E24C32258A47AD00E7CA51 /* TexStopRequestOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TexStopRequestOperation.swift; sourceTree = "<group>"; };
+		C529F17C2589128000CBA1F1 /* TripRecorderiOS13.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecorderiOS13.swift; sourceTree = "<group>"; };
+		C5C4B53625A8AECA0071D338 /* TexStopRequestOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TexStopRequestOperation.swift; sourceTree = "<group>"; };
+		C5E91431258A098700CDEDDC /* TexServicesiOS13.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexServicesiOS13.swift; sourceTree = "<group>"; };
+		C5F096ED2580CE63000697FF /* LateInitialized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LateInitialized.swift; sourceTree = "<group>"; };
 		C5F97FA3256E76B40060672D /* TripProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripProgress.swift; sourceTree = "<group>"; };
 		C5F97FF2256E8DF50060672D /* AutoModeLocationSensor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoModeLocationSensor.swift; sourceTree = "<group>"; };
 		C5F97FF3256E8DF50060672D /* LocationSensor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSensor.swift; sourceTree = "<group>"; };
 		C5F97FF4256E8DF50060672D /* FakeLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeLocationManager.swift; sourceTree = "<group>"; };
 		C5F97FF5256E8DF50060672D /* FakeLocationSensor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeLocationSensor.swift; sourceTree = "<group>"; };
 		C5F97FF6256E8DF50060672D /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		D552DCC22C790C16E1E402AF /* Pods_TexDriveSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TexDriveSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2798EAA2147F0DC006228A3 /* TexDriveSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TexDriveSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2798EAD2147F0DC006228A3 /* TexDriveSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TexDriveSDK.h; sourceTree = "<group>"; };
 		E2798EAE2147F0DC006228A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -246,7 +252,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				76578802AD1E22FC85ACBA59 /* libPods-TexDriveSDK.a in Frameworks */,
+				8A564BFDD34FE531F9543A24 /* Pods_TexDriveSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,7 +261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2798EB42147F0DC006228A3 /* TexDriveSDK.framework in Frameworks */,
-				7DB71CFD700B01F3298F86CC /* libPods-TexDriveSDKTests.a in Frameworks */,
+				073C960FC16D60697E5CDC32 /* Pods_TexDriveSDKTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,8 +271,8 @@
 		0AA4710ACFB5F4F1B5D0FF88 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8FF9BB194DE92C32454DA6CB /* libPods-TexDriveSDK.a */,
-				5EB9F29EAFBFD2B3E91BCDF7 /* libPods-TexDriveSDKTests.a */,
+				D552DCC22C790C16E1E402AF /* Pods_TexDriveSDK.framework */,
+				A6ECA781E9C9BA013C48D90D /* Pods_TexDriveSDKTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -373,7 +379,6 @@
 		C17E9A71216F824100FCF93E /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				C5E24C32258A47AD00E7CA51 /* TexStopRequestOperation.swift */,
 				C17E9A72216F826000FCF93E /* Public */,
 			);
 			path = Core;
@@ -382,6 +387,7 @@
 		C17E9A72216F826000FCF93E /* Public */ = {
 			isa = PBXGroup;
 			children = (
+				C5C4B53625A8AECA0071D338 /* TexStopRequestOperation.swift */,
 				C5F97FF1256E8DF50060672D /* Sensor */,
 				C5F97FA3256E76B40060672D /* TripProgress.swift */,
 				C12E34C321C174B600696B03 /* LogRx.swift */,
@@ -393,6 +399,8 @@
 				C17E9A7B216F944500FCF93E /* TripRecorderFeature.swift */,
 				C121002E21C14C9100A126E6 /* TripInfos.swift */,
 				C18AE85A2260C5A0001C3FB3 /* TexConfigBuilder.swift */,
+				C5F096ED2580CE63000697FF /* LateInitialized.swift */,
+				C5E91431258A098700CDEDDC /* TexServicesiOS13.swift */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -819,6 +827,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5F096EE2580CE63000697FF /* LateInitialized.swift in Sources */,
 				C124ABF7217F45D80038A0B1 /* TripChunk.swift in Sources */,
 				C1C83BD7219042F500D8E4B3 /* Log.swift in Sources */,
 				C1D13441218742320099B650 /* DateFormatterExtension.swift in Sources */,
@@ -827,13 +836,15 @@
 				C12E34C421C174B600696B03 /* LogRx.swift in Sources */,
 				C5F97FFA256E8DF50060672D /* FakeLocationSensor.swift in Sources */,
 				E2798ED1214AB6F3006228A3 /* FixCollector.swift in Sources */,
-				C5E24C33258A47AD00E7CA51 /* TexStopRequestOperation.swift in Sources */,
+				C5C4B53725A8AECB0071D338 /* TexStopRequestOperation.swift in Sources */,
+				C5E91432258A098700CDEDDC /* TexServicesiOS13.swift in Sources */,
 				E2798EC721480E3B006228A3 /* Fix.swift in Sources */,
 				C1F7E45321B5365C00EA0445 /* ScoreRetriever.swift in Sources */,
 				C12F67762223F9EF00CB21E1 /* SensorAutoModeDetectionState.swift in Sources */,
 				C1CCD6ED2204A3C600F4B312 /* LogManager.swift in Sources */,
 				C1D1343F218740290099B650 /* URLRequestExtension.swift in Sources */,
 				E2798ECE214AB4BA006228A3 /* BatteryTracker.swift in Sources */,
+				C529F17D2589128000CBA1F1 /* TripRecorderiOS13.swift in Sources */,
 				C1E521B42170ED5300B80C64 /* CallFix.swift in Sources */,
 				C1DD033121887EE6000BBBBF /* APISessionManager.swift in Sources */,
 				C12373992166468100A95A2A /* TripRecorder.swift in Sources */,
@@ -1132,7 +1143,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = axa.tex.TexDriveSDKTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1153,7 +1164,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = axa.tex.TexDriveSDKTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
