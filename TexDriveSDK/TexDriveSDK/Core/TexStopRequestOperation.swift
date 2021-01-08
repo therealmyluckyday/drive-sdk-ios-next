@@ -1,5 +1,5 @@
 //
-//  StopRequestOperation.swift
+//  TexStopRequestOperation.swift
 //  TexDriveSDK
 //
 //  Created by A944VQ on 14/12/2020.
@@ -7,22 +7,43 @@
 //
 
 import Foundation
+import OSLog
 
-
-@available(iOS 13.0, *)
-class StopRequestOperation: Operation {
-    /*
-     
- */
+internal class TexStopRequestOperation: Operation {
+    let sessionManager: APITripSessionManager
+    init(_ apiTripSessionManager: APITripSessionManager) {
+        sessionManager = apiTripSessionManager
+    }
+    
     override func main() {
-        //4
-        if isCancelled {
-          return
+        guard !isCancelled else {
+            os_log("[BGTASK] My TexStopRequestOperation is CANCELED NOW! BGTASK" , log: OSLog.texDriveSDK, type: OSLogType.error)
+            return
         }
+        os_log("[BGTASK] My TexStopRequestOperation is executed NOW! BGTASK" , log: OSLog.texDriveSDK, type: OSLogType.info)
+       let userDefaultsTexSDK = UserDefaults(suiteName: BGAppTaskRequestIdentifier)
+        if let dictionaryBody = userDefaultsTexSDK?.value(forKey:BGTaskDictionaryBodyKey) as? [String : Any], let baseUrl = userDefaultsTexSDK?.value(forKey:BGTaskBaseUrlKey) as? String {
+            self.sessionManager.put(dictionaryBody: dictionaryBody, baseUrl: baseUrl)
+            sendNotification("BGTASK Sent")
+        } else {
+            os_log("[BGTASK] My TexStopRequestOperation retrieve data error" , log: OSLog.texDriveSDK, type: OSLogType.error)
+        }
+        os_log("[BGTASK] My TexStopRequestOperation is FINISHED NOW! BGTASK" , log: OSLog.texDriveSDK, type: OSLogType.info)
+    }
+    
+    func sendNotification(_ text: String) {
+        // Configure the notification's payload.
+        let content = UNMutableNotificationContent()
+        content.title = "AutoMode "
+        content.body = text
+        content.sound = UNNotificationSound.default
         
-        let userDefaultsTexSDK = UserDefaults(suiteName: BGAppTaskRequestIdentifier)
-        //userDefaultsTexSDK?.setValue(lastTripChunk.serialize(), forKey: "dictionaryBody")
-        //userDefaultsTexSDK?.setValue(lastTripChunk.tripInfos.baseUrl(), forKey: "baseUrl")
-        
+        // Deliver the notification in x seconds.
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(10), repeats: false)
+        let request = UNNotificationRequest(identifier: "AutoMode"+text, content: content, trigger: trigger) // Schedule the notification.
+        let center = UNUserNotificationCenter.current()
+
+        center.add(request) { (error : Error?) in
+        }
     }
  }

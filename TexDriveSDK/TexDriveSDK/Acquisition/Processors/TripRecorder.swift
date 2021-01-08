@@ -13,9 +13,9 @@ import RxSwiftExt
 import OSLog
 
 public protocol TripRecorderProtocol {
-    var currentTripId: TripId? { get }
-    var tripIdFinished: PublishSubject<TripId> { get }
-    func start()
+    var currentTripId   : TripId? { get }
+    var tripIdFinished  : PublishSubject<TripId> { get }
+    func start(date: Date)
     func stop()
 }
 
@@ -28,57 +28,61 @@ public extension Notification.Name {
 
 public class TripRecorder: TripRecorderProtocol {
     // MARK: - Property
+    // MARK: Private
     private let collector: FixCollector
-    private var rxEventType = PublishSubject<EventType>()
-    private let rxDisposeBag = DisposeBag()
+    private var rxEventType             = PublishSubject<EventType>()
     private let apiTrip: APITrip
-    private var tripDistance: Double = 0
+    private var tripDistance: Double    = 0
     private var currentLocation: LocationFix?
+    private let rxDisposeBag            = DisposeBag()
     
-    internal var autoMode: AutoMode?
-    internal let persistantQueue: PersistantQueue
+    // MARK: Internal
+    //@LateInitialized internal var autoMode               : AutoMode
+    internal var autoMode               : AutoMode?
+    internal let persistantQueue        : PersistantQueue
+    internal var rxFix                  = PublishSubject<Fix>()
     internal let rxDispatchQueueScheduler: SerialDispatchQueueScheduler
-    internal var rxFix = PublishSubject<Fix>()
     
-    public let rxTripId = PublishSubject<TripId>()
-    public var rxTripProgress = PublishSubject<TripProgress>()
     
-    // MARK: SDKV2 Compatibility
-    public var isRecording: Bool {
+    
+    // MARK: Public
+    public let rxTripId         = PublishSubject<TripId>()
+    public var rxTripProgress   = PublishSubject<TripProgress>()
+    public var currentTripId    : TripId?
+    public let tripIdFinished   : PublishSubject<TripId>
+    public var startTime        : Date?
+    public var rxIsDriving      : PublishSubject<Bool> {
+        get {
+            return self.autoMode != nil ? self.autoMode!.rxIsDriving : PublishSubject<Bool>()
+        }
+    }
+    public var isRecording      : Bool {
         get {
             return currentTripId != nil
         }
     }
-    public var startTime: Date?
-    
-    // MARK: Public
-    public var currentTripId: TripId?
-    public let tripIdFinished: PublishSubject<TripId>
-    
-    public var rxIsDriving: PublishSubject<Bool>? {
-        get {
-            return self.autoMode?.rxIsDriving
-        }
-    }
     
     // MARK: - TripRecorder Protocol
-    public func start() {
+    public func start(date: Date = Date()) {
+        tripDistance    = 0
+        startTime       = date
         collector.startCollect()
-        startTime = Date()
-        tripDistance = 0
-        if let autoMode = self.autoMode, !autoMode.isServiceStarted {
-            autoMode.rxIsDriving.onNext(true)
+        if let serviceStarted = autoMode?.isServiceStarted,
+           serviceStarted == false {
+            autoMode?.rxIsDriving.onNext(true)
         }
         NotificationCenter.default.post(name: Notification.Name.AXAEventTripRecordStart, object: nil)
     }
     
     public func stop() {
+        os_log("[TripRecorder]Stop" , log: OSLog.texDriveSDK, type: OSLogType.info)
         collector.stopCollect()
-        currentTripId = nil
-        startTime = nil
+        startTime       = nil
+        currentTripId   = nil
         currentLocation = nil
-        if let autoMode = self.autoMode, !autoMode.isServiceStarted {
-            autoMode.rxIsDriving.onNext(false)
+        if let serviceStarted = autoMode?.isServiceStarted,
+           serviceStarted == false {
+            autoMode?.rxIsDriving.onNext(false)
         }
         NotificationCenter.default.post(name: Notification.Name.AXAEventTripRecordStop, object: nil)
     }
@@ -129,6 +133,7 @@ public class TripRecorder: TripRecorderProtocol {
         self.configureTripProgress()
     }
     
+    // MARK: - Configure ApiTrip
     func subscribe(providerTrip: PublishSubject<TripChunk>, scheduler: ImmediateSchedulerType) {
         providerTrip.asObservable().observeOn(scheduler).subscribe { [weak self](event) in
             if let trip = event.element {
@@ -137,12 +142,9 @@ public class TripRecorder: TripRecorderProtocol {
             }.disposed(by: rxDisposeBag)
     }
     
+    // MARK: - Configure Automode start & stop auto
     public func configureAutoMode(_ scheduler: SerialDispatchQueueScheduler = MainScheduler.instance) {
-        guard let autoMode = autoMode else {
-            Log.print("configureAutoMode error no automode", type: .Error)
-            return
-        }
-        autoMode.rxIsDriving.asObserver().observeOn(scheduler).subscribe { [weak self](event) in
+        autoMode?.rxIsDriving.asObserver().observeOn(scheduler).subscribe { [weak self](event) in
             if let isDriving = event.element {
                 if isDriving {
                     self?.start()
@@ -153,18 +155,18 @@ public class TripRecorder: TripRecorderProtocol {
             }.disposed(by: rxDisposeBag)
     }
     
-    // MARK: - Configure TripProgress
+    // MARK: - Configure TripProgress stream
     func configureTripProgress() {
         self.rxFix.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self] (event) in
-            
-            if let location =  event.element as? LocationFix,
-               let startTime = self?.startTime,
-               let tripId = self?.currentTripId,
-               let oldDistance = self?.tripDistance,
+            if let location     =  event.element as? LocationFix,
+               let startTime    = self?.startTime,
+               let tripId       = self?.currentTripId,
+               let oldDistance  = self?.tripDistance,
                location.distance > 0,
-               location.speed >= 0 {
-                let speed = location.speed
-                let duration = location.timestamp - startTime.timeIntervalSince1970
+               location.speed   >= 0 {
+                
+                let speed       = location.speed
+                let duration    = location.timestamp - startTime.timeIntervalSince1970
                 let newDistance = oldDistance + location.distance
                 if let oldLocation = self?.currentLocation {
                     let deltaTimestamp = (pow((location.timestamp - oldLocation.timestamp), 2)).squareRoot()
@@ -173,16 +175,21 @@ public class TripRecorder: TripRecorderProtocol {
                         return
                     }
                 }
-                let tripProgress = TripProgress(tripId: tripId, speed: speed, distance: newDistance, duration: duration)
-                //os_log("[TripRecorder] tripProgress : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(tripProgress.distance) \(tripProgress.speed) \(location.speed)")
-                self?.tripDistance = newDistance
-                self?.currentLocation = location
-                self?.rxTripProgress.onNext(tripProgress)
+                let tripProgress        = TripProgress(tripId: tripId, speed: speed, distance: newDistance, duration: duration)
+                //	os_log("[TripRecorder] tripProgress : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(tripProgress.distance) \(tripProgress.speed) \(location.speed)")
+                self?.tripDistance      = newDistance
+                self?.currentLocation   = location
+                self?.update(tripProgress: tripProgress)
             }
         }.disposed(by: rxDisposeBag)
     }
-
-    // MARK: - SDK V2 compatibility
+    
+    internal func update(tripProgress: TripProgress) {
+        self.rxTripProgress.onNext(tripProgress)
+    }
+    
+    
+    // MARK: - Start & Stop trip
     public func startTrip() {
         guard !isRecording else {
             return

@@ -9,10 +9,14 @@
 import Foundation
 import RxSwift
 import OSLog
+#if canImport(BackgroundTasks)
+import BackgroundTasks
+#endif
+
 
 extension OSLog {
     private static var texsubsystem = Bundle.main.bundleIdentifier!
-
+    
     static let texDriveSDK = OSLog(subsystem: texsubsystem, category: "TexDriveSDK")
 }
 
@@ -20,28 +24,33 @@ public class TexServices {
     // MARK: - Property
     // MARK: - Public
     public let logManager = LogManager()
-    public var tripRecorder: TripRecorder? {
-        get {
-            return _tripRecorder
-        }
-    }
-    public var scoringClient: ScoringClient? {
-        get {
-            return _scoreRetriever
-        }
-    }
-    
     public let rxScore = PublishSubject<Score>()
     
+    /*
+     @available(swift 5.3)
+     @LateInitialized public var tripRecorder: TripRecorder
+     
+     @available(swift 5.3)
+     @LateInitialized public var scoringClient: ScoringClient
+     
+     // MARK: - Private
+     
+     @available(swift 5.3)
+     @LateInitialized private var _tripSessionManager: APITripSessionManager
+     
+     */
+    public var tripRecorder: TripRecorder?
+    public var scoringClient: ScoringClient?
+    
     // MARK: - Private
-    private var disposeBag: DisposeBag?
-    private var _tripRecorder: TripRecorder?
     private var _tripSessionManager: APITripSessionManager?
-    private var _scoreRetriever: ScoringClient?
+    
+    
     private static let sharedInstance = TexServices()
     
     // MARK: - Internal
     internal var configuration: ConfigurationProtocol?
+    internal var disposeBag: DisposeBag?
     
     // MARK: - Internal Method
     internal func reconfigure(_ configuration: ConfigurationProtocol, isTesting: Bool) {
@@ -53,7 +62,7 @@ public class TexServices {
         urlScoreSessionConfiguration.timeoutIntervalForResource = 15 * 60 * 60
         urlScoreSessionConfiguration.httpAdditionalHeaders = configuration.tripInfos.httpHeaders()
         let scoreSessionManager = APIScoreSessionManager(configuration: configuration.tripInfos, urlSessionConfiguration: urlScoreSessionConfiguration)
-        _scoreRetriever = ScoreRetriever(sessionManager: scoreSessionManager, locale: configuration.locale)
+        scoringClient = ScoreRetriever(sessionManager: scoreSessionManager, locale: configuration.locale)
         // Configure API Trip session
         let urlTripSessionConfiguration = isTesting ? URLSessionConfiguration.default : URLSessionConfiguration.background(withIdentifier: "TexSession")
         urlTripSessionConfiguration.isDiscretionary = true
@@ -62,7 +71,13 @@ public class TexServices {
         urlTripSessionConfiguration.httpAdditionalHeaders = configuration.tripInfos.httpHeaders()
         let tripSessionManager = APITripSessionManager(configuration: configuration.tripInfos, urlSessionConfiguration: urlTripSessionConfiguration)
         _tripSessionManager = tripSessionManager
+        self.configureTripRecorder(configuration: configuration, sessionManager: tripSessionManager)
+    }
+    
+    internal func configureTripRecorder(configuration: ConfigurationProtocol, sessionManager: APITripSessionManager) {
         tripRecorder = TripRecorder(configuration: configuration, sessionManager: sessionManager)
+    }
+    
     @available(iOS 13.0, *)
     func handleStopRequest(_ task: BGProcessingTask) {
         os_log("[BGTASK] HandleStopRequest" , log: OSLog.texDriveSDK, type: OSLogType.info)
@@ -98,9 +113,9 @@ public class TexServices {
     
     // MARK: - Public Method
     public class func service(configuration: ConfigurationProtocol, isTesting: Bool = false) -> TexServices {
-        if let triprecorder = sharedInstance._tripRecorder {
-            triprecorder.autoMode?.disable()
-            triprecorder.stop()
+        if sharedInstance.tripRecorder != nil {
+            sharedInstance.tripRecorder?.autoMode?.disable()
+            sharedInstance.tripRecorder?.stop()
         }
         sharedInstance.reconfigure(configuration, isTesting: isTesting)
         return sharedInstance

@@ -13,7 +13,7 @@ import OSLog
 @testable import RxSwift
 
 class AutoModeGherkinTests: XCTestCase {
-    var automode: AutoMode?
+    @LateInitialized var automode: AutoMode
     var disposeBag: DisposeBag?
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -24,7 +24,7 @@ class AutoModeGherkinTests: XCTestCase {
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         disposeBag = nil
-        automode?.disable()
+        automode.disable()
     }
     /*
     Scenario: From ServiceNotStarted to WaitingScanTrigger state
@@ -36,7 +36,7 @@ class AutoModeGherkinTests: XCTestCase {
      */
     func testDisabledToStandbyStateWhenEnabledCalled() {
         let expectation = XCTestExpectation(description: #function)
-    automode?.rxState.asObservable().observeOn(MainScheduler.instance).subscribe({ (event) in
+        automode.rxState.asObservable().observeOn(MainScheduler.instance).subscribe({ (event) in
             if let state = event.element {
                 switch state {
                 case is StandbyState:
@@ -49,7 +49,7 @@ class AutoModeGherkinTests: XCTestCase {
                 XCTAssert(false)
             }
         }).disposed(by: disposeBag!)
-        automode?.enable()
+        automode.enable()
         wait(for: [expectation], timeout: 0.1)
     }
 

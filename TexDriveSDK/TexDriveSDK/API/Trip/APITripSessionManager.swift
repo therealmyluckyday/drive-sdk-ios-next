@@ -98,15 +98,15 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
     func retry(task: URLSessionDownloadTask, error: Error? = nil) {
         Log.print("Retry")
         retryCount = retryCount + 1
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.seconds(60*retryCount)) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.seconds(60*retryCount)) { [weak self] in
             if let error = error as NSError?, let resumeData = error.userInfo[NSURLSessionDownloadTaskResumeData] as? Data {
-                let backgroundTask = self.urlSession?.downloadTask(withResumeData: resumeData)
+                let backgroundTask = self?.urlSession?.downloadTask(withResumeData: resumeData)
                 Log.print("Retry")
                 backgroundTask?.resume()
 
             } else {
                 if let request = task.currentRequest {
-                    let backgroundTask = self.urlSession?.downloadTask(with: request)
+                    let backgroundTask = self?.urlSession?.downloadTask(with: request)
                     Log.print("Retry")
                     backgroundTask?.resume()
                 }
@@ -195,6 +195,7 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
     
     // MARK: - func isTripStopedSend(on: downloadTask) -> Bool
     class func isTripStoppedSend(task: URLSessionDownloadTask) -> Bool {
+        Log.print("isTripStoppedSend")
         if let body = task.currentRequest?.httpBody {
             do {
                 let bodyUncompress = try body.gunzipped()
