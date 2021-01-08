@@ -48,7 +48,16 @@ class TripChunk: Collection {
     
     func append(eventType: EventType) {
         Log.print("appendEventType \(eventType)")
+        #if targetEnvironment(simulator)
+        if eventType ==  EventType.start {
+            self.event = Event(eventType: eventType, timestamp:Date(timeIntervalSinceNow: -1010).timeIntervalSince1970)
+        }
+        else {
+            self.event = Event(eventType: eventType, timestamp:Date().timeIntervalSince1970)
+        }
+        #else
         self.event = Event(eventType: eventType, timestamp:Date().timeIntervalSince1970)
+        #endif
     }
     
     func canUpload() -> Bool {
