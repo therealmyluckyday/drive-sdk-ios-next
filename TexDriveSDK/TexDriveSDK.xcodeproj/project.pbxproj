@@ -99,7 +99,6 @@
 		C1FDE34A219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE349219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift */; };
 		C1FDE34C219C72C400F15AF3 /* FixTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FDE34B219C72C400F15AF3 /* FixTests.swift */; };
 		C529F17D2589128000CBA1F1 /* TripRecorderiOS13.swift in Sources */ = {isa = PBXBuildFile; fileRef = C529F17C2589128000CBA1F1 /* TripRecorderiOS13.swift */; };
-		C5C4B53725A8AECB0071D338 /* TexStopRequestOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C4B53625A8AECA0071D338 /* TexStopRequestOperation.swift */; };
 		C5E91432258A098700CDEDDC /* TexServicesiOS13.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E91431258A098700CDEDDC /* TexServicesiOS13.swift */; };
 		C5F096EE2580CE63000697FF /* LateInitialized.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F096ED2580CE63000697FF /* LateInitialized.swift */; };
 		C5F97FA4256E76B40060672D /* TripProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F97FA3256E76B40060672D /* TripProgress.swift */; };
@@ -223,7 +222,6 @@
 		C1FDE349219C5BFD00F15AF3 /* TripRecorderFeatureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecorderFeatureTests.swift; sourceTree = "<group>"; };
 		C1FDE34B219C72C400F15AF3 /* FixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixTests.swift; sourceTree = "<group>"; };
 		C529F17C2589128000CBA1F1 /* TripRecorderiOS13.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecorderiOS13.swift; sourceTree = "<group>"; };
-		C5C4B53625A8AECA0071D338 /* TexStopRequestOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TexStopRequestOperation.swift; sourceTree = "<group>"; };
 		C5E91431258A098700CDEDDC /* TexServicesiOS13.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexServicesiOS13.swift; sourceTree = "<group>"; };
 		C5F096ED2580CE63000697FF /* LateInitialized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LateInitialized.swift; sourceTree = "<group>"; };
 		C5F97FA3256E76B40060672D /* TripProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripProgress.swift; sourceTree = "<group>"; };
@@ -387,7 +385,6 @@
 		C17E9A72216F826000FCF93E /* Public */ = {
 			isa = PBXGroup;
 			children = (
-				C5C4B53625A8AECA0071D338 /* TexStopRequestOperation.swift */,
 				C5F97FF1256E8DF50060672D /* Sensor */,
 				C5F97FA3256E76B40060672D /* TripProgress.swift */,
 				C12E34C321C174B600696B03 /* LogRx.swift */,
@@ -836,7 +833,6 @@
 				C12E34C421C174B600696B03 /* LogRx.swift in Sources */,
 				C5F97FFA256E8DF50060672D /* FakeLocationSensor.swift in Sources */,
 				E2798ED1214AB6F3006228A3 /* FixCollector.swift in Sources */,
-				C5C4B53725A8AECB0071D338 /* TexStopRequestOperation.swift in Sources */,
 				C5E91432258A098700CDEDDC /* TexServicesiOS13.swift in Sources */,
 				E2798EC721480E3B006228A3 /* Fix.swift in Sources */,
 				C1F7E45321B5365C00EA0445 /* ScoreRetriever.swift in Sources */,
