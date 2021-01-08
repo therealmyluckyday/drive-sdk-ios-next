@@ -1,4 +1,4 @@
-module Pods_TexDriveApp {
+framework module Pods_TexDriveApp {
   umbrella header "Pods-TexDriveApp-umbrella.h"
 
   export *

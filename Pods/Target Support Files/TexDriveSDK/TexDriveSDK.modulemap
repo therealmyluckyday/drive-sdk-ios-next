@@ -1,4 +1,4 @@
-module TexDriveSDK {
+framework module TexDriveSDK {
   umbrella header "TexDriveSDK-umbrella.h"
 
   export *

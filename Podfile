@@ -2,6 +2,8 @@
 platform :ios, '10.0'
 workspace 'TexDrive'
 inhibit_all_warnings!
+
+use_frameworks!
 def shared_pods
     pod 'RxSwift' 
     pod 'RxCocoa'
