@@ -9,9 +9,6 @@
 import Foundation
 import OSLog
 
-let BGAppTaskRequestIdentifier = "com.texdrivesdk.processing.stop"
-let BGTaskDictionaryBodyKey = "dictionaryBody"
-let BGTaskBaseUrlKey = "baseUrl"
 
 internal class TexStopRequestOperation: Operation {
     let sessionManager: APITripSessionManager

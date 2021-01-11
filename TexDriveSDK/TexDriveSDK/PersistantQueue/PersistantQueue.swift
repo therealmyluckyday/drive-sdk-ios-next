@@ -14,6 +14,10 @@ import OSLog
 import BackgroundTasks
 #endif
 
+let BGAppTaskRequestIdentifier = "com.texdrivesdk.processing.stop"
+let BGTaskDictionaryBodyKey = "dictionaryBody"
+let BGTaskBaseUrlKey = "baseUrl"
+
 class PersistantQueue {
     // MARK: Property
     private var currentTripChunk: TripChunk?
