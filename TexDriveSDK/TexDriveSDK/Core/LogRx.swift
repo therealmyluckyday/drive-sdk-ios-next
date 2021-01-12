@@ -33,20 +33,30 @@ class LogRx: LogImplementation {
     
     func report(logDetail: LogMessage) {
         rxLogOutput.onNext(logDetail)
-        /*let detail =  logDetail.description
+    }
+    
+    
+    func osLog(logDetail: LogMessage) {
+        let detail =  logDetail.description
         switch logDetail.type.rawValue {
         case 0..<2:
             os_log("%{public}@" , log: OSLog.texDriveSDK, type: OSLogType.error, detail)
         default:
             os_log("%{public}@" , log: OSLog.texDriveSDK, type: OSLogType.debug, detail)
-        }*/
+        }
     }
     
     // MARK: LogImplementation Protocol
     func print(_ description: String, type: LogType = .Info, fileName: String = #file, functionName: String = #function) {
         let logDetail = LogMessage(type: type, detail: description, fileName: fileName, functionName: functionName)
+        #if targetEnvironment(simulator)
+        self.osLog(logDetail: logDetail)
+        if (type != .Info) {
+            self.report(logDetail: logDetail)
+        }
+        #else
         self.rxLog.onNext(logDetail)
-        //self.report(logDetail: logDetail)
+        #endif
     }
     
     func warning(_ description: String, fileName: String = #file, functionName: String = #function) {

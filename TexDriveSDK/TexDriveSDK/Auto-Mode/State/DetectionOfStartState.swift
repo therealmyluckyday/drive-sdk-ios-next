@@ -78,7 +78,7 @@ public class DetectionOfStartState: SensorAutoModeDetectionState, TimerProtocol 
         
         if firstLocation == nil {
             firstLocation = location
-            os_log("Automode Start: FirstLocation %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, location)
+            Log.print("Automode Start: FirstLocation")
         }
         else {
             if let firstLocation = firstLocation, location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970 > timeLowSpeedThreshold {

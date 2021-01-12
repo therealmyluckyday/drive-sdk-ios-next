@@ -50,6 +50,7 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
         if (200...299).contains(httpResponse.statusCode), let tripId = APITripSessionManager.getTripId(task: downloadTask) {
             Log.print("TripId: \(tripId)")
             retryCount = 0
+            Log.print("tripChunkSent.onNext(Result.Success(tripId)")
             tripChunkSent.onNext(Result.Success(tripId))
             if APITripSessionManager.isTripStoppedSend(task:downloadTask) {
                 Log.print("Trip Finished")
@@ -156,7 +157,7 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
     }
     
     func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
-        Log.print("HTTP urlsession didFinishCollecting \(task)")
+        //Log.print("HTTP urlsession didFinishCollecting \(task)")
     }
     
     

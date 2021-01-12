@@ -73,36 +73,36 @@ class AutoMode: AutoModeContextProtocol {
         
         rxState.asObserver().observeOn(MainScheduler.asyncInstance).subscribe {[weak self] (event) in
             if let newState = event.element {
-                Log.print("\(newState)")
+                //Log.print("\(newState)")
                 self?.state = newState
             }
         }.disposed(by: rxDisposeBag)
         
         rxState.asObserver().observeOn(MainScheduler.asyncInstance).pairwise().subscribe {[weak self] event in
             if let (state1, state2) = event.element {
-                os_log("State Old New %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "1 : \(state1), 2: \(state2)")
+                //Log.print("State Old New %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "1 : \(state1), 2: \(state2)")
                 if state1 is DetectionOfStartState, state2 is DrivingState {
-                    os_log("%{private}@ Start detected" , log: OSLog.texDriveSDK, type: OSLogType.info, "[\(#file)][\(#function)]")
+                    Log.print("Start detected")
                     self?.rxIsDriving.onNext(true)
                 }
                 if state1 is StandbyState, state2 is DrivingState {
-                    os_log("%{private}@ Start detected" , log: OSLog.texDriveSDK, type: OSLogType.info, "[\(#file)][\(#function)]")
+                    Log.print("Start detected")
                     self?.rxIsDriving.onNext(true)
                 }
                 if state1 is DisabledState, state2 is DrivingState {
-                    os_log("%{private}@ Start detected" , log: OSLog.texDriveSDK, type: OSLogType.info, "[\(#file)][\(#function)]")
+                    Log.print("Start detected")
                     self?.rxIsDriving.onNext(true)
                 }
                 if state1 is DetectionOfStopState, state2 is StandbyState {
-                    os_log("%{private}@ Stop detected" , log: OSLog.texDriveSDK, type: OSLogType.info, "[\(#file)][\(#function)]")
+                    Log.print("Stop detected")
                     self?.rxIsDriving.onNext(false)
                 }
                 if state1 is DrivingState, state2 is DisabledState {
-                    os_log("%{private}@ Stop detected" , log: OSLog.texDriveSDK, type: OSLogType.info, "[\(#file)][\(#function)]")
+                    Log.print("Stop detected")
                     self?.rxIsDriving.onNext(false)
                 }
                 if state1 is DetectionOfStopState, state2 is DisabledState {
-                    os_log("%{private}@ Stop detected" , log: OSLog.texDriveSDK, type: OSLogType.info, "[\(#file)][\(#function)]")
+                    Log.print("Stop detected")
                     self?.rxIsDriving.onNext(false)
                 }
             }

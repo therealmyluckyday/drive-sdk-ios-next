@@ -19,7 +19,7 @@ class APIScoreSessionManager: APISessionManager, APIScoreSessionManagerProtocol 
         
         var urlComponent = isAPIV2 ?  URLComponents(string: "\(configuration.baseUrl())/score/\(parameters["trip_id"] as! String)"):  URLComponents(string: "\(configuration.baseUrl())/score")
         
-        os_log("%{private}@ " , log: OSLog.texDriveSDK, type: OSLogType.info, "APIScoreSessionManager getScore \(urlComponent)")
+        Log.print("APIScoreSessionManager getScore \(urlComponent)")
         if (!isAPIV2) {
             var queryItems = [URLQueryItem]()
             for (key, value) in parameters {

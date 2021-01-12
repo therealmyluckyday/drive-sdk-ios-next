@@ -31,13 +31,12 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
         super.init(context: context)
     }
     
-    override func configure() {
-        os_log("[SensorAutoModeDetectionState] configure" , log: OSLog.texDriveSDK, type: OSLogType.info)
-        
+    override func configure() {        
+        #if targetEnvironment(simulator)
+        #else
         if !CMMotionActivityManager.isActivityAvailable() {
             Log.print("CMMotionActivityManager ERROR isActivity NOT Available",type: .Error)
         }
-        
         
         if #available(iOS 11.0, *) {
             switch CMMotionActivityManager.authorizationStatus() {
@@ -56,9 +55,8 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
                 Log.print("CMMotionActivityManager authorizationStatus() == .unknown", type: .Error)
                 break
             }
-        } else {
-            // Fallback on earlier versions
         }
+        
         switch CLLocationManager.authorizationStatus() {
         case .notDetermined:
             Log.print("CLLocationManager authorizationStatus() == .notDetermined", type: .Error)
@@ -78,15 +76,16 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
             Log.print("CLLocationManager authorizationStatus() == .unknown", type: .Error)
             break
         }
+        #endif
     }
     
     override func enable() {
-        os_log("[SensorAutomodeDetectionState]enable" , log: OSLog.texDriveSDK, type: OSLogType.info)
+        Log.print("")
         enableSensor()
     }
     
     override func disable() {
-        os_log("[SensorAutoModeDetectionState] disable" , log: OSLog.texDriveSDK, type: OSLogType.info)
+        Log.print("")
         disableSensor()
         if let context = self.context {
             context.rxState.onNext(DisabledState(context: context))
@@ -107,7 +106,7 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
     }
     
     func enableLocationSensor() {
-        os_log("[SensorAutoModeDetectionState] enableLocationSensor" , log: OSLog.texDriveSDK, type: OSLogType.info)
+        Log.print("")
         self.locationManager.autoModeLocationSensor.rxLocation.asObserver().subscribe (onNext: { [weak self](location) in
             self?.didUpdateLocations(location: location)
         },
@@ -117,7 +116,7 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
             onCompleted: {Log.print("onCompleted locationManager.autoModeLocationSensor.rxLocation.asObserver().subscribe",type: .Info)
         },
             onDisposed: {
-                os_log("[SensorAutoModeDetectionState] onDisposed locationManager.autoModeLocationSensor.rxLocation.asObserver().subscribe" , log: OSLog.texDriveSDK, type: OSLogType.info)
+                Log.print("onDisposed locationManager.autoModeLocationSensor.rxLocation.asObserver().subscribe")
         }).disposed(by: self.rxDisposeBag!)
     }
     
@@ -129,7 +128,7 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
     }
     
     func disableSensor() {
-        Log.print("disableSensor")
+        //Log.print("[SensorAutoModeDetectionState] disableSensor" , log: OSLog.texDriveSDK, type: OSLogType.info)
         sensorState = SensorState.disable
         disableMotionSensor()
         disableLocationSensor()
@@ -147,6 +146,6 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
     
     // MARK: - didUpdateLocations
     func didUpdateLocations(location: CLLocation) {
-        //os_log("[SensorAutoModeDetectionState] didUpdateLocations" , log: OSLog.texDriveSDK, type: OSLogType.info)
+        Log.print("")
     }
 }

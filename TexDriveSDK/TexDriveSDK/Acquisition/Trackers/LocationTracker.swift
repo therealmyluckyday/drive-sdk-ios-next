@@ -60,7 +60,7 @@ class LocationTracker: NSObject, Tracker {
     
     // MARK: - didUpdateLocations
     func didUpdateLocations(location: CLLocation) {
-        //os_log("[LocationTracker]didUpdateLocations speed %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(location.speed)")
+        //Log.print("[LocationTracker]didUpdateLocations speed %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(location.speed)")
         let distance: Double = self.distance(location: location)
         
         let result = Result.Success(LocationFix(timestamp: location.timestamp.timeIntervalSince1970, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, precision: location.horizontalAccuracy, speed: location.speed, bearing: location.course, altitude: location.altitude, distance: distance))
@@ -86,13 +86,13 @@ class LocationTracker: NSObject, Tracker {
         guard self.isLocationValid(location: location),
               let lastLocation = self.lastLocation else {
             
-            //os_log("[LocationTracker]distance 0    : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "0")
+            //Log.print("[LocationTracker]distance 0    : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "0")
             return 0
         }
         
-        //os_log("[LocationTracker]location     : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(location) \(location.speed)")
-        //os_log("[LocationTracker]lastlocation : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(lastLocation) \(lastLocation.speed)")
-        //os_log("[LocationTracker]distance : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(location.distance(from: lastLocation))")
+        //Log.print("[LocationTracker]location     : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(location) \(location.speed)")
+        //Log.print("[LocationTracker]lastlocation : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(lastLocation) \(lastLocation.speed)")
+        //Log.print("[LocationTracker]distance : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(location.distance(from: lastLocation))")
         return location.distance(from: lastLocation)
     }
 }

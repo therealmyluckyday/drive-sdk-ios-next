@@ -48,7 +48,7 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
     }
     
     override func enable() {
-        os_log("[DrivingState] enable" , log: OSLog.texDriveSDK, type: OSLogType.info)
+        Log.print("enable")
         super.enable()
         enableTimer(timeInterval: intervalDelay)
     }
@@ -86,7 +86,7 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
     
     // MARK: - SensorAutoModeDetectionState
     override func didUpdateLocations(location: CLLocation) {
-        os_log("[DrivingState][didUpdateLocations]" , log: OSLog.texDriveSDK, type: OSLogType.info)
+        Log.print("location")
         let timeIntervalBetweenLocation = -(lastLocationDate.timeIntervalSinceNow - location.timestamp.timeIntervalSinceNow)
         lastLocationDate = location.timestamp
         guard sensorState == .enable, timeIntervalBetweenLocation < 5, location.speed >= 0 || isSimulatorDriveTestingAutoMode else {

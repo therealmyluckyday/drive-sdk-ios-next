@@ -50,7 +50,7 @@ public class StandbyState: SensorAutoModeDetectionState {
     
     // MARK: - SensorAutoModeDetectionState
     override func didUpdateLocations(location: CLLocation) {
-        Log.print("Speed: \(location.speed), ThresholdSpeed: \(thresholdSpeed)")
+        //Log.print("Speed: \(location.speed), ThresholdSpeed: \(thresholdSpeed)")
         guard sensorState == .enable else {
             return
         }

@@ -67,7 +67,7 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
     
     // MARK: - SensorAutoModeDetectionState
     override func didUpdateLocations(location: CLLocation) {
-        os_log("[DetectionOfStop] didUpdateLocations " , log: OSLog.texDriveSDK, type: OSLogType.info, "- speed \(location.speed) thesholdSpeed \(thresholdSpeed)")
+        Log.print("location ")
         let timeIntervalBetweenLocation = -(lastLocationDate.timeIntervalSinceNow - location.timestamp.timeIntervalSinceNow)
         lastLocationDate = location.timestamp
         guard sensorState == .enable, timeIntervalBetweenLocation < 5, location.speed >= 0 || isSimulatorDriveTestingAutoMode else {
@@ -75,7 +75,7 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
         }
         resetTimer(timeInterval: intervalDelay)
         if location.speed > thresholdSpeed {
-            os_log("[DetectionOfStop][didUpdateLocations] location.speed > thresholdSpeed" , log: OSLog.texDriveSDK, type: OSLogType.info)
+            Log.print("location.speed > thresholdSpeed")
             self.drive()
             return
         }
@@ -87,7 +87,6 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
             if let firstLocation = firstLocation, location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970 > timeLowSpeedThreshold {
                 Log.print("firstLocation = firstLocation, location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970 > timeLowSpeedThreshold")
                 Log.print("\(location.timestamp.timeIntervalSince1970) - \(firstLocation.timestamp.timeIntervalSince1970) > \(timeLowSpeedThreshold)")
-                os_log("Automode stop : firstLocation = firstLocation, location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970 > timeLowSpeedThreshold" , log: OSLog.texDriveSDK, type: OSLogType.info)
                 self.stop()
             }
         }

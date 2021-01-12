@@ -66,6 +66,7 @@ class PersistantQueue {
             if let result = event.element {
                 if let counter = self?.tripChunkSentCounter {
                     self?.tripChunkSentCounter = counter - 1
+                    Log.print("tripChunkSentCounter \(counter)")
                 }
                 switch result {
                 case .Success(_):
@@ -80,6 +81,7 @@ class PersistantQueue {
     }
     
     func sendNextTripChunk() {
+        Log.print("tripChunkSentCounter \(tripChunkSentCounter)")
        if let stopTripChunk = lastTripChunk, tripChunkSentCounter < 1 {
             lastTripChunk = nil
             self.providerTrip.onNext(stopTripChunk)
@@ -92,6 +94,7 @@ class PersistantQueue {
     
     func sendTripChunk(tripChunk: TripChunk) {
         tripChunkSentCounter = tripChunkSentCounter + 1
+        Log.print("tripChunkSentCounter \(tripChunkSentCounter)")
         self.providerTrip.onNext(tripChunk)
     }
     
@@ -121,7 +124,10 @@ class PersistantQueue {
             try BGTaskScheduler.shared.submit(request)
             Log.print("[BGTASK]  scheduleBGTask Submitted task request \(tripChunkSentCounter)")
         } catch {
+            #if targetEnvironment(simulator)
+            #else
             Log.print("[BGTASK] Failed to submit BGTASK: \(error) ", type: .Error)
+            #endif
         }
     }
     
@@ -132,7 +138,6 @@ class PersistantQueue {
             keychain[string: BGTaskBaseUrlKey] = lastTripChunk.tripInfos.baseUrl()
         } catch  {
             Log.print("[BGTASK] Failed to save data: \(error) ", type: .Error)
-            os_log("[BGTASK][PersistantQueue] save data error" , log: OSLog.texDriveSDK, type: OSLogType.error)
         }
     }
    

@@ -19,10 +19,10 @@ internal class TexStopRequestOperation: Operation {
     
     override func main() {
         guard !isCancelled else {
-            os_log("[BGTASK] My TexStopRequestOperation is CANCELED NOW! BGTASK" , log: OSLog.texDriveSDK, type: OSLogType.error)
+            Log.print("[BGTASK] TexStopRequestOperation is canceled now!")
             return
         }
-        os_log("[BGTASK] My TexStopRequestOperation is executed NOW! BGTASK" , log: OSLog.texDriveSDK, type: OSLogType.info)
+        Log.print("[BGTASK] TexStopRequestOperation is executed now!")
         let keychain = Keychain(service: BGAppTaskRequestIdentifier)
         
         do {
@@ -34,16 +34,16 @@ internal class TexStopRequestOperation: Operation {
                 sendNotification("BGTASK Sent")
                 removeStopData()
                 
-                os_log("[BGTASK] My TexStopRequestOperation retrieve data test ok" , log: OSLog.texDriveSDK, type: OSLogType.info)
+                Log.print("[BGTASK] TexStopRequestOperation retrieve data test ok")
             } else {
-                os_log("[BGTASK] My TexStopRequestOperation retrieve data error" , log: OSLog.texDriveSDK, type: OSLogType.error)
+                Log.print("[BGTASK] TexStopRequestOperation retrieve data error", type: .Error)
             }
             
         } catch {
-            os_log("[BGTASK] My TexStopRequestOperation retrieve data error" , log: OSLog.texDriveSDK, type: OSLogType.error)   
+            Log.print("[BGTASK] TexStopRequestOperation retrieve data error", type: .Error)
         }
         
-        os_log("[BGTASK] My TexStopRequestOperation is FINISHED NOW! BGTASK" , log: OSLog.texDriveSDK, type: OSLogType.info)    
+        Log.print("[BGTASK] TexStopRequestOperation is finished now!")
     }
     
     func removeStopData() {
@@ -52,7 +52,7 @@ internal class TexStopRequestOperation: Operation {
             try keychain.remove(BGTaskDictionaryBodyKey)
             try keychain.remove(BGTaskBaseUrlKey)
         } catch {
-                os_log("[BGTASK] TexStopRequestOperation removeStopData error" , log: OSLog.texDriveSDK, type: OSLogType.error)
+            Log.print("[BGTASK] TexStopRequestOperation removeStopData error", type: .Error)
         }
     }
     

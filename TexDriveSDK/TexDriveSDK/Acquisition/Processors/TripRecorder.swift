@@ -75,7 +75,6 @@ public class TripRecorder: TripRecorderProtocol {
     }
     
     public func stop() {
-        os_log("[TripRecorder]Stop" , log: OSLog.texDriveSDK, type: OSLogType.info)
         collector.stopCollect()
         startTime       = nil
         currentTripId   = nil
@@ -171,12 +170,12 @@ public class TripRecorder: TripRecorderProtocol {
                 if let oldLocation = self?.currentLocation {
                     let deltaTimestamp = (pow((location.timestamp - oldLocation.timestamp), 2)).squareRoot()
                     if (deltaTimestamp > Double(maxDelayBeetweenLocationTimeInSecond)) {
-                        os_log("[TripRecorder]tripProgress DO NOTHING : delta deltaTimestamp speed %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(location.timestamp - oldLocation.timestamp) \(deltaTimestamp) \(location.speed)")
+                        Log.print("[TripRecorder]tripProgress DO NOTHING : delta deltaTimestamp speed \(location.timestamp - oldLocation.timestamp) \(deltaTimestamp) \(location.speed)")
                         return
                     }
                 }
                 let tripProgress        = TripProgress(tripId: tripId, speed: speed, distance: newDistance, duration: duration)
-                //	os_log("[TripRecorder] tripProgress : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(tripProgress.distance) \(tripProgress.speed) \(location.speed)")
+                //	Log.print("[TripRecorder] tripProgress : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(tripProgress.distance) \(tripProgress.speed) \(location.speed)")
                 self?.tripDistance      = newDistance
                 self?.currentLocation   = location
                 self?.update(tripProgress: tripProgress)

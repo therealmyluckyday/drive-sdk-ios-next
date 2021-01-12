@@ -42,7 +42,7 @@ class TripChunk: Collection {
     
     // MARK: Public function
     func append(fix: Fix) {
-        //os_log("[TripChunk] append  %{private}@ " , log: OSLog.texDriveSDK, type: OSLogType.info, "\(fix) ")
+        Log.print("fix: \(fix)")
         self.fixes.append(fix)
     }
     

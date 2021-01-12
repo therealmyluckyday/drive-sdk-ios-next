@@ -46,16 +46,15 @@ class APIScore: APIScoreProtocol {
     
     func getScore(tripId: TripId, isAPIV2: Bool, completionHandler: @escaping (Result<Score>) -> ()) {
         let dictionary = ["trip_id":tripId.uuidString, "lang": Locale.current.identifier]
-        os_log("%{private}@ " , log: OSLog.texDriveSDK, type: OSLogType.info, "APIScore getScore \(dictionary)")
+        Log.print("APIScore getScore \(dictionary)")
         self.sessionManager.get(parameters: dictionary, isAPIV2: isAPIV2) { (result) in
             switch result {
             case Result.Success(let dictionaryResult):
                 if let statusString = dictionaryResult["status"] as? String,
                     let status = ScoreStatus.init(rawValue: statusString){
                     switch status {
-                    
                     case .found, .notFound:
-                        print("SCOREV2")
+                        Log.print("APIScore scorev2 \(dictionary)")
                         if let score = ScoreV2(dictionary: dictionaryResult) {
                             completionHandler(Result.Success(score))
                         }
@@ -64,7 +63,6 @@ class APIScore: APIScoreProtocol {
                             Log.print("Error On Parsing -\(dictionaryResult)-", type: LogType.Error)
                             completionHandler(Result.Failure(error))
                         }
-                        
                             break
                     case .ok:
                         if let score = ScoreV1(dictionary: dictionaryResult) {

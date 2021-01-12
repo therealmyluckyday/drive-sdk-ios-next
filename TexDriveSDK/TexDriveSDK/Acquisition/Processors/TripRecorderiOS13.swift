@@ -47,7 +47,7 @@ public class TripRecorderiOS13SwiftUI: TripRecorder, ObservableObject {
             services.logManager.log(regex: regex, logType: LogType.Info)
         } catch {
             let customLog = OSLog(subsystem: "fr.axa.tex", category: #file)
-            os_log("[ViewController][configureLog] regex error %@", log: customLog, type: .error, error.localizedDescription)
+            Log.print("[ViewController][configureLog] regex error %@", log: customLog, type: .error, error.localizedDescription)
         }
     }*/
 }

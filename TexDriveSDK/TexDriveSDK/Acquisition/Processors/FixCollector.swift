@@ -28,7 +28,7 @@ class FixCollector {
     // MARK: Public Method
     func collect<T>(tracker: T) where T: Tracker {
         self.subscribe(fromProviderFix: tracker.provideFix()) { [weak self](fix) in
-            //os_log("[FixCollector] fix " , log: OSLog.texDriveSDK, type: OSLogType.info, "\(fix.description)")
+            //Log.print("[FixCollector] fix " , log: OSLog.texDriveSDK, type: OSLogType.info, "\(fix.description)")
             self?.rxFix.onNext(fix)
         }
         trackers.append(tracker)
