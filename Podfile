@@ -28,7 +28,8 @@ end
 target 'TexDriveSDK' do
   shared_pods
   pod 'RxSwiftExt'
-  pod 'GzipSwift'  
+  pod 'GzipSwift'
+  pod 'KeychainAccess'
   project 'TexDriveSDK/TexDriveSDK.xcodeproj'
 
   target 'TexDriveSDKTests' do

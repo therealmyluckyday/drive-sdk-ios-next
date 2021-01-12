@@ -21,6 +21,6 @@ s.dependency 'RxCocoa', '~> 5.1.1'
 s.dependency 'RxSwiftExt', '~> 5'
 s.dependency 'GzipSwift', '~> 5.1.1'
 s.dependency 'RxCoreLocation', '~> 1.5.0'
-
+s.dependency 'KeychainAccess', '~> 4.2.1'
 
 end

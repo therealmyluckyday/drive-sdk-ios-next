@@ -32,6 +32,9 @@
     ],
     "RxCoreLocation": [
       "~> 1.5.0"
+    ],
+    "KeychainAccess": [
+      "~> 4.2.1"
     ]
   },
   "swift_version": "5.0"

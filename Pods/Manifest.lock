@@ -96,6 +96,7 @@ PODS:
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.5.0)
   - GzipSwift (5.1.1)
+  - KeychainAccess (4.2.1)
   - nanopb (2.30906.0):
     - nanopb/decode (= 2.30906.0)
     - nanopb/encode (= 2.30906.0)
@@ -124,6 +125,7 @@ PODS:
     - RxSwiftExt/Core
   - TexDriveSDK (3.0.0):
     - GzipSwift (~> 5.1.1)
+    - KeychainAccess (~> 4.2.1)
     - RxCocoa (~> 5.1.1)
     - RxCoreLocation (~> 1.5.0)
     - RxSwift (~> 5.1.1)
@@ -134,6 +136,7 @@ DEPENDENCIES:
   - Firebase/Crashlytics
   - Firebase/Performance
   - GzipSwift
+  - KeychainAccess
   - RxCocoa
   - RxCoreLocation
   - RxSwift
@@ -157,6 +160,7 @@ SPEC REPOS:
     - GoogleUtilities
     - GTMSessionFetcher
     - GzipSwift
+    - KeychainAccess
     - nanopb
     - PromisesObjC
     - Protobuf
@@ -186,6 +190,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: 3dc4ff0d5e4840e2fa8eef0889620e8c33d4218c
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
   GzipSwift: 893f3e48e597a1a4f62fafcb6514220fcf8287fa
+  KeychainAccess: 9b07f665298d13c3a85881bd3171f6f49b8151c1
   nanopb: 1bf24dd71191072e120b83dd02d08f3da0d65e53
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
   Protobuf: 3dac39b34a08151c6d949560efe3f86134a3f748
@@ -194,8 +199,8 @@ SPEC CHECKSUMS:
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   RxSwiftExt: 4ca80336f43c28f11a2825cdd2fc61dd6c044697
-  TexDriveSDK: 52e02e8250dd6f09358ec92f4f998b016f0b93ab
+  TexDriveSDK: ddf9a7cfab02ab777fa3b4eb2dc7c1dc410e2b99
 
-PODFILE CHECKSUM: 9410664b118804052b0db8b56931ea945514123f
+PODFILE CHECKSUM: 22c7734b40c4b388dc819ab3639dddd9c9142fca
 
 COCOAPODS: 1.10.0
