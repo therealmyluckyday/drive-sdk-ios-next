@@ -9,6 +9,7 @@
 import Foundation
 import RxSwift
 import OSLog
+import KeychainAccess
 
 #if canImport(BackgroundTasks)
 import BackgroundTasks
@@ -113,18 +114,26 @@ class PersistantQueue {
     func scheduleBGTask(lastTripChunk: TripChunk) {
         Log.print("[BGTASK] ScheduleBGTask")
         do {
+            saveTripChunk(lastTripChunk: lastTripChunk)
             let request = BGProcessingTaskRequest(identifier: BGAppTaskRequestIdentifier)//tripChunkSentCounter
             request.earliestBeginDate = Calendar.current.date(byAdding: .second, value: 60, to: Date())
             request.requiresNetworkConnectivity = true
             try BGTaskScheduler.shared.submit(request)
-            let userDefaultsTexSDK = UserDefaults(suiteName: BGAppTaskRequestIdentifier)
-            userDefaultsTexSDK?.setValue(lastTripChunk.serialize(), forKey: BGTaskDictionaryBodyKey)
-            userDefaultsTexSDK?.setValue(lastTripChunk.tripInfos.baseUrl(), forKey: BGTaskBaseUrlKey)
             Log.print("[BGTASK]  scheduleBGTask Submitted task request \(tripChunkSentCounter)")
         } catch {
             Log.print("[BGTASK] Failed to submit BGTASK: \(error) ", type: .Error)
         }
     }
     
+    func saveTripChunk(lastTripChunk: TripChunk) {
+        do {
+            let keychain = Keychain(service: BGAppTaskRequestIdentifier)
+            keychain[data: BGTaskDictionaryBodyKey] = try JSONSerialization.data(withJSONObject: lastTripChunk.serialize(), options:[])
+            keychain[string: BGTaskBaseUrlKey] = lastTripChunk.tripInfos.baseUrl()
+        } catch  {
+            Log.print("[BGTASK] Failed to save data: \(error) ", type: .Error)
+            os_log("[BGTASK][PersistantQueue] save data error" , log: OSLog.texDriveSDK, type: OSLogType.error)
+        }
+    }
    
 }

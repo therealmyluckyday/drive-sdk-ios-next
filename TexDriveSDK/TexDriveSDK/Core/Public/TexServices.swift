@@ -88,7 +88,7 @@ public class TexServices {
         let operationQueue = OperationQueue.main
         
         // Create an operation that performs the main part of the background task
-        let operation = TexStopRequestOperation(tripSessionManager)
+        let operation = TexDriveSDK.TexStopRequestOperation(tripSessionManager)
         
         // Provide an expiration handler for the background task
         // that cancels the operation
@@ -123,6 +123,7 @@ public class TexServices {
     
     public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
         if #available(iOS 13.0, *) {
+            self.checkStopRequest()
             BGTaskScheduler.shared.register(forTaskWithIdentifier: BGAppTaskRequestIdentifier, using: .global()) { (task) in
                 os_log("[BGTASK] My backgroundTask is executed now" , log: OSLog.texDriveSDK, type: OSLogType.info)
                 if let task = task as? BGProcessingTask {
@@ -130,5 +131,30 @@ public class TexServices {
                 }
             }
         }
+    }
+    
+    @available(iOS 13.0, *)
+    func checkStopRequest() {
+        os_log("[TexService] HandleStopRequest" , log: OSLog.texDriveSDK, type: OSLogType.info)
+        guard let tripSessionManager = self._tripSessionManager else {
+            os_log("[TexService] Error no tripsesionManager" , log: OSLog.texDriveSDK, type: OSLogType.error)
+            return
+        }
+        let operationQueue = OperationQueue.main
+        
+        // Create an operation that performs the main part of the background task
+        let operation = TexDriveSDK.TexStopRequestOperation(tripSessionManager)
+        
+        // Inform the system that the background task is complete
+        // when the operation completes
+        operation.completionBlock = {
+            os_log("[TexService] Operation completed" , log: OSLog.texDriveSDK, type: OSLogType.info)
+            Log.print("[TexService]  CancelScheduleBGTask")
+            BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: BGAppTaskRequestIdentifier)
+        }
+        
+        // Start the operation
+        os_log("[TexService] Start the operation" , log: OSLog.texDriveSDK, type: OSLogType.info)
+        operationQueue.addOperation(operation)
     }
 }

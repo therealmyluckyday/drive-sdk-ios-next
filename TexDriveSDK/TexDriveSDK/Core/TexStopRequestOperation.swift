@@ -8,6 +8,7 @@
 
 import Foundation
 import OSLog
+import KeychainAccess
 
 
 internal class TexStopRequestOperation: Operation {
@@ -22,14 +23,37 @@ internal class TexStopRequestOperation: Operation {
             return
         }
         os_log("[BGTASK] My TexStopRequestOperation is executed NOW! BGTASK" , log: OSLog.texDriveSDK, type: OSLogType.info)
-       let userDefaultsTexSDK = UserDefaults(suiteName: BGAppTaskRequestIdentifier)
-        if let dictionaryBody = userDefaultsTexSDK?.value(forKey:BGTaskDictionaryBodyKey) as? [String : Any], let baseUrl = userDefaultsTexSDK?.value(forKey:BGTaskBaseUrlKey) as? String {
-            self.sessionManager.put(dictionaryBody: dictionaryBody, baseUrl: baseUrl)
-            sendNotification("BGTASK Sent")
-        } else {
-            os_log("[BGTASK] My TexStopRequestOperation retrieve data error" , log: OSLog.texDriveSDK, type: OSLogType.error)
+        let keychain = Keychain(service: BGAppTaskRequestIdentifier)
+        
+        do {
+            if let dataDictionaryBody = try? keychain.getData(BGTaskDictionaryBodyKey),
+               let dictionaryBody =  try (JSONSerialization.jsonObject(with: dataDictionaryBody, options: JSONSerialization.ReadingOptions.allowFragments)) as? [String: Any],
+               let baseUrl = try? keychain.getString(BGTaskBaseUrlKey) {
+                self.sessionManager.put(dictionaryBody: dictionaryBody, baseUrl: baseUrl)
+                
+                sendNotification("BGTASK Sent")
+                removeStopData()
+                
+                os_log("[BGTASK] My TexStopRequestOperation retrieve data test ok" , log: OSLog.texDriveSDK, type: OSLogType.info)
+            } else {
+                os_log("[BGTASK] My TexStopRequestOperation retrieve data error" , log: OSLog.texDriveSDK, type: OSLogType.error)
+            }
+            
+        } catch {
+            os_log("[BGTASK] My TexStopRequestOperation retrieve data error" , log: OSLog.texDriveSDK, type: OSLogType.error)   
         }
-        os_log("[BGTASK] My TexStopRequestOperation is FINISHED NOW! BGTASK" , log: OSLog.texDriveSDK, type: OSLogType.info)
+        
+        os_log("[BGTASK] My TexStopRequestOperation is FINISHED NOW! BGTASK" , log: OSLog.texDriveSDK, type: OSLogType.info)    
+    }
+    
+    func removeStopData() {
+        do {
+            let keychain = Keychain(service: BGAppTaskRequestIdentifier)
+            try keychain.remove(BGTaskDictionaryBodyKey)
+            try keychain.remove(BGTaskBaseUrlKey)
+        } catch {
+                os_log("[BGTASK] TexStopRequestOperation removeStopData error" , log: OSLog.texDriveSDK, type: OSLogType.error)
+        }
     }
     
     func sendNotification(_ text: String) {
