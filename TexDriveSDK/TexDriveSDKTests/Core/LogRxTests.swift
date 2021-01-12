@@ -35,7 +35,7 @@ class LogRxTests: XCTestCase {
         
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
-            log.configure(regex: regex, logType: LogType.Error)
+            log.configure(regex: regex, logType: LogType.Error, isTesting: true)
         } catch {
             XCTAssertFalse(true)
         }
@@ -66,7 +66,7 @@ class LogRxTests: XCTestCase {
         
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
-            log.configure(regex: regex, logType: LogType.Error)
+            log.configure(regex: regex, logType: LogType.Error, isTesting: true)
         } catch {
             XCTAssertFalse(true)
         }
@@ -98,7 +98,7 @@ class LogRxTests: XCTestCase {
         
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
-            log.configure(regex: regex, logType: LogType.Warning)
+            log.configure(regex: regex, logType: LogType.Warning, isTesting: true)
         } catch {
             XCTAssertFalse(true)
         }
@@ -129,7 +129,7 @@ class LogRxTests: XCTestCase {
         
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
-            log.configure(regex: regex, logType: LogType.Warning)
+            log.configure(regex: regex, logType: LogType.Warning, isTesting: true)
         } catch {
             XCTAssertFalse(true)
         }
@@ -162,7 +162,7 @@ class LogRxTests: XCTestCase {
         
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
-            log.configure(regex: regex, logType: LogType.Error)
+            log.configure(regex: regex, logType: LogType.Error, isTesting: true)
         } catch {
             XCTAssertFalse(true)
         }
@@ -193,7 +193,7 @@ class LogRxTests: XCTestCase {
         
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
-            log.configure(regex: regex, logType: LogType.Error)
+            log.configure(regex: regex, logType: LogType.Error, isTesting: true)
         } catch {
             XCTAssertFalse(true)
         }
@@ -222,7 +222,7 @@ class LogRxTests: XCTestCase {
         
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
-            log.configure(regex: regex, logType: LogType.Info)
+            log.configure(regex: regex, logType: LogType.Info, isTesting: true)
         } catch {
             XCTAssertFalse(true)
         }
@@ -242,7 +242,7 @@ class LogRxTests: XCTestCase {
         
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
-            log.configure(regex: regex, logType: LogType.Info)
+            log.configure(regex: regex, logType: LogType.Info, isTesting: true)
         } catch {
             XCTAssertFalse(true)
         }
@@ -263,7 +263,7 @@ class LogRxTests: XCTestCase {
         
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
-            log.configure(regex: regex, logType: LogType.Info)
+            log.configure(regex: regex, logType: LogType.Info, isTesting: true)
         } catch {
             XCTAssertFalse(true)
         }
@@ -283,7 +283,7 @@ class LogRxTests: XCTestCase {
         
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
-            log.configure(regex: regex, logType: LogType.Info)
+            log.configure(regex: regex, logType: LogType.Info, isTesting: true)
         } catch {
             XCTAssertFalse(true)
         }
@@ -304,7 +304,7 @@ class LogRxTests: XCTestCase {
         
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
-            log.configure(regex: regex, logType: LogType.Info)
+            log.configure(regex: regex, logType: LogType.Info, isTesting: true)
         } catch {
             XCTAssertFalse(true)
         }

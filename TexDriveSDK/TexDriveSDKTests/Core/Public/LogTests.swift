@@ -37,7 +37,7 @@ class LogTests: XCTestCase {
         Log.configure(logger: loggerFactory)
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
-            Log.configure(regex: regex, logType: LogType.Info)
+            Log.configure(regex: regex, logType: LogType.Info, isTesting: true)
         } catch {
             XCTAssertFalse(true)
         }
@@ -69,7 +69,7 @@ class LogTests: XCTestCase {
         Log.configure(logger: loggerFactory)
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
-            Log.configure(regex: regex, logType: LogType.Info)
+            Log.configure(regex: regex, logType: LogType.Info, isTesting: true)
         } catch {
             XCTAssertFalse(true)
         }
@@ -102,7 +102,7 @@ class LogTests: XCTestCase {
         Log.configure(logger: loggerFactory)
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
-            Log.configure(regex: regex, logType: LogType.Info)
+            Log.configure(regex: regex, logType: LogType.Info, isTesting: true)
         } catch {
             XCTAssertFalse(true)
         }
@@ -135,7 +135,7 @@ class LogTests: XCTestCase {
         Log.configure(logger: loggerFactory)
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
-            Log.configure(regex: regex, logType: LogType.Error)
+            Log.configure(regex: regex, logType: LogType.Error, isTesting: true)
         } catch {
             XCTAssertFalse(true)
         }
@@ -161,7 +161,7 @@ class LogTests: XCTestCase {
         Log.configure(logger: loggerFactory)
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
-            Log.configure(regex: regex, logType: LogType.Warning)
+            Log.configure(regex: regex, logType: LogType.Warning, isTesting: true)
         } catch {
             XCTAssertFalse(true)
         }
@@ -187,7 +187,7 @@ class LogTests: XCTestCase {
         Log.configure(logger: loggerFactory)
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
-            Log.configure(regex: regex, logType: LogType.Error)
+            Log.configure(regex: regex, logType: LogType.Error, isTesting: true)
         } catch {
             XCTAssertFalse(true)
         }
@@ -214,7 +214,7 @@ class LogTests: XCTestCase {
         Log.configure(logger: loggerFactory)
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
-            Log.configure(regex: regex, logType: LogType.Info)
+            Log.configure(regex: regex, logType: LogType.Info, isTesting: true)
         } catch {
             XCTAssertFalse(true)
         }
@@ -240,7 +240,7 @@ class LogTests: XCTestCase {
         Log.configure(logger: loggerFactory)
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
-            Log.configure(regex: regex, logType: LogType.Info)
+            Log.configure(regex: regex, logType: LogType.Info, isTesting: true)
         } catch {
             XCTAssertFalse(true)
         }

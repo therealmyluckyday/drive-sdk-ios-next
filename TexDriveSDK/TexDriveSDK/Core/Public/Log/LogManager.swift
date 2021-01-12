@@ -10,7 +10,7 @@ import RxSwift
 
 public protocol LogConfiguration {
     var rxLog: PublishSubject<LogMessage> { get }
-    func log(regex: NSRegularExpression, logType: LogType)
+    func log(regex: NSRegularExpression, logType: LogType, isTesting: Bool)
 }
 
 public class LogManager: LogConfiguration {
@@ -30,7 +30,7 @@ public class LogManager: LogConfiguration {
     }
     
     // MARK: - LogConfiguration
-    public func log(regex: NSRegularExpression, logType: LogType) {
-        Log.configure(regex: regex, logType: logType)
+    public func log(regex: NSRegularExpression, logType: LogType, isTesting: Bool = false) {
+        Log.configure(regex: regex, logType: logType, isTesting: isTesting)
     }
 }

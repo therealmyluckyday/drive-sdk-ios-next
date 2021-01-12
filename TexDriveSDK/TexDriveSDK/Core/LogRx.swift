@@ -17,10 +17,12 @@ class LogRx: LogImplementation {
     private let rxLog = PublishSubject<LogMessage>()
     private var rules = [NSRegularExpression: LogType]()
     private let rxDisposeBag = DisposeBag()
+    private var isTesting: Bool = false
     let rxLogOutput = PublishSubject<LogMessage>()
     
     // MARK: LogFactory protocol
-    func configure(regex: NSRegularExpression, logType: LogType) {
+    func configure(regex: NSRegularExpression, logType: LogType, isTesting: Bool) {
+        self.isTesting = isTesting
         self.rules[regex] = logType
         self.rxLog.asObservable().subscribe { [weak self](event) in
             if let logDetail = event.element {
@@ -51,8 +53,9 @@ class LogRx: LogImplementation {
         let logDetail = LogMessage(type: type, detail: description, fileName: fileName, functionName: functionName)
         #if targetEnvironment(simulator)
         self.osLog(logDetail: logDetail)
-        if (type != .Info) {
-            self.report(logDetail: logDetail)
+        if (type != .Info || isTesting) {
+            //self.report(logDetail: logDetail)
+            self.rxLog.onNext(logDetail)
         }
         #else
         self.rxLog.onNext(logDetail)

@@ -55,12 +55,13 @@ class FakeTripTests: XCTestCase {
     }
     
     func testTripWithFakeLocationManagerAPIV1() throws {
-        //let userId = "Erwan-"+UIDevice.current.systemName + UIDevice.current.systemVersion
-        let userId = "b0d84976-b1e3-4ac0-9961-b7124279a717"
+        let userId = "Erwan-"+UIDevice.current.systemName + UIDevice.current.systemVersion
+        //let userId = "b0d84976-b1e3-4ac0-9961-b7124279a717"
         
         os_log("[FakeTripTest] userId %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#function) \(userId)")
         let user = TexUser.Authentified(userId)
-        let appId = "youdrive_france_prospect"//"APP-TEST" // APIV2 "youdrive-france-prospect"
+        //let appId = "youdrive_france_prospect"//"APP-TEST" // APIV2 "youdrive-france-prospect"
+        let appId = "APP-TEST"//"APP-TEST" // APIV2 "youdrive-france-prospect"
         let builder = TexConfigBuilder(appId: appId, texUser: user, isAPIV2: false)
         let scoreExpectation = XCTestExpectation(description: #function+"-Score")
         let tripExpectation = XCTestExpectation(description: #function+"-Trip")
@@ -110,7 +111,7 @@ class FakeTripTests: XCTestCase {
             // Loading GPS Element
             fakeLocationManager.loadTrip(intervalBetweenGPSPointInSecond: 0.05)
             
-            wait(for: [tripExpectation], timeout: 1570)
+            wait(for: [tripExpectation], timeout: 70)
             
             os_log("[FakeTripTest] tripIdFinished %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#function) \(service.tripRecorder?.currentTripId!.uuidString)")
             service.tripRecorder?.stop()
@@ -190,7 +191,7 @@ class FakeTripTests: XCTestCase {
             // Loading GPS Element
             fakeLocationManager.loadTrip(intervalBetweenGPSPointInSecond: 0.05)
             
-            wait(for: [tripExpectation], timeout: 570)
+            wait(for: [tripExpectation], timeout: 70)
             let tripId = (service.tripRecorder?.currentTripId!)!
             os_log("[FakeTripTest] tripIdFinished %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#file) \(#function) \(service.tripRecorder?.currentTripId!.uuidString)")
             service.tripRecorder?.stop()
@@ -298,7 +299,7 @@ class FakeTripTests: XCTestCase {
             
             DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 1000)) {
                 os_log(" %{private}@ Loading GPS element" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#file) \(#function)")
-                fakeLocationManager.loadTrip(intervalBetweenGPSPointInSecond: 1.05)
+                fakeLocationManager.loadTrip(intervalBetweenGPSPointInSecond: 0.05)
             }
             wait(for: [tripExpectation], timeout: 70)
         } catch ConfigurationError.LocationNotDetermined(let description) {

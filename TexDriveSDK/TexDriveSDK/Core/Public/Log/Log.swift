@@ -9,13 +9,13 @@
 import Foundation
 
 protocol LogProtocol {
-    static func configure(regex: NSRegularExpression, logType: LogType)
+    static func configure(regex: NSRegularExpression, logType: LogType, isTesting: Bool)
     static func configure(logger: LogImplementation)
 }
 
 protocol LogImplementation {
     func print(_ description: String, type: LogType, fileName: String, functionName: String)
-    func configure(regex: NSRegularExpression, logType: LogType)
+    func configure(regex: NSRegularExpression, logType: LogType, isTesting: Bool)
 }
 
 extension LogImplementation {
@@ -33,8 +33,8 @@ class Log: LogProtocol {
     private static var _log: LogImplementation?
     
     // MARK: LogProtocol Method
-    static func configure(regex: NSRegularExpression, logType: LogType) {
-        _log?.configure(regex: regex, logType: logType)
+    static func configure(regex: NSRegularExpression, logType: LogType, isTesting: Bool) {
+        _log?.configure(regex: regex, logType: logType, isTesting: isTesting)
     }
     
     static func print(_ description: String, type: LogType = .Info, fileName: String = #file, functionName: String = #function) {
