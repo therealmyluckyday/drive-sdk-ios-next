@@ -29,8 +29,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
             (granted, error) in
         }
         locationManager.requestAlwaysAuthorization()
-        self.configureTexSDK(userId: userId)
-        //configureWithSwuiftui(withUserId: userId)
+        //self.configureTexSDK(userId: userId)
+        configureWithSwuiftui(withUserId: userId)
         texServices?.application(application, didFinishLaunchingWithOptions: launchOptions)
         
         return true
@@ -38,10 +38,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
     
     func configureWithSwuiftui(withUserId: String) {
         configureTexSDKSwuiftui(userId: withUserId)
-        /*let swuiftUIVC = HomeViewControllerSUI(texServices: self.texServices!, tripRecorder: self.texServices!.tripRecorder!)
+        let swuiftUIVC = HomeViewControllerSUI(tripRecorder: self.texServices!.tripRecorder! as! TripRecorderiOS13SwiftUI, texServices: self.texServices as! TexServicesiOS13SwiftUI)
         let hostVC = UIHostingController(rootView: swuiftUIVC)
-        window?.rootViewController = hostVC*/
+        window?.rootViewController = hostVC
     }
+    
+    
     
     func configureTexSDKSwuiftui(userId: String) {
         Crashlytics.crashlytics().setUserID(userId)
@@ -53,15 +55,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
             try builder.enableTripRecorder(locationManager: fakeLocationManager)
             builder.select(platform: Platform.Production, isAPIV2: false) //Platform.APIV2Testing
             let config = builder.build()
-            /*let service = TexServicesiOS13SwiftUI.service(configuration: config)
-            texServices = service
+            let serviceios13 = TexServicesiOS13SwiftUI.service(configuration: config) as! TexServicesiOS13SwiftUI
+            texServices = serviceios13
+            
             DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 2000)) {
-                service.tripRecorderiOS13?.configureAutoMode()
-                service.tripRecorderiOS13?.activateAutoMode()
+                serviceios13.tripRecorderiOS13.configureAutoMode()
+                serviceios13.tripRecorderiOS13.activateAutoMode()
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 90000000000)) {
-                    fakeLocationManager.loadTrip(intervalBetweenGPSPointInSecond: 0.05)
+                    fakeLocationManager.loadTrip(intervalBetweenGPSPointInSecond: 0.15)
                 }
-            }*/
+            }
         } catch ConfigurationError.LocationNotDetermined(let description) {
             print(description)
         } catch {
@@ -73,11 +76,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
         Crashlytics.crashlytics().setUserID(userId)
         let user = TexUser.Authentified(userId)
         let appId = "APP-TEST" //"youdrive_france_prospect" "APP-TEST"
-        //let fakeLocationManager = FakeLocationManager()
+        let fakeLocationManager = FakeLocationManager()
         let builder = TexConfigBuilder(appId: appId, texUser: user, isAPIV2: false)
         do {
-            //try builder.enableTripRecorder(locationManager: fakeLocationManager)
-            try builder.enableTripRecorder()
+            try builder.enableTripRecorder(locationManager: fakeLocationManager)
+            //try builder.enableTripRecorder()
             builder.select(platform: Platform.Production, isAPIV2: false) //Platform.APIV2Testing
             let config = builder.build()
             let service = TexServices.service(configuration: config)
@@ -86,7 +89,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
                 service.tripRecorder?.configureAutoMode()
                 service.tripRecorder?.activateAutoMode()
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 90000000000)) {
-                    //fakeLocationManager.loadTrip(intervalBetweenGPSPointInSecond: 0.05)
+                    fakeLocationManager.loadTrip(intervalBetweenGPSPointInSecond: 0.05)
                 }
             }
         } catch ConfigurationError.LocationNotDetermined(let description) {
