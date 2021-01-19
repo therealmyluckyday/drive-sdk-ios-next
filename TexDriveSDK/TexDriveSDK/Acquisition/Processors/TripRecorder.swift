@@ -29,12 +29,12 @@ public extension Notification.Name {
 public class TripRecorder: TripRecorderProtocol {
     // MARK: - Property
     // MARK: Private
-    private let collector: FixCollector
+    private let collector               : FixCollector
     private var rxEventType             = PublishSubject<EventType>()
-    private let apiTrip: APITrip
+    private let apiTrip                 : APITrip
     private var tripDistance: Double    = 0
     private var currentLocation: LocationFix?
-    private let rxDisposeBag            = DisposeBag()
+    internal let rxDisposeBag           = DisposeBag()
     
     // MARK: Internal
     //@LateInitialized internal var autoMode               : AutoMode
@@ -157,7 +157,7 @@ public class TripRecorder: TripRecorderProtocol {
     // MARK: - Configure TripProgress stream
     func configureTripProgress() {
         self.rxFix.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self] (event) in
-            if let location     =  event.element as? LocationFix,
+            if let location     = event.element as? LocationFix,
                let startTime    = self?.startTime,
                let tripId       = self?.currentTripId,
                let oldDistance  = self?.tripDistance,

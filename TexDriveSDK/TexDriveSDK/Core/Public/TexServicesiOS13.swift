@@ -10,25 +10,29 @@ import Foundation
 import OSLog
 import RxSwift
 import SwiftUI
+import Combine
 
 @available(iOS 13.0, *)
 public class TexServicesiOS13SwiftUI: TexServices, ObservableObject {
-    @Published          var log                 : LogMessage?
-    @LateInitialized    var tripRecorderiOS13   : TripRecorderiOS13SwiftUI
-    
+    @Published public var log: LogMessage = LogMessage(type: LogType.Info, detail: "Begin Combine Log", fileName: #file, functionName: #function)
+    @Published public var logiOS13: String = ""
+    @LateInitialized public var tripRecorderiOS13: TripRecorderiOS13SwiftUI
+
     private static let sharedInstance = TexServicesiOS13SwiftUI()
-    
     
     // MARK: - Log Management
     func configureLog(_ log: PublishSubject<LogMessage>) {
         log.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
             if let logDetail = event.element {
                 self?.log = logDetail
+                self?.logiOS13 = logDetail.message
+                let customLog = OSLog(subsystem: "fr.axa.tex", category: #file)
+                //os_log("[TexServicesiOS13SwiftUI][log] log %@", log: customLog, type: .info, logDetail.description)
             }
         }.disposed(by: self.disposeBag!)
         
         do {
-            let regex = try NSRegularExpression(pattern: ".*(TripChunk|Score|URLRequestExtension.swift|API|State).*", options: NSRegularExpression.Options.caseInsensitive)
+            let regex = try NSRegularExpression(pattern: ".*.*", options: NSRegularExpression.Options.caseInsensitive)
             self.logManager.log(regex: regex, logType: LogType.Info)
         } catch {
             let customLog = OSLog(subsystem: "fr.axa.tex", category: #file)
@@ -48,8 +52,6 @@ public class TexServicesiOS13SwiftUI: TexServices, ObservableObject {
     // MARK: - Internal Method
     internal override func reconfigure(_ configuration: ConfigurationProtocol, isTesting: Bool) {
         super.reconfigure(configuration, isTesting: isTesting)
-        
-        
         self.configureLog(logManager.rxLog)
     }
     
