@@ -95,9 +95,14 @@ pod 'RxCoreLocation', '~> 1.4.0'
         "AXADrive needs to know the motion of your vehicle."
  - `UIRequiredDeviceCapabilities`, add   `gyroscope` and `accelerometer`
 
+- `UIRequiredDeviceCapabilities`, add   `gyroscope` and `accelerometer`
+- For Permitted background task scheduler identifiers add BGTaskSchedulerPermittedIdentifiers  com.texdrivesdk.processing.stop
+
+
 2. In the Capabilities or your project configuration, the following background(`UIBackgroundModes`) modes must be enabled:
     - `Background Fetch`
     - `Location Updates`
+    - `Processing`
     3. Before using the SDK you need to add on your AppDelegate:
     
         ```Swift

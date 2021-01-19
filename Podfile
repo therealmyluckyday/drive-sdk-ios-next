@@ -34,5 +34,6 @@ target 'TexDriveSDK' do
 
   target 'TexDriveSDKTests' do
     inherit! :search_paths
+    pod 'GzipSwift'
   end
 end
