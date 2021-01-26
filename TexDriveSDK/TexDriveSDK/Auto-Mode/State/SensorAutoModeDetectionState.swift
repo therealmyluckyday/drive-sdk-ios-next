@@ -20,6 +20,7 @@ enum SensorState {
 
 public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationManagerDelegate {
     let motionManager: CMMotionActivityManager
+    let isMotionActivityPossible: Bool
     let locationManager: LocationManager
     var rxDisposeBag: DisposeBag? = DisposeBag()
     var sensorState: SensorState = .disable
@@ -28,6 +29,11 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
     init(context: AutoModeContextProtocol, locationManager clLocationManager: LocationManager, motionActivityManager: CMMotionActivityManager = CMMotionActivityManager()) {
         motionManager = motionActivityManager
         locationManager = clLocationManager
+        if #available(iOS 11.0, *) {
+            isMotionActivityPossible = CMMotionActivityManager.isActivityAvailable() && CMMotionActivityManager.authorizationStatus() == .authorized
+        } else {
+            isMotionActivityPossible = CMMotionActivityManager.isActivityAvailable()
+        }
         super.init(context: context)
     }
     
@@ -122,7 +128,9 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
     
     func enableSensor() {
         Log.print("enableSensor")
-        enableMotionSensor()
+        if isMotionActivityPossible {
+            enableMotionSensor()
+        }
         enableLocationSensor()
         sensorState = .enable
     }
@@ -130,7 +138,9 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
     func disableSensor() {
         //Log.print("[SensorAutoModeDetectionState] disableSensor" , log: OSLog.texDriveSDK, type: OSLogType.info)
         sensorState = SensorState.disable
-        disableMotionSensor()
+        if isMotionActivityPossible {
+            disableMotionSensor()
+        }
         disableLocationSensor()
     }
     

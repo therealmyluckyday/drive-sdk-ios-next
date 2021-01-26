@@ -19,9 +19,9 @@ protocol TimerProtocol {
     func resetTimer(timeInterval: TimeInterval)
 }
 
-let minimumDrivingSpeed = CLLocationSpeed(exactly: 20*0.28)!
+let minimumDrivingSpeed = CLLocationSpeed(exactly: 10*0.28)!
 let maxDelayBeetweenLocationTimeInSecond = 4*60
-
+let locationAccuracyThreshold = Double(20)
 public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
     let intervalDelay: TimeInterval
     let thresholdSpeed = minimumDrivingSpeed
@@ -89,26 +89,34 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
         Log.print("location")
         let timeIntervalBetweenLocation = -(lastLocationDate.timeIntervalSinceNow - location.timestamp.timeIntervalSinceNow)
         lastLocationDate = location.timestamp
-        guard sensorState == .enable, timeIntervalBetweenLocation < 5, location.speed >= 0 || isSimulatorDriveTestingAutoMode else {
+        guard sensorState == .enable, timeIntervalBetweenLocation < 5, location.speed >= 0, location.horizontalAccuracy < locationAccuracyThreshold || isSimulatorDriveTestingAutoMode else {
                 Log.print("isSimulatorDriveTestingAutoMode")
             return
         }
         resetTimer(timeInterval: intervalDelay)
         if location.speed < thresholdSpeed {
-            if let activity = lastActivity, -activity.startDate.timeIntervalSinceNow < 60, activity.automotive {
+            if isMotionActivityPossible {
+                self.didUpdateLocationWithMotionActivityActivated()
+            } else {
+                self.stop()
             }
-            else {
-                motionManager.queryActivityStarting(from: Date.init().addingTimeInterval(-10.0), to: Date(), to: OperationQueue.main) { [weak self](motions, error) in
-                    if let motions = motions {
-                        for activity in motions {
-                            if activity.automotive {
-                                return
-                            }
+        }
+    }
+    
+    func didUpdateLocationWithMotionActivityActivated() {
+        if let activity = lastActivity, -activity.startDate.timeIntervalSinceNow < 60, activity.automotive {
+            resetTimer(timeInterval: intervalDelay)
+        }
+        else {
+            motionManager.queryActivityStarting(from: Date.init().addingTimeInterval(-10.0), to: Date(), to: OperationQueue.main) { [weak self](motions, error) in
+                if let motions = motions {
+                    for activity in motions {
+                        if activity.automotive {
+                            return
                         }
                     }
-                    Log.print("location.speed \(location.speed) < thresholdSpeed \(String(describing: self?.thresholdSpeed))")
-                    self?.stop()
                 }
+                self?.stop()
             }
         }
     }

@@ -23,7 +23,7 @@ public class StandbyState: SensorAutoModeDetectionState {
         motionManager.startActivityUpdates(to: OperationQueue.main) {[weak self] (activity) in
             if let activity = activity, activity.automotive == true {
                 Log.print("activity = activity, activity.automotive == true")
-                self?.start()
+                self?.drive()
             }
         }
     }

@@ -82,7 +82,6 @@ public class DetectionOfStartState: SensorAutoModeDetectionState, TimerProtocol 
         }
         else {
             if let firstLocation = firstLocation, location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970 > timeLowSpeedThreshold {
-                let delay = location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970
                 Log.print("firstLocation = firstLocation, location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970 > timeLowSpeedThreshold")
                 self.stop()
             }
