@@ -26,4 +26,7 @@ class APITrip: APITripProtocol {
     func sendTrip(trip: TripChunk) {
         self.sessionManager.put(dictionaryBody: trip.serialize(), baseUrl: trip.tripInfos.baseUrl())
     }
+    func sendTrip(body: String, baseUrl: String) {
+        self.sessionManager.put(body: body, baseUrl: baseUrl)
+    }
 }

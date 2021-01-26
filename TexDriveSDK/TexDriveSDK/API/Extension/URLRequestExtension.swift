@@ -12,6 +12,7 @@ import Gzip
 
 protocol APIURLRequest {
     static func createUrlRequest(url: URL, body: [String: Any], httpMethod: HttpMethod, withCompression: Bool) -> URLRequest?
+    static func createUrlRequest(url: URL, body: String, httpMethod: HttpMethod, withCompression: Bool) -> URLRequest?
 }
 
 extension URLRequest: APIURLRequest {
@@ -23,6 +24,31 @@ extension URLRequest: APIURLRequest {
             Log.print("[Json]\(String(describing: String(bytes:jsonData, encoding: String.Encoding.utf8)))")
             urlRequest.httpBody = jsonData
             if withCompression {
+                do {
+                    urlRequest.httpBody = try jsonData.gzipped(level: .bestCompression)
+                    urlRequest.addValue("gzip", forHTTPHeaderField: "Content-Encoding")
+                    urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+                } catch {
+                    Log.print("Error in compression \(error)", type: .Error)
+                }
+            } else {
+                urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            }
+        } catch {
+            Log.print("Json serialization error: \(error)", type: .Error)
+            return nil
+        }
+        
+        return urlRequest
+    }
+    
+    static func createUrlRequest(url: URL, body: String, httpMethod: HttpMethod, withCompression: Bool = false) -> URLRequest? {
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = httpMethod.rawValue
+        do {
+            let jsonData = body.data(using: String.Encoding.utf8)
+            urlRequest.httpBody = jsonData
+            if let jsonData = jsonData, withCompression {
                 do {
                     urlRequest.httpBody = try jsonData.gzipped(level: .bestCompression)
                     urlRequest.addValue("gzip", forHTTPHeaderField: "Content-Encoding")

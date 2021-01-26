@@ -122,7 +122,7 @@ public class TripRecorder: TripRecorderProtocol {
                 break
             }
         }
-        self.subscribe(providerTrip: persistantQueue.providerTrip, scheduler: configuration.rxScheduler)
+        self.subscribe(providerTrip: persistantQueue.providerTrip, providerOrderlyTrip: persistantQueue.providerOrderlyTrip, scheduler: configuration.rxScheduler)
 
         self.rxTripId.asObservable().observeOn(MainScheduler.instance).subscribe {[weak self] (event) in
             if let tripId = event.element {
@@ -133,7 +133,13 @@ public class TripRecorder: TripRecorderProtocol {
     }
     
     // MARK: - Configure ApiTrip
-    func subscribe(providerTrip: PublishSubject<TripChunk>, scheduler: ImmediateSchedulerType) {
+    func subscribe(providerTrip: PublishSubject<TripChunk>, providerOrderlyTrip: PublishSubject<(String, String)>, scheduler: ImmediateSchedulerType) {
+        providerOrderlyTrip.asObservable().observeOn(scheduler).subscribe { [weak self](event) in
+            if let (payload, baseurl) = event.element {
+                self?.apiTrip.sendTrip(body: payload, baseUrl: baseurl)
+            }
+            }.disposed(by: rxDisposeBag)
+        
         providerTrip.asObservable().observeOn(scheduler).subscribe { [weak self](event) in
             if let trip = event.element {
                 self?.apiTrip.sendTrip(trip: trip)

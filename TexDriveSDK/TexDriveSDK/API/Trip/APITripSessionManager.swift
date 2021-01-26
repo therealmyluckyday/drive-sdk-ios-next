@@ -12,6 +12,7 @@ import Gzip
 
 public protocol APITripSessionManagerProtocol {
     func put(dictionaryBody: [String: Any], baseUrl: String)
+    func put(body: String, baseUrl: String)
     var tripChunkSent: PublishSubject<Result<TripId>> { get }
     var tripIdFinished: PublishSubject<TripId> { get }
 }
@@ -33,6 +34,14 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
     func put(dictionaryBody: [String: Any], baseUrl: String) {
         if let url = URL(string: "\(baseUrl)/data"), let request = URLRequest.createUrlRequest(url: url, body: dictionaryBody, httpMethod: HttpMethod.PUT, withCompression: true) {
             Log.print("[\(url)]\n[\(String(describing: request.allHTTPHeaderFields))]\nHTTP dictionaryBody \(dictionaryBody)")
+            let backgroundTask = self.urlSession?.downloadTask(with: request)
+            backgroundTask?.resume()
+        }
+    }
+    
+    func put(body: String, baseUrl: String) {
+        if let url = URL(string: "\(baseUrl)/data"), let request = URLRequest.createUrlRequest(url: url, body: body, httpMethod: HttpMethod.PUT, withCompression: true) {
+            Log.print("[\(url)]\n[\(String(describing: request.allHTTPHeaderFields))]\nHTTP dictionaryBody \(body)")
             let backgroundTask = self.urlSession?.downloadTask(with: request)
             backgroundTask?.resume()
         }

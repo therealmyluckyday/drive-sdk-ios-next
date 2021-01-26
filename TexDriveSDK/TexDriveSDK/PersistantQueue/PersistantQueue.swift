@@ -24,9 +24,12 @@ class PersistantQueue {
     private var currentTripChunk: TripChunk?
     private let rxDisposeBag = DisposeBag()
     var providerTrip = PublishSubject<TripChunk>()
+    var providerOrderlyTrip = PublishSubject<(String, String)>()
     let tripInfos: TripInfos
     var tripChunkSentCounter = 0
     var lastTripChunk: TripChunk?
+    let isUsingOrderlyTripChunk = false
+    var tripChunkDatabase: TripChunkDatabase? = nil
     
     // MARK: Lifecycle
     init(eventType: PublishSubject<EventType>, fixes: PublishSubject<Fix>, scheduler: SerialDispatchQueueScheduler, rxTripId: PublishSubject<TripId>, tripInfos: TripInfos, rxTripChunkSent: PublishSubject<Result<TripId>>) {
@@ -78,16 +81,25 @@ class PersistantQueue {
                 }
             }
             }.disposed(by: rxDisposeBag)
+        
+        tripChunkDatabase = TripChunkDatabase(path: NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true).first!, name: "TripChunkDatabase.dbs")
     }
     
     func sendNextTripChunk() {
         Log.print("tripChunkSentCounter \(tripChunkSentCounter)")
-       if let stopTripChunk = lastTripChunk, tripChunkSentCounter < 1 {
-            lastTripChunk = nil
-            self.providerTrip.onNext(stopTripChunk)
-            
-            if #available(iOS 13.0, *) {
-                self.cancelScheduleBGTask()
+        if isUsingOrderlyTripChunk,
+           tripChunkDatabase != nil,
+           let (payload, baseurl) = tripChunkDatabase?.pop() {
+            // Retrieve TripChunk Information
+            providerOrderlyTrip.onNext((payload, baseurl))
+        } else {
+            if let stopTripChunk = lastTripChunk, tripChunkSentCounter < 1 {
+                 lastTripChunk = nil
+                 self.providerTrip.onNext(stopTripChunk)
+                 
+                 if #available(iOS 13.0, *) {
+                     self.cancelScheduleBGTask()
+                 }
             }
         }
     }
@@ -95,12 +107,21 @@ class PersistantQueue {
     func sendTripChunk(tripChunk: TripChunk) {
         tripChunkSentCounter = tripChunkSentCounter + 1
         Log.print("tripChunkSentCounter \(tripChunkSentCounter)")
-        self.providerTrip.onNext(tripChunk)
+        if isUsingOrderlyTripChunk && tripChunkDatabase != nil  {
+            // Save TripChunk Information
+            tripChunkDatabase?.insert(tripchunk: tripChunk)
+            //if tripChunkSentCounter == 1 {
+                sendNextTripChunk()
+            //}
+            
+        } else {
+            self.providerTrip.onNext(tripChunk)
+        }
     }
     
     func sendLastTripChunk(tripChunk: TripChunk) {
         lastTripChunk = tripChunk
-        
+        sendTripChunk(tripChunk: tripChunk)
         if #available(iOS 13.0, *) {
             self.scheduleBGTask(lastTripChunk: tripChunk)
         }
@@ -142,3 +163,4 @@ class PersistantQueue {
     }
    
 }
+
