@@ -121,7 +121,7 @@ public class TexServices {
         return sharedInstance
     }
     
-    public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
+    public func registerBGTaskScheduler() {
         if #available(iOS 13.0, *) {
             self.checkStopRequest()
             BGTaskScheduler.shared.register(forTaskWithIdentifier: BGAppTaskRequestIdentifier, using: .global()) { (task) in
