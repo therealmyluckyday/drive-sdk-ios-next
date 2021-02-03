@@ -77,6 +77,7 @@ public class TripRecorder: TripRecorderProtocol {
     public func stop() {
         collector.stopCollect()
         startTime       = nil
+        let resetTriprogress = (currentTripId != nil) ? TripProgress(tripId: currentTripId!, speed: 0, distance: 0, duration: 0) : nil
         currentTripId   = nil
         currentLocation = nil
         if let serviceStarted = autoMode?.isServiceStarted,
@@ -84,6 +85,9 @@ public class TripRecorder: TripRecorderProtocol {
             autoMode?.rxIsDriving.onNext(false)
         }
         NotificationCenter.default.post(name: Notification.Name.AXAEventTripRecordStop, object: nil)
+        if let resetTriprogress = resetTriprogress {
+            self.rxTripProgress.onNext(resetTriprogress)
+        }
     }
     
     public func activateAutoMode() {
