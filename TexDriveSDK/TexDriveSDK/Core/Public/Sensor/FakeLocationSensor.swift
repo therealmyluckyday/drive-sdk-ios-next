@@ -11,5 +11,6 @@ import RxSwift
 import CoreLocation
 
 class FakeLocationSensor: LocationSensor {
-    //let rxLocation = PublishSubject<CLLocation>()
+    override func configureWithRXCoreLocation() {
+    }
 }

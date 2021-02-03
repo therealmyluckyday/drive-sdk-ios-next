@@ -27,6 +27,10 @@ public class LocationSensor: NSObject, LocationSensorProtocol, CLLocationManager
     init(_ locationManager: CLLocationManager = CLLocationManager()) {
         clLocationManager = locationManager
         super.init()
+        #if targetEnvironment(simulator)
+        #else
+        locationManager.allowsBackgroundLocationUpdates = true
+        #endif
         self.configureWithRXCoreLocation()
     }
     
@@ -38,6 +42,7 @@ public class LocationSensor: NSObject, LocationSensorProtocol, CLLocationManager
                 }
             }.disposed(by: rxDisposeBag)
     }
+    
     // MARK: - CLLocationManagerDelegate
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         DispatchQueue.main.async {
@@ -49,7 +54,8 @@ public class LocationSensor: NSObject, LocationSensorProtocol, CLLocationManager
             }
         }
     }
-    // MARK: Redirect for CLLocationManager
+    
+    // MARK: Proxy for CLLocationManager
     public func startUpdatingLocation() {
         clLocationManager.startUpdatingLocation()
     }
@@ -63,7 +69,6 @@ public class LocationSensor: NSObject, LocationSensorProtocol, CLLocationManager
     }
     
     // MARK:  CLLocationManagerDelegate error management
-    
     public func locationManager(_ manager: CLLocationManager, didFinishDeferredUpdatesWithError error: Error?) {
         guard let error = error else { return }
         Log.print("didFinishDeferredUpdatesWithError \(error)", type: .Error)
@@ -72,7 +77,6 @@ public class LocationSensor: NSObject, LocationSensorProtocol, CLLocationManager
     public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         Log.print("didFailWithError \(error)", type: .Error)
         if let error = error as? CLError {
-            
             switch error.code {
             case CLError.deferredAccuracyTooLow:
                 Log.print("deferredAccuracyTooLow", type: .Error)
