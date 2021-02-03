@@ -93,14 +93,15 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
                 Log.print("isSimulatorDriveTestingAutoMode")
             return
         }
-        resetTimer(timeInterval: intervalDelay)
         if location.speed < thresholdSpeed {
             if isMotionActivityPossible {
                 self.didUpdateLocationWithMotionActivityActivated()
             } else {
                 self.stop()
             }
-        }
+        } else {
+            resetTimer(timeInterval: intervalDelay)
+        }	
     }
     
     func didUpdateLocationWithMotionActivityActivated() {
@@ -108,10 +109,14 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
             resetTimer(timeInterval: intervalDelay)
         }
         else {
-            motionManager.queryActivityStarting(from: Date.init().addingTimeInterval(-10.0), to: Date(), to: OperationQueue.main) { [weak self](motions, error) in
+            motionManager.queryActivityStarting(from: Date.init().addingTimeInterval(-60.0), to: Date(), to: OperationQueue.main) { [weak self](motions, error) in
                 if let motions = motions {
                     for activity in motions {
                         if activity.automotive {
+                            Log.print("[Motion] Was in automotive")
+                            if let this = self {
+                                this.resetTimer(timeInterval: this.intervalDelay)
+                            }
                             return
                         }
                     }
