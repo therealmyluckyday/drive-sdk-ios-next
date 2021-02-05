@@ -27,10 +27,6 @@ public class LocationSensor: NSObject, LocationSensorProtocol, CLLocationManager
     init(_ locationManager: CLLocationManager = CLLocationManager()) {
         clLocationManager = locationManager
         super.init()
-        #if targetEnvironment(simulator)
-        #else
-        locationManager.allowsBackgroundLocationUpdates = true
-        #endif
         self.configureWithRXCoreLocation()
     }
     
@@ -57,6 +53,12 @@ public class LocationSensor: NSObject, LocationSensorProtocol, CLLocationManager
     
     // MARK: Proxy for CLLocationManager
     public func startUpdatingLocation() {
+        if (!clLocationManager.allowsBackgroundLocationUpdates) {
+            #if targetEnvironment(simulator)
+            #else
+            clLocationManager.allowsBackgroundLocationUpdates = true
+            #endif
+        }
         clLocationManager.startUpdatingLocation()
     }
     
