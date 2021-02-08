@@ -59,15 +59,16 @@ public class TexServices {
         self.configuration = configuration
         // Configure API Score session
         let urlScoreSessionConfiguration = URLSessionConfiguration.default
-        urlScoreSessionConfiguration.timeoutIntervalForResource = 15 * 60 * 60
+        urlScoreSessionConfiguration.timeoutIntervalForResource = 2 * 60
         urlScoreSessionConfiguration.httpAdditionalHeaders = configuration.tripInfos.httpHeaders()
         let scoreSessionManager = APIScoreSessionManager(configuration: configuration.tripInfos, urlSessionConfiguration: urlScoreSessionConfiguration)
         scoringClient = ScoreRetriever(sessionManager: scoreSessionManager, locale: configuration.locale)
         // Configure API Trip session
         let urlTripSessionConfiguration = isTesting ? URLSessionConfiguration.default : URLSessionConfiguration.background(withIdentifier: "TexSession")
-        urlTripSessionConfiguration.isDiscretionary = true
+        urlTripSessionConfiguration.isDiscretionary = false
+        urlTripSessionConfiguration.shouldUseExtendedBackgroundIdleMode = true
         urlTripSessionConfiguration.sessionSendsLaunchEvents = true
-        urlTripSessionConfiguration.timeoutIntervalForResource = 15 * 60 * 60
+        urlTripSessionConfiguration.timeoutIntervalForResource = 2 * 60 * 60
         urlTripSessionConfiguration.httpAdditionalHeaders = configuration.tripInfos.httpHeaders()
         let tripSessionManager = APITripSessionManager(configuration: configuration.tripInfos, urlSessionConfiguration: urlTripSessionConfiguration)
         _tripSessionManager = tripSessionManager
