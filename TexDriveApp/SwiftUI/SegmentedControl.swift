@@ -6,7 +6,10 @@
 //  Copyright © 2020 Axa. All rights reserved.
 //
 
+#if canImport(Swiftui)
 import SwiftUI
+
+@available(iOS 13, *)
 struct SegmentedControl: UIViewRepresentable {
 
     
@@ -40,14 +43,16 @@ struct SegmentedControl: UIViewRepresentable {
         return Coordinator(segmentedControl: self)
     }
 }
-
+ 
+ @available(iOS 13, *)
 enum BooleanState: String, CaseIterable, Identifiable {
     case False
     case True
 
     var id: String { self.rawValue }
 }
-
+ 
+ @available(iOS 13, *)
 struct TestSegmentedControl: View {
     @State var selection = 0
     @State var selectionDrivingState = BooleanState.False
@@ -80,7 +85,8 @@ struct TestSegmentedControl: View {
     }
 }
 
-
+ 
+ @available(iOS 13, *)
 struct SegmentedControl_Previews: PreviewProvider {
     
     
@@ -90,3 +96,5 @@ struct SegmentedControl_Previews: PreviewProvider {
         }
     }
 }
+
+#endif
