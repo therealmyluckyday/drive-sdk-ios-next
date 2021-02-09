@@ -15,8 +15,8 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
     let intervalDelay: TimeInterval
     var timer: Timer?
     var firstLocation: CLLocation?
-    let thresholdSpeed = CLLocationSpeed(exactly: 10*0.28)!
-    let timeLowSpeedThreshold = TimeInterval(exactly: 180)!
+    let thresholdSpeed = CLLocationSpeed(exactly: 20*0.28)!
+    let timeLowSpeedThreshold = TimeInterval(exactly: 3*60)!
     var lastLocationDate: Date = Date()
 
     init(context: AutoModeContextProtocol, locationManager clLocationManager: LocationManager, motionActivityManager: CMMotionActivityManager = CMMotionActivityManager(), interval: TimeInterval = TimeInterval(4*60)) {

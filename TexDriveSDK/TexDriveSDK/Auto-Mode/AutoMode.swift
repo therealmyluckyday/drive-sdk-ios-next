@@ -69,7 +69,6 @@ class AutoMode: AutoModeContextProtocol {
     // MARK: - Public method
     func enable() {
         disable()
-        let standbyState = StandbyState(context: self, locationManager: locationManager)
         
         rxState.asObserver().observeOn(MainScheduler.asyncInstance).subscribe {[weak self] (event) in
             if let newState = event.element {
@@ -108,8 +107,9 @@ class AutoMode: AutoModeContextProtocol {
             }
             }.disposed(by: rxDisposeBag)
         
-        rxState.onNext(standbyState)
-        standbyState.enable()
+        let detectionOfStartState = DetectionOfStartState(context: self, locationManager: locationManager)
+        rxState.onNext(detectionOfStartState)
+        detectionOfStartState.enable()
     }
     
     func disable() {
