@@ -19,16 +19,13 @@ public class AutoModeLocationSensor: LocationSensor {
         #if targetEnvironment(simulator)
         #else
         locationManager.requestAlwaysAuthorization()
-        #endif
-        locationManager.distanceFilter = kCLDistanceFilterNone
-        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        locationManager.activityType = .automotiveNavigation
-        
-        #if targetEnvironment(simulator)
-        #else
         locationManager.pausesLocationUpdatesAutomatically = false
         locationManager.allowsBackgroundLocationUpdates = true
         #endif
+        
+        locationManager.distanceFilter = 5
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.activityType = .automotiveNavigation
     }
     
     func change(state: LocationManagerState) {
