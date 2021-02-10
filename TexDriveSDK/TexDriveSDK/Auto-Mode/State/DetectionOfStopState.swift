@@ -32,7 +32,7 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
     override func enableMotionSensor() {
         motionManager.startActivityUpdates(to: OperationQueue.main) {[weak self] (activity) in
             if let activity = activity, activity.automotive == true {
-                Log.print("let activity = activity, activity.automotive == true")
+                Log.print("[Motion] let activity = activity, activity.automotive == true")
                 self?.drive()
             }
         }
@@ -71,11 +71,12 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
         let timeIntervalBetweenLocation = -(lastLocationDate.timeIntervalSinceNow - location.timestamp.timeIntervalSinceNow)
         lastLocationDate = location.timestamp
         guard sensorState == .enable, timeIntervalBetweenLocation < 5, location.speed >= 0 || isSimulatorDriveTestingAutoMode else {
+                Log.print("location invalid sensorState == .enable, timeIntervalBetweenLocation < 5, location.speed >= 0")
             return
         }
         resetTimer(timeInterval: intervalDelay)
         if location.speed > thresholdSpeed {
-            Log.print("location.speed > thresholdSpeed")
+            Log.print("Continue to drive location.speed > thresholdSpeed")
             self.drive()
             return
         }
@@ -85,8 +86,7 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
         }
         else {
             if let firstLocation = firstLocation, location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970 > timeLowSpeedThreshold {
-                Log.print("firstLocation = firstLocation, location.timestamp.timeIntervalSince1970 - firstLocation.timestamp.timeIntervalSince1970 > timeLowSpeedThreshold")
-                Log.print("\(location.timestamp.timeIntervalSince1970) - \(firstLocation.timestamp.timeIntervalSince1970) > \(timeLowSpeedThreshold)")
+                Log.print("Stop trip due to timeinterval")
                 self.stop()
             }
         }

@@ -90,10 +90,11 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
         let timeIntervalBetweenLocation = -(lastLocationDate.timeIntervalSinceNow - location.timestamp.timeIntervalSinceNow)
         lastLocationDate = location.timestamp
         guard sensorState == .enable, timeIntervalBetweenLocation < 5, location.speed >= 0, location.horizontalAccuracy < locationAccuracyThreshold || isSimulatorDriveTestingAutoMode else {
-                Log.print("isSimulatorDriveTestingAutoMode")
+                Log.print("sensorState == .enable, timeIntervalBetweenLocation < 5, location.speed >= 0, location.horizontalAccuracy < locationAccuracyThreshold")
             return
         }
         if location.speed < thresholdSpeed {
+            Log.print("location.speed < thresholdSpeed")
             if isMotionActivityPossible {
                 self.didUpdateLocationWithMotionActivityActivated()
             } else {
@@ -106,6 +107,7 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
     
     func didUpdateLocationWithMotionActivityActivated() {
         if let activity = lastActivity, -activity.startDate.timeIntervalSinceNow < 60, activity.automotive {
+            Log.print("[Motion] Currently in automotive")
             resetTimer(timeInterval: intervalDelay)
         }
         else {
@@ -121,6 +123,7 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
                         }
                     }
                 }
+                Log.print("[Motion] Need to stop, switch to DetectionOfStop")
                 self?.stop()
             }
         }

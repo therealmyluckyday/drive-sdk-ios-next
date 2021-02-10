@@ -33,6 +33,7 @@ public class LocationSensor: NSObject, LocationSensorProtocol, CLLocationManager
     func configureWithRXCoreLocation() {
         clLocationManager.rx
             .location.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
+                Log.print(" \(event.element)", type: .Info)
                 if let location = event.element as? CLLocation {
                     self?.rxLocation.onNext(location)
                 }
