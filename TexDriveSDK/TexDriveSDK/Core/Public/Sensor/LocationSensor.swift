@@ -33,7 +33,7 @@ public class LocationSensor: NSObject, LocationSensorProtocol, CLLocationManager
     func configureWithRXCoreLocation() {
         clLocationManager.rx
             .location.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
-                Log.print(" \(event.element)", type: .Info)
+                //Log.print(" \(event.element)", type: .Info)
                 if let location = event.element as? CLLocation {
                     self?.rxLocation.onNext(location)
                 }
@@ -54,10 +54,19 @@ public class LocationSensor: NSObject, LocationSensorProtocol, CLLocationManager
     
     // MARK: Proxy for CLLocationManager
     public func startUpdatingLocation() {
+        clLocationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        clLocationManager.pausesLocationUpdatesAutomatically = false
+        clLocationManager.activityType = .automotiveNavigation
+        clLocationManager.allowsBackgroundLocationUpdates = true
         if (!clLocationManager.allowsBackgroundLocationUpdates) {
             #if targetEnvironment(simulator)
             #else
-            clLocationManager.allowsBackgroundLocationUpdates = true
+            /*clLocationManager.delegate = self
+            clLocationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+            clLocationManager.pausesLocationUpdatesAutomatically = false
+            clLocationManager.activityType = .automotiveNavigation
+            clLocationManager.distanceFilter = kCLDistanceFilterNone
+            clLocationManager.allowsBackgroundLocationUpdates = true*/
             #endif
         }
         clLocationManager.startUpdatingLocation()

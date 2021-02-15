@@ -10,7 +10,6 @@ import RxSwift
 import CoreLocation
 
 public class StandbyState: SensorAutoModeDetectionState {
-    var thresholdSpeed: CLLocationSpeed = CLLocationSpeed(exactly: 3)!
     
     override func enableLocationSensor() {
         DispatchQueue.main.async {
@@ -50,17 +49,10 @@ public class StandbyState: SensorAutoModeDetectionState {
     
     // MARK: - SensorAutoModeDetectionState
     override func didUpdateLocations(location: CLLocation) {
-        //Log.print("Speed: \(location.speed), ThresholdSpeed: \(thresholdSpeed)")
+        Log.print("StandByState Speed: \(location.speed), ThresholdSpeed: \(thresholdSpeed)")
         guard sensorState == .enable else {
             return
         }
-        if location.speed > thresholdSpeed {
-            Log.print("location.speed > thresholdSpeed")
-            self.start()
-        }
-        else if isSimulatorDriveTestingAutoMode {
-            Log.print("isSimulatorDriveTestingAutoMode")
-            thresholdSpeed -= 1
-        }
+        self.start()
     }
 }

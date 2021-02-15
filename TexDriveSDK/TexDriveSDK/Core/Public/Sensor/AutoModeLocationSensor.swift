@@ -23,8 +23,8 @@ public class AutoModeLocationSensor: LocationSensor {
         locationManager.allowsBackgroundLocationUpdates = true
         #endif
         
-        locationManager.distanceFilter = 5
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.distanceFilter = kCLDistanceFilterNone
+        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locationManager.activityType = .automotiveNavigation
     }
     

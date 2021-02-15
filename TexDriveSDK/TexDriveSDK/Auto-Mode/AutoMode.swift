@@ -107,9 +107,9 @@ class AutoMode: AutoModeContextProtocol {
             }
             }.disposed(by: rxDisposeBag)
         
-        let detectionOfStartState = DetectionOfStartState(context: self, locationManager: locationManager)
-        rxState.onNext(detectionOfStartState)
-        detectionOfStartState.enable()
+        let state = StandbyState(context: self, locationManager: locationManager)
+        rxState.onNext(state)
+        state.enable()
     }
     
     func disable() {

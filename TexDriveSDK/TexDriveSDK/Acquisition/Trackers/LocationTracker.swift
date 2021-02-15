@@ -45,6 +45,15 @@ class LocationTracker: NSObject, Tracker {
                     self?.didUpdateLocations(location: location)
                 }
         }.disposed(by: disposeBag)
+            #if targetEnvironment(simulator)
+            #else
+            //locationSensor.clLocationManager.delegate = self
+            locationSensor.clLocationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+            locationSensor.clLocationManager.pausesLocationUpdatesAutomatically = false
+            locationSensor.clLocationManager.activityType = .automotiveNavigation
+            //locationSensor.clLocationManager.distanceFilter = kCLDistanceFilterNone
+            locationSensor.clLocationManager.allowsBackgroundLocationUpdates = true
+            #endif
         
         locationSensor.startUpdatingLocation()
     }

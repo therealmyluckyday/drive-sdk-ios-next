@@ -14,8 +14,8 @@ public class DetectionOfStartState: SensorAutoModeDetectionState, TimerProtocol 
     var firstLocation: CLLocation?
     var timer: Timer?
     var thresholdSpeed = CLLocationSpeed(exactly: 20*0.28)!
-    let timeLowSpeedThreshold = TimeInterval(exactly: 40*60)!
-    let intervalDelay: TimeInterval = TimeInterval(40*60)
+    let timeLowSpeedThreshold = TimeInterval(exactly: 4*60)!
+    let intervalDelay: TimeInterval = TimeInterval(4*60)
     
     override func enableMotionSensor() {
         motionManager.startActivityUpdates(to: OperationQueue.main) {[weak self] (activity) in
