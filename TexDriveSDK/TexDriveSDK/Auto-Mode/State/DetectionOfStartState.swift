@@ -34,6 +34,7 @@ public class DetectionOfStartState: SensorAutoModeDetectionState, TimerProtocol 
     override func enable() {
         super.enable()
         enableTimer(timeInterval: intervalDelay)
+        self.sendNotification(message: "DetectionOfStart", identifier: "DetectionOfStart")
     }
     
     override func stop() {

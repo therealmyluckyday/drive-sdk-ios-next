@@ -59,13 +59,13 @@ internal class TexStopRequestOperation: Operation {
     func sendNotification(_ text: String) {
         // Configure the notification's payload.
         let content = UNMutableNotificationContent()
-        content.title = "AutoMode "
+        content.title = "AutoMode"
         content.body = text
         content.sound = UNNotificationSound.default
         
         // Deliver the notification in x seconds.
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(10), repeats: false)
-        let request = UNNotificationRequest(identifier: "AutoMode"+text, content: content, trigger: trigger) // Schedule the notification.
+        let request = UNNotificationRequest(identifier: "BGTASK", content: content, trigger: trigger) // Schedule the notification.
         let center = UNUserNotificationCenter.current()
 
         center.add(request) { (error : Error?) in

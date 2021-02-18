@@ -47,6 +47,7 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
         Log.print("stop")
         disableTimer()
         disableSensor()
+        self.sendNotification(message: "DetectionOfStop Stop", identifier: "DetectionOfStop")
         if let context = self.context {
             let state = StandbyState(context: context, locationManager: locationManager)
             context.rxState.onNext(state)

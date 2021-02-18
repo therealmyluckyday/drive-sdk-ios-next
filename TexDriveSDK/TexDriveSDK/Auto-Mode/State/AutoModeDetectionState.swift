@@ -62,4 +62,25 @@ public class AutoModeDetectionState: NSObject, AutoModeDetectionStateProtocol {
             
         }
     }
+    
+    func sendNotification(message: String, identifier: String) {
+        DispatchQueue.main.async {
+            
+            let content = UNMutableNotificationContent()
+            content.body = message
+            if #available(iOS 12.0, *) {
+                content.sound = UNNotificationSound.defaultCritical
+            } else {
+                // Fallback on earlier versions
+            }
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: (10), repeats: false)
+            let userNotification = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+            
+            UNUserNotificationCenter.current().add(userNotification) { error in
+                if error != nil {
+                    print(error!)
+                }
+            }
+        }
+    }
 }
