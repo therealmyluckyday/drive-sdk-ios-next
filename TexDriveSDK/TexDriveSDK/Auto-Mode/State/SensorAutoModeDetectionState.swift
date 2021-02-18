@@ -30,7 +30,7 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
         motionManager = motionActivityManager
         locationManager = clLocationManager
         if #available(iOS 11.0, *) {
-            isMotionActivityPossible = CMMotionActivityManager.isActivityAvailable() && CMMotionActivityManager.authorizationStatus() == .authorized
+            isMotionActivityPossible = CMMotionActivityManager.isActivityAvailable() && CMMotionActivityManager.authorizationStatus() != .denied
         } else {
             isMotionActivityPossible = CMMotionActivityManager.isActivityAvailable()
         }
