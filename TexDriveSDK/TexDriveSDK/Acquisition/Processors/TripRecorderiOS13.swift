@@ -38,7 +38,9 @@ public class TripRecorderiOS13SwiftUI: TripRecorder, ObservableObject {
             if let isDriving = event.element {
                 self?.isDrivingiOS13 = isDriving
                 if isDriving {
-                    self?.start()
+                    DispatchQueue.main.asyncAfter(deadline: .now()+10) { [weak self] in
+                        self?.start()
+                    }
                 } else {
                     self?.stop()
                 }
