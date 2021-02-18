@@ -62,7 +62,7 @@ class APITripSessionManager: APISessionManager, APITripSessionManagerProtocol, U
             Log.print("tripChunkSent.onNext(Result.Success(tripId)")
             tripChunkSent.onNext(Result.Success(tripId))
             if APITripSessionManager.isTripStoppedSend(task:downloadTask) {
-                Log.print("Trip Finished")
+                Log.print("Trip Finished TripId: \(tripId)")
                 tripIdFinished.onNext(tripId)
             }
         } else {

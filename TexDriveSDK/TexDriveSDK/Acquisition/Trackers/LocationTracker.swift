@@ -61,7 +61,7 @@ class LocationTracker: NSObject, Tracker {
     
     // MARK: - didUpdateLocations
     func didUpdateLocations(location: CLLocation) {
-        //Log.print("[LocationTracker]didUpdateLocations speed %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(location.speed)")
+        Log.print("[LocationTracker]didUpdateLocations speed \(location.speed)")
         let distance: Double = self.distance(location: location)
         
         let result = Result.Success(LocationFix(timestamp: location.timestamp.timeIntervalSince1970, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, precision: location.horizontalAccuracy, speed: location.speed, bearing: location.course, altitude: location.altitude, distance: distance))

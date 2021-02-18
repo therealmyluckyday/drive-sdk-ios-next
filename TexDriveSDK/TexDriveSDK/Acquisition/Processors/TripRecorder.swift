@@ -161,7 +161,7 @@ public class TripRecorder: TripRecorderProtocol {
                     self?.stop()
                 }
             }
-            }.disposed(by: rxDisposeBag)
+         }.disposed(by: rxDisposeBag)
     }
     
     // MARK: - Configure TripProgress stream
