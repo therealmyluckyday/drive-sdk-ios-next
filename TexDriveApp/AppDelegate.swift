@@ -30,11 +30,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
         }
         locationManager.requestAlwaysAuthorization()
 
-        //#if canImport(Swiftui)
-        //configureWithSwuiftui(withUserId: userId)
-        //#else
-        self.configureTexSDK(userId: userId)
-        //#endif
+        
+        if #available(iOS 13, *) {
+            configureWithSwuiftui(withUserId: userId)
+        } else {
+            self.configureTexSDK(userId: userId)
+        }
+        
         texServices?.registerBGTaskScheduler()
         
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
@@ -76,7 +78,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
                 serviceios13.tripRecorderiOS13.activateAutoMode()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 15.0) {
                     //fakeLocationManager.loadTrip(intervalBetweenGPSPointInSecond: 0.15)
-                }
+                }   
             }
         } catch ConfigurationError.LocationNotDetermined(let description) {
             print(description)

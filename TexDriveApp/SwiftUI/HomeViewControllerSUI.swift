@@ -75,6 +75,8 @@ struct SwiftUIViewTOTO_Previews: PreviewProvider {
         }
     }
 }
+
+@available(iOS 13, *)
 extension HomeViewControllerSUI {
     
 func sendNotification(_ text: String) {
