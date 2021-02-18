@@ -12,10 +12,8 @@ import CoreLocation
 public class StandbyState: SensorAutoModeDetectionState {
     
     override func enableLocationSensor() {
-        DispatchQueue.main.async {
-            super.enableLocationSensor()
-            self.locationManager.autoModeLocationSensor.change(state: .significantLocationChanges)
-        }
+        super.enableLocationSensor()
+        self.locationManager.change(state: .significantLocationChanges)
     }
     
     override func enableMotionSensor() {
@@ -49,7 +47,7 @@ public class StandbyState: SensorAutoModeDetectionState {
     
     // MARK: - SensorAutoModeDetectionState
     override func didUpdateLocations(location: CLLocation) {
-        Log.print("StandByState Speed: \(location.speed), ThresholdSpeed: \(thresholdSpeed)")
+        print("[StandbyState]didupDateLocation")
         guard sensorState == .enable else {
             return
         }

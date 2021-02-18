@@ -26,7 +26,7 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
 
     override func enableLocationSensor() {
         super.enableLocationSensor()
-        locationManager.autoModeLocationSensor.change(state: .locationChanges)
+        locationManager.change(state: .locationChanges)
     }
     
     override func enableMotionSensor() {

@@ -40,22 +40,14 @@ class LocationTracker: NSObject, Tracker {
         locationSensor.clLocationManager.requestAlwaysAuthorization()
         #endif
         lastLocation = nil
-        locationSensor.rxLocation.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
-                if let location = event.element {
-                    self?.didUpdateLocations(location: location)
-                }
-        }.disposed(by: disposeBag)
-            #if targetEnvironment(simulator)
-            #else
-            //locationSensor.clLocationManager.delegate = self
-            locationSensor.clLocationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-            locationSensor.clLocationManager.pausesLocationUpdatesAutomatically = false
-            locationSensor.clLocationManager.activityType = .automotiveNavigation
-            //locationSensor.clLocationManager.distanceFilter = kCLDistanceFilterNone
-            locationSensor.clLocationManager.allowsBackgroundLocationUpdates = true
-            #endif
-        
-        locationSensor.startUpdatingLocation()
+        DispatchQueue.main.async {
+            self.locationSensor.rxLocation.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
+                    if let location = event.element {
+                        self?.didUpdateLocations(location: location)
+                    }
+            }.disposed(by: disposeBag)
+            self.locationSensor.startUpdatingLocation()
+        }
     }
     
     func disableTracking() {

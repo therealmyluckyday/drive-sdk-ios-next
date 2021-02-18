@@ -23,6 +23,7 @@ public class LocationSensor: NSObject, LocationSensorProtocol, CLLocationManager
     var rxLocation = PublishSubject<CLLocation>()
     internal var clLocationManager: CLLocationManager
     private let rxDisposeBag = DisposeBag()
+    var state = LocationManagerState.disabled
     
     init(_ locationManager: CLLocationManager = CLLocationManager()) {
         clLocationManager = locationManager
@@ -54,26 +55,21 @@ public class LocationSensor: NSObject, LocationSensorProtocol, CLLocationManager
     
     // MARK: Proxy for CLLocationManager
     public func startUpdatingLocation() {
-        clLocationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        clLocationManager.pausesLocationUpdatesAutomatically = false
-        clLocationManager.activityType = .automotiveNavigation
-        clLocationManager.allowsBackgroundLocationUpdates = true
-        if (!clLocationManager.allowsBackgroundLocationUpdates) {
-            #if targetEnvironment(simulator)
-            #else
-            /*clLocationManager.delegate = self
+        if self.state == .disabled {
             clLocationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
             clLocationManager.pausesLocationUpdatesAutomatically = false
             clLocationManager.activityType = .automotiveNavigation
-            clLocationManager.distanceFilter = kCLDistanceFilterNone
-            clLocationManager.allowsBackgroundLocationUpdates = true*/
-            #endif
+            clLocationManager.allowsBackgroundLocationUpdates = true
         }
         clLocationManager.startUpdatingLocation()
+        self.state = .locationChanges
     }
     
     public func stopUpdatingLocation() {
-        clLocationManager.stopUpdatingLocation()
+        if self.state == .locationChanges {
+            clLocationManager.stopUpdatingLocation()
+            self.state = .disabled
+        }
     }
     
     public func authorizationStatus() -> (CLAuthorizationStatus) {
