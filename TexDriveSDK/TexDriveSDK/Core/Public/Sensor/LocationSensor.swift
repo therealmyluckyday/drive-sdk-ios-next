@@ -60,9 +60,9 @@ public class LocationSensor: NSObject, LocationSensorProtocol, CLLocationManager
             clLocationManager.pausesLocationUpdatesAutomatically = false
             clLocationManager.activityType = .automotiveNavigation
             clLocationManager.allowsBackgroundLocationUpdates = true
+            clLocationManager.startUpdatingLocation()
+            self.state = .locationChanges
         }
-        clLocationManager.startUpdatingLocation()
-        self.state = .locationChanges
     }
     
     public func stopUpdatingLocation() {
