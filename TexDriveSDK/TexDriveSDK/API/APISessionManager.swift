@@ -56,10 +56,12 @@ class APISessionManager: NSObject, URLSessionDelegate, URLSessionTaskDelegate {
     
     func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
         Log.print("urlsession urlSessionDidFinishEvents :\(String(describing: session))", type: .Info)
-        let appDelegate = UIApplication.shared.delegate as? AppDelegateTex
-        guard let completionHandler = appDelegate?.backgroundCompletionHandler else { return  }
-        appDelegate?.backgroundCompletionHandler = nil
-        completionHandler()
+        DispatchQueue.main.async {
+            let appDelegate = UIApplication.shared.delegate as? AppDelegateTex
+            guard let completionHandler = appDelegate?.backgroundCompletionHandler else { return  }
+            appDelegate?.backgroundCompletionHandler = nil
+            completionHandler()
+        }
     }
     
     class func manageError(data: Data?, httpResponse: HTTPURLResponse) -> APIError {
