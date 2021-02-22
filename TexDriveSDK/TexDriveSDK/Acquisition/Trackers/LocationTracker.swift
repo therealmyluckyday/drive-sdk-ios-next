@@ -40,15 +40,28 @@ class LocationTracker: NSObject, Tracker {
         locationSensor.clLocationManager.requestAlwaysAuthorization()
         #endif
         lastLocation = nil
-        DispatchQueue.main.async {
-            self.locationSensor.rxLocation.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
-                    if let location = event.element {
-                        self?.didUpdateLocations(location: location)
-                    }
-            }.disposed(by: disposeBag)
-            self.locationSensor.startUpdatingLocation()
-        }
+        self.locationSensor.rxLocation.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
+                if let location = event.element {
+                    self?.didUpdateLocations(location: location)
+                }
+        }.disposed(by: disposeBag)
+        self.locationSensor.startUpdatingLocation()
     }
+    
+    // MARK: - Public Method
+    func configure(_ locationManager: CLLocationManager) {
+        #if targetEnvironment(simulator)
+        #else
+        locationManager.requestAlwaysAuthorization()
+        locationManager.pausesLocationUpdatesAutomatically = false
+        locationManager.allowsBackgroundLocationUpdates = true
+        #endif
+        
+        locationManager.distanceFilter = kCLDistanceFilterNone
+        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        locationManager.activityType = .automotiveNavigation
+    }
+    
     
     func disableTracking() {
         locationSensor.stopUpdatingLocation()
@@ -61,7 +74,6 @@ class LocationTracker: NSObject, Tracker {
     
     // MARK: - didUpdateLocations
     func didUpdateLocations(location: CLLocation) {
-        Log.print("[LocationTracker]didUpdateLocations speed \(location.speed)")
         let distance: Double = self.distance(location: location)
         
         let result = Result.Success(LocationFix(timestamp: location.timestamp.timeIntervalSince1970, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, precision: location.horizontalAccuracy, speed: location.speed, bearing: location.course, altitude: location.altitude, distance: distance))
@@ -86,7 +98,6 @@ class LocationTracker: NSObject, Tracker {
         
         guard self.isLocationValid(location: location),
               let lastLocation = self.lastLocation else {
-            
             //Log.print("[LocationTracker]distance 0    : %{public}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "0")
             return 0
         }

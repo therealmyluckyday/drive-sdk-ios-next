@@ -49,9 +49,11 @@ public class LocationManager: NSObject {
             case .significantLocationChanges:
                 Log.print("State \(state)")
                 self.autoModeLocationSensor.state = .significantLocationChanges
-                self.trackerLocationSensor.stopUpdatingLocation()
                 self.autoModeLocationSensor.slcLocationManager.stopMonitoringSignificantLocationChanges()
                 self.autoModeLocationSensor.clLocationManager.stopUpdatingLocation()
+                self.trackerLocationSensor.clLocationManager.stopUpdatingLocation()
+                self.autoModeLocationSensor.slcLocationManager = CLLocationManager()
+                self.autoModeLocationSensor.configureWithRXCoreLocation()
                 self.configure(self.autoModeLocationSensor.slcLocationManager)
                 self.autoModeLocationSensor.slcLocationManager.startMonitoringSignificantLocationChanges()
             case .locationChanges:
@@ -59,8 +61,10 @@ public class LocationManager: NSObject {
                     Log.print("State \(state)")
                     self.autoModeLocationSensor.slcLocationManager.stopMonitoringSignificantLocationChanges()
                     self.autoModeLocationSensor.clLocationManager.stopUpdatingLocation()
+                    self.autoModeLocationSensor.clLocationManager = CLLocationManager()
                     self.configure(self.autoModeLocationSensor.clLocationManager)
                     self.autoModeLocationSensor.clLocationManager.startUpdatingLocation()
+                    self.trackerLocationSensor.clLocationManager.startUpdatingLocation()
                     self.trackerLocationSensor.state = .locationChanges
                 }
                 self.autoModeLocationSensor.state = .locationChanges

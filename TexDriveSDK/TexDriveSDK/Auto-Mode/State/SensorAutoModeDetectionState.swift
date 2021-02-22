@@ -18,13 +18,14 @@ enum SensorState {
 }
 
 
+let isSimulatorDriveTestingAutoMode = false // Used for Simulator Device Testing
+
 public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationManagerDelegate {
     let motionManager: CMMotionActivityManager
     let isMotionActivityPossible: Bool
     let locationManager: LocationManager
     var rxDisposeBag: DisposeBag? = DisposeBag()
     var sensorState: SensorState = .disable
-    let isSimulatorDriveTestingAutoMode = false // Used for Simulator Device Testing
     
     init(context: AutoModeContextProtocol, locationManager clLocationManager: LocationManager, motionActivityManager: CMMotionActivityManager = CMMotionActivityManager()) {
         motionManager = motionActivityManager

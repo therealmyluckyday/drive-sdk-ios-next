@@ -12,8 +12,8 @@ import CoreLocation
 public class StandbyState: SensorAutoModeDetectionState {
     
     override func enableLocationSensor() {
-        super.enableLocationSensor()
         self.locationManager.change(state: .significantLocationChanges)
+        super.enableLocationSensor()
     }
     
     override func enableMotionSensor() {

@@ -20,8 +20,8 @@ protocol TimerProtocol {
 }
 
 let minimumDrivingSpeed = CLLocationSpeed(exactly: 10*0.28)!
-let maxDelayBeetweenLocationTimeInSecond = 4*60
 let locationAccuracyThreshold = Double(20)
+let maxDelayBeetweenLocationTimeInSecond = isSimulatorDriveTestingAutoMode ? 20 : 4*60 // 5*60
 public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
     let intervalDelay: TimeInterval
     let thresholdSpeed = minimumDrivingSpeed
@@ -51,7 +51,7 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
         Log.print("enable")
         super.enable()
         enableTimer(timeInterval: intervalDelay)
-        self.sendNotification(message: "DrivingState", identifier: "DrivingState")
+        //self.sendNotification(message: "DrivingState", identifier: "DrivingState")
     }
     
     override func stop() {

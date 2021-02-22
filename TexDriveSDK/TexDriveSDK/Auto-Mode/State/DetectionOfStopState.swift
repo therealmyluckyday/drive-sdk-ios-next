@@ -11,13 +11,16 @@ import CoreLocation
 import CoreMotion
 import OSLog
 
+let maxDelayBeetweenLowSpeedTimeInSecond = isSimulatorDriveTestingAutoMode ? 60 : 3*60 // 5*60
+
 public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
     let intervalDelay: TimeInterval
     var timer: Timer?
     var firstLocation: CLLocation?
     let thresholdSpeed = CLLocationSpeed(exactly: 20*0.28)!
-    let timeLowSpeedThreshold = TimeInterval(exactly: 3*60)!
     var lastLocationDate: Date = Date()
+    let timeLowSpeedThreshold = TimeInterval(exactly: maxDelayBeetweenLowSpeedTimeInSecond)!
+
 
     init(context: AutoModeContextProtocol, locationManager clLocationManager: LocationManager, motionActivityManager: CMMotionActivityManager = CMMotionActivityManager(), interval: TimeInterval = TimeInterval(4*60)) {
         intervalDelay = interval
@@ -47,7 +50,7 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
         Log.print("stop")
         disableTimer()
         disableSensor()
-        self.sendNotification(message: "DetectionOfStop Stop", identifier: "DetectionOfStop")
+        //self.sendNotification(message: "DetectionOfStop Stop", identifier: "DetectionOfStop")
         if let context = self.context {
             let state = StandbyState(context: context, locationManager: locationManager)
             context.rxState.onNext(state)
