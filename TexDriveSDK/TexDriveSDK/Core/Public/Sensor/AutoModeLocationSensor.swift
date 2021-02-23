@@ -11,4 +11,5 @@ import OSLog
 
 public class AutoModeLocationSensor: LocationSensor {
     var slcLocationManager = CLLocationManager()
+    var needToRefreshLocationManager: Bool = true
 }

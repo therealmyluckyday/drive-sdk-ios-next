@@ -43,7 +43,7 @@ public class DetectionOfStartState: SensorAutoModeDetectionState, TimerProtocol 
         disableSensor()
         locationManager.autoModeLocationSensor.stopUpdatingLocation()
         if let context = self.context {
-            let state = StandbyState(context: context, locationManager: locationManager)
+            let state = StandbyState(context: context, locationManager: locationManager, isNeededToRefreshLocationManager: false)
             context.rxState.onNext(state)
             state.enable()
         }

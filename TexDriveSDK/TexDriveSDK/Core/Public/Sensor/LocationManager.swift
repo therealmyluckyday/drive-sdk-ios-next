@@ -52,14 +52,16 @@ public class LocationManager: NSObject {
                 self.autoModeLocationSensor.slcLocationManager.stopMonitoringSignificantLocationChanges()
                 self.autoModeLocationSensor.clLocationManager.stopUpdatingLocation()
                 self.trackerLocationSensor.clLocationManager.stopUpdatingLocation()
-                self.autoModeLocationSensor.slcLocationManager = CLLocationManager()
+                if self.autoModeLocationSensor.needToRefreshLocationManager {
+                    self.autoModeLocationSensor.slcLocationManager = CLLocationManager()
+                }
                 self.autoModeLocationSensor.configureWithRXCoreLocation()
                 self.configure(self.autoModeLocationSensor.slcLocationManager)
                 self.autoModeLocationSensor.slcLocationManager.startMonitoringSignificantLocationChanges()
             case .locationChanges:
                 if (self.autoModeLocationSensor.state == .disabled || self.autoModeLocationSensor.state == .significantLocationChanges) {
                     Log.print("State \(state)")
-                    self.autoModeLocationSensor.slcLocationManager.stopMonitoringSignificantLocationChanges()
+                    //.autoModeLocationSensor.slcLocationManager.stopMonitoringSignificantLocationChanges()
                     self.autoModeLocationSensor.clLocationManager.stopUpdatingLocation()
                     self.autoModeLocationSensor.clLocationManager = CLLocationManager()
                     self.configure(self.autoModeLocationSensor.clLocationManager)

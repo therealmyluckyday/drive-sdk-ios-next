@@ -27,7 +27,7 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
     var rxDisposeBag: DisposeBag? = DisposeBag()
     var sensorState: SensorState = .disable
     
-    init(context: AutoModeContextProtocol, locationManager clLocationManager: LocationManager, motionActivityManager: CMMotionActivityManager = CMMotionActivityManager()) {
+    init(context: AutoModeContextProtocol, locationManager clLocationManager: LocationManager, isNeededToRefreshLocationManager: Bool = true, motionActivityManager: CMMotionActivityManager = CMMotionActivityManager()) {
         motionManager = motionActivityManager
         locationManager = clLocationManager
         if #available(iOS 11.0, *) {
@@ -36,6 +36,7 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
             isMotionActivityPossible = CMMotionActivityManager.isActivityAvailable()
         }
         super.init(context: context)
+        locationManager.autoModeLocationSensor.needToRefreshLocationManager = isNeededToRefreshLocationManager
     }
     
     override func configure() {        
