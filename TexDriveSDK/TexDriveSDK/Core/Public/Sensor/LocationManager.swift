@@ -63,6 +63,7 @@ public class LocationManager: NSObject {
                     self.autoModeLocationSensor.clLocationManager.stopUpdatingLocation()
                     self.autoModeLocationSensor.clLocationManager = CLLocationManager()
                     self.configure(self.autoModeLocationSensor.clLocationManager)
+                    self.autoModeLocationSensor.configureWithRXCoreLocation()
                     self.autoModeLocationSensor.clLocationManager.startUpdatingLocation()
                     self.trackerLocationSensor.clLocationManager.startUpdatingLocation()
                     self.trackerLocationSensor.state = .locationChanges
