@@ -24,7 +24,7 @@ class LogRx: LogImplementation {
     func configure(regex: NSRegularExpression, logType: LogType, isTesting: Bool) {
         self.isTesting = isTesting
         self.rules[regex] = logType
-        self.rxLog.asObservable().subscribe { [weak self](event) in
+        self.rxLog.asObservable().observe(on:MainScheduler.asyncInstance).subscribe { [weak self](event) in
             if let logDetail = event.element {
                 if logDetail.canLog(regex: regex, logType: logType) {
                     self?.report(logDetail: logDetail)
