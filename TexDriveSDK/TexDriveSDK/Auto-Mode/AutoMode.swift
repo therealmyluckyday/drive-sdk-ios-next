@@ -113,6 +113,7 @@ class AutoMode: AutoModeContextProtocol {
     }
     
     func disable() {
+        self.locationManager.change(state: LocationManagerState.disabled)
         self.state?.disable()
         self.state = nil
     }

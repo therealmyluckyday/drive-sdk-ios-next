@@ -25,6 +25,11 @@ public class StandbyState: SensorAutoModeDetectionState {
         }
     }
     
+    override func enable() {
+        super.enable()
+        //self.sendNotification(message: "StandByStateEnable", identifier: "StandByStateEnable")
+    }
+
     override func start() {
         Log.print("start")
         disableSensor()

@@ -95,6 +95,7 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
     override func disable() {
         Log.print("")
         disableSensor()
+        self.locationManager.change(state: LocationManagerState.disabled)
         if let context = self.context {
             context.rxState.onNext(DisabledState(context: context))
         }
