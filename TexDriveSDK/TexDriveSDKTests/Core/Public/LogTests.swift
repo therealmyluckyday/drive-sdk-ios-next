@@ -33,6 +33,7 @@ class LogTests: XCTestCase {
         let file = #file
         let function = #function
         let loggerFactory = LogRx()
+        let isCalledExpectation = XCTestExpectation(description: #function)
         
         Log.configure(logger: loggerFactory)
         do {
@@ -42,20 +43,19 @@ class LogTests: XCTestCase {
             XCTAssertFalse(true)
         }
         
-        var isCalled = false
         loggerFactory.rxLogOutput.asObservable().subscribe { (event) in
             if let logDetail = event.element {
-                isCalled = true
                 XCTAssertEqual(logDetail.message, description)
                 XCTAssertEqual(logDetail.fileName, "LogTests.swift")
                 XCTAssertEqual(logDetail.type, LogType.Error)
                 XCTAssertEqual(logDetail.functionName, function)
+                isCalledExpectation.fulfill()
             }
             }.disposed(by: rxDisposeBag!)
         
         Log.print(description, type: type, fileName: file, functionName: function)
 
-        XCTAssert(isCalled)
+        wait(for: [isCalledExpectation], timeout: 2)
     }
     
     func testPrintConfigureAcceptAllWithFunctionTypeWarning() {
@@ -65,6 +65,7 @@ class LogTests: XCTestCase {
         let file = #file
         let function = #function
         let loggerFactory = LogRx()
+        let isCalledExpectation = XCTestExpectation(description: #function)
         
         Log.configure(logger: loggerFactory)
         do {
@@ -74,21 +75,19 @@ class LogTests: XCTestCase {
             XCTAssertFalse(true)
         }
         
-        var isCalled = false
         loggerFactory.rxLogOutput.asObservable().subscribe { (event) in
             if let logDetail = event.element {
-                isCalled = true
-                
                 XCTAssertEqual(logDetail.message, description)
                 XCTAssertEqual(logDetail.fileName, "LogTests.swift")
                 XCTAssertEqual(logDetail.type, type)
                 XCTAssertEqual(logDetail.functionName, function)
+                isCalledExpectation.fulfill()
             }
             }.disposed(by: rxDisposeBag!)
         
         Log.print(description, type: type, fileName: file, functionName: function)
 
-        XCTAssert(isCalled)
+        wait(for: [isCalledExpectation], timeout: 2)
     }
     
     func testPrintConfigureAcceptAllWithFunctionTypeInfo() {
@@ -98,6 +97,7 @@ class LogTests: XCTestCase {
         let file = #file
         let function = #function
         let loggerFactory = LogRx()
+        let isCalledExpectation = XCTestExpectation(description: #function)
         
         Log.configure(logger: loggerFactory)
         do {
@@ -110,18 +110,17 @@ class LogTests: XCTestCase {
         var isCalled = false
         loggerFactory.rxLogOutput.asObservable().subscribe { (event) in
             if let logDetail = event.element {
-                isCalled = true
-                
                 XCTAssertEqual(logDetail.message, description)
                 XCTAssertEqual(logDetail.fileName, "LogTests.swift")
                 XCTAssertEqual(logDetail.type, type)
                 XCTAssertEqual(logDetail.functionName, function)
+                isCalledExpectation.fulfill()
             }
             }.disposed(by: rxDisposeBag!)
         
         Log.print(description, type: type, fileName: file, functionName: function)
         
-        XCTAssert(isCalled)
+        wait(for: [isCalledExpectation], timeout: 2)
     }
     
     func testPrintConfigureAcceptErrorWithFunctionTypeInfo() {
@@ -236,6 +235,7 @@ class LogTests: XCTestCase {
         let file = #file
         let function = #function
         let loggerFactory = LogRx()
+        let isCalledExpectation = XCTestExpectation(description: #function)
         
         Log.configure(logger: loggerFactory)
         do {
@@ -248,17 +248,16 @@ class LogTests: XCTestCase {
         var isCalled = false
         loggerFactory.rxLogOutput.asObservable().subscribe { (event) in
             if let logDetail = event.element {
-                isCalled = true
-                
                 XCTAssertEqual(logDetail.message, description)
                 XCTAssertEqual(logDetail.fileName, "LogTests.swift")
                 XCTAssertEqual(logDetail.type, type)
                 XCTAssertEqual(logDetail.functionName, function)
+                isCalledExpectation.fulfill()
             }
             }.disposed(by: rxDisposeBag!)
         
         Log.print(description, type: type, fileName: file, functionName: function)
         
-        XCTAssert(isCalled)
+        wait(for: [isCalledExpectation], timeout: 2)
     }
 }
