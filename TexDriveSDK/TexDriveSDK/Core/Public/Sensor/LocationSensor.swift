@@ -56,10 +56,14 @@ public class LocationSensor: NSObject, LocationSensorProtocol, CLLocationManager
     // MARK: Proxy for CLLocationManager
     public func startUpdatingLocation() {
         if self.state == .disabled {
+            #if targetEnvironment(simulator)
+            #else
+            locationManager.requestAlwaysAuthorization()
+            locationManager.pausesLocationUpdatesAutomatically = false
+            locationManager.allowsBackgroundLocationUpdates = true
+            #endif
             clLocationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-            clLocationManager.pausesLocationUpdatesAutomatically = false
             clLocationManager.activityType = .automotiveNavigation
-            clLocationManager.allowsBackgroundLocationUpdates = true
             clLocationManager.startUpdatingLocation()
             self.state = .locationChanges
         }

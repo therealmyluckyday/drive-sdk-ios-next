@@ -13,6 +13,10 @@ import RxSwift
 
 @testable import TexDriveSDK
 class APITripSessionManagerMock: APITripSessionManagerProtocol {
+    func put(body: String, baseUrl: String) {
+        // Only use for Background task
+    }
+    
     var tripIdFinished = PublishSubject<TripId>()
     
     var tripChunkSent = PublishSubject<Result<TripId>>()

@@ -146,7 +146,7 @@ class TripRecorderTests: XCTestCase {
         let trip = TripChunk(tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction, isAPIV2: false))
         let expectation = XCTestExpectation(description: #function)
         
-        tripRecorder.subscribe(providerTrip: publishTrip, scheduler: MainScheduler.instance)
+        tripRecorder.subscribe(providerTrip: publishTrip, providerOrderlyTrip: PublishSubject<(String, String)>(), scheduler: MainScheduler.instance)
         
         publishTrip.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
             expectation.fulfill()
