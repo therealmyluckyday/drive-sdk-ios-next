@@ -22,7 +22,7 @@ let isSimulatorDriveTestingAutoMode = false // Used for Simulator Device Testing
 
 public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationManagerDelegate {
     let motionManager: CMMotionActivityManager
-    let isMotionActivityPossible: Bool
+    var isMotionActivityPossible: Bool
     let locationManager: LocationManager
     var rxDisposeBag: DisposeBag? = DisposeBag()
     var sensorState: SensorState = .disable

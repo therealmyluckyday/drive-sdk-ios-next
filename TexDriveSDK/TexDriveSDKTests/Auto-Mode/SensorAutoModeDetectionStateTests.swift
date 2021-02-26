@@ -15,6 +15,7 @@ class MockSensorAutoModeDetectionState: SensorAutoModeDetectionState {
     var isEnableSensorCalled = false
     override func enableSensor() {
         isEnableSensorCalled = true
+        isMotionActivityPossible = true
         super.enableSensor()
     }
     var isEnableLocationSensorCalled = false
@@ -32,6 +33,7 @@ class MockSensorAutoModeDetectionState: SensorAutoModeDetectionState {
     var isDisableSensorCalled = false
     override func disableSensor() {
         isDisableSensorCalled = true
+        isMotionActivityPossible = true
         super.disableSensor()
     }
     var isDisableLocationSensorCalled = false
