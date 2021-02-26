@@ -31,7 +31,7 @@ class LogRxTests: XCTestCase {
         let function = #function
         let regexPattern = ".*"
         let log = LogRx()
-        var isCalled = false
+        let isCalledExpectation = XCTestExpectation(description: #function)
         
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
@@ -42,18 +42,18 @@ class LogRxTests: XCTestCase {
         
         log.rxLogOutput.asObservable().subscribe { (event) in
             if let logDetail = event.element {
-                isCalled = true
-                
                 XCTAssertEqual(logDetail.message, detail)
                 XCTAssertEqual(logDetail.fileName, "LogRxTests.swift")
                 XCTAssertEqual(logDetail.type, type)
                 XCTAssertEqual(logDetail.functionName, function)
+                isCalledExpectation.fulfill()
             }
             }.disposed(by: rxDisposeBag!)
         
         log.print(detail, type: type, fileName: file, functionName: function)
         
-        XCTAssert(isCalled)
+        
+        wait(for: [isCalledExpectation], timeout: 2)
     }
     
     func testPrintWithoutFunction() {
@@ -62,7 +62,7 @@ class LogRxTests: XCTestCase {
         let file = #file
         let regexPattern = ".*"
         let log = LogRx()
-        var isCalled = false
+        let isCalledExpectation = XCTestExpectation(description: #function)
         
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
@@ -72,18 +72,17 @@ class LogRxTests: XCTestCase {
         }
         log.rxLogOutput.asObservable().subscribe { (event) in
             if let logDetail = event.element {
-                isCalled = true
-                
                 XCTAssertEqual(logDetail.message, detail)
                 XCTAssertEqual(logDetail.fileName, "LogRxTests.swift")
                 XCTAssertEqual(logDetail.type, type)
                 XCTAssertEqual(logDetail.functionName, "testPrintWithoutFunction()")
+                isCalledExpectation.fulfill()
             }
             }.disposed(by: rxDisposeBag!)
         
         log.print(detail, type: type, fileName: file)
         
-        XCTAssert(isCalled)
+        wait(for: [isCalledExpectation], timeout: 2)
     }
     
     // MARK: func warning(_ description: String, fileName: String = #file, functionName: String = #function)
@@ -94,7 +93,7 @@ class LogRxTests: XCTestCase {
         let function = #function
         let regexPattern = ".*"
         let log = LogRx()
-        var isCalled = false
+        let isCalledExpectation = XCTestExpectation(description: #function)
         
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
@@ -105,18 +104,17 @@ class LogRxTests: XCTestCase {
         
         log.rxLogOutput.asObservable().subscribe { (event) in
             if let logDetail = event.element {
-                isCalled = true
-                
                 XCTAssertEqual(logDetail.message, detail)
                 XCTAssertEqual(logDetail.fileName, "LogRxTests.swift")
                 XCTAssertEqual(logDetail.type, type)
                 XCTAssertEqual(logDetail.functionName, function)
+                isCalledExpectation.fulfill()
             }
             }.disposed(by: rxDisposeBag!)
         
         log.warning(detail, fileName: file, functionName: function)
         
-        XCTAssert(isCalled)
+        wait(for: [isCalledExpectation], timeout: 2)
     }
     
     func testWarningShort() {
@@ -125,7 +123,7 @@ class LogRxTests: XCTestCase {
         let function = #function
         let regexPattern = ".*"
         let log = LogRx()
-        var isCalled = false
+        let isCalledExpectation = XCTestExpectation(description: #function)
         
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
@@ -136,18 +134,17 @@ class LogRxTests: XCTestCase {
         
         log.rxLogOutput.asObservable().subscribe { (event) in
             if let logDetail = event.element {
-                isCalled = true
-                
                 XCTAssertEqual(logDetail.message, detail)
                 XCTAssertEqual(logDetail.fileName, "LogRxTests.swift")
                 XCTAssertEqual(logDetail.type, type)
                 XCTAssertEqual(logDetail.functionName, function)
+                isCalledExpectation.fulfill()
             }
             }.disposed(by: rxDisposeBag!)
         
         log.warning(detail)
         
-        XCTAssert(isCalled)
+        wait(for: [isCalledExpectation], timeout: 2)
     }
     
     // MARK: func error(_ description: String, fileName: String = #file, functionName: String = #function)
@@ -158,7 +155,7 @@ class LogRxTests: XCTestCase {
         let function = #function
         let regexPattern = ".*"
         let log = LogRx()
-        var isCalled = false
+        let isCalledExpectation = XCTestExpectation(description: #function)
         
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
@@ -169,18 +166,17 @@ class LogRxTests: XCTestCase {
         
         log.rxLogOutput.asObservable().subscribe { (event) in
             if let logDetail = event.element {
-                isCalled = true
-                
                 XCTAssertEqual(logDetail.message, detail)
                 XCTAssertEqual(logDetail.fileName, "LogRxTests.swift")
                 XCTAssertEqual(logDetail.type, type)
                 XCTAssertEqual(logDetail.functionName, function)
+                isCalledExpectation.fulfill()
             }
             }.disposed(by: rxDisposeBag!)
         
         log.error(detail, fileName: file, functionName: function)
         
-        XCTAssert(isCalled)
+        wait(for: [isCalledExpectation], timeout: 2)
     }
     
     func testErrorShort() {
@@ -189,7 +185,7 @@ class LogRxTests: XCTestCase {
         let function = #function
         let regexPattern = ".*"
         let log = LogRx()
-        var isCalled = false
+        let isCalledExpectation = XCTestExpectation(description: #function)
         
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
@@ -200,25 +196,24 @@ class LogRxTests: XCTestCase {
         
         log.rxLogOutput.asObservable().subscribe { (event) in
             if let logDetail = event.element {
-                isCalled = true
-                
                 XCTAssertEqual(logDetail.message, detail)
                 XCTAssertEqual(logDetail.fileName, "LogRxTests.swift")
                 XCTAssertEqual(logDetail.type, type)
                 XCTAssertEqual(logDetail.functionName, function)
+                isCalledExpectation.fulfill()
             }
             }.disposed(by: rxDisposeBag!)
         
         log.error(detail)
         
-        XCTAssert(isCalled)
+        wait(for: [isCalledExpectation], timeout: 2)
     }
     
     // MARK: lazy var mainLogger: LogImplementation
     func testConfigureAndMainLoggerCanLog() {
         let regexPattern = ".*"
         let log = LogRx()
-        var isCalled = false
+        let isCalledExpectation = XCTestExpectation(description: #function)
         
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
@@ -228,17 +223,18 @@ class LogRxTests: XCTestCase {
         }
         
         log.rxLogOutput.asObservable().subscribe { (event) in
-            isCalled = true
+            isCalledExpectation.fulfill()
             }.disposed(by: rxDisposeBag!)
         log.print("toto", type: LogType.Info, fileName: "superFile", functionName: "totoFunction")
         
-        XCTAssert(isCalled)
+        wait(for: [isCalledExpectation], timeout: 2)
     }
     
     func testConfigureAndMainLoggerCannotLog() {
         let regexPattern = "FALSE"
         let log = LogRx()
-        var isCalled = false
+        let isCalledExpectation = XCTestExpectation(description: #function)
+        isCalledExpectation.isInverted = true
         
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
@@ -248,18 +244,18 @@ class LogRxTests: XCTestCase {
         }
         
         log.rxLogOutput.asObservable().subscribe { (event) in
-            isCalled = true
+            isCalledExpectation.fulfill()
             }.disposed(by: rxDisposeBag!)
         log.print("toto", type: LogType.Info, fileName: "superFile", functionName: "totoFunction")
         
-        XCTAssertFalse(isCalled)
+        wait(for: [isCalledExpectation], timeout: 2)
     }
     
     // MARK: func getLogger(file: String) -> LogDefaultImplementation
     func testConfigureAndGetLoggerCanLog() {
         let regexPattern = ".*"
         let log = LogRx()
-        var isCalled = false
+        let isCalledExpectation = XCTestExpectation(description: #function)
         
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
@@ -269,17 +265,18 @@ class LogRxTests: XCTestCase {
         }
         
         log.rxLogOutput.asObservable().subscribe { (event) in
-            isCalled = true
+            isCalledExpectation.fulfill()
             }.disposed(by: rxDisposeBag!)
         log.print("", type: LogType.Info, functionName: "toto")
         
-        XCTAssert(isCalled)
+        wait(for: [isCalledExpectation], timeout: 2)
     }
     
     func testConfigureAndGetLoggerCannotLog() {
         let regexPattern = "FALSE"
         let log = LogRx()
-        var isCalled = false
+        let isCalledExpectation = XCTestExpectation(description: #function)
+        isCalledExpectation.isInverted = true
         
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
@@ -289,18 +286,18 @@ class LogRxTests: XCTestCase {
         }
         
         log.rxLogOutput.asObservable().subscribe { (event) in
-            isCalled = true
+            isCalledExpectation.fulfill()
             }.disposed(by: rxDisposeBag!)
         log.print("", type: LogType.Info, functionName: "toto")
         
-        XCTAssertFalse(isCalled)
+        wait(for: [isCalledExpectation], timeout: 2)
     }
     
     // MARK: func configure(regex: NSRegularExpression, logType: LogType)
     func testConfigure() {
         let regexPattern = ".*"
         let log = LogRx()
-        var isCalled = false
+        let isCalledExpectation = XCTestExpectation(description: #function)
         
         do {
             let regex = try NSRegularExpression(pattern: regexPattern, options: NSRegularExpression.Options.caseInsensitive)
@@ -310,12 +307,12 @@ class LogRxTests: XCTestCase {
         }
         
         log.rxLogOutput.asObservable().subscribe { (event) in
-            isCalled = true
+            isCalledExpectation.fulfill()
             }.disposed(by: rxDisposeBag!)
         log.print("", type: LogType.Info, functionName: "toto")
         log.print("toto", type: LogType.Info, fileName: "superFile", functionName: "totoFunction")
         
-        XCTAssert(isCalled)
+        wait(for: [isCalledExpectation], timeout: 2)
     }
     
     // MARK: func report(logDetail: LogDetail)
@@ -325,12 +322,13 @@ class LogRxTests: XCTestCase {
         let file = "sdcidsfile"
         let log = LogRx()
         let function = #function
-        var isCalled = false
+        let isCalledExpectation = XCTestExpectation(description: #function)
+        
         let logDetail = LogMessage(type: type, detail: detail, fileName: file, functionName: function)
         
         log.rxLogOutput.asObservable().subscribe { (event) in
             if let logDetail = event.element {
-                isCalled = true
+                isCalledExpectation.fulfill()
                 XCTAssertEqual(logDetail.message, detail)
                 XCTAssertEqual(logDetail.fileName, file)
                 XCTAssertEqual(logDetail.type, type)
@@ -339,6 +337,6 @@ class LogRxTests: XCTestCase {
             }.disposed(by: rxDisposeBag!)
         
         log.report(logDetail: logDetail)
-        XCTAssert(isCalled)
+        wait(for: [isCalledExpectation], timeout: 2)
     }
 }
