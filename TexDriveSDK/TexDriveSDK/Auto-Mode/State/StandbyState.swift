@@ -34,9 +34,12 @@ public class StandbyState: SensorAutoModeDetectionState {
         Log.print("start")
         disableSensor()
         if let context = self.context {
-            let state = DetectionOfStartState(context: context, locationManager: locationManager)
-            context.rxState.onNext(state)
-            state.enable()
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                let state = DetectionOfStartState(context: context, locationManager: self.locationManager)
+                context.rxState.onNext(state)
+                state.enable()
+            }
         }
     }
     
