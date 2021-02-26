@@ -41,7 +41,7 @@ public class FakeLocationManager: LocationManager {
                         } else {
                             // Fallback on earlier versions
                         }
-                        if i%10 == 0 {
+                        if i%100 == 0 {
                             os_log("                                     %{private}d" , log: OSLog.texDriveSDK, type: OSLogType.info, i)
                             
                         }
