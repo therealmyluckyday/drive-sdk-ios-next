@@ -58,9 +58,9 @@ public class LocationSensor: NSObject, LocationSensorProtocol, CLLocationManager
         if self.state == .disabled {
             #if targetEnvironment(simulator)
             #else
-            locationManager.requestAlwaysAuthorization()
-            locationManager.pausesLocationUpdatesAutomatically = false
-            locationManager.allowsBackgroundLocationUpdates = true
+            clLocationManager.requestAlwaysAuthorization()
+            clLocationManager.pausesLocationUpdatesAutomatically = false
+            clLocationManager.allowsBackgroundLocationUpdates = true
             #endif
             clLocationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
             clLocationManager.activityType = .automotiveNavigation
