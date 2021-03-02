@@ -33,7 +33,7 @@ public class LocationManager: NSObject {
         #endif
         
         locationManager.distanceFilter = kCLDistanceFilterNone
-        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.activityType = .automotiveNavigation
     }
     
@@ -67,6 +67,7 @@ public class LocationManager: NSObject {
                     self.configure(self.autoModeLocationSensor.clLocationManager)
                     self.autoModeLocationSensor.configureWithRXCoreLocation()
                     self.autoModeLocationSensor.clLocationManager.startUpdatingLocation()
+                    self.trackerLocationSensor.clLocationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
                     self.trackerLocationSensor.clLocationManager.startUpdatingLocation()
                     self.trackerLocationSensor.state = .locationChanges
                 }
