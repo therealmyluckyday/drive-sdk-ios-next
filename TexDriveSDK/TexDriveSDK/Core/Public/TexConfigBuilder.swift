@@ -34,7 +34,6 @@ public class TexConfigBuilder {
     
     public func enableTripRecorder(locationManager: LocationManager = LocationManager()) throws {
         let locationfeature : TripRecorderFeature = TripRecorderFeature.Location(locationManager)
-        try TexConfig.activable(features: [locationfeature])
     
         for feature in _config.tripRecorderFeatures {
             switch feature {

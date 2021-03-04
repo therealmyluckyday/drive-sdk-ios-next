@@ -17,6 +17,7 @@ public protocol TripRecorderProtocol {
     var tripIdFinished  : PublishSubject<TripId> { get }
     func start(date: Date)
     func stop()
+    func canBeActivated() -> Bool
 }
 
 public extension Notification.Name {
@@ -42,6 +43,7 @@ public class TripRecorder: TripRecorderProtocol {
     internal let persistantQueue        : PersistantQueue
     internal var rxFix                  = PublishSubject<Fix>()
     internal let rxDispatchQueueScheduler: SerialDispatchQueueScheduler
+    internal let features               : [TripRecorderFeature]
     
     
     
@@ -63,7 +65,20 @@ public class TripRecorder: TripRecorderProtocol {
     }
     
     // MARK: - TripRecorder Protocol
+    public func canBeActivated() -> Bool {
+        do {
+            try TexConfig.activable(features: features)
+            return true
+        } catch {
+            Log.print("Feature \(error) Can not activate", type: .Error)
+            return false
+        }
+    }
+    
     public func start(date: Date = Date()) {
+        guard canBeActivated() else {
+            return 
+        }
         tripDistance    = 0
         startTime       = date
         collector.startCollect()
@@ -105,6 +120,7 @@ public class TripRecorder: TripRecorderProtocol {
         tripIdFinished = sessionManager.tripIdFinished
         persistantQueue = PersistantQueue(eventType: rxEventType, fixes: rxFix, scheduler: MainScheduler.asyncInstance, rxTripId: rxTripId, tripInfos: configuration.tripInfos, rxTripChunkSent: sessionManager.tripChunkSent)
         collector = FixCollector(eventsType: rxEventType, fixes: rxFix, scheduler: configuration.rxScheduler)
+        features = configuration.tripRecorderFeatures
         configuration.tripRecorderFeatures.forEach { (feature) in
             switch feature {
             case .Location(let locationManager):

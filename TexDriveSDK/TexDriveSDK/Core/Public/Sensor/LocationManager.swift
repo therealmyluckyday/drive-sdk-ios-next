@@ -18,11 +18,8 @@ public class LocationManager: NSObject {
     
     public convenience init(locationManager: CLLocationManager = CLLocationManager()) {
         self.init(autoModeLocationSensor: AutoModeLocationSensor(locationManager), locationSensor: LocationSensor(locationManager))
-        #if targetEnvironment(simulator)
-        #else
-        self.trackerLocationSensor.clLocationManager.requestAlwaysAuthorization()
-        #endif
     }
+    
     // MARK: - Public Method
     func configure(_ locationManager: CLLocationManager) {
         #if targetEnvironment(simulator)
