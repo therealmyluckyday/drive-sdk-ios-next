@@ -64,7 +64,9 @@ public class DetectionOfStartState: SensorAutoModeDetectionState, TimerProtocol 
     // MARK: - SensorAutoModeDetectionState
     override func didUpdateLocations(location: CLLocation) {
         Log.print("Speed: \(location.speed), Accuracy: \(location.verticalAccuracy) \(location.horizontalAccuracy), ThresholdSpeed: \(thresholdSpeed)")
-        guard sensorState == .enable, location.speed >= 0 || isSimulatorDriveTestingAutoMode else {
+        guard sensorState == .enable, location.speed >= 0 || isSimulatorDriveTestingAutoMode,
+              location.timestamp.timeIntervalSinceNow > -5 || isSimulatorDriveTestingAutoMode,
+              location.horizontalAccuracy < 21  || isSimulatorDriveTestingAutoMode else {
             return
         }
         if location.speed > thresholdSpeed {

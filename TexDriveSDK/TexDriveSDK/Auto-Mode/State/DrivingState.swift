@@ -90,7 +90,11 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
         Log.print("location")
         let timeIntervalBetweenLocation = -(lastLocationDate.timeIntervalSinceNow - location.timestamp.timeIntervalSinceNow)
         lastLocationDate = location.timestamp
-        guard sensorState == .enable, timeIntervalBetweenLocation < 5, location.speed >= 0, location.horizontalAccuracy < locationAccuracyThreshold || isSimulatorDriveTestingAutoMode else {
+        guard sensorState == .enable,
+              timeIntervalBetweenLocation < 5,
+              location.speed >= 0,
+              location.timestamp.timeIntervalSinceNow > -5 || isSimulatorDriveTestingAutoMode,
+              location.horizontalAccuracy < locationAccuracyThreshold || isSimulatorDriveTestingAutoMode else {
                 Log.print("sensorState == .enable, timeIntervalBetweenLocation < 5, location.speed >= 0, location.horizontalAccuracy < locationAccuracyThreshold")
             return
         }

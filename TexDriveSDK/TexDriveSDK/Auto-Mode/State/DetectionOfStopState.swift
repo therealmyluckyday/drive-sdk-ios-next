@@ -76,7 +76,11 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
         Log.print("location ")
         let timeIntervalBetweenLocation = -(lastLocationDate.timeIntervalSinceNow - location.timestamp.timeIntervalSinceNow)
         lastLocationDate = location.timestamp
-        guard sensorState == .enable, timeIntervalBetweenLocation < 5, location.speed >= 0 || isSimulatorDriveTestingAutoMode else {
+        guard sensorState == .enable,
+              timeIntervalBetweenLocation < 5,
+              location.speed >= 0,
+              location.timestamp.timeIntervalSinceNow > -5 || isSimulatorDriveTestingAutoMode,
+              location.horizontalAccuracy < 21  || isSimulatorDriveTestingAutoMode else {
                 Log.print("location invalid sensorState == .enable, timeIntervalBetweenLocation < 5, location.speed >= 0")
             return
         }
