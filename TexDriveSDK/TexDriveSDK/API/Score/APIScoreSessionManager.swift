@@ -59,8 +59,8 @@ class APIScoreSessionManager: APISessionManager, APIScoreSessionManagerProtocol 
             }
             do {
                 if let data = data {
-                    if let json = try (JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)) as? [String: Any] {
-                        let status = json["status"] as! String
+                    if let json = try (JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)) as? [String: Any],
+                       let status = json["status"] as? String {
                         if (status == "not_found") {
                             self.retry(request: request, completionHandler: completionHandler)
                         } else {

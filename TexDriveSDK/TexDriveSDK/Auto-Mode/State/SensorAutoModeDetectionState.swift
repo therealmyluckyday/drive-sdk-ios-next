@@ -116,6 +116,7 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
     
     func enableLocationSensor() {
         Log.print("")
+        guard let rxDisposeBag = self.rxDisposeBag else { return }
         self.locationManager.autoModeLocationSensor.rxLocation.asObserver().subscribe (onNext: { [weak self](location) in
             self?.didUpdateLocations(location: location)
         },
@@ -126,7 +127,7 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
         },
             onDisposed: {
                 Log.print("onDisposed locationManager.autoModeLocationSensor.rxLocation.asObserver().subscribe")
-        }).disposed(by: self.rxDisposeBag!)
+        }).disposed(by: rxDisposeBag)
     }
     
     func enableSensor() {

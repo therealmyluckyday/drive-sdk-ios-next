@@ -62,7 +62,7 @@ struct TripChunkDatabase {
     func createTripChunkTable() -> Bool {
         let result = sqlite3_exec(database, "create table if not exists tripchunk (id integer primary key autoincrement, payload text, baseurl text)", nil, nil, nil)
         if result != SQLITE_OK {
-            let errmsg = String(cString: sqlite3_errmsg(database)!)
+            let errmsg = String(cString: sqlite3_errmsg(database))
             Log.print("Error \(result) creating table: \(errmsg) ", type: LogType.Error)
         }
         return result == SQLITE_OK

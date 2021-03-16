@@ -114,9 +114,9 @@ public class TexServices {
     
     // MARK: - Public Method
     public class func service(configuration: ConfigurationProtocol, isTesting: Bool = false) -> TexServices {
-        if sharedInstance.tripRecorder != nil {
-            sharedInstance.tripRecorder?.autoMode?.disable()
-            sharedInstance.tripRecorder?.stop()
+        if let triprecorder = sharedInstance.tripRecorder {
+            triprecorder.autoMode?.disable()
+            triprecorder.stop()
         }
         sharedInstance.reconfigure(configuration, isTesting: isTesting)
         return sharedInstance

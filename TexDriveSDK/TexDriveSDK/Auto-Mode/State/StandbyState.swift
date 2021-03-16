@@ -57,7 +57,7 @@ public class StandbyState: SensorAutoModeDetectionState {
     
     // MARK: - SensorAutoModeDetectionState
     override func didUpdateLocations(location: CLLocation) {
-        print("[StandbyState]didupDateLocation")
+        Log.print("[StandbyState]didupDateLocation")
         guard sensorState == .enable,
               location.timestamp.timeIntervalSinceNow > -5 || isSimulatorDriveTestingAutoMode else {
             return

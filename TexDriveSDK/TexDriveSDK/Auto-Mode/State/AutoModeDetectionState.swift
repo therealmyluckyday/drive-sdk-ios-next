@@ -80,8 +80,8 @@ public class AutoModeDetectionState: NSObject, AutoModeDetectionStateProtocol {
             let userNotification = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
             
             UNUserNotificationCenter.current().add(userNotification) { error in
-                if error != nil {
-                    print(error!)
+                if let error = error {
+                    Log.print(error.localizedDescription, type: .Error)
                 }
             }
         }

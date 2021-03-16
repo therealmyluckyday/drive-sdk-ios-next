@@ -55,7 +55,8 @@ public class TripRecorder: TripRecorderProtocol {
     public var startTime        : Date?
     public var rxIsDriving      : PublishSubject<Bool> {
         get {
-            return self.autoMode != nil ? self.autoMode!.rxIsDriving : PublishSubject<Bool>()
+            guard let automode = self.autoMode else { return PublishSubject<Bool>() }
+            return automode.rxIsDriving
         }
     }
     public var isRecording      : Bool {
