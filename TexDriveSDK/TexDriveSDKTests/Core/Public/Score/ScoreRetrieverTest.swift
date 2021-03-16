@@ -41,7 +41,7 @@ class ScoreRetrieverTest: XCTestCase {
         let scoreExpected = ScoreV1(tripId:tripId,  global: 86.07, speed: 100, acceleration: 62.15, braking: 82.11, smoothness: 100, startDouble:startTime, endDouble: endTime, distance: distance, duration: duration)
         let expectation = self.expectation(description: "APIGetScoreCalled")
         let rxScore = PublishSubject<Score>()
-        rxScore.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
+        rxScore.asObserver().observe(on: MainScheduler.asyncInstance).subscribe { (event) in
             if let score = event.element as? ScoreV1{
                 expectation.fulfill()
                 XCTAssertEqual(scoreExpected.global, score.global)

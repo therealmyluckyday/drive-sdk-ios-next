@@ -70,14 +70,14 @@ class AutoMode: AutoModeContextProtocol {
     func enable() {
         disable()
         
-        rxState.asObserver().observeOn(MainScheduler.asyncInstance).subscribe {[weak self] (event) in
+        rxState.asObserver().observe(on: MainScheduler.asyncInstance).subscribe {[weak self] (event) in
             if let newState = event.element {
                 //Log.print("\(newState)")
                 self?.state = newState
             }
         }.disposed(by: rxDisposeBag)
         
-        rxState.asObserver().observeOn(MainScheduler.asyncInstance).pairwise().subscribe {[weak self] event in
+        rxState.asObserver().observe(on: MainScheduler.asyncInstance).pairwise().subscribe {[weak self] event in
             if let (state1, state2) = event.element {
                 //Log.print("State Old New %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "1 : \(state1), 2: \(state2)")
                 if state1 is DetectionOfStartState, state2 is DrivingState {

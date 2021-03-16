@@ -51,7 +51,7 @@ class FixCollector {
     // MARK: private Method
     private func subscribe<T> (fromProviderFix: PublishSubject<Result<T>>?, resultClosure: @escaping ((T)->())) where T: Fix {
         if let proviveFix = fromProviderFix {
-            proviveFix.asObservable().observeOn(MainScheduler.asyncInstance).subscribe({[weak self](event) in
+            proviveFix.asObservable().observe(on: MainScheduler.asyncInstance).subscribe({[weak self](event) in
                 switch (event.element) {
                 case .Success(let fix)?:
                     resultClosure(fix)

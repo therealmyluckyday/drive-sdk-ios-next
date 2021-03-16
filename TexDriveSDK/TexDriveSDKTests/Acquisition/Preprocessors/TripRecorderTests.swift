@@ -37,7 +37,7 @@ class TripRecorderTests: XCTestCase {
         let expectation = XCTestExpectation(description: #function)
 
         rxDisposeBag = DisposeBag()
-        tripRecorder.persistantQueue.providerTrip.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+        tripRecorder.persistantQueue.providerTrip.asObserver().observe(on: MainScheduler.instance).subscribe { (event) in
             if let trip = event.element {
                 XCTAssertEqual(trip.event?.eventType, EventType.start)
                 XCTAssertEqual(trip.count, TripConstant.MinFixesToSend + 1)
@@ -89,7 +89,7 @@ class TripRecorderTests: XCTestCase {
             locationSensor.rxLocation.onNext(result)
         }
         
-        tripRecorder.persistantQueue.providerTrip.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+        tripRecorder.persistantQueue.providerTrip.asObserver().observe(on: MainScheduler.instance).subscribe { (event) in
             if let tripChunk = event.element {
                 XCTAssertEqual(tripChunk.event?.eventType, EventType.stop)
                 expectation.fulfill()
@@ -115,7 +115,7 @@ class TripRecorderTests: XCTestCase {
         let tripRecorder = TripRecorder(configuration: configuration, sessionManager: mock)
         let trip = TripChunk(tripInfos: TripInfos(appId: "youdrive_france_prospect", user: TexUser.Authentified("Erwan-ios12"), domain: Platform.Preproduction, isAPIV2: false))
         let expectation = XCTestExpectation(description: #function)
-        publishTrip.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+        publishTrip.asObserver().observe(on: MainScheduler.instance).subscribe { (event) in
             if let tripChunk = event.element {
                 XCTAssertNil(tripChunk.event?.eventType)
                 expectation.fulfill()
@@ -148,7 +148,7 @@ class TripRecorderTests: XCTestCase {
         
         tripRecorder.subscribe(providerTrip: publishTrip, providerOrderlyTrip: PublishSubject<(String, String)>(), scheduler: MainScheduler.instance)
         
-        publishTrip.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+        publishTrip.asObserver().observe(on: MainScheduler.instance).subscribe { (event) in
             expectation.fulfill()
             }.disposed(by: rxDisposeBag!)
         
@@ -174,7 +174,7 @@ class TripRecorderTests: XCTestCase {
         let tripRecorder = TripRecorder(configuration: configuration, sessionManager: mockSessionManager)
         let expectation = XCTestExpectation(description: #function)
         expectation.isInverted = true
-        tripRecorder.rxTripId.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+        tripRecorder.rxTripId.asObserver().observe(on: MainScheduler.instance).subscribe { (event) in
             expectation.fulfill()
             }.disposed(by: rxDisposeBag!)
         
@@ -195,7 +195,7 @@ class TripRecorderTests: XCTestCase {
         let expectation = XCTestExpectation(description: #function)
         var locations = [CLLocation]()
 
-        tripRecorder.rxTripId.asObservable().observeOn(configuration.rxScheduler).subscribe {(event) in
+        tripRecorder.rxTripId.asObservable().observe(on: configuration.rxScheduler).subscribe {(event) in
             expectation.fulfill()
             XCTAssertNotNil(event.element)
             }.disposed(by: rxDisposeBag!)

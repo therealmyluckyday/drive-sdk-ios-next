@@ -22,7 +22,7 @@ public class TexServicesiOS13SwiftUI: TexServices, ObservableObject {
     
     // MARK: - Log Management
     func configureLog(_ log: PublishSubject<LogMessage>) {
-        log.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self](event) in
+        log.asObservable().observe(on: MainScheduler.asyncInstance).subscribe { [weak self](event) in
             if let logDetail = event.element {
                 self?.log = logDetail
                 self?.logiOS13 = logDetail.message

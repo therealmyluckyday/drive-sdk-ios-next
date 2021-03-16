@@ -144,7 +144,7 @@ public class TripRecorder: TripRecorderProtocol {
         }
         self.subscribe(providerTrip: persistantQueue.providerTrip, providerOrderlyTrip: persistantQueue.providerOrderlyTrip, scheduler: configuration.rxScheduler)
 
-        self.rxTripId.asObservable().observeOn(MainScheduler.instance).subscribe {[weak self] (event) in
+        self.rxTripId.asObservable().observe(on: MainScheduler.instance).subscribe {[weak self] (event) in
             if let tripId = event.element {
                 self?.currentTripId = tripId
             }
@@ -154,13 +154,13 @@ public class TripRecorder: TripRecorderProtocol {
     
     // MARK: - Configure ApiTrip
     func subscribe(providerTrip: PublishSubject<TripChunk>, providerOrderlyTrip: PublishSubject<(String, String)>, scheduler: ImmediateSchedulerType) {
-        providerOrderlyTrip.asObservable().observeOn(scheduler).subscribe { [weak self](event) in
+        providerOrderlyTrip.asObservable().observe(on: scheduler).subscribe { [weak self](event) in
             if let (payload, baseurl) = event.element {
                 self?.apiTrip.sendTrip(body: payload, baseUrl: baseurl)
             }
             }.disposed(by: rxDisposeBag)
         
-        providerTrip.asObservable().observeOn(scheduler).subscribe { [weak self](event) in
+        providerTrip.asObservable().observe(on: scheduler).subscribe { [weak self](event) in
             if let trip = event.element {
                 self?.apiTrip.sendTrip(trip: trip)
             }
@@ -169,7 +169,7 @@ public class TripRecorder: TripRecorderProtocol {
     
     // MARK: - Configure Automode start & stop auto
     public func configureAutoMode(_ scheduler: SerialDispatchQueueScheduler = MainScheduler.instance) {
-        autoMode?.rxIsDriving.asObserver().observeOn(scheduler).subscribe { [weak self](event) in
+        autoMode?.rxIsDriving.asObserver().observe(on: scheduler).subscribe { [weak self](event) in
             if let isDriving = event.element {
                 if isDriving {
                     self?.start()
@@ -182,7 +182,7 @@ public class TripRecorder: TripRecorderProtocol {
     
     // MARK: - Configure TripProgress stream
     func configureTripProgress() {
-        self.rxFix.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { [weak self] (event) in
+        self.rxFix.asObservable().observe(on: MainScheduler.asyncInstance).subscribe { [weak self] (event) in
             if let location     = event.element as? LocationFix,
                let startTime    = self?.startTime,
                let tripId       = self?.currentTripId,

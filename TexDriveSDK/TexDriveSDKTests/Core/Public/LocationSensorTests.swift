@@ -18,7 +18,7 @@ class LocationSensorTests: XCTestCase {
     func testDidUpdateLocations() {
         let locationSensor = LocationSensor()
         let expectation = XCTestExpectation(description: #function)
-        locationSensor.rxLocation.asObserver().observeOn(MainScheduler.instance) .subscribe { (event) in
+        locationSensor.rxLocation.asObserver().observe(on: MainScheduler.instance) .subscribe { (event) in
             if event.element != nil {
                 expectation.fulfill()
             }
@@ -33,7 +33,7 @@ class LocationSensorTests: XCTestCase {
         let locationSensor = LocationSensor()
         let expectation = XCTestExpectation(description: #function)
         expectation.isInverted = true
-        locationSensor.rxLocation.asObserver().observeOn(MainScheduler.instance) .subscribe { (event) in
+        locationSensor.rxLocation.asObserver().observe(on: MainScheduler.instance) .subscribe { (event) in
             if event.element != nil {
                 expectation.fulfill()
             }

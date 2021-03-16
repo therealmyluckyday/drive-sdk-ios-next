@@ -36,7 +36,7 @@ class AutoModeGherkinTests: XCTestCase {
      */
     func testDisabledToStandbyStateWhenEnabledCalled() {
         let expectation = XCTestExpectation(description: #function)
-        automode.rxState.asObservable().observeOn(MainScheduler.instance).subscribe({ (event) in
+        automode.rxState.asObservable().observe(on: MainScheduler.instance).subscribe({ (event) in
             if let state = event.element {
                 switch state {
                 case is StandbyState:
@@ -65,7 +65,7 @@ class AutoModeGherkinTests: XCTestCase {
         let context = StubAutoModeContextProtocol ()
         let state = StandbyState(context: context, locationManager: LocationManager())
         context.state = state
-        context.rxState.asObservable().observeOn(MainScheduler.instance).subscribe({ (event) in
+        context.rxState.asObservable().observe(on: MainScheduler.instance).subscribe({ (event) in
             XCTAssertNotNil(event.element)
             if let state = event.element {
                 os_log("State %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(state)")
@@ -88,7 +88,7 @@ class AutoModeGherkinTests: XCTestCase {
         let stubAutoMode = StubAutoModeContextProtocol ()
         let state = DetectionOfStartState(context: stubAutoMode, locationManager: LocationManager())
         stubAutoMode.state = state
-        stubAutoMode.rxState.asObservable().observeOn(MainScheduler.instance).subscribe({(event) in
+        stubAutoMode.rxState.asObservable().observe(on: MainScheduler.instance).subscribe({(event) in
             if let state = event.element {
                 os_log("State %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(state)")
                 switch state {
@@ -119,7 +119,7 @@ class AutoModeGherkinTests: XCTestCase {
         let stubAutoMode = StubAutoModeContextProtocol ()
         let state = DetectionOfStartState(context: stubAutoMode, locationManager: LocationManager())
         stubAutoMode.state = state
-        stubAutoMode.rxState.asObservable().observeOn(MainScheduler.instance).subscribe({(event) in
+        stubAutoMode.rxState.asObservable().observe(on: MainScheduler.instance).subscribe({(event) in
             if let state = event.element {
                 os_log("State %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(state)")
                 switch state {
@@ -150,7 +150,7 @@ class AutoModeGherkinTests: XCTestCase {
         let stubAutoMode = StubAutoModeContextProtocol ()
         let state = DrivingState(context: stubAutoMode, locationManager: LocationManager())
         stubAutoMode.state = state
-        stubAutoMode.rxState.asObservable().observeOn(MainScheduler.instance).subscribe({(event) in
+        stubAutoMode.rxState.asObservable().observe(on: MainScheduler.instance).subscribe({(event) in
             if let state = event.element {
                 os_log("State %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(state)")
                 switch state {
@@ -180,7 +180,7 @@ class AutoModeGherkinTests: XCTestCase {
         let stubAutoMode = StubAutoModeContextProtocol ()
         let state = DetectionOfStopState(context: stubAutoMode, locationManager: LocationManager())
         stubAutoMode.state = state
-        stubAutoMode.rxState.asObservable().observeOn(MainScheduler.instance).subscribe({(event) in
+        stubAutoMode.rxState.asObservable().observe(on: MainScheduler.instance).subscribe({(event) in
             if let state = event.element {
                 os_log("State %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(state)")
                 switch state {
@@ -212,7 +212,7 @@ class AutoModeGherkinTests: XCTestCase {
         let stubAutoMode = StubAutoModeContextProtocol ()
         let state = DetectionOfStopState(context: stubAutoMode, locationManager: LocationManager())
         stubAutoMode.state = state
-        stubAutoMode.rxState.asObservable().observeOn(MainScheduler.instance).subscribe({(event) in
+        stubAutoMode.rxState.asObservable().observe(on: MainScheduler.instance).subscribe({(event) in
             if let state = event.element {
                 os_log("State %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(state)")
                 switch state {

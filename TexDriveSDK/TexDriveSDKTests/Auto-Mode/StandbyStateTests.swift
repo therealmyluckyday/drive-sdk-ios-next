@@ -19,7 +19,7 @@ class StandbyStateTests: XCTestCase {
     func testStart() {
         let state = StandbyState(context: context, locationManager: LocationManager())
         let expectation = XCTestExpectation(description: #function)
-        context.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+        context.rxState.asObserver().observe(on: MainScheduler.instance).subscribe { (event) in
             if let state = event.element {
                 XCTAssert(state is DetectionOfStartState)
                 expectation.fulfill()
@@ -32,7 +32,7 @@ class StandbyStateTests: XCTestCase {
     func testDrive() {
         let state = StandbyState(context: context, locationManager: LocationManager())
         let expectation = XCTestExpectation(description: #function)
-        context.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+        context.rxState.asObserver().observe(on: MainScheduler.instance).subscribe { (event) in
             if let state = event.element {
                 XCTAssert(state is DrivingState)
                 expectation.fulfill()
@@ -45,7 +45,7 @@ class StandbyStateTests: XCTestCase {
     func testDisable() {
         let state = StandbyState(context: context, locationManager: LocationManager())
         let expectation = XCTestExpectation(description: #function)
-        context.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+        context.rxState.asObserver().observe(on: MainScheduler.instance).subscribe { (event) in
             if let state = event.element {
                 XCTAssert(state is DisabledState)
                 expectation.fulfill()
@@ -67,7 +67,7 @@ class StandbyStateTests: XCTestCase {
     func testLowSpeed() {
         let expectation = XCTestExpectation(description: #function)
         expectation.isInverted = true
-        context.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+        context.rxState.asObserver().observe(on: MainScheduler.instance).subscribe { (event) in
             expectation.fulfill()
             }.disposed(by: disposeBag)
         
@@ -92,7 +92,7 @@ class StandbyStateTests: XCTestCase {
     
     func testHighSpeed() {
         let expectation = XCTestExpectation(description: #function)
-        context.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+        context.rxState.asObserver().observe(on: MainScheduler.instance).subscribe { (event) in
             if let state = event.element {
                 XCTAssert(state is DetectionOfStartState)
                 expectation.fulfill()
@@ -115,7 +115,7 @@ class StandbyStateTests: XCTestCase {
     func testDoNothing() {
         let expectation = XCTestExpectation(description: #function)
         expectation.isInverted = true
-        context.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+        context.rxState.asObserver().observe(on: MainScheduler.instance).subscribe { (event) in
             if let state = event.element {
                 XCTAssert(state is DetectionOfStartState)
                 expectation.fulfill()

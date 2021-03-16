@@ -40,7 +40,7 @@ class FakeTripTests: XCTestCase {
     
         tripRecorder.start()
         
-        tripRecorder.persistantQueue.providerTrip.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+        tripRecorder.persistantQueue.providerTrip.asObserver().observe(on: MainScheduler.instance).subscribe { (event) in
             if let tripChunk = event.element {
                 XCTAssertEqual(tripChunk.event?.eventType, EventType.stop)
                 expectation.fulfill()
@@ -72,7 +72,7 @@ class FakeTripTests: XCTestCase {
             builder.select(platform: Platform.Production, isAPIV2: false)
             let config = builder.build()
             let service = TexServices.service(configuration: config, isTesting: true)
-            service.logManager.rxLog.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
+            service.logManager.rxLog.asObservable().observe(on: MainScheduler.asyncInstance).subscribe { (event) in
                 if let logDetail = event.element {
                     os_log("[FakeTripTest] logDetail %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#function) \(logDetail.description)")
                     XCTAssert(logDetail.type != LogType.Error, "ERROR Log : "+logDetail.description)
@@ -86,14 +86,14 @@ class FakeTripTests: XCTestCase {
                 os_log("[ViewController][configureLog] regex error %@", log: customLog, type: .error, error.localizedDescription)
             }
             var nbFix  = 0
-            service.tripRecorder?.rxFix.asObserver().observeOn(MainScheduler.asyncInstance).subscribe({ (eventFix) in
+            service.tripRecorder?.rxFix.asObserver().observe(on: MainScheduler.asyncInstance).subscribe({ (eventFix) in
                 if let _ = eventFix.element {
                     nbFix += 1
                     if (nbFix == 935) {tripExpectation.fulfill()}
                 }
                 
             }).disposed(by: rxDisposeBag)
-            service.tripRecorder?.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
+            service.tripRecorder?.tripIdFinished.asObserver().observe(on: MainScheduler.asyncInstance).subscribe { (event) in
                if let tripId = event.element {
                 os_log("[FakeTripTest] tripIdFinished %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#function) \(tripId.uuidString)")
                 service.scoringClient?.getScore(tripId: tripId, isAPIV2: false, completionHandler: { (result) in
@@ -143,7 +143,7 @@ class FakeTripTests: XCTestCase {
             builder.select(platform: Platform.Testing, isAPIV2: true)
             let config = builder.build()
             let service = TexServices.service(configuration: config, isTesting: true)
-            service.logManager.rxLog.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
+            service.logManager.rxLog.asObservable().observe(on: MainScheduler.asyncInstance).subscribe { (event) in
                 if let logDetail = event.element {
                     os_log("[FakeTripTest] logDetail %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#function) \(logDetail.description)")
                     XCTAssert(logDetail.type != LogType.Error, "ERROR Log : "+logDetail.description)
@@ -157,13 +157,13 @@ class FakeTripTests: XCTestCase {
                 os_log("[ViewController][configureLog] regex error %@", log: customLog, type: .error, error.localizedDescription)
             }
             var nbFix  = 0
-              service.tripRecorder?.rxFix.asObserver().observeOn(MainScheduler.asyncInstance).subscribe({ (eventFix) in
+              service.tripRecorder?.rxFix.asObserver().observe(on: MainScheduler.asyncInstance).subscribe({ (eventFix) in
                 if let _ = eventFix.element {
                     nbFix += 1
                     if (nbFix == 935) {tripExpectation.fulfill()}
                 }
             }).disposed(by: rxDisposeBag)
-            service.tripRecorder?.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
+            service.tripRecorder?.tripIdFinished.asObserver().observe(on: MainScheduler.asyncInstance).subscribe { (event) in
                if let tripId = event.element {
                 os_log("Trip finished  %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#file) \(#function) \(tripId.uuidString)")
                 service.scoringClient?.getScore(tripId: tripId, isAPIV2: true, completionHandler: { (result) in
@@ -180,7 +180,7 @@ class FakeTripTests: XCTestCase {
                }
                }.disposed(by: rxDisposeBag)
             
-            service.rxScore.asObserver().observeOn(MainScheduler.asyncInstance).retry().subscribe({ (event) in
+            service.rxScore.asObserver().observe(on: MainScheduler.asyncInstance).retry().subscribe({ (event) in
                 if let score = event.element {
                     print( "\n NEW SCORE \(score)")
                     scoreExpectation.fulfill()
@@ -241,7 +241,7 @@ class FakeTripTests: XCTestCase {
                 os_log("[ViewController][configureLog] regex error %@", log: customLog, type: .error, error.localizedDescription)
             }
             
-            service.logManager.rxLog.asObservable().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
+            service.logManager.rxLog.asObservable().observe(on: MainScheduler.asyncInstance).subscribe { (event) in
                 if let logDetail = event.element {
                     os_log("[FakeTripTest] logDetail %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#function) \(logDetail.description)")
                     XCTAssert(logDetail.type != LogType.Error, "ERROR Log : "+logDetail.description)
@@ -249,7 +249,7 @@ class FakeTripTests: XCTestCase {
                 }.disposed(by: self.rxDisposeBag)
             
             var nbFix  = 0
-            service.tripRecorder?.rxFix.asObserver().observeOn(MainScheduler.asyncInstance).subscribe({ (eventFix) in
+            service.tripRecorder?.rxFix.asObserver().observe(on: MainScheduler.asyncInstance).subscribe({ (eventFix) in
                 if let _ = eventFix.element {
                     nbFix += 1
                     if (nbFix == 634) {
@@ -257,7 +257,7 @@ class FakeTripTests: XCTestCase {
                     }
                 }
             }).disposed(by: rxDisposeBag)
-            service.tripRecorder?.tripIdFinished.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
+            service.tripRecorder?.tripIdFinished.asObserver().observe(on: MainScheduler.asyncInstance).subscribe { (event) in
                if let tripId = event.element {
                 os_log("[FakeTripTest] tripIdFinished %{private}@" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#function) \(tripId.uuidString)")
                 tripExpectation.fulfill()
@@ -276,7 +276,7 @@ class FakeTripTests: XCTestCase {
                }
                }.disposed(by: rxDisposeBag)
             
-            service.tripRecorder?.autoMode?.rxIsDriving.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
+            service.tripRecorder?.autoMode?.rxIsDriving.asObserver().observe(on: MainScheduler.asyncInstance).subscribe { (event) in
                 if let isDriving = event.element {
                     if isDriving {
                         os_log("%{private}@ Driving Start" , log: OSLog.texDriveSDK, type: OSLogType.info, "\(#file) \(#function)")
@@ -288,7 +288,7 @@ class FakeTripTests: XCTestCase {
                 }
                 }.disposed(by: rxDisposeBag)
             
-            service.rxScore.asObserver().observeOn(MainScheduler.asyncInstance).retry().subscribe({ (event) in
+            service.rxScore.asObserver().observe(on: MainScheduler.asyncInstance).retry().subscribe({ (event) in
                 if let score = event.element {
                     scoreExpectation.fulfill()
                 }

@@ -35,7 +35,7 @@ class MotionTracker: Tracker {
 
     func enableTracking() {
         let disposeBag = DisposeBag()
-        motionBuffer.rxCrashMotionFix.asObservable().observeOn(rxScheduler).subscribe { [weak self](event) in
+        motionBuffer.rxCrashMotionFix.asObservable().observe(on: rxScheduler).subscribe { [weak self](event) in
             if let motions = event.element {
                 for motion in motions {
                     self?.provideFix().onNext(Result.Success(motion))

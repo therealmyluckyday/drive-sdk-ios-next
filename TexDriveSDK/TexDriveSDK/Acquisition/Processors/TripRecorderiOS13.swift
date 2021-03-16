@@ -29,12 +29,11 @@ public class TripRecorderiOS13SwiftUI: TripRecorder, ObservableObject {
     }
     
     override func update(tripProgress: TripProgress) {
-        //print("UPDATE")
         self.tripProgress = tripProgress
     }
     
     public override func configureAutoMode(_ scheduler: SerialDispatchQueueScheduler = MainScheduler.instance) {
-        autoMode?.rxIsDriving.asObserver().observeOn(scheduler).subscribe { [weak self](event) in
+        autoMode?.rxIsDriving.asObserver().observe(on: scheduler).subscribe { [weak self](event) in
             if let isDriving = event.element {
                 self?.isDrivingiOS13 = isDriving
                 if isDriving {

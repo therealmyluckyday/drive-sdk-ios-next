@@ -47,7 +47,7 @@ class APIScoreTest: XCTestCase {
 
         let expectation = self.expectation(description: "APIGetScoreCalled")
         let rxScore = PublishSubject<Score>()
-        rxScore.asObserver().observeOn(MainScheduler.asyncInstance).subscribe { (event) in
+        rxScore.asObserver().observe(on: MainScheduler.asyncInstance).subscribe { (event) in
             isCompletionCalled = true
             if let scoreGeneral = event.element {
                 let score = scoreGeneral as? ScoreV1

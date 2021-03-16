@@ -34,7 +34,7 @@ class PersistantQueue {
     // MARK: Lifecycle
     init(eventType: PublishSubject<EventType>, fixes: PublishSubject<Fix>, scheduler: SerialDispatchQueueScheduler, rxTripId: PublishSubject<TripId>, tripInfos: TripInfos, rxTripChunkSent: PublishSubject<Result<TripId>>) {
         self.tripInfos = tripInfos
-        eventType.asObservable().observeOn(scheduler).subscribe { [weak self](event) in
+        eventType.asObservable().observe(on: scheduler).subscribe { [weak self](event) in
             if let eventType = event.element {
                 if let tripInfos = self?.tripInfos, eventType == EventType.start {
                     self?.tripChunkSentCounter = 0
@@ -54,7 +54,7 @@ class PersistantQueue {
             }
             }.disposed(by: rxDisposeBag)
         
-        fixes.asObservable().observeOn(scheduler).subscribe { [weak self](event) in
+        fixes.asObservable().observe(on: scheduler).subscribe { [weak self](event) in
             if let fix = event.element, let trip = self?.currentTripChunk {
                 trip.append(fix: fix)
                 if let tripInfos = self?.tripInfos, trip.canUpload() {
@@ -65,7 +65,7 @@ class PersistantQueue {
             }
             }.disposed(by: rxDisposeBag)
         
-        rxTripChunkSent.asObservable().observeOn(scheduler).subscribe { [weak self](event) in
+        rxTripChunkSent.asObservable().observe(on: scheduler).subscribe { [weak self](event) in
             if let result = event.element {
                 if let counter = self?.tripChunkSentCounter {
                     self?.tripChunkSentCounter = counter - 1

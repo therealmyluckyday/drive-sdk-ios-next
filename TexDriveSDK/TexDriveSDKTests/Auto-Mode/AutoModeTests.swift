@@ -24,7 +24,7 @@ class AutoModeTests: XCTestCase {
         let autoMode = AutoMode(locationManager: LocationManager())
         
         let expectation = XCTestExpectation(description: #function)
-        autoMode.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+        autoMode.rxState.asObserver().observe(on: MainScheduler.instance).subscribe { (event) in
             if let state = event.element {
                 if state is StandbyState {
                     expectation.fulfill()

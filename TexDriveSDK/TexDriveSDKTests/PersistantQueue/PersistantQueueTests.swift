@@ -235,7 +235,7 @@ class PersistantQueueTests: XCTestCase {
         
         
         let expectation = XCTestExpectation(description: #function)
-        persistantQueue.providerTrip.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+        persistantQueue.providerTrip.asObserver().observe(on: MainScheduler.instance).subscribe { (event) in
             if event.element != nil {
                 expectation.fulfill()
             }
@@ -260,7 +260,7 @@ class PersistantQueueTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: #function)
         expectation.isInverted = true
-        persistantQueue.providerTrip.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+        persistantQueue.providerTrip.asObserver().observe(on: MainScheduler.instance).subscribe { (event) in
             if event.element != nil {
                 expectation.fulfill()
             }
@@ -285,7 +285,7 @@ class PersistantQueueTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: #function)
         expectation.isInverted = true
-        persistantQueue.providerTrip.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+        persistantQueue.providerTrip.asObserver().observe(on: MainScheduler.instance).subscribe { (event) in
             if event.element != nil {
                 expectation.fulfill()
             }

@@ -18,7 +18,7 @@ class DisabledStateTests: XCTestCase {
     func testEnable() {
         let state = DisabledState(context: context)
         let expectation = XCTestExpectation(description: #function)
-        context.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+        context.rxState.asObserver().observe(on: MainScheduler.instance).subscribe { (event) in
             if let state = event.element {
                 XCTAssert(state is StandbyState)
                 expectation.fulfill()
@@ -31,7 +31,7 @@ class DisabledStateTests: XCTestCase {
     func testStart() {
         let state = DisabledState(context: context)
         let expectation = XCTestExpectation(description: #function)
-        context.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+        context.rxState.asObserver().observe(on: MainScheduler.instance).subscribe { (event) in
             if let state = event.element {
                 XCTAssert(state is StandbyState)
                 expectation.fulfill()
@@ -44,7 +44,7 @@ class DisabledStateTests: XCTestCase {
     func testDrive() {
         let state = DisabledState(context: context)
         let expectation = XCTestExpectation(description: #function)
-        context.rxState.asObserver().observeOn(MainScheduler.instance).subscribe { (event) in
+        context.rxState.asObserver().observe(on: MainScheduler.instance).subscribe { (event) in
             if let state = event.element {
                 XCTAssert(state is DrivingState)
                 expectation.fulfill()
