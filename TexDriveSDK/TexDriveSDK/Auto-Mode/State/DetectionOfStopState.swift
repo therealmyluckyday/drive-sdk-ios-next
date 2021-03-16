@@ -50,7 +50,11 @@ public class DetectionOfStopState: SensorAutoModeDetectionState, TimerProtocol {
         Log.print("stop")
         disableTimer()
         disableSensor()
-        //self.sendNotification(message: "DetectionOfStop Stop", identifier: "DetectionOfStop")
+        
+        if (isDebugginModeWithNotificationActivated) {
+            self.sendNotification(message: "DetectionOfStop Stop", identifier: "DetectionOfStop")
+        }
+        
         if let context = self.context {
             DispatchQueue.main.async {
                 let state = StandbyState(context: context, locationManager: self.locationManager)

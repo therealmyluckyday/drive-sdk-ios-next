@@ -17,6 +17,7 @@ protocol AutoModeDetectionStateProtocol {
 public class AutoModeDetectionState: NSObject, AutoModeDetectionStateProtocol {
     // MARK: - Property
     weak var context: AutoModeContextProtocol?
+    let isDebugginModeWithNotificationActivated: Bool = false
     
     // MARK: - LifeCycle
     init(context: AutoModeContextProtocol) {
@@ -63,6 +64,8 @@ public class AutoModeDetectionState: NSObject, AutoModeDetectionStateProtocol {
         }
     }
     
+    
+    // MARK: - Notification function used for debugging
     func sendNotification(message: String, identifier: String) {
         DispatchQueue.main.async {
             

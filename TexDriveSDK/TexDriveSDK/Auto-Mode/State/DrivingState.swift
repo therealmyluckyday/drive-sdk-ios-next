@@ -51,7 +51,9 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
         Log.print("enable")
         super.enable()
         enableTimer(timeInterval: intervalDelay)
-        //self.sendNotification(message: "DrivingState", identifier: "DrivingState")
+        if (isDebugginModeWithNotificationActivated) {
+            self.sendNotification(message: "DrivingState", identifier: "DrivingState")
+        }
     }
     
     override func stop() {
