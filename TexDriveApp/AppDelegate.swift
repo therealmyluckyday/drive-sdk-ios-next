@@ -64,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppDelegateTex {
         let user = TexUser.Authentified(userId)
         let appId = "APP-TEST" //"youdrive_france_prospect" "APP-TEST"
         //let fakeLocationManager = FakeLocationManager()
-        let builder = TexConfigBuilder(appId: appId, texUser: user, isAPIV2: true)
+        let builder = TexConfigBuilder(appId: appId, texUser: user, isAPIV2: false)
         do {
             //try builder.enableTripRecorder(locationManager: fakeLocationManager)
             try builder.enableTripRecorder()
