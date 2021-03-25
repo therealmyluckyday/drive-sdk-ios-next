@@ -118,21 +118,8 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
             resetTimer(timeInterval: intervalDelay)
         }
         else {
-            motionManager.queryActivityStarting(from: Date.init().addingTimeInterval(-10.0), to: Date(), to: OperationQueue.main) { [weak self](motions, error) in
-                if let motions = motions {
-                    for activity in motions {
-                        if activity.automotive {
-                            Log.print("[Motion] Was in automotive")
-                            if let this = self {
-                                this.resetTimer(timeInterval: this.intervalDelay)
-                            }
-                            return
-                        }
-                    }
-                }
-                Log.print("[Motion] Need to stop, switch to DetectionOfStop")
-                self?.stop()
-            }
+            Log.print("[Motion] Need to stop, switch to DetectionOfStop")
+            self.stop()
         }
     }
     
