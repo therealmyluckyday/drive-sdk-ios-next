@@ -13,6 +13,7 @@ import KeychainAccess
 
 internal class TexStopRequestOperation: Operation {
     let sessionManager: APITripSessionManager
+    let debugTexStopRequestOperation = false
     init(_ apiTripSessionManager: APITripSessionManager) {
         sessionManager = apiTripSessionManager
     }
@@ -30,8 +31,9 @@ internal class TexStopRequestOperation: Operation {
                let dictionaryBody =  try (JSONSerialization.jsonObject(with: dataDictionaryBody, options: JSONSerialization.ReadingOptions.allowFragments)) as? [String: Any],
                let baseUrl = try? keychain.getString(BGTaskBaseUrlKey) {
                 self.sessionManager.put(dictionaryBody: dictionaryBody, baseUrl: baseUrl)
-                
-                sendNotification("BGTASK Sent")
+                if debugTexStopRequestOperation {
+                    sendNotification("BGTASK Sent")
+                }
                 removeStopData()
                 
                 Log.print("[BGTASK] TexStopRequestOperation retrieve data test ok")
