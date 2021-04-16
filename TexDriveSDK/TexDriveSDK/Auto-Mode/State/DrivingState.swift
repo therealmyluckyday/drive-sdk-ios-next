@@ -114,6 +114,9 @@ public class DrivingState: SensorAutoModeDetectionState, TimerProtocol {
     
     func didUpdateLocationWithMotionActivityActivated() {
         if let activity = lastActivity, -activity.startDate.timeIntervalSinceNow < 60, activity.automotive {
+            guard self.sensorState == .enable else {
+                return
+            }
             Log.print("[Motion] Currently in automotive")
             resetTimer(timeInterval: intervalDelay)
         }

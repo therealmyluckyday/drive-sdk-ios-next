@@ -29,7 +29,7 @@ class AutoMode: AutoModeContextProtocol {
     // MARK: - Property
     var rxState = PublishSubject<AutoModeDetectionState>()
     var rxIsDriving = PublishSubject<Bool>()
-    let rxDisposeBag = DisposeBag()
+    var rxDisposeBag = DisposeBag()
     var state: AutoModeDetectionState?
     let locationManager: LocationManager
     
@@ -115,6 +115,7 @@ class AutoMode: AutoModeContextProtocol {
     func disable() {
         self.locationManager.change(state: LocationManagerState.disabled)
         self.state?.disable()
+        self.rxDisposeBag = DisposeBag()
         self.state = nil
     }
     

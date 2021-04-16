@@ -18,7 +18,7 @@ public class StandbyState: SensorAutoModeDetectionState {
     
     override func enableMotionSensor() {
         motionManager.startActivityUpdates(to: OperationQueue.main) {[weak self] (activity) in
-            if let activity = activity, activity.automotive == true {
+            if let activity = activity, activity.automotive == true, self?.sensorState == .enable {
                 Log.print("[Motion]  activity = activity, activity.automotive == true")
                 self?.drive()
             }
