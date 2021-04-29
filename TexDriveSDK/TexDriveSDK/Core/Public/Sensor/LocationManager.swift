@@ -29,8 +29,8 @@ public class LocationManager: NSObject {
         locationManager.allowsBackgroundLocationUpdates = true
         #endif
         
-        locationManager.distanceFilter = kCLDistanceFilterNone
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.distanceFilter = 100
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         locationManager.activityType = .automotiveNavigation
     }
     
@@ -58,7 +58,7 @@ public class LocationManager: NSObject {
             case .locationChanges:
                 if (self.autoModeLocationSensor.state == .disabled || self.autoModeLocationSensor.state == .significantLocationChanges) {
                     Log.print("State \(state)")
-                    //.autoModeLocationSensor.slcLocationManager.stopMonitoringSignificantLocationChanges()
+                    self.autoModeLocationSensor.slcLocationManager.stopMonitoringSignificantLocationChanges()
                     self.autoModeLocationSensor.clLocationManager.stopUpdatingLocation()
                     self.autoModeLocationSensor.clLocationManager = CLLocationManager()
                     self.configure(self.autoModeLocationSensor.clLocationManager)
