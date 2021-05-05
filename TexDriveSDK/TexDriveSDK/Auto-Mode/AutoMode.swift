@@ -107,7 +107,7 @@ class AutoMode: AutoModeContextProtocol {
             }
             }.disposed(by: rxDisposeBag)
         
-        let state = StandbyState(context: self, locationManager: locationManager)
+        let state = StandbyState(context: self, locationManager: locationManager, isNeededToRefreshLocationManager: true, motionActivityManager: CMMotionActivityManager(), isSkippedSpeed: true)
         rxState.onNext(state)
         state.enable()
     }
