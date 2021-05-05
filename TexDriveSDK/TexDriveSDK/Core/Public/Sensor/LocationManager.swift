@@ -58,7 +58,7 @@ public class LocationManager: NSObject {
             case .locationChanges:
                 if (self.autoModeLocationSensor.state == .disabled || self.autoModeLocationSensor.state == .significantLocationChanges) {
                     Log.print("State \(state)")
-                    self.autoModeLocationSensor.slcLocationManager.stopMonitoringSignificantLocationChanges()
+                    // self.autoModeLocationSensor.slcLocationManager.stopMonitoringSignificantLocationChanges()
                     self.autoModeLocationSensor.clLocationManager.stopUpdatingLocation()
                     self.autoModeLocationSensor.clLocationManager = CLLocationManager()
                     self.configure(self.autoModeLocationSensor.clLocationManager)
