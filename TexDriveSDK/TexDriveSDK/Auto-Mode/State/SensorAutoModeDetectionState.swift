@@ -103,15 +103,6 @@ public class SensorAutoModeDetectionState: AutoModeDetectionState, CLLocationMan
     // MARK: - Sensor Method
     func enableMotionSensor() {
         Log.print("enableMotionSensor")
-        #if targetEnvironment(simulator)
-        #else
-        /*motionManager.startActivityUpdates(to: OperationQueue.main) {[weak self] (activity) in
-            Log.print("startActivityUpdates")
-            if let activity = activity, activity.automotive == true {
-                self?.drive()
-            }
-        }*/
-        #endif
     }
     
     func enableLocationSensor() {
