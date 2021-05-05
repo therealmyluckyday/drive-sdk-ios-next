@@ -1161,7 +1161,7 @@
 			baseConfigurationReference = 0C4DF065CE5413233869082C /* Pods-TexDriveSDKTests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = C8S682A487;
+				DEVELOPMENT_TEAM = 3Y72662TTZ;
 				INFOPLIST_FILE = TexDriveSDKTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1180,7 +1180,7 @@
 			baseConfigurationReference = EA63070EE42BCA47CA74BECF /* Pods-TexDriveSDKTests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = C8S682A487;
+				DEVELOPMENT_TEAM = 3Y72662TTZ;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = TexDriveSDKTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/axadil/drive-sdk-ios-next.git",
-    "tag": "v3.0.2"
+    "tag": "v3.0.2-alpha"
   },
   "source_files": "TexDriveSDK/TexDriveSDK/**/*.{h,m,c,swift}",
   "resources": "TexDriveSDK/TexDriveSDK/Resources/*",
