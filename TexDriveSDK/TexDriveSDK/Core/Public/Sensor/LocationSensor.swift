@@ -58,7 +58,7 @@ public class LocationSensor: NSObject, LocationSensorProtocol, CLLocationManager
         if self.state == .disabled {
             #if targetEnvironment(simulator)
             #else
-            clLocationManager.requestAlwaysAuthorization()
+            clLocationManager.requestWhenInUseAuthorization()
             clLocationManager.pausesLocationUpdatesAutomatically = false
             clLocationManager.allowsBackgroundLocationUpdates = true
             #endif
