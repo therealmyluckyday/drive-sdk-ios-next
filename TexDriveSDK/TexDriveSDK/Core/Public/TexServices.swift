@@ -134,6 +134,14 @@ public class TexServices {
         }
     }
     
+    public class func registerClassBGTaskScheduler() {
+        if #available(iOS 13.0, *) {
+            BGTaskScheduler.shared.register(forTaskWithIdentifier: BGAppTaskRequestIdentifier, using: .global()) { (task) in
+                Log.print("[BGTASK] Do nothing SDK not initialized")
+            }
+        }
+    }
+    
     @available(iOS 13.0, *)
     func checkStopRequest() {
         Log.print("[TexService] HandleStopRequest")
