@@ -13,16 +13,16 @@
   },
   "source": {
     "git": "https://github.com/axadil/drive-sdk-ios-next.git",
-    "tag": "v3.0.2-alpha"
+    "tag": "v3.0.3"
   },
   "source_files": "TexDriveSDK/TexDriveSDK/**/*.{h,m,c,swift}",
   "resources": "TexDriveSDK/TexDriveSDK/Resources/*",
   "dependencies": {
     "RxSwift": [
-      "~> 6.1.0"
+      "~> 6.2.0"
     ],
     "RxCocoa": [
-      "~> 6.1.0"
+      "~> 6.2.0"
     ],
     "RxSwiftExt": [
       "~> 6.0.1"
