@@ -736,7 +736,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0940;
-				LastUpgradeCheck = 1230;
+				LastUpgradeCheck = 1250;
 				ORGANIZATIONNAME = Axa;
 				TargetAttributes = {
 					E2798EA92147F0DC006228A3 = {
@@ -1106,7 +1106,7 @@
 			baseConfigurationReference = 8C9C02028661D6DB90B8EF11 /* Pods-TexDriveSDK.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 3Y72662TTZ;
@@ -1135,7 +1135,7 @@
 			baseConfigurationReference = AF9E4DBBDCD5D4E15A273DDC /* Pods-TexDriveSDK.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 3Y72662TTZ;
