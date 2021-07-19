@@ -76,7 +76,7 @@ class APIScore: APIScoreProtocol {
                         
                             break
                     default:
-                        print("SCORE ERROR")
+                        print("SCORE ERROR \(status)")
                         var error: Error = ParseError()
                         if let scoreError = ScoreError(dictionary: dictionaryResult) {
                             error = scoreError

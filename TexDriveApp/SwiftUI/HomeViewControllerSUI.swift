@@ -39,8 +39,7 @@ struct HomeViewControllerSUI: View {
                 }.pickerStyle(SegmentedPickerStyle())
             })
             Button("Get Score") {
-                //RetrieveScore
-                //logs.append("\(String(describing: Thread.current.name))")
+                //RetrieveScore NOT WORKING
                 print("\(String(describing: Thread.current.name))")
                 print("\(String(describing: Thread.current.isMainThread))")
                 
