@@ -19,7 +19,7 @@ class APIScoreSessionManager: APISessionManager, APIScoreSessionManagerProtocol 
         
         var urlComponent = isAPIV2 ?  URLComponents(string: "\(configuration.baseUrl())/score/\(parameters["trip_id"] as! String)"):  URLComponents(string: "\(configuration.baseUrl())/score")
         
-        Log.print("APIScoreSessionManager getScore \(urlComponent)")
+        Log.print("APIScoreSessionManager getScore \(String(describing: urlComponent))")
         if (!isAPIV2) {
             var queryItems = [URLQueryItem]()
             for (key, value) in parameters {
@@ -41,7 +41,7 @@ class APIScoreSessionManager: APISessionManager, APIScoreSessionManagerProtocol 
                 (200...299).contains(httpResponse.statusCode) else {
                     if let error = error {
                         Log.print("Error On API \(error)", type: LogType.Error)
-                        completionHandler(Result.Failure(error))
+                        self.retry(request: request, completionHandler: completionHandler)
                     }
                     else {
                         if let httpResponse = response as? HTTPURLResponse {
@@ -52,7 +52,7 @@ class APIScoreSessionManager: APISessionManager, APIScoreSessionManagerProtocol 
                         else {
                             let apiError = APIError(message: "Unknown API Error", statusCode: 400)
                             Log.print("Unknown API Error: \(apiError)", type: LogType.Error)
-                            completionHandler(Result.Failure(apiError))
+                            self.retry(request: request, completionHandler: completionHandler)
                         }
                     }
                     return
@@ -61,9 +61,11 @@ class APIScoreSessionManager: APISessionManager, APIScoreSessionManagerProtocol 
                 if let data = data {
                     if let json = try (JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)) as? [String: Any],
                        let status = json["status"] as? String {
-                        if (status == "not_found") {
+                        switch status {
+                        case ScoreStatus.tripNotFound.rawValue, ScoreStatus.notFound.rawValue, ScoreStatus.pending.rawValue:
+                            print(json)
                             self.retry(request: request, completionHandler: completionHandler)
-                        } else {
+                        default:
                             completionHandler(Result.Success(json))
                         }
                     }
@@ -86,7 +88,7 @@ class APIScoreSessionManager: APISessionManager, APIScoreSessionManagerProtocol 
     
     func retry(request: URLRequest, completionHandler: @escaping (Result<[String: Any]>) -> ()) {
         Log.print("Retry")
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.seconds(60)) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.seconds(30)) {
             let task = self.generateTask(request: request, completionHandler: completionHandler)
             Log.print("Retry")
             task?.resume()
