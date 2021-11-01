@@ -38,7 +38,6 @@
 		C140074021F083F400F90D29 /* DetectionOfStartState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C140073F21F083F400F90D29 /* DetectionOfStartState.swift */; };
 		C140074221F0840800F90D29 /* DrivingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C140074121F0840800F90D29 /* DrivingState.swift */; };
 		C140074421F0843800F90D29 /* DetectionOfStopState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C140074321F0843800F90D29 /* DetectionOfStopState.swift */; };
-		C14CA50A21BED0C000158BA0 /* ScoreRetrieverTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CA50921BED0C000158BA0 /* ScoreRetrieverTest.swift */; };
 		C151989821EC74A20058DC95 /* APIScoreSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C151989721EC74A20058DC95 /* APIScoreSessionManager.swift */; };
 		C15198A121EC76CB0058DC95 /* APITrip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C151989F21EC76CB0058DC95 /* APITrip.swift */; };
 		C15198A221EC76CB0058DC95 /* APITripSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15198A021EC76CB0058DC95 /* APITripSessionManager.swift */; };
@@ -165,7 +164,6 @@
 		C140074121F0840800F90D29 /* DrivingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingState.swift; sourceTree = "<group>"; };
 		C140074321F0843800F90D29 /* DetectionOfStopState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectionOfStopState.swift; sourceTree = "<group>"; };
 		C148D7152181F34C00F1088B /* TEX-elb-ssl.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TEX-elb-ssl.der"; sourceTree = "<group>"; };
-		C14CA50921BED0C000158BA0 /* ScoreRetrieverTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreRetrieverTest.swift; sourceTree = "<group>"; };
 		C151989721EC74A20058DC95 /* APIScoreSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIScoreSessionManager.swift; sourceTree = "<group>"; };
 		C151989F21EC76CB0058DC95 /* APITrip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APITrip.swift; sourceTree = "<group>"; };
 		C15198A021EC76CB0058DC95 /* APITripSessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APITripSessionManager.swift; sourceTree = "<group>"; };
@@ -181,6 +179,8 @@
 		C17E9A77216F85BD00FCF93E /* TexServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexServices.swift; sourceTree = "<group>"; };
 		C17E9A7B216F944500FCF93E /* TripRecorderFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRecorderFeature.swift; sourceTree = "<group>"; };
 		C17E9A7D216FA53900FCF93E /* TexConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexConfigTests.swift; sourceTree = "<group>"; };
+		C186A1BA273060C700D52653 /* TestFakeTripPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestFakeTripPlan.xctestplan; sourceTree = "<group>"; };
+		C186A1BB2730627F00D52653 /* TexDriveSDKTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TexDriveSDKTests.xctestplan; sourceTree = "<group>"; };
 		C18AE85A2260C5A0001C3FB3 /* TexConfigBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexConfigBuilder.swift; sourceTree = "<group>"; };
 		C18AE983216E21A00065F0BB /* BatteryFixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryFixTests.swift; sourceTree = "<group>"; };
 		C18AE985216E2E2A0065F0BB /* LocationFixTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFixTests.swift; sourceTree = "<group>"; };
@@ -340,7 +340,6 @@
 		C14CA50821BED09400158BA0 /* Score */ = {
 			isa = PBXGroup;
 			children = (
-				C14CA50921BED0C000158BA0 /* ScoreRetrieverTest.swift */,
 				C168630121E33CAF003FF6F0 /* ScoreErrorTests.swift */,
 			);
 			path = Score;
@@ -617,6 +616,8 @@
 		E2798EB72147F0DC006228A3 /* TexDriveSDKTests */ = {
 			isa = PBXGroup;
 			children = (
+				C186A1BA273060C700D52653 /* TestFakeTripPlan.xctestplan */,
+				C186A1BB2730627F00D52653 /* TexDriveSDKTests.xctestplan */,
 				C16D6DBC21FF650C00978BFE /* Auto-Mode */,
 				C1FDE339219C58CE00F15AF3 /* PersistantQueue */,
 				C1E93DF521875F2D0082B2B3 /* API */,
@@ -928,7 +929,6 @@
 				C12F67782224182000CB21E1 /* SensorAutoModeDetectionStateTests.swift in Sources */,
 				C1FDE342219C5B4300F15AF3 /* FixCollectorTests.swift in Sources */,
 				C114C38A221D8F7700B74DD8 /* DisabledStateTests.swift in Sources */,
-				C14CA50A21BED0C000158BA0 /* ScoreRetrieverTest.swift in Sources */,
 				C15B9FC721942E720072439F /* LogTests.swift in Sources */,
 				C1E521B621748CE800B80C64 /* CallFixTests.swift in Sources */,
 				C16D6DBE21FF652500978BFE /* AutoModeGherkinTests.swift in Sources */,

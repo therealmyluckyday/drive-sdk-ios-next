@@ -1,0 +1,30 @@
+{
+  "configurations" : [
+    {
+      "id" : "8A881C41-A917-41FD-83DC-D4C8B1E4433E",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "testExecutionOrdering" : "random",
+    "testRepetitionMode" : "retryOnFailure"
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "skippedTests" : [
+        "FakeTripTests"
+      ],
+      "target" : {
+        "containerPath" : "container:TexDriveSDK.xcodeproj",
+        "identifier" : "E2798EB22147F0DC006228A3",
+        "name" : "TexDriveSDKTests"
+      }
+    }
+  ],
+  "version" : 1
+}

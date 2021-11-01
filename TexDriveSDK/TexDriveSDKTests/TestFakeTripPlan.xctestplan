@@ -1,0 +1,32 @@
+{
+  "configurations" : [
+    {
+      "id" : "67DDF34B-1EDB-4F1D-9CC7-367F10C69B21",
+      "name" : "Configuration 1",
+      "options" : {
+        "testRepetitionMode" : "retryOnFailure"
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testExecutionOrdering" : "random",
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "selectedTests" : [
+        "FakeTripTests\/testFakeLocationManagerLoadTrips()",
+        "FakeTripTests\/testGetTripScore()",
+        "FakeTripTests\/testTripWithAutomodeAndFakeLocationManagerAPIV1()",
+        "FakeTripTests\/testTripWithFakeLocationManagerAPIV2()",
+        "FakeTripTests\/testTrip_Stop()"
+      ],
+      "target" : {
+        "containerPath" : "container:TexDriveSDK.xcodeproj",
+        "identifier" : "E2798EB22147F0DC006228A3",
+        "name" : "TexDriveSDKTests"
+      }
+    }
+  ],
+  "version" : 1
+}
