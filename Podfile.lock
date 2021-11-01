@@ -147,7 +147,7 @@ DEPENDENCIES:
   - GzipSwift
   - KeychainAccess
   - RxCocoa
-  - RxCoreLocation
+  - "RxCoreLocation (from `git@github.com:RxSwiftCommunity/RxCoreLocation.git`, branch `master`)"
   - RxSwift
   - RxSwiftExt
   - TexDriveSDK (from `./TexDriveSDK.podspec`)
@@ -172,14 +172,21 @@ SPEC REPOS:
     - PromisesObjC
     - Protobuf
     - RxCocoa
-    - RxCoreLocation
     - RxRelay
     - RxSwift
     - RxSwiftExt
 
 EXTERNAL SOURCES:
+  RxCoreLocation:
+    :branch: master
+    :git: "git@github.com:RxSwiftCommunity/RxCoreLocation.git"
   TexDriveSDK:
     :path: "./TexDriveSDK.podspec"
+
+CHECKOUT OPTIONS:
+  RxCoreLocation:
+    :commit: 8c4b301640e84c258018a82a105678ae287576a7
+    :git: "git@github.com:RxSwiftCommunity/RxCoreLocation.git"
 
 SPEC CHECKSUMS:
   Firebase: 817b9171d0d51dccc458b94a5e8edff6b1dd323d
@@ -200,12 +207,12 @@ SPEC CHECKSUMS:
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   Protobuf: 7327d4444215b5f18e560a97f879ff5503c4581c
   RxCocoa: 4baf94bb35f2c0ab31bc0cb9f1900155f646ba42
-  RxCoreLocation: a78f4cbf32a4c6c47ecccbe22d41ff93b7e8c099
+  RxCoreLocation: 5db05ff830a313466a29e82798d983826b93a2f8
   RxRelay: e72dbfd157807478401ef1982e1c61c945c94b2f
   RxSwift: d356ab7bee873611322f134c5f9ef379fa183d8f
   RxSwiftExt: d61c4b9b06e0a448041b1c659e0f1b5c5a035afc
   TexDriveSDK: 0f8b488a1b472702ac6b7c0debfb75ee85e12442
 
-PODFILE CHECKSUM: 94d8a9c1d4af9eba16751249d4c67f9bf070654a
+PODFILE CHECKSUM: 27f8a28df683d0283b0f7439c5996d76172a2080
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2

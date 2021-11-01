@@ -7,7 +7,7 @@ use_frameworks!
 def shared_pods
     pod 'RxSwift' 
     pod 'RxCocoa'
-    pod 'RxCoreLocation'
+    pod 'RxCoreLocation', :git => 'git@github.com:RxSwiftCommunity/RxCoreLocation.git', :branch => 'master'
 end
 
 target 'TexDriveApp' do
