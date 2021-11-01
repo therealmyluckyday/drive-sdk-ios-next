@@ -121,7 +121,6 @@ class PersistantQueue {
     
     func sendLastTripChunk(tripChunk: TripChunk) {
         lastTripChunk = tripChunk
-        sendTripChunk(tripChunk: tripChunk)
         if #available(iOS 13.0, *) {
             self.scheduleBGTask(lastTripChunk: tripChunk)
         }
