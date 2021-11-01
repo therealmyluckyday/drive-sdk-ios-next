@@ -95,11 +95,11 @@ class PersistantQueue {
         } else {
             if let stopTripChunk = lastTripChunk, tripChunkSentCounter < 1 {
                  lastTripChunk = nil
-                 self.providerTrip.onNext(stopTripChunk)
                  
                  if #available(iOS 13.0, *) {
                      self.cancelScheduleBGTask()
                  }
+                 self.providerTrip.onNext(stopTripChunk)
             }
         }
     }
@@ -130,7 +130,7 @@ class PersistantQueue {
     @available(iOS 13.0, *)
     func cancelScheduleBGTask() {
         Log.print("[BGTASK]  CancelScheduleBGTask")
-        BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: BGAppTaskRequestIdentifier)
+        BGTaskScheduler.shared.cancelAllTaskRequests()
     }
     
     @available(iOS 13.0, *)
