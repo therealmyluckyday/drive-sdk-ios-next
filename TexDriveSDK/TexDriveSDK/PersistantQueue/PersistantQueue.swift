@@ -30,6 +30,7 @@ class PersistantQueue {
     var lastTripChunk: TripChunk?
     let isUsingOrderlyTripChunk = false
     var tripChunkDatabase: TripChunkDatabase? = nil
+    let bgTaskEnabled = false
     
     // MARK: Lifecycle
     init(eventType: PublishSubject<EventType>, fixes: PublishSubject<Fix>, scheduler: SerialDispatchQueueScheduler, rxTripId: PublishSubject<TripId>, tripInfos: TripInfos, rxTripChunkSent: PublishSubject<Result<TripId>>) {
@@ -95,10 +96,11 @@ class PersistantQueue {
         } else {
             if let stopTripChunk = lastTripChunk, tripChunkSentCounter < 1 {
                  lastTripChunk = nil
-                 
-                 if #available(iOS 13.0, *) {
-                     self.cancelScheduleBGTask()
-                 }
+                
+                if #available(iOS 13.0, *),
+                    bgTaskEnabled {
+                    self.cancelScheduleBGTask()
+                }
                  self.providerTrip.onNext(stopTripChunk)
             }
         }
@@ -121,7 +123,8 @@ class PersistantQueue {
     
     func sendLastTripChunk(tripChunk: TripChunk) {
         lastTripChunk = tripChunk
-        if #available(iOS 13.0, *) {
+        if #available(iOS 13.0, *),
+           bgTaskEnabled {
             self.scheduleBGTask(lastTripChunk: tripChunk)
         }
         self.sendNextTripChunk()
