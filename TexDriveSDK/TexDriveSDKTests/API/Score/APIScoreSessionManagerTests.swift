@@ -36,28 +36,7 @@ class APIScoreSessionManagerTests: XCTestCase {
         
         super.tearDown()
     }
-    // func get(parameters: [String: Any], completionHandler: @escaping (Result<[String: Any]>) -> ())
-    func testGetSuccess() {
-        var isCompleted = false
-        let tripId = "73B1C1B6-8DD8-4DEA-ACAF-4B1E05F6EF09"
-        let getSuccessExpected = self.expectation(description: "testGetSuccessExpectation")
-        let dictionary = ["trip_id":tripId, "lang": Locale.current.identifier]
-        apiSessionManager!.get(parameters: dictionary) { (result) in
-            switch result {
-            case Result.Success(let response):
-                let score = ScoreV1(dictionary: response)
-                XCTAssertNotNil(score)
-                break
-            default:
-                XCTAssert(false)
-            }
-            isCompleted = true
-            getSuccessExpected.fulfill()
-            
-        }
-        wait(for: [getSuccessExpected], timeout: 1)
-        XCTAssertTrue(isCompleted)
-    }
+
     
     func testGetErrorRetry() {
         let retryExpected = self.expectation(description: "testGetFailureRetryExpectation")
