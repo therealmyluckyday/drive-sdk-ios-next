@@ -11,7 +11,7 @@ s.swift_version = '5.0'
 s.ios.deployment_target  = '11.0'
 
 s.author = { "therealmyluckyday" => "devs.myluckyday@gmail.com" }
-s.source       = { :git => "https://github.com:therealmyluckyday/drive-sdk-ios-next.git", :tag => s.version.to_s }
+s.source       = { :git => "https://github.com/therealmyluckyday/drive-sdk-ios-next", :tag => s.version.to_s }
 s.license      = { :type => 'BSD' }
 s.source_files  = "TexDriveSDK/TexDriveSDK/**/*.{h,m,c,swift}"
 s.resources = "TexDriveSDK/TexDriveSDK/Resources/*"
