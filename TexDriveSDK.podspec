@@ -18,6 +18,7 @@ s.resources = "TexDriveSDK/TexDriveSDK/Resources/*"
 
 s.dependency 'RxSwift', '~> 6.6'
 s.dependency 'RxCocoa', '~> 6.6'
+s.dependency 'RxSwiftExt', '~> 6.2'
 s.dependency 'GzipSwift', '~> 5.1.1'
 s.dependency 'RxCoreLocation', '~> 1.5.1'
 s.dependency 'KeychainAccess', '~> 4.2.2'
