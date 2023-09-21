@@ -5,7 +5,7 @@
   },
   "summary": "TexDriveSDK",
   "requires_arc": true,
-  "version": "3.0.9",
+  "version": "3.0.10",
   "homepage": "http://www.axa.com",
   "swift_versions": "5.0",
   "authors": {
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/therealmyluckyday/drive-sdk-ios-next",
-    "tag": "3.0.9"
+    "tag": "3.0.10"
   },
   "license": {
     "type": "BSD"
@@ -28,7 +28,7 @@
       "~> 6.6"
     ],
     "RxSwiftExt": [
-      "~> 6.0"
+      "~> 6.2"
     ],
     "GzipSwift": [
       "~> 5.1.1"

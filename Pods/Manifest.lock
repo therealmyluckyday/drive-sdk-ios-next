@@ -150,13 +150,13 @@ PODS:
   - RxSwiftExt/RxCocoa (6.2.1):
     - RxCocoa (~> 6.0)
     - RxSwiftExt/Core
-  - TexDriveSDK (3.0.9):
+  - TexDriveSDK (3.0.10):
     - GzipSwift (~> 5.1.1)
     - KeychainAccess (~> 4.2.2)
     - RxCocoa (~> 6.6)
     - RxCoreLocation (~> 1.5.1)
     - RxSwift (~> 6.6)
-    - RxSwiftExt (~> 6.0)
+    - RxSwiftExt (~> 6.2)
 
 DEPENDENCIES:
   - Firebase/Analytics
@@ -167,6 +167,7 @@ DEPENDENCIES:
   - RxCocoa
   - "RxCoreLocation (from `git@github.com:RxSwiftCommunity/RxCoreLocation.git`, branch `master`)"
   - RxSwift
+  - RxSwiftExt
   - TexDriveSDK (from `./TexDriveSDK.podspec`)
 
 SPEC REPOS:
@@ -232,8 +233,8 @@ SPEC CHECKSUMS:
   RxRelay: 45eaa5db8ee4fb50e5ebd57deec0159e97fa51e6
   RxSwift: a4b44f7d24599f674deebd1818eab82e58410632
   RxSwiftExt: 43aaacb6a4d3c69c55e9d1cf4f79920043d13583
-  TexDriveSDK: cdae6624b0da99de913404b87df8a87f49fa3757
+  TexDriveSDK: 16db8b4f4d6dccff78967c3bc5a70f436c103956
 
-PODFILE CHECKSUM: 056830f9c5dc7c975209d857786cf8b71af9fd8b
+PODFILE CHECKSUM: 5edfc49903fe07c2a525e3d80f6b9e9a2a2fb3f6
 
 COCOAPODS: 1.12.1
