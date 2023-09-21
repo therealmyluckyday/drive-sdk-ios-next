@@ -5,15 +5,15 @@
   },
   "summary": "TexDriveSDK",
   "requires_arc": true,
-  "version": "3.0.7",
+  "version": "3.0.9",
   "homepage": "http://www.axa.com",
-  "swift_versions": "6.0",
+  "swift_versions": "5.0",
   "authors": {
     "therealmyluckyday": "devs.myluckyday@gmail.com"
   },
   "source": {
     "git": "https://github.com/therealmyluckyday/drive-sdk-ios-next",
-    "tag": "3.0.7"
+    "tag": "3.0.9"
   },
   "license": {
     "type": "BSD"
@@ -22,13 +22,13 @@
   "resources": "TexDriveSDK/TexDriveSDK/Resources/*",
   "dependencies": {
     "RxSwift": [
-      "~> 6.6.0"
+      "~> 6.6"
     ],
     "RxCocoa": [
-      "~> 6.6.0"
+      "~> 6.6"
     ],
     "RxSwiftExt": [
-      "~> 6.0.1"
+      "~> 6.0"
     ],
     "GzipSwift": [
       "~> 5.1.1"
@@ -40,5 +40,5 @@
       "~> 4.2.2"
     ]
   },
-  "swift_version": "6.0"
+  "swift_version": "5.0"
 }
