@@ -5,9 +5,9 @@ s.platform = :ios
 s.name = "TexDriveSDK"
 s.summary = "TexDriveSDK"
 s.requires_arc = true
-s.version = "3.0.8"
+s.version = "3.0.9"
 s.homepage = "http://www.axa.com"
-s.swift_version = '6.0'
+s.swift_version = '5.0'
 s.ios.deployment_target  = '15.0'
 
 s.author = { "therealmyluckyday" => "devs.myluckyday@gmail.com" }
