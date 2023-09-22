@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-platform :ios, '15.0'
+platform :ios, '13.0'
 workspace 'TexDrive'
 inhibit_all_warnings!
 

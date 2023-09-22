@@ -8,7 +8,7 @@ s.requires_arc = true
 s.version = "3.0.11"
 s.homepage = "http://www.axa.com"
 s.swift_version = '5.0'
-s.ios.deployment_target  = '15.0'
+s.ios.deployment_target  = '13.0'
 
 s.author = { "therealmyluckyday" => "devs.myluckyday@gmail.com" }
 s.source       = { :git => "https://github.com/therealmyluckyday/drive-sdk-ios-next", :tag => s.version.to_s }
